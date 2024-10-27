@@ -2,7 +2,13 @@
 
 from typing import Callable
 from operator import itemgetter
-from sung.util import get_spotify_client, ensure_client, DFLT_LIMIT, extractor
+from sung.util import (
+    get_spotify_client,
+    ensure_client,
+    DFLT_LIMIT,
+    extractor,
+    cast_track_key,
+)
 
 
 # TODO: Include all modifiers in the signature (only year and genre for now)?
@@ -52,11 +58,63 @@ def search_tracks(
 
     # Extract tracks and return a list of song names with additional details
 
-    # return map(egress, results)
     return egress(results)
-    # if 'tracks' in results:
-    #     for item in results['tracks']['items']:
-    #         yield item
+
+
+class Playlist:
+    """A Spotify playlist."""
+
+    def __init__(self, playlist_id):
+        self.sp = get_spotify_client(
+            scope="playlist-modify-private playlist-modify-public"
+        )
+        self.playlist_id = playlist_id
+
+    def __repr__(self):
+        return f'Playlist("{self.playlist_id}")'
+
+    @classmethod
+    def create_from_track_list(
+        cls, track_list=(), playlist_name="New Playlist", public=True
+    ):
+        """
+        Create a new playlist from a list of track IDs.
+        """
+
+        track_list = [cast_track_key(track, "uri") for track in track_list]
+
+        if public is False:
+            raise NotImplemented("Private playlists are not yet supported")
+
+        scope = "playlist-modify-private playlist-modify-public"
+
+        sp = get_spotify_client(scope=scope)
+
+        # Get the current user's ID
+        user_id = sp.me()['id']
+
+        # Create a new playlist
+        playlist = sp.user_playlist_create(
+            user=user_id, name=playlist_name, public=public
+        )
+        playlist_id = playlist['id']
+
+        # Add tracks to the playlist in batches of 100
+        for i in range(0, len(track_list), 100):
+            sp.playlist_add_items(playlist_id, track_list[i : i + 100])
+
+        return cls(playlist_id)
+
+    def add_songs(self, track_list):
+        if isinstance(track_list, str):
+            track_list = [track_list]
+        for i in range(0, len(track_list), 100):
+            self.sp.playlist_add_items(self.playlist_id, track_list[i : i + 100])
+
+    def delete_songs(self, track_list):
+        if isinstance(track_list, str):
+            track_list = [track_list]
+        self.sp.playlist_remove_all_occurrences_of_items(self.playlist_id, track_list)
 
 
 track_spec = {

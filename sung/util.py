@@ -6,12 +6,23 @@
 
 import re
 import os
-from typing import Literal, T, Callable, TypeVar, Optional
+from typing import (
+    Literal,
+    T,
+    Callable,
+    TypeVar,
+    Optional,
+    Dict,
+    Union,
+    Iterable,
+    Any,
+    Mapping,
+)
 from functools import partial
 
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyClientCredentials
-from glom import glom, Spec
+from glom import glom, Spec, Coalesce
 
 from i2 import Sig
 
@@ -28,8 +39,48 @@ def identity(x: T) -> T:
 Extractor = TypeVar('Extractor', bound=Callable)  # TODO: Specify more precisely
 
 
-def extractor(spec: Spec) -> Extractor:
-    return partial(glom, spec=spec)
+def extractor(spec: Union[Spec, str, Iterable[str], Mapping[str, str]]) -> Extractor:
+    if isinstance(spec, str):
+        return partial(glom, spec=spec, default=None)
+    elif isinstance(spec, Iterable) and not isinstance(spec, Mapping):
+        spec = {k: k for k in spec}
+    return partial(glom, spec=coalesce_to_default(spec))
+
+
+def is_extractor(x: Any) -> bool:
+    return (
+        callable(x)
+        and hasattr(x, 'func')
+        and getattr(x.func, '__name__', '') == 'glom'
+        or x is identity
+    )
+
+
+def ensure_extractor(x: Any) -> Extractor:
+    if x is None:
+        return identity
+    if is_extractor(x):
+        return x
+    else:
+        return extractor(x)
+
+
+extractor.is_extractor = is_extractor
+extractor.ensure_extractor = ensure_extractor
+
+
+def coalesce_string_values(d: dict, **coalece_kwargs) -> dict:
+    def coalesced_items():
+        for k, v in d.items():
+            if isinstance(v, str):
+                yield k, Coalesce(v, **coalece_kwargs)
+            else:
+                yield k, v
+
+    return dict(coalesced_items())
+
+
+coalesce_to_default = partial(coalesce_string_values, default=None)
 
 
 def get_config(config_name: str) -> str:
@@ -59,17 +110,119 @@ def get_spotify_creds(**client_creds_kwargs) -> SpotifyClientCredentials:
     )
 
 
-def get_spotify_client(**kwargs) -> Spotify:
+def _extract_scope_items(scope_string: str) -> Iterable[str]:
+    if isinstance(scope_string, str):
+        return re.findall('\S+', scope_string)
+    else:
+        assert isinstance(scope_string, Iterable)
+        return scope_string
+
+
+def _add_to_scope(scope, more_scope=''):
+    """
+    Add new_scope to scope, ensuring no duplicates.
+
+    Examples:
+
+    >>> _add_to_scope('user-top-read', 'user-read-recently-played')  # note the lexicographic order in output
+    'user-read-recently-played user-top-read'
+    >>> _add_to_scope('user-top-read', 'user-read-recently-played' user-top-read')  # note the absence of duplicates in output
+    'user-read-recently-played user-top-read'
+    """
+    scope_items = set(_extract_scope_items(scope))
+    scope_items.update(_extract_scope_items(more_scope))
+    return ' '.join(sorted(scope_items))
+
+
+# def get_spotify_client(client=None, *, _ensure_scope=None, **kwargs) -> Spotify:
+#     if _ensure_scope is not None:
+#         kwargs['scope'] = _add_to_scope(kwargs.get('scope', ''), _ensure_scope)
+
+#     spotify_kwargs = Sig(Spotify).map_arguments(
+#         kwargs=kwargs, allow_partial=True, allow_excess=True
+#     )
+#     client_creds_kwargs = Sig(SpotifyClientCredentials).map_arguments(
+#         kwargs=kwargs, allow_partial=True, allow_excess=True
+#     )
+
+#     if client is None:
+#         return Spotify(
+#             auth_manager=get_spotify_creds(**client_creds_kwargs),
+#             **spotify_kwargs,
+#         )
+#     else:
+#         # make a new client, with the updated kwargs
+#         # extract the client_creds_kwargs and spotify_kwargs kwargs from client instance
+#         # and update them with the new kwargs
+#         # then create a new client with these updated kwargs
+#         # return the new client
+
+
+def get_spotify_client(client=None, *, _ensure_scope=None, **kwargs) -> Spotify:
+    if _ensure_scope is not None:
+        kwargs['scope'] = _add_to_scope(kwargs.get('scope', ''), _ensure_scope)
+
     spotify_kwargs = Sig(Spotify).map_arguments(
         kwargs=kwargs, allow_partial=True, allow_excess=True
     )
     client_creds_kwargs = Sig(SpotifyClientCredentials).map_arguments(
         kwargs=kwargs, allow_partial=True, allow_excess=True
     )
-    return Spotify(
-        auth_manager=get_spotify_creds(**client_creds_kwargs),
-        **spotify_kwargs,
-    )
+
+    if client is None:
+        return Spotify(
+            auth_manager=get_spotify_creds(**client_creds_kwargs),
+            **spotify_kwargs,
+        )
+    else:
+        # TODO: Should I use glom extractors here?
+        # Extract existing spotify_kwargs from the client instance
+
+        existing_spotify_kwargs = {
+            'proxies': client.proxies,
+            'requests_timeout': client.requests_timeout,
+            'status_forcelist': client.status_forcelist,
+            'retries': client.retries,
+            'status_retries': client.status_retries,
+            'backoff_factor': client.backoff_factor,
+            'language': client.language,
+            # 'chunked': client.chunked,
+        }
+
+        # Update existing spotify_kwargs with new spotify_kwargs
+        spotify_kwargs = {**existing_spotify_kwargs, **spotify_kwargs}
+
+        # Extract existing client_creds_kwargs from client.auth_manager
+        existing_client_creds_kwargs = {}
+        auth_manager = client.auth_manager
+
+        if isinstance(auth_manager, SpotifyClientCredentials):
+            existing_client_creds_kwargs = {
+                'client_id': auth_manager.client_id,
+                'client_secret': auth_manager.client_secret,
+                'proxies': auth_manager.proxies,
+                'requests_timeout': auth_manager.requests_timeout,
+            }
+        elif hasattr(auth_manager, 'client_id') and hasattr(
+            auth_manager, 'client_secret'
+        ):
+            # For other auth managers that have client_id and client_secret
+            existing_client_creds_kwargs = {
+                'client_id': auth_manager.client_id,
+                'client_secret': auth_manager.client_secret,
+            }
+
+        # Update existing client_creds_kwargs with new client_creds_kwargs
+        client_creds_kwargs = {**existing_client_creds_kwargs, **client_creds_kwargs}
+
+        # Create a new auth_manager with the updated client_creds_kwargs
+        new_auth_manager = get_spotify_creds(**client_creds_kwargs)
+
+        # Create a new Spotify client with the updated kwargs
+        return Spotify(
+            auth_manager=new_auth_manager,
+            **spotify_kwargs,
+        )
 
 
 spotify_search_modifiers = {
@@ -121,15 +274,33 @@ def ensure_client(client=None) -> Spotify:
     return client
 
 
+# Note here TrackId
+TrackRef = str  # can be an id, a url, a uri, a href...
+TrackId = str  # really, TrackId is a string with a specific format, but don't know how to specify that type
+TrackKey = Union[TrackRef, int, slice, Iterable[TrackRef]]
+TrackMetadata = Dict[str, Any]
+
+
+# TODO: Maybe use dol.KeyTemplate to implement casting (and other parsing and generation)?
+import dol
+
 TrackKeyKinds = Literal["uri", "id", "url", "href"]
 
 
+track_ref_patterns = {
+    "uri": r"^spotify:track:[\w]{22}$",
+    "id": r"^[\w]{22}$",
+    "url": r"^https://open.spotify.com/track/[\w]{22}$",
+    "href": r"^https://api.spotify.com/v1/tracks/[\w]{22}$",
+}
+
+
 def cast_track_key(
-    track_key,
+    track_key: TrackRef,
     target_kind: TrackKeyKinds = "uri",
     *,
     src_kind: Optional[TrackKeyKinds] = None,
-):
+) -> TrackRef:
     """
     Convert a Spotify track key between different formats.
 
@@ -157,16 +328,10 @@ def cast_track_key(
 
     """
     # Define possible patterns to detect the kind
-    patterns = {
-        "uri": r"^spotify:track:[\w]{22}$",
-        "id": r"^[\w]{22}$",
-        "url": r"^https://open.spotify.com/track/[\w]{22}$",
-        "href": r"^https://api.spotify.com/v1/tracks/[\w]{22}$",
-    }
 
     # Detect src_kind if not provided
     if src_kind is None:
-        for kind, pattern in patterns.items():
+        for kind, pattern in track_ref_patterns.items():
             if re.match(pattern, track_key):
                 src_kind = kind
                 break
@@ -196,3 +361,6 @@ def cast_track_key(
         return f"https://api.spotify.com/v1/tracks/{track_id}"
     else:
         raise ValueError(f"Unsupported target kind: {target_kind}")
+
+
+ensure_track_id = partial(cast_track_key, target_kind="id")

@@ -6,5 +6,12 @@ Tools to get music metadata (from Spotify, Wikipedia, etc.)
 
 """
 
-from sung.base import search_tracks, track_metadata
-from sung.util import extractor
+from sung.base import (
+    search_tracks,
+    Tracks,
+    PlaylistReader,
+    Playlist,
+    extract_standard_metadata,
+    SpotifyDacc,
+)
+from sung.util import extractor, cast_track_key, ensure_track_id, get_spotify_client

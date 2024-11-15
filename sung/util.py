@@ -126,7 +126,7 @@ def _add_to_scope(scope, more_scope=''):
 
     >>> _add_to_scope('user-top-read', 'user-read-recently-played')  # note the lexicographic order in output
     'user-read-recently-played user-top-read'
-    >>> _add_to_scope('user-top-read', 'user-read-recently-played' user-top-read')  # note the absence of duplicates in output
+    >>> _add_to_scope('user-top-read', 'user-read-recently-played user-top-read')  # note the absence of duplicates in output
     'user-read-recently-played user-top-read'
     """
     scope_items = set(_extract_scope_items(scope))
@@ -390,7 +390,7 @@ def ensure_playlist_id(playlist_spec: str) -> str:
     """
     if playlist_spec.startswith('spotify:playlist:'):
         return playlist_spec.split(':')[-1]
-    elif playlist_spec.startswith('https://open.spotify.com/playlist/'):
+    elif playlist_spec.startswith('https://'):
         return playlist_spec.split('/')[-1].split('?')[0]
     else:
         return playlist_spec  # just cross your fingers and hope it's a valid playlist ID

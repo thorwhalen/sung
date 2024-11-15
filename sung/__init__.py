@@ -2,7 +2,8 @@
 Tools to get music metadata (from Spotify, Wikipedia, etc.)
 
 >>> from sung import search_tracks
->>> search_tracks('Autumn leaves', limit=3, genre='jazz')  # doctest: +ELLIPSIS
+>>> search_tracks('Autumn leaves', limit=3, genre='jazz')  # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
+[{'album': {'album_type': 'album', ...
 
 """
 

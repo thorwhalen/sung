@@ -2,7 +2,46 @@
 
 Music data access. Mainly sources from spotify and wikipedia.
 
+
+# Install
+
 To install:	```pip install sung```
+
+For most tools, you'll also need a spotify
+
+```
+export SPOTIFY_API_CLIENT_ID="your_api_client_id"
+export SPOTIFY_API_CLIENT_SECRET="your_api_client_secrete"
+export SPOTIPY_REDIRECT_URI="http://localhost:8000/callback"
+export SPOTIPY_CLIENT_ID="$SPOTIFY_API_CLIENT_ID"
+export SPOTIPY_CLIENT_SECRET="$SPOTIFY_API_CLIENT_SECRET"
+```
+
+## Spotify API credentials?
+
+To obtain Spotify API credentials, follow these steps:
+	1.	Create a Spotify Developer Account:
+	•	Visit the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/).
+	•	Log in with your Spotify account or create a new one.
+	2.	Register a New Application:
+	•	Click on “Create an App.”
+	•	Provide an App Name and App Description.
+	•	Agree to the Developer Terms of Service.
+	•	Click “Create.”
+	3.	Retrieve Client ID and Client Secret:
+	•	After creating the app, you’ll be directed to the app’s dashboard.
+	•	Here, you’ll find your Client ID and Client Secret.
+	•	Keep these credentials secure; they are essential for API authentication.
+	4.	Set Redirect URIs (if applicable):
+	•	In your app settings, click “Edit Settings.”
+	•	Under “Redirect URIs,” add the URIs where Spotify should redirect after authentication.
+	•	This is crucial for certain authorization flows.
+
+For detailed information on authorization flows and using your credentials, refer to 
+[Spotify’s Authorization Guide](https://developer.spotify.com/documentation/web-api/concepts/authorization).
+
+Ensure you handle your Client Secret securely and adhere to 
+[Spotify’s Developer Terms of Service](https://developer.spotify.com/terms/).
 
 
 # Examples
@@ -14,8 +53,6 @@ To install:	```pip install sung```
 >>> from sung import search_tracks
 >>> search_tracks('Autumn leaves', limit=3, genre='jazz')  # doctest: +ELLIPSIS
 ```
-
-
 
 
 

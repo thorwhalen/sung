@@ -21,7 +21,7 @@ from datetime import datetime
 from enum import Enum
 from typing import List, Literal, Optional, Union
 
-from pydantic import BaseModel, Field, confloat, conint
+from pydantic import BaseModel, Field, confloat, conint, RootModel
 
 
 class TrackRestrictionObject(BaseModel):
@@ -213,40 +213,40 @@ class SegmentObject(BaseModel):
     )
 
 
-class TimeSignature(BaseModel):
-    __root__: conint(ge=3, le=7) = Field(
+class TimeSignature(RootModel):
+    root: conint(ge=3, le=7) = Field(
         ...,
         description='An estimated time signature. The time signature (meter) is a notational convention to specify how many beats are in each bar (or measure). The time signature ranges from 3 to 7 indicating time signatures of "3/4", to "7/4".',
         example=4,
     )
 
 
-class Tempo(BaseModel):
-    __root__: float = Field(
+class Tempo(RootModel):
+    root: float = Field(
         ...,
         description='The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.\n',
         example=118.211,
     )
 
 
-class Loudness(BaseModel):
-    __root__: float = Field(
+class Loudness(RootModel):
+    root: float = Field(
         ...,
         description='The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.\n',
         example=-5.883,
     )
 
 
-class Key(BaseModel):
-    __root__: conint(ge=-1, le=11) = Field(
+class Key(RootModel):
+    root: conint(ge=-1, le=11) = Field(
         ...,
         description='The key the track is in. Integers map to pitches using standard [Pitch Class notation](https://en.wikipedia.org/wiki/Pitch_class). E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1.\n',
         example=9,
     )
 
 
-class Mode(BaseModel):
-    __root__: int = Field(
+class Mode(RootModel):
+    root: int = Field(
         ...,
         description='Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.\n',
         example=0,
@@ -1674,8 +1674,8 @@ class PlaylistTrackObject(BaseModel):
     )
 
 
-class Queue(BaseModel):
-    __root__: Union[TrackObject, EpisodeObject] = Field(..., discriminator='type')
+class Queue(RootModel):
+    root: Union[TrackObject, EpisodeObject] = Field(..., discriminator='type')
 
 
 class QueueObject(BaseModel):

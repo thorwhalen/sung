@@ -364,3 +364,33 @@ def cast_track_key(
 
 
 ensure_track_id = partial(cast_track_key, target_kind="id")
+
+# TODO: Make this complete
+# TODO: Use dol.KeyTemplate to redo cast_track_key and the general playlist cast function
+def ensure_playlist_id(playlist_spec: str) -> str:
+    """
+    Ensure that a playlist ID is in the correct format.
+
+    Parameters:
+        - playlist_id - the playlist ID to check
+
+    Returns:
+        The playlist ID in the correct format.
+
+    Examples:
+
+    >>> ensure_playlist_id("37i9dQZF1DXcBWIGoYBM5M")
+    '37i9dQZF1DXcBWIGoYBM5M'
+    >>> ensure_playlist_id("spotify:playlist:37i9dQZF1DXcBWIGoYBM5M")
+    '37i9dQZF1DXcBWIGoYBM5M'
+    >>> ensure_playlist_id("https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M")
+    '37i9dQZF1DXcBWIGoYBM5M'
+    >>> ensure_playlist_id("https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M")
+    '37i9dQZF1DXcBWIGoYBM5M'
+    """
+    if playlist_spec.startswith('spotify:playlist:'):
+        return playlist_spec.split(':')[-1]
+    elif playlist_spec.startswith('https://open.spotify.com/playlist/'):
+        return playlist_spec.split('/')[-1].split('?')[0]
+    else:
+        return playlist_spec  # just cross your fingers and hope it's a valid playlist ID

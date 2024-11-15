@@ -1,4 +1,25 @@
-"""Base functionalities for the sung package."""
+"""Base functionalities for the sung package.
+
+
+This module provides foundational tools and abstractions for interacting with Spotify's
+API. It includes classes and functions to search for tracks, manage playlists, and 
+handle Spotify track metadata. The utilities here are designed to integrate seamlessly 
+with Spotify's API and streamline data extraction and manipulation.
+
+Key Components:
+- `search_tracks`: A function to perform searches on Spotify, supporting filters such
+  as year, genre, and market.
+- `TracksABC`: An abstract base class for managing collections of Spotify tracks,
+  providing a dictionary-like interface with additional utilities for metadata handling.
+- `Tracks`: A concrete implementation of `TracksABC` that uses track IDs to represent
+  Spotify tracks.
+- `PlaylistReader` and `Playlist`: Classes for managing Spotify playlists, offering 
+  read-only and mutable interfaces respectively.
+- Utility functions and constants for managing Spotify clients and data extraction.
+
+This module is foundational for building higher-level operations within the sung package.
+
+"""
 
 from typing import (
     Union,
@@ -13,6 +34,7 @@ from typing import (
     MutableMapping,
     Mapping,
 )
+from operator import itemgetter
 from functools import cached_property
 from abc import ABC, abstractmethod
 
@@ -23,6 +45,7 @@ from sung.util import (
     extractor,
     cast_track_key,
     ensure_track_id,
+    SearchTypeT,
 )
 
 
@@ -32,7 +55,7 @@ def search_tracks(
     query: str,
     egress: Callable = extractor('tracks.items'),
     *,
-    search_type='track',
+    search_type: SearchTypeT = 'track',
     market=None,
     year=None,
     genre=None,
@@ -108,6 +131,12 @@ class TracksABC(Mapping[TrackId, TrackMetadata], ABC):
         """Should return the list of track IDs."""
         pass
 
+    # @property
+    # @abstractmethod
+    # def tracks(self) -> Sequence[TrackId]:
+    #     """Should return the list of track IDs."""
+    #     pass
+
     def __iter__(self) -> Iterable[TrackId]:
         return iter(self.track_ids)
 
@@ -174,6 +203,26 @@ class Tracks(TracksABC):
         super().__init__(client=client)
         self._track_ids = list(map(ensure_track_id, track_ids))
         self._track_ids_set = set(self._track_ids)
+
+    @classmethod
+    def search(
+        cls,
+        query: str,
+        egress: Callable = extractor('tracks.items'),
+        *,
+        search_type: SearchTypeT = 'track',
+        market=None,
+        year=None,
+        genre=None,
+        limit: int = DFLT_LIMIT,
+        offset: int = 0,
+        client: Optional[Any] = None,
+    ):
+        kwargs = locals()
+        cls = kwargs.pop('cls')
+        tracks = search_tracks(**kwargs)
+        track_ids = list(map(itemgetter('id'), tracks))
+        return cls(track_ids, client=client)
 
     @property
     def track_ids(self) -> Sequence[TrackId]:
@@ -370,6 +419,7 @@ def track_metadata(track_id, *, client=get_spotify_client):
 
 # --------------------------------------------------------------------------------------
 # A data accessor for Spotify functionality
+
 
 class SpotifyDacc:
     def __init__(self, client=None):

@@ -1,14 +1,3 @@
-```python
-
-```
-
-# Make a table with track info of playlist
-
-
-```python
-# can also just import the prepared data:
-# df = pd.read_excel("~/Dropbox/_odata/ai_contexts/misc/music/encore_playlist.xlsx")
-```
 
 # Analyze a playlist
 

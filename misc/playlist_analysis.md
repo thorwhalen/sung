@@ -11,6 +11,8 @@ from sung import TracksAnalysis, ensure_playlist_id
 
 
 ```python
+# Let's analyze my daughter's playlist...
+
 playlist = "https://open.spotify.com/playlist/4nEeS47ineUShHK2iAVeO0?si=be16c62b664f43f3"
 
 ta = TracksAnalysis(playlist)

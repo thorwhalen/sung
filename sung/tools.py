@@ -4,7 +4,6 @@ import pandas as pd
 from collections import defaultdict, Counter
 from functools import cached_property
 from datetime import datetime
-import seaborn as sns
 
 from sung import (
     PlaylistReader,
@@ -14,7 +13,6 @@ from sung import (
     ensure_playlist_id,
 )
 from dol import wrap_kvs
-from oplot import dict_bar_plot, kdeplot_w_boundary_condition
 
 
 class TracksAnalysis:
@@ -191,6 +189,8 @@ class TracksAnalysis:
 
     def plot_songs_per_year(self):
         """Plot the number of songs per release year."""
+        from oplot import dict_bar_plot  # pip install oplot  # noqa
+
         grouped = self.songs_by_release_year
         song_counts = grouped['number_of_songs'].to_dict()
         annotations = {
@@ -233,12 +233,16 @@ class TracksAnalysis:
 
     def plot_added_vs_release_dates(self):
         """Plot 'added_at_date' versus 'album_release_date'."""
+        import seaborn as sns  # pip install seaborn  # noqa
+
         dates = self.dates
         sns.set_theme(style="whitegrid")
         sns.scatterplot(data=dates, x='added_at_date', y='album_release_date', s=100)
 
     def plot_added_vs_release_kde(self):
         """Plot a KDE of 'added_at_date' versus 'album_release_date'."""
+        import seaborn as sns  # pip install seaborn  # noqa
+
         dates = self.dates
         sns.kdeplot(
             data=dates,
@@ -251,6 +255,8 @@ class TracksAnalysis:
 
     def plot_added_vs_release_kde_boundary(self):
         """Plot a KDE with a boundary condition where 'album_release_date' <= 'added_at_date'."""
+        from oplot import kdeplot_w_boundary_condition  # pip install oplot  # noqa
+
         dates = self.dates
         kdeplot_w_boundary_condition(
             data=dates,
@@ -274,6 +280,8 @@ class TracksAnalysis:
 
     def plot_first_letter_distribution(self, sort_by='lexicographical'):
         """Plot the distribution of first letters in track names."""
+        from oplot import dict_bar_plot  # pip install oplot  # noqa
+
         letter_counts = self.first_letter_counts
         if sort_by == 'lexicographical':
             sorted_counts = dict(sorted(letter_counts.items(), key=lambda x: x[0]))

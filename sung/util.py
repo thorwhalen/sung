@@ -21,7 +21,8 @@ from typing import (
 from functools import partial
 
 from spotipy import Spotify
-from spotipy.oauth2 import SpotifyClientCredentials
+from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
+
 from glom import glom, Spec, Coalesce
 
 from i2 import Sig
@@ -110,6 +111,15 @@ def get_spotify_creds(**client_creds_kwargs) -> SpotifyClientCredentials:
     )
 
 
+def get_spotify_oauth_creds(**oauth_kwargs) -> SpotifyOAuth:
+    client_id, client_secret = pop_client_id_and_secret(oauth_kwargs)
+    return SpotifyOAuth(
+        client_id=client_id,
+        client_secret=client_secret,
+        **oauth_kwargs,
+    )
+
+
 def _extract_scope_items(scope_string: str) -> Iterable[str]:
     if isinstance(scope_string, str):
         return re.findall('\S+', scope_string)
@@ -134,9 +144,9 @@ def _add_to_scope(scope, more_scope=''):
     return ' '.join(sorted(scope_items))
 
 
-# def get_spotify_client(client=None, *, _ensure_scope=None, **kwargs) -> Spotify:
-#     if _ensure_scope is not None:
-#         kwargs['scope'] = _add_to_scope(kwargs.get('scope', ''), _ensure_scope)
+# def get_spotify_client(client=None, *, ensure_scope=None, **kwargs) -> Spotify:
+#     if ensure_scope is not None:
+#         kwargs['scope'] = _add_to_scope(kwargs.get('scope', ''), ensure_scope)
 
 #     spotify_kwargs = Sig(Spotify).map_arguments(
 #         kwargs=kwargs, allow_partial=True, allow_excess=True
@@ -157,21 +167,51 @@ def _add_to_scope(scope, more_scope=''):
 #         # then create a new client with these updated kwargs
 #         # return the new client
 
+from i2 import Sig
 
-def get_spotify_client(client=None, *, _ensure_scope=None, **kwargs) -> Spotify:
-    if _ensure_scope is not None:
-        kwargs['scope'] = _add_to_scope(kwargs.get('scope', ''), _ensure_scope)
+
+spotify_client_sig = (
+    Sig(Spotify)
+    .merge_with_sig(Sig(SpotifyOAuth) - 'requests_timeout')
+    .merge_with_sig(Sig(SpotifyClientCredentials) - 'requests_timeout')
+)
+
+
+@spotify_client_sig.inject_into_keyword_variadic
+def get_spotify_client(client=None, *, ensure_scope='', scope='', **kwargs) -> Spotify:
+    """
+    Get a Spotify client.
+
+    Parameters:
+        - client - an existing Spotify client (optional)
+        - ensure_scope - a scope to ensure is included in the client's auth_manager (optional)
+        - scope - the scope to use for the client (optional)
+        - **kwargs - additional arguments to pass to the Spotify client
+
+    The purpose of having scope and ensure_scope is to allow you to ensure some needed
+    scopes exist when a code block is asking for a Spotify client with it's own
+    scope desires.
+
+    """
+    scope = _add_to_scope(kwargs.get('scope', ''), ensure_scope)
+    kwargs['scope'] = scope
 
     spotify_kwargs = Sig(Spotify).map_arguments(
         kwargs=kwargs, allow_partial=True, allow_excess=True
     )
-    client_creds_kwargs = Sig(SpotifyClientCredentials).map_arguments(
-        kwargs=kwargs, allow_partial=True, allow_excess=True
-    )
+
+    if scope:
+        client_creds_kwargs = Sig(SpotifyOAuth).map_arguments(
+            kwargs=kwargs, allow_partial=True, allow_excess=True
+        )
+    else:
+        client_creds_kwargs = Sig(SpotifyClientCredentials).map_arguments(
+            kwargs=kwargs, allow_partial=True, allow_excess=True
+        )
 
     if client is None:
         return Spotify(
-            auth_manager=get_spotify_creds(**client_creds_kwargs),
+            auth_manager=get_spotify_oauth_creds(**client_creds_kwargs),
             **spotify_kwargs,
         )
     else:
@@ -202,6 +242,15 @@ def get_spotify_client(client=None, *, _ensure_scope=None, **kwargs) -> Spotify:
                 'client_secret': auth_manager.client_secret,
                 'proxies': auth_manager.proxies,
                 'requests_timeout': auth_manager.requests_timeout,
+            }
+        elif isinstance(auth_manager, SpotifyOAuth):
+            existing_client_creds_kwargs = {
+                'client_id': auth_manager.client_id,
+                'client_secret': auth_manager.client_secret,
+                'proxies': auth_manager.proxies,
+                'requests_timeout': auth_manager.requests_timeout,
+                'redirect_uri': auth_manager.redirect_uri,
+                'scope': auth_manager.scope,
             }
         elif hasattr(auth_manager, 'client_id') and hasattr(
             auth_manager, 'client_secret'
@@ -337,7 +386,8 @@ def cast_track_key(
                 break
         else:
             raise ValueError(
-                "Could not detect source kind. Please specify a valid `src_kind`."
+                f"Could not detect source kind for: {track_key=}"
+                "Please specify a valid `src_kind`."
             )
 
     # Extract ID from the source format
@@ -364,6 +414,7 @@ def cast_track_key(
 
 
 ensure_track_id = partial(cast_track_key, target_kind="id")
+
 
 # TODO: Make this complete
 # TODO: Use dol.KeyTemplate to redo cast_track_key and the general playlist cast function
@@ -393,4 +444,42 @@ def ensure_playlist_id(playlist_spec: str) -> str:
     elif playlist_spec.startswith('https://'):
         return playlist_spec.split('/')[-1].split('?')[0]
     else:
-        return playlist_spec  # just cross your fingers and hope it's a valid playlist ID
+        return (
+            playlist_spec  # just cross your fingers and hope it's a valid playlist ID
+        )
+
+
+front_columns_for_track_metas = (
+    'name',
+    'first_artist',
+    'duration_ms',
+    'popularity',
+    'explicit',
+    'album_release_date',
+    'album_release_year',
+    'added_at_date',
+    'url',
+    'first_letter',
+    'album_name',
+    'id',
+)
+
+
+def move_columns_to_front(
+    df: 'pd.DataFrame', columns: list[str], *, allow_excess=True
+) -> 'pd.DataFrame':
+    """
+    Returns a copy of df with given columns in the front, in the order given.
+
+    Parameters:
+        - df - the DataFrame to modify
+        - columns - the columns to move to the front
+        - allow_excess - whether to allow columns not in the DataFrame (optional)
+
+    Returns:
+        The modified DataFrame.
+    """
+    if not allow_excess:
+        assert set(columns) <= set(df.columns), "Columns not in DataFrame"
+    columns = [col for col in columns if col in df.columns]
+    return df[columns + [col for col in df.columns if col not in columns]]

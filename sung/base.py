@@ -1,6 +1,5 @@
 """Base functionalities for the sung package.
 
-
 This module provides foundational tools and abstractions for interacting with Spotify's
 API. It includes classes and functions to search for tracks, manage playlists, and 
 handle Spotify track metadata. The utilities here are designed to integrate seamlessly 
@@ -9,16 +8,14 @@ with Spotify's API and streamline data extraction and manipulation.
 Key Components:
 - `search_tracks`: A function to perform searches on Spotify, supporting filters such
   as year, genre, and market.
-- `TracksABC`: An abstract base class for managing collections of Spotify tracks,
+- `TracksBase`: A base class for managing collections of Spotify tracks,
   providing a dictionary-like interface with additional utilities for metadata handling.
-- `Tracks`: A concrete implementation of `TracksABC` that uses track IDs to represent
-  Spotify tracks.
+- `Tracks`: A concrete implementation of `TracksBase` that uses track IDs or track metadata.
 - `PlaylistReader` and `Playlist`: Classes for managing Spotify playlists, offering 
   read-only and mutable interfaces respectively.
 - Utility functions and constants for managing Spotify clients and data extraction.
 
 This module is foundational for building higher-level operations within the sung package.
-
 """
 
 from typing import (
@@ -27,7 +24,6 @@ from typing import (
     Sequence,
     Optional,
     List,
-    Set,
     Any,
     Dict,
     Callable,
@@ -36,7 +32,9 @@ from typing import (
 )
 from operator import itemgetter
 from functools import cached_property
-from abc import ABC, abstractmethod
+from collections.abc import Mapping
+from abc import ABC
+import warnings
 
 from sung.util import (
     get_spotify_client,
@@ -46,11 +44,199 @@ from sung.util import (
     cast_track_key,
     ensure_track_id,
     SearchTypeT,
+    TrackId,
+    TrackRef,
+    TrackKey,
+    TrackMetadata,
+    move_columns_to_front,
+    front_columns_for_track_metas,
 )
 
+DFLT_VERBOSE = True
 
-# TODO: Include all modifiers in the signature (only year and genre for now)?
-# TODO: Make signature using Spotify.search signature
+# --------------------------------------------------------------------------------------
+# Tracks and Playlist classes
+
+TrackKeySpec = Union[TrackId, int, slice, Iterable[TrackId]]
+
+
+def track_ids_to_metas(track_ids, client):
+    """Convert track IDs to track metadata using the Spotify client."""
+    response = client.tracks(track_ids)
+    return response['tracks']
+
+
+def track_metas_to_track_ids(track_metas):
+    """Extract track IDs from track metadata."""
+    return [meta['id'] for meta in track_metas]
+
+
+class TracksBase(Mapping[TrackId, TrackMetadata]):
+    """Base class representing a collection of Spotify tracks."""
+
+    def __init__(
+        self,
+        tracks: Iterable[Union[TrackId, TrackMetadata]],
+        *,
+        # track_ids: Optional[Iterable[TrackId]] = None,
+        # track_metas: Optional[Iterable[TrackMetadata]] = None,
+        client: Optional[Any] = None,
+    ):
+        if client is None:
+            client = get_spotify_client()
+        self.client = client
+
+        tracks = list(tracks)
+
+        track_ids, track_metas = None, None
+        if isinstance(tracks[0], str):
+            track_ids = tracks
+        elif isinstance(tracks[0], dict):
+            track_metas = tracks
+
+        self._track_ids = (
+            list(map(ensure_track_id, track_ids)) if track_ids is not None else None
+        )
+        self._track_metas = list(track_metas) if track_metas is not None else None
+
+    @cached_property
+    def track_ids(self) -> List[TrackId]:
+        if self._track_ids is not None:
+            return self._track_ids
+        elif self._track_metas is not None:
+            self._track_ids = track_metas_to_track_ids(self._track_metas)
+            return self._track_ids
+        else:
+            raise ValueError("No track IDs or metadata available")
+
+    @cached_property
+    def track_metas(self) -> List[TrackMetadata]:
+        if self._track_metas is not None:
+            return self._track_metas
+        elif self._track_ids is not None:
+            self._track_metas = track_ids_to_metas(self._track_ids, self.client)
+            return self._track_metas
+        else:
+            raise ValueError("No track IDs or metadata available")
+
+    def __iter__(self) -> Iterable[TrackId]:
+        return iter(self.track_ids)
+
+    def __len__(self) -> int:
+        return len(self.track_ids)
+
+    def __contains__(self, key: TrackId) -> bool:
+        return key in set(self.track_ids)
+
+    def __getitem__(
+        self, key: TrackKeySpec
+    ) -> Union[TrackMetadata, List[TrackMetadata]]:
+        return self._getitem(key)
+
+    def _getitem(self, key: TrackKeySpec) -> Union[TrackMetadata, List[TrackMetadata]]:
+        """
+        Get track(s) by key.
+
+        The key could be a track ID, a track index, a slice, or a list of track IDs.
+        """
+        if isinstance(key, str):
+            if key not in self:
+                raise KeyError(key)
+            index = self.track_ids.index(key)
+            return self.track_metas[index]
+        elif isinstance(key, int):
+            index = key % len(self)
+            return self.track_metas[index]
+        elif isinstance(key, slice):
+            indices = range(*key.indices(len(self)))
+            return [self.track_metas[i] for i in indices]
+        elif isinstance(key, Iterable):
+            keys = list(key)
+            indices = []
+            for k in keys:
+                if k not in self:
+                    raise KeyError(f"Key {k} not found in the collection")
+                indices.append(self.track_ids.index(k))
+            return [self.track_metas[i] for i in indices]
+        else:
+            raise TypeError(f"Invalid key type {type(key)}")
+
+    @cached_property
+    def data(self):
+        return self.dataframe()
+
+    def dataframe(
+        self,
+        key: TrackKeySpec = slice(None),
+        *,
+        front_columns=front_columns_for_track_metas,
+    ) -> 'pd.DataFrame':
+        """
+        Get tracks metadata for given key(s), as a pandas DataFrame.
+
+        By default, will return all tracks in the collection.
+        """
+        import pandas as pd  # Delayed import to avoid unnecessary dependency in sung
+
+        data = self[key]
+        if isinstance(data, dict):
+            data = [data]
+        df = move_columns_to_front(pd.DataFrame(data), front_columns)
+        if 'id' in df.columns:
+            df.set_index('id', drop=False, inplace=True)
+        return df
+
+
+class Tracks(TracksBase):
+    """A collection of Spotify tracks represented by track IDs or track metadata."""
+
+    def __init__(
+        self,
+        tracks: Iterable[Union[TrackId, TrackMetadata]],
+        # track_ids: Optional[Iterable[TrackRef]] = None,
+        # track_metas: Optional[Iterable[TrackMetadata]] = None,
+        *,
+        client: Optional[Any] = None,
+    ):
+        super().__init__(tracks, client=client)
+        self._track_ids_set = set(self.track_ids)
+
+    @classmethod
+    def search(
+        cls,
+        query: str,
+        egress: Callable = extractor('tracks.items'),
+        *,
+        search_type: SearchTypeT = 'track',
+        market=None,
+        year=None,
+        genre=None,
+        limit: int = DFLT_LIMIT,
+        offset: int = 0,
+        client: Optional[Any] = None,
+    ):
+        tracks = search_tracks(
+            query=query,
+            egress=egress,
+            search_type=search_type,
+            market=market,
+            year=year,
+            genre=genre,
+            limit=limit,
+            offset=offset,
+            client=client,
+        )
+        track_metas = tracks
+        return cls(track_metas, client=client)
+
+    def __contains__(self, key: TrackId) -> bool:
+        return key in self._track_ids_set
+
+
+# --------------------------------------------------------------------------------------
+# Search Function
+
+
 def search_tracks(
     query: str,
     egress: Callable = extractor('tracks.items'),
@@ -68,21 +254,15 @@ def search_tracks(
 
     Parameters:
         - query - the search query (see how to write a query in the
-                official documentation https://developer.spotify.com/documentation/web-api/reference/search/)  # noqa
-        - search_type - the types of items to return. One or more of 'artist', 'album',
-                    'track', 'playlist', 'show', and 'episode'.  If multiple types are desired,
-                    pass in a comma separated string; e.g., 'track,album,episode'.
-        - market - An ISO 3166-1 alpha-2 country code or the string
-                    from_token.
-        - limit - the number of items to return (min = 1, default = 10, max = 50). The limit is applied
-                    within each type, not on the total response.
-        - offset - the index of the first item to return
-
+                  official documentation)
+        - search_type - the types of items to return.
+        - market - An ISO 3166-1 alpha-2 country code or the string 'from_token'.
+        - limit - the number of items to return.
+        - offset - the index of the first item to return.
     """
     client = ensure_client(client)
 
     # Build query
-    # TODO: Make function using spotify_search_modifiers to do this
     query_string = query
     if year:
         query_string += f" year:{year}"
@@ -94,150 +274,13 @@ def search_tracks(
         q=query_string, type=search_type, market=market, limit=limit, offset=offset
     )
 
-    # Extract tracks and return a list of song names with additional details
-
     return egress(results)
 
 
 # --------------------------------------------------------------------------------------
-# Tracks and Playlist classes
+# Playlist Classes
 
-# TODO: Repair: The setup doesn't allow dol.wrap_kvs everywhere (e.g., try adding a
-# extract_standard_metadata value_decoder to a playlist and do playlist.dataframe)
-# TODO: Add value caching (e.g. lru_cache on _getitem) with a cache clearing method,
-#    and possibly and automatic cache invalidation when appropriate
-# TODO: Use pydantic models where it makes sense
-
-# Type aliases
-# TrackId = str
-# TrackURI = str
-# TrackSpec = Union[TrackId, TrackURI]
-# TrackKey = Union[TrackId, TrackURI, int, slice, Iterable[TrackId]]
-# TrackMetadata = Dict[str, Any]
-from sung.util import TrackId, TrackRef, TrackKey, TrackMetadata
-
-
-class TracksABC(Mapping[TrackId, TrackMetadata], ABC):
-    """Abstract base class representing a collection of Spotify tracks."""
-
-    def __init__(self, *, client: Optional[Any] = None):
-        if client is None:
-            client = get_spotify_client()
-        self.client = client
-
-    @property
-    @abstractmethod
-    def track_ids(self) -> Sequence[TrackId]:
-        """Should return the list of track IDs."""
-        pass
-
-    # @property
-    # @abstractmethod
-    # def tracks(self) -> Sequence[TrackId]:
-    #     """Should return the list of track IDs."""
-    #     pass
-
-    def __iter__(self) -> Iterable[TrackId]:
-        return iter(self.track_ids)
-
-    def __len__(self) -> int:
-        return len(self.track_ids)
-
-    def __contains__(self, key: TrackId) -> bool:
-        return key in set(self.track_ids)
-
-    def __getitem__(self, key: TrackKey) -> Union[TrackMetadata, List[TrackMetadata]]:
-        return self._getitem(key)
-
-    def _getitem(self, key: TrackKey) -> Union[TrackMetadata, List[TrackMetadata]]:
-        """
-        Get track(s) by key.
-
-        The key could be a track ID, a track index, a slice, or a list of track IDs.
-        """
-        if isinstance(key, str):
-            if key not in self:
-                raise KeyError(key)
-            # Get the track metadata
-            track: TrackMetadata = self.client.track(key)
-            return track
-        elif isinstance(key, slice):
-            keys = self.track_ids[key]
-            return [self[k] for k in keys]
-        elif isinstance(key, Iterable):
-            keys = list(key)
-            missing_keys = [k for k in keys if k not in self]
-            if missing_keys:
-                raise KeyError(f"Keys {missing_keys} not found in the collection")
-            response_dict = self.client.tracks(keys)
-            tracks: List[TrackMetadata] = response_dict['tracks']
-            return tracks
-        elif isinstance(key, int):
-            index = key
-            if -len(self) <= index < len(self):
-                key = self.track_ids[index]
-                return self[key]
-            else:
-                raise IndexError(f"Index {index} out of range")
-        else:
-            raise TypeError(f"Invalid key type {type(key)}")
-
-    def dataframe(self, key: TrackKey = slice(None)) -> 'pd.DataFrame':
-        """
-        Get tracks metadata for given key(s), as a pandas DataFrame.
-
-        By default, will return all tracks in the collection.
-        """
-        import pandas as pd  # Delayed import to avoid unnecessary dependency
-
-        data = self[key]
-        if isinstance(data, dict):
-            data = [data]
-        return pd.DataFrame(data)
-
-
-class Tracks(TracksABC):
-    """A collection of Spotify tracks represented by a list of track IDs."""
-
-    def __init__(self, track_ids: Sequence[TrackRef], *, client: Optional[Any] = None):
-        super().__init__(client=client)
-        self._track_ids = list(map(ensure_track_id, track_ids))
-        self._track_ids_set = set(self._track_ids)
-
-    @classmethod
-    def search(
-        cls,
-        query: str,
-        egress: Callable = extractor('tracks.items'),
-        *,
-        search_type: SearchTypeT = 'track',
-        market=None,
-        year=None,
-        genre=None,
-        limit: int = DFLT_LIMIT,
-        offset: int = 0,
-        client: Optional[Any] = None,
-    ):
-        kwargs = locals()
-        cls = kwargs.pop('cls')
-        tracks = search_tracks(**kwargs)
-        track_ids = list(map(itemgetter('id'), tracks))
-        return cls(track_ids, client=client)
-
-    @property
-    def track_ids(self) -> Sequence[TrackId]:
-        return self._track_ids
-
-    def __len__(self) -> int:
-        return len(self._track_ids)
-
-    def __iter__(self) -> Iterable[TrackId]:
-        return iter(self._track_ids)
-
-    def __contains__(self, key: TrackId) -> bool:
-        return key in self._track_ids_set
-
-
+# TODO: Make it a subclass of TracksBase, or Tracks
 class PlaylistReader(Mapping[TrackId, TrackMetadata]):
     """Read-only access to a Spotify playlist."""
 
@@ -254,12 +297,12 @@ class PlaylistReader(Mapping[TrackId, TrackMetadata]):
     @property
     def tracks(self) -> Tracks:
         if self._tracks is None:
-            track_ids = self._fetch_track_ids()
-            self._tracks = Tracks(track_ids, client=self.client)
+            track_metas = self._fetch_track_metas()
+            self._tracks = Tracks(tracks=track_metas, client=self.client)
         return self._tracks
 
-    def _fetch_track_ids(self) -> List[TrackId]:
-        track_ids = []
+    def _fetch_track_metas(self) -> List[TrackMetadata]:
+        track_metas = []
         offset = 0
         limit = 100
         while True:
@@ -267,21 +310,23 @@ class PlaylistReader(Mapping[TrackId, TrackMetadata]):
                 self.playlist_id,
                 offset=offset,
                 limit=limit,
-                fields='items.track.id,next',
+                fields='items.track,next',
             )
             items = response['items']
             if not items:
                 break
             for item in items:
                 track = item['track']
-                if track and track['id']:
-                    track_ids.append(track['id'])
+                if track:
+                    track_metas.append(track)
             if response['next'] is None:
                 break
             offset += limit
-        return track_ids
+        return track_metas
 
-    def __getitem__(self, key: TrackKey) -> Union[TrackMetadata, List[TrackMetadata]]:
+    def __getitem__(
+        self, key: TrackKeySpec
+    ) -> Union[TrackMetadata, List[TrackMetadata]]:
         return self.tracks[key]
 
     def __iter__(self) -> Iterable[TrackId]:
@@ -293,15 +338,18 @@ class PlaylistReader(Mapping[TrackId, TrackMetadata]):
     def __contains__(self, key: TrackId) -> bool:
         return key in self.tracks
 
+    @property
     def playlist_url(self) -> str:
         return f"https://open.spotify.com/playlist/{self.playlist_id}"
 
-    def dataframe(self, keys: TrackKey = slice(None)) -> 'pd.DataFrame':
-        return self.tracks.dataframe(keys)
+    @cached_property
+    def data(self):
+        return self.dataframe()
+    
+    def dataframe(self, key: TrackKeySpec = slice(None)) -> 'pd.DataFrame':
+        return self.tracks.dataframe(key)
 
 
-# TODO: Change so it uses client.playlist_tracks to pupulate the tracks instead
-#    Since the metadata given with that method is more complete (e.g. has added_at)
 class Playlist(PlaylistReader, MutableMapping[TrackId, TrackMetadata]):
     """A Spotify playlist with mutable mapping interface."""
 
@@ -356,18 +404,28 @@ class Playlist(PlaylistReader, MutableMapping[TrackId, TrackMetadata]):
         public: bool = True,
         *,
         client: Optional[Any] = None,
+        user_id=None,
     ) -> 'Playlist':
         """
         Create a new playlist from a list of track IDs.
+
+        Parameters:
+            - track_list: A list of track IDs to add to the playlist.
+            - playlist_name: The name of the new playlist.
+            - public: Whether the playlist should be public.
+            - client: The Spotify client to use for creating the playlist.
+            - user_id: The user ID of the playlist owner.
         """
         track_list = [cast_track_key(track, "uri") for track in track_list]
 
-        if client is None:
-            scope = "playlist-modify-private playlist-modify-public"
-            client = get_spotify_client(scope=scope)
+        # self.client = get_spotify_client(client, ensure_scope="playlist-modify-private playlist-modify-public")
 
-        # Get the current user's ID
-        user_id = client.me()['id']
+        if client is None:
+            scope = "playlist-modify-public playlist-modify-private"
+            client = get_spotify_client(ensure_scope=scope)
+
+        if user_id is None:
+            user_id = client.me()['id']
 
         # Create a new playlist
         playlist = client.user_playlist_create(
@@ -382,11 +440,27 @@ class Playlist(PlaylistReader, MutableMapping[TrackId, TrackMetadata]):
         return cls(playlist_id, client=client)
 
 
+def delete_playlist(playlist_id, verbose=DFLT_VERBOSE, *, ask_confirmation=True):
+    # Authenticate with appropriate scope
+    client = get_spotify_client(scope="playlist-modify-public playlist-modify-private")
+
+    if ask_confirmation:
+        response = input(
+            "Are you sure you want to delete the playlist? (y/yes to confirm): "
+        )
+        if response.lower() not in ("y", "yes"):
+            print("Playlist deletion aborted.")
+            return
+
+    # Unfollow (delete) the playlist
+    client.current_user_unfollow_playlist(playlist_id)
+    if verbose:
+        print(f"Playlist {playlist_id} has been deleted (unfollowed).")
+
+
 # --------------------------------------------------------------------------------------
 # Extracting information from track info
 
-# TODO: Use glom (or dol.paths_getter) and dol.ValueCodec to simplify this and offer
-#    a menu of field sets
 from sung.util import extractor
 
 standard_track_metadata = {
@@ -425,16 +499,14 @@ class SpotifyDacc:
     def __init__(self, client=None):
         self.client = get_spotify_client(client)
 
-    # TODO: Sometimes works, sometimes says "insufficient scope". Don't know why,
     def recently_played(self, *, extract='items.*.track.name', limit=50, **kwargs):
         client = get_spotify_client(
-            self.client, _ensure_scope='user-read-recently-played'
+            self.client, ensure_scope='user-read-recently-played'
         )
-        results = client.current_user_recently_played(limit=50)
+        results = client.current_user_recently_played(limit=limit)
         extract = extractor.ensure_extractor(extract)
         return extract(results)
 
-    # TODO: Note tested
     def current_user_top_tracks(
         self, *, extract=None, limit=20, time_range='long_term', **kwargs
     ):
@@ -444,9 +516,8 @@ class SpotifyDacc:
         time_range: 'short_term', 'medium_term', 'long_term'
 
         To get names of artists, use extract='items.*.artists.*.name'
-
         """
-        client = get_spotify_client(self.client, _ensure_scope='user-top-read')
+        client = get_spotify_client(self.client, ensure_scope='user-top-read')
         results = client.current_user_top_tracks(
             limit=limit, time_range=time_range, **kwargs
         )

@@ -5,12 +5,13 @@ from collections import defaultdict, Counter
 from functools import cached_property
 from datetime import datetime
 
-from sung import (
-    PlaylistReader,
-    extract_standard_metadata,
-    get_spotify_client,
+from sung.base import PlaylistReader, extract_standard_metadata
+from sung.util import (
+    move_columns_to_front,
+    front_columns_for_track_metas,
     extractor,
     ensure_playlist_id,
+    get_spotify_client,
 )
 from dol import wrap_kvs
 
@@ -25,7 +26,7 @@ class TracksAnalysis:
             if isinstance(playlist, PlaylistReader):
                 self.playlist = playlist
                 self.playlist_id = playlist.playlist_id
-                self.playlist_url = playlist.playlist_url()
+                self.playlist_url = playlist.playlist_url
             else:
                 playlist_id = ensure_playlist_id(playlist)
                 self.playlist_id = playlist_id
@@ -72,7 +73,7 @@ class TracksAnalysis:
 
     def _add_added_at_dates(self):
         """Add the 'added_at' date for each track in the playlist."""
-        sp = get_spotify_client(_ensure_scope="playlist-read-private")
+        sp = get_spotify_client(ensure_scope="playlist-read-private")
         playlist_tracks = []
         offset = 0
         limit = 100
@@ -95,24 +96,7 @@ class TracksAnalysis:
 
     def _reorder_and_sort_dataframe(self):
         """Reorder columns and sort the dataframe by 'added_at_date'."""
-        front_columns = [
-            'name',
-            'first_artist',
-            'duration_ms',
-            'popularity',
-            'explicit',
-            'album_release_date',
-            'album_release_year',
-            'added_at_date',
-            'url',
-            'first_letter',
-            'album_name',
-            'id',
-        ]
-        df = self.df
-        self.df = df[
-            front_columns + [col for col in df.columns if col not in front_columns]
-        ]
+        self.df = front_columns_for_track_metas(self.df, front_columns_for_track_metas)
         self.df = self.df.sort_values('added_at_date', ascending=False)
 
     @cached_property

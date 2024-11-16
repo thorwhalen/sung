@@ -314,6 +314,85 @@ spotify_scopes = {
 }
 
 
+spotify_track_metadata_fields = {
+    "name": "The name of the track.",
+    "artist": "The name of the primary artist associated with the track.",
+    "album": "The name of the album in which the track appears.",
+    "release_date": "The release date of the album or single. Format can vary (e.g., YYYY-MM-DD).",
+    "duration_ms": "The track's duration in milliseconds.",
+    "popularity": "The popularity of the track, with values ranging from 0 to 100. Higher values indicate greater popularity.",
+    "explicit": "A boolean indicating whether the track contains explicit content.",
+    "external_url": "A dictionary of external URLs, including a link to the track on Spotify.",
+    "preview_url": "A URL to a 30-second preview of the track, if available.",
+    "track_number": "The track's position within its album or single. The first track is 1.",
+    "album_total_tracks": "The total number of tracks in the album that contains this track.",
+    "available_markets": "A list of country codes where the track is available.",
+    "album_images": "A list of album cover art images in various sizes, with URLs to access them.",
+}
+
+spotify_track_metadata_description = (
+    spotify_track_metadata_fields  # backcompatibility alias
+)
+
+spotify_track_metadata_numerical_fields = ['duration_ms', 'popularity']
+
+spotify_audio_features_fields = {
+    "acousticness": "A confidence measure from 0.0 to 1.0 indicating the likelihood that the track is acoustic. Higher values denote a higher probability. Range: 0.0 to 1.0.",
+    "danceability": "Reflects how suitable a track is for dancing, based on tempo, rhythm stability, beat strength, and overall regularity. Higher values indicate greater danceability. Range: 0.0 to 1.0.",
+    "energy": "Measures the intensity and activity of a track. Energetic tracks feel fast, loud, and noisy. Higher values represent more energy. Range: 0.0 to 1.0.",
+    "instrumentalness": "Predicts whether a track contains no vocals. Higher values suggest a greater likelihood of the track being instrumental. Range: 0.0 to 1.0.",
+    "liveness": "Detects the presence of an audience in the recording. Higher values indicate a higher probability of the track being performed live. Range: 0.0 to 1.0.",
+    "loudness": "The overall loudness of a track in decibels (dB), averaged across the entire track. Useful for comparing the relative loudness of tracks. Typical range: -60 to 0 dB.",
+    "speechiness": "Measures the presence of spoken words in a track. Higher values indicate more speech-like content. Values above 0.66 suggest tracks made entirely of spoken words; values between 0.33 and 0.66 may contain both music and speech; values below 0.33 likely represent music and other non-speech-like tracks. Range: 0.0 to 1.0.",
+    "valence": "Describes the musical positiveness conveyed by a track. Higher values sound more positive (e.g., happy, cheerful), while lower values sound more negative (e.g., sad, angry). Range: 0.0 to 1.0.",
+    "tempo": "The estimated tempo of a track in beats per minute (BPM). Range: 0 to 250 BPM.",
+    "key": "The estimated overall key of the track, represented as an integer corresponding to standard Pitch Class notation (e.g., 0 = C, 1 = C♯/D♭, ..., 11 = B). If no key was detected, the value is -1. Range: -1 to 11.",
+    "mode": "Indicates the modality (major or minor) of a track. Major is represented by 1 and minor by 0. Range: 0 or 1.",
+    "time_signature": "An estimated overall time signature of a track, indicating how many beats are in each bar. Range: 3 to 7.",
+}
+
+spotify_features_fields = dict(
+    **{k: spotify_track_metadata_fields[k] for k in spotify_track_metadata_fields},
+    **spotify_audio_features_fields,
+)
+
+spotify_features_field_names = tuple(spotify_features_fields) + (
+    'album_release_year',
+    'explicit',
+)
+
+# TODO: When supporting only 3.11+, use Literal[*spotify_features_field_names]
+SpotifyFeaturesT = Literal[
+    'duration_ms',
+    'popularity',
+    'album_release_year',
+    'explicit',
+    'acousticness',
+    'danceability',
+    'energy',
+    'instrumentalness',
+    'liveness',
+    'loudness',
+    'speechiness',
+    'valence',
+    'tempo',
+    'key',
+    'mode',
+    'time_signature',
+]
+
+
+spotify_audio_features_fields_with_0_to_1_range = [
+    "acousticness",
+    "danceability",
+    "energy",
+    "instrumentalness",
+    "liveness",
+    "speechiness",
+    "valence",
+]
+
+
 def ensure_client(client=None) -> Spotify:
     if client is None:
         return get_spotify_client()

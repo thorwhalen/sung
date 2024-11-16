@@ -43,16 +43,18 @@ For detailed information on authorization flows and using your credentials, refe
 Ensure you handle your Client Secret securely and adhere to 
 [Spotify’s Developer Terms of Service](https://developer.spotify.com/terms/).
 
-# Demo: Using the sung.base Module to Search Tracks and Create a Playlist
+# Using the sung.base Module to Search Tracks and Create a Playlist
 
 In this example, we’ll:
-* Search for tracks using Tracks.search with a limit of 7.
+* Search for tracks using `Tracks.search`.
+* See the search results from the dict-like `tracks` instance
 * Display the search results in a pandas DataFrame.
-* Select three tracks from the search results.
 * Create a playlist called "my_test_playlist" with the selected tracks.
 * Get the URL of the newly created playlist.
-* Instantiate a Playlist object using a URL.
 * Delete a playlist
+* Instantiate a `Playlist` object using a URL.
+* Look at audio features aof this playlist
+
 
 
 Import the necessary classes from the sung.base module
@@ -70,8 +72,21 @@ This will return a Tracks object containing the search results
 tracks = Tracks.search(query='Love', limit=7)
 ```
 
-You can also make a `tracks` object by passing a list of track IDs or urls
+```
+list(tracks)
+```
 
+
+    ['1vrd6UOGamcKNGnSHJQlSt',
+     '3CeCwYWvdfXbZLXFhBrbnf',
+     '1dGr1c8CrMLDpV6mPbImSI',
+     '0u2P5u6lvoDfwTYjAADbn4',
+     '6nGeLlakfzlBcFdZXteDq7',
+     '6dBUzqjtbnIa1TwYbyw5CM',
+     '7hR22TOX3RorxJPcsz5Wbo']
+
+
+You can also make a `tracks` object by passing a list of track IDs or urls
 
 
 ```python
@@ -98,8 +113,6 @@ list(tracks)
 ```
 
 
-
-
     ['1vrd6UOGamcKNGnSHJQlSt',
      '3CeCwYWvdfXbZLXFhBrbnf',
      '1dGr1c8CrMLDpV6mPbImSI',
@@ -110,28 +123,74 @@ list(tracks)
 
 
 
+Like Accessing the value of a track for a given key. 
+The value is a bunch of metadata about the track.
+
+
+```python
+track_metadata = tracks['1dGr1c8CrMLDpV6mPbImSI']  # get metadata of track via it's id
+assert isinstance(track_metadata, dict)
+sorted(track_metadata)
+```
+
+
+
+    ['album',
+     'artists',
+     'available_markets',
+     'disc_number',
+     'duration_ms',
+     'explicit',
+     'external_ids',
+     'external_urls',
+     'href',
+     'id',
+     'is_local',
+     'name',
+     'popularity',
+     'preview_url',
+     'track_number',
+     'type',
+     'uri']
+
+
+But we also have extras over normal dicts. 
+
+We can get metadata of a track via it's index:
+
+
+```python
+track_metadata = tracks[2]  # get metadata of track via it's id
+```
+
+We can get a sublist of track metadatas from a list of ids.
+
+```python
+list_of_track_metadatas = tracks[['6dBUzqjtbnIa1TwYbyw5CM', '1vrd6UOGamcKNGnSHJQlSt']]  # get metadata of tracks via a list of ids
+```
+
+We can also get a sublist using slicing.
+
+```python
+list_of_track_metadatas = tracks[2:4]  # get metadata of tracks via a slice of ids
+```
+
+
+## Display the search results in a pandas DataFrame
+
+The dataframe method converts the track metadata into a DataFrame for easy viewing.
+
+(Note, you can also use the tracks.dataframe(keys, front_columns=...) to retrieve a data table with more control.)
+
+
+If you have `pandas` installed, you can get the meta data as a table (dataframe).
 
 ```python
 tracks.data
 ```
 
 
-
-
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -322,288 +381,7 @@ tracks.data
 
 
 
-Like Accessing the value of a track for a given key. 
-The value is a bunch of metadata about the track.
-
-
-```python
-track_metadata = tracks['1dGr1c8CrMLDpV6mPbImSI']  # get metadata of track via it's id
-assert isinstance(track_metadata, dict)
-sorted(track_metadata)
-```
-
-
-
-
-    ['album',
-     'artists',
-     'available_markets',
-     'disc_number',
-     'duration_ms',
-     'explicit',
-     'external_ids',
-     'external_urls',
-     'href',
-     'id',
-     'is_local',
-     'name',
-     'popularity',
-     'preview_url',
-     'track_number',
-     'type',
-     'uri']
-
-
-
-
-```python
-track_metadata = tracks[2]  # get metadata of track via it's id
-```
-
-
-```python
-list_of_track_metadatas = tracks[['6dBUzqjtbnIa1TwYbyw5CM', '1vrd6UOGamcKNGnSHJQlSt']]  # get metadata of tracks via a list of ids
-```
-
-
-```python
-list_of_track_metadatas = tracks[2:4]  # get metadata of tracks via a slice of ids
-```
-
-Display the search results in a pandas DataFrame
-The dataframe method converts the track metadata into a DataFrame for easy viewing.
-
-(Note, you can also use the tracks.dataframe(keys, front_columns=...) to retrieve a data table with more control.)
-
-
-```python
-tracks.data
-
-```
-
-    Search Results:
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>duration_ms</th>
-      <th>popularity</th>
-      <th>explicit</th>
-      <th>id</th>
-      <th>album</th>
-      <th>artists</th>
-      <th>available_markets</th>
-      <th>disc_number</th>
-      <th>external_ids</th>
-      <th>external_urls</th>
-      <th>href</th>
-      <th>is_local</th>
-      <th>preview_url</th>
-      <th>track_number</th>
-      <th>type</th>
-      <th>uri</th>
-    </tr>
-    <tr>
-      <th>id</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>1vrd6UOGamcKNGnSHJQlSt</th>
-      <td>Love Story</td>
-      <td>235266</td>
-      <td>62</td>
-      <td>False</td>
-      <td>1vrd6UOGamcKNGnSHJQlSt</td>
-      <td>{'album_type': 'album', 'artists': [{'external...</td>
-      <td>[{'external_urls': {'spotify': 'https://open.s...</td>
-      <td>[CA, US]</td>
-      <td>1</td>
-      <td>{'isrc': 'USCJY0803275'}</td>
-      <td>{'spotify': 'https://open.spotify.com/track/1v...</td>
-      <td>https://api.spotify.com/v1/tracks/1vrd6UOGamcK...</td>
-      <td>False</td>
-      <td>None</td>
-      <td>3</td>
-      <td>track</td>
-      <td>spotify:track:1vrd6UOGamcKNGnSHJQlSt</td>
-    </tr>
-    <tr>
-      <th>3CeCwYWvdfXbZLXFhBrbnf</th>
-      <td>Love Story (Taylor’s Version)</td>
-      <td>235766</td>
-      <td>76</td>
-      <td>False</td>
-      <td>3CeCwYWvdfXbZLXFhBrbnf</td>
-      <td>{'album_type': 'single', 'artists': [{'externa...</td>
-      <td>[{'external_urls': {'spotify': 'https://open.s...</td>
-      <td>[AR, AU, AT, BE, BO, BR, BG, CA, CL, CO, CR, C...</td>
-      <td>1</td>
-      <td>{'isrc': 'USUG12100342'}</td>
-      <td>{'spotify': 'https://open.spotify.com/track/3C...</td>
-      <td>https://api.spotify.com/v1/tracks/3CeCwYWvdfXb...</td>
-      <td>False</td>
-      <td>None</td>
-      <td>1</td>
-      <td>track</td>
-      <td>spotify:track:3CeCwYWvdfXbZLXFhBrbnf</td>
-    </tr>
-    <tr>
-      <th>1dGr1c8CrMLDpV6mPbImSI</th>
-      <td>Lover</td>
-      <td>221306</td>
-      <td>84</td>
-      <td>False</td>
-      <td>1dGr1c8CrMLDpV6mPbImSI</td>
-      <td>{'album_type': 'album', 'artists': [{'external...</td>
-      <td>[{'external_urls': {'spotify': 'https://open.s...</td>
-      <td>[AR, AU, AT, BE, BO, BR, BG, CA, CL, CO, CR, C...</td>
-      <td>1</td>
-      <td>{'isrc': 'USUG11901473'}</td>
-      <td>{'spotify': 'https://open.spotify.com/track/1d...</td>
-      <td>https://api.spotify.com/v1/tracks/1dGr1c8CrMLD...</td>
-      <td>False</td>
-      <td>None</td>
-      <td>3</td>
-      <td>track</td>
-      <td>spotify:track:1dGr1c8CrMLDpV6mPbImSI</td>
-    </tr>
-    <tr>
-      <th>0u2P5u6lvoDfwTYjAADbn4</th>
-      <td>lovely (with Khalid)</td>
-      <td>200185</td>
-      <td>86</td>
-      <td>False</td>
-      <td>0u2P5u6lvoDfwTYjAADbn4</td>
-      <td>{'album_type': 'single', 'artists': [{'externa...</td>
-      <td>[{'external_urls': {'spotify': 'https://open.s...</td>
-      <td>[AR, AU, AT, BE, BO, BR, BG, CA, CL, CO, CR, C...</td>
-      <td>1</td>
-      <td>{'isrc': 'USUM71804190'}</td>
-      <td>{'spotify': 'https://open.spotify.com/track/0u...</td>
-      <td>https://api.spotify.com/v1/tracks/0u2P5u6lvoDf...</td>
-      <td>False</td>
-      <td>None</td>
-      <td>1</td>
-      <td>track</td>
-      <td>spotify:track:0u2P5u6lvoDfwTYjAADbn4</td>
-    </tr>
-    <tr>
-      <th>6nGeLlakfzlBcFdZXteDq7</th>
-      <td>Love Story</td>
-      <td>316280</td>
-      <td>74</td>
-      <td>False</td>
-      <td>6nGeLlakfzlBcFdZXteDq7</td>
-      <td>{'album_type': 'album', 'artists': [{'external...</td>
-      <td>[{'external_urls': {'spotify': 'https://open.s...</td>
-      <td>[AR, AU, AT, BE, BO, BR, BG, CA, CL, CO, CR, C...</td>
-      <td>1</td>
-      <td>{'isrc': 'FRUM71400048'}</td>
-      <td>{'spotify': 'https://open.spotify.com/track/6n...</td>
-      <td>https://api.spotify.com/v1/tracks/6nGeLlakfzlB...</td>
-      <td>False</td>
-      <td>None</td>
-      <td>3</td>
-      <td>track</td>
-      <td>spotify:track:6nGeLlakfzlBcFdZXteDq7</td>
-    </tr>
-    <tr>
-      <th>6dBUzqjtbnIa1TwYbyw5CM</th>
-      <td>Lovers Rock</td>
-      <td>213920</td>
-      <td>85</td>
-      <td>False</td>
-      <td>6dBUzqjtbnIa1TwYbyw5CM</td>
-      <td>{'album_type': 'album', 'artists': [{'external...</td>
-      <td>[{'external_urls': {'spotify': 'https://open.s...</td>
-      <td>[AR, AU, AT, BE, BO, BR, BG, CA, CL, CO, CR, C...</td>
-      <td>1</td>
-      <td>{'isrc': 'USHM21438143'}</td>
-      <td>{'spotify': 'https://open.spotify.com/track/6d...</td>
-      <td>https://api.spotify.com/v1/tracks/6dBUzqjtbnIa...</td>
-      <td>False</td>
-      <td>https://p.scdn.co/mp3-preview/922a42db5aa8f8d3...</td>
-      <td>9</td>
-      <td>track</td>
-      <td>spotify:track:6dBUzqjtbnIa1TwYbyw5CM</td>
-    </tr>
-    <tr>
-      <th>7hR22TOX3RorxJPcsz5Wbo</th>
-      <td>Love Somebody</td>
-      <td>204828</td>
-      <td>86</td>
-      <td>False</td>
-      <td>7hR22TOX3RorxJPcsz5Wbo</td>
-      <td>{'album_type': 'single', 'artists': [{'externa...</td>
-      <td>[{'external_urls': {'spotify': 'https://open.s...</td>
-      <td>[AR, AU, AT, BE, BO, BR, BG, CA, CL, CO, CR, C...</td>
-      <td>1</td>
-      <td>{'isrc': 'USUG12406387'}</td>
-      <td>{'spotify': 'https://open.spotify.com/track/7h...</td>
-      <td>https://api.spotify.com/v1/tracks/7hR22TOX3Ror...</td>
-      <td>False</td>
-      <td>None</td>
-      <td>1</td>
-      <td>track</td>
-      <td>spotify:track:7hR22TOX3RorxJPcsz5Wbo</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-Select three tracks from the search results
-Here, we select the first three track IDs from the search results
-
-
-```python
-selected_track_ids = tracks.track_ids[:3]
-print("\nSelected Track IDs:")
-print(selected_track_ids)
-```
-
-    
-    Selected Track IDs:
-    ['6FjErEvVbuC32xi4QJUXM0', '1vrd6UOGamcKNGnSHJQlSt', '3CeCwYWvdfXbZLXFhBrbnf']
-
+## Make a playlist
 
 Create a new playlist named 'my_test_playlist' with the selected tracks
 The create_from_track_list class method creates a new playlist with the given tracks
@@ -630,13 +408,11 @@ playlist.playlist_url
 ```
 
 
-
-
     'https://open.spotify.com/playlist/7BZcFvIWUnVzvZ5wpVt9cD'
 
 
 
-Delete a playlist
+## Delete a playlist
 
 We purposely tried to make deleting a playlist not as easy as the other actions. 
 So we didn't attach a delete method to the playlist instance, but put this in a 
@@ -674,7 +450,6 @@ top_5_tracks
     7ne4VBA60CxGM75vw0EYad        That’s So True - Gracie Abrams
     7tI8dRuH2Yc6RuoTjxo4dU                           Who - Jimin
     Name: name_and_first_artist, dtype: object
-
 
 
 ## Audio features
@@ -1095,19 +870,6 @@ ta.df.head()
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1812,19 +1574,6 @@ ta.dates
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1939,21 +1688,7 @@ ta.tracks_grouped_by_year
 
 
 
-
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">

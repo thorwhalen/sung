@@ -4,6 +4,7 @@ import pandas as pd
 from collections import defaultdict, Counter
 from functools import cached_property
 from datetime import datetime
+from typing import Optional
 
 from sung.base import PlaylistReader, extract_standard_metadata
 from sung.util import (
@@ -12,8 +13,12 @@ from sung.util import (
     extractor,
     ensure_playlist_id,
     get_spotify_client,
+    SpotifyFeaturesT,
+    spotify_features_field_names,
+    spotify_features_fields,
 )
 from dol import wrap_kvs
+
 
 
 class TracksAnalysis:
@@ -36,7 +41,7 @@ class TracksAnalysis:
                     value_decoder=extract_standard_metadata,
                 )
             # create the base dataframe
-            self.df = self.playlist.dataframe()
+            self.df = self.playlist.data
             # and manipulate it
             self._process_dataframe()
             self._add_added_at_dates()
@@ -92,11 +97,14 @@ class TracksAnalysis:
         added_at_df['added_at_date'] = added_at_df['added_at_datetime'].str[:10]
 
         # Merge with the main dataframe
-        self.df = pd.merge(self.df, added_at_df, on='id', how='left')
+        self.df = pd.merge(
+            self.df, added_at_df, left_index=True, right_index=True, how='left'
+        )
+        self.df['id'] = self.df.index.values
 
     def _reorder_and_sort_dataframe(self):
         """Reorder columns and sort the dataframe by 'added_at_date'."""
-        self.df = front_columns_for_track_metas(self.df, front_columns_for_track_metas)
+        self.df = move_columns_to_front(self.df, front_columns_for_track_metas)
         self.df = self.df.sort_values('added_at_date', ascending=False)
 
     @cached_property
@@ -305,4 +313,118 @@ class TracksAnalysis:
                 popularity = self.df[self.df['name'] == name]['popularity'].values[0]
                 print(f"  - ({popularity}) {name}")
 
-    # Additional methods for further analysis can be added here
+    def plot_features_histogram(
+        self,
+        feature: SpotifyFeaturesT = 'popularity',
+        bins=20,
+        xlim=None,
+        ylim=None,
+    ):
+        """Plot the histogram of a given audio feature."""
+        import seaborn as sns
+        from matplotlib import pyplot as plt
+
+        sns.histplot(self.playlist.numerical_features_df[feature], bins=bins)
+        plt.xlabel(feature)
+        plt.ylabel('Count')
+
+        if xlim is not None:
+            plt.xlim(*xlim)
+        if ylim is not None:
+            plt.ylim(*ylim)
+
+    def plot_features_scatter(
+        self,
+        x: SpotifyFeaturesT = 'danceability',
+        y: SpotifyFeaturesT = 'energy',
+        hue: SpotifyFeaturesT = 'loudness',
+        size: SpotifyFeaturesT = 'popularity',
+        *,
+        xlim=None,
+        ylim=None,
+        annotation_field: Optional[SpotifyFeaturesT] = None,
+        **scatterplot_kwargs,
+    ):
+        """Return the audio features dataframe."""
+        import seaborn as sns
+        from matplotlib import pyplot as plt
+
+        df = pd.merge(
+            self.playlist.data,
+            self.playlist.audio_features_df,
+            left_index=True,
+            right_index=True,
+        )
+        # scatter plot with danceability and energy, colored by popularity, with size as loudness
+        sns.scatterplot(data=df, x=x, y=y, hue=hue, size=size, **scatterplot_kwargs)
+
+        # Move the legend outside the plot
+        plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+
+        from sung.util import spotify_audio_features_fields_with_0_to_1_range
+
+        # if x and/or y are in the 0 to 1 range, set the x and y limits to 0 and 1
+        if xlim is None:
+            if x in spotify_audio_features_fields_with_0_to_1_range:
+                xlim = (0, 1)
+        if ylim is None:
+            if y in spotify_audio_features_fields_with_0_to_1_range:
+                ylim = (0, 1)
+
+        if xlim is not None:
+            plt.xlim(*xlim)
+        if ylim is not None:
+            plt.ylim(*ylim)
+
+        if annotation_field:
+            for i, row in df.iterrows():
+                plt.text(row[x], row[y], row[annotation_field])
+
+    def plot_dataframe_distributions(self, *, n_columns=4, kde=False, bins=30):
+        """
+        Plots the distributions of all columns in the given DataFrame as histograms.
+        
+        Parameters:
+            df (pd.DataFrame): The DataFrame whose columns' distributions are to be plotted.
+            n_columns (int): Number of columns in the grid layout for the plots (default is 4).
+        
+        Returns:
+            plt.Figure: The matplotlib figure containing the histograms.
+        """
+        from matplotlib import pyplot as plt
+        import seaborn as sns
+
+        df = self.playlist.numerical_features_df
+
+        # Number of columns in the DataFrame
+        n_cols = len(df.columns)
+        
+        # Number of rows needed for the given number of columns
+        n_rows = (n_cols + n_columns - 1) // n_columns
+        
+        # Create the figure and axes
+        fig, axes = plt.subplots(n_rows, n_columns, figsize=(5 * n_columns, 4 * n_rows))
+        axes = axes.flatten()  # Flatten axes to iterate easily
+        
+        # Plot histograms for each column
+        for i, column in enumerate(df.columns):
+            sns.histplot(df[column].dropna(), kde=kde, ax=axes[i], bins=bins)
+            axes[i].set_title(column)
+            axes[i].set_xlabel("Value")
+            axes[i].set_ylabel("Frequency")
+        
+        # Hide unused axes if any
+        for i in range(n_cols, len(axes)):
+            axes[i].set_visible(False)
+        
+        plt.tight_layout()
+
+
+    def plot_features_pairs(
+        self,
+        features=spotify_features_field_names,
+    ):
+        """Return the audio features pairplot."""
+        import seaborn as sns
+
+        sns.pairplot(self.playlist.audio_features_df[list(features)])

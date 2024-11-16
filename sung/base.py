@@ -50,6 +50,7 @@ from sung.util import (
     TrackMetadata,
     move_columns_to_front,
     front_columns_for_track_metas,
+    spotify_audio_features_fields,
 )
 
 DFLT_VERBOSE = True
@@ -171,14 +172,43 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
 
     @cached_property
     def audio_features(self):
-        return self.client.audio_features(list(self))
+        from itertools import chain
 
+        track_ids = list(self)
+
+        def _audio_features_chunks():
+            chunks = (track_ids[i : i + 100] for i in range(0, len(track_ids), 100))
+            for chunk in chunks:
+                yield self.client.audio_features(chunk)
+
+        return dict(zip(track_ids, chain.from_iterable(_audio_features_chunks())))
+    
+    audio_features.spotify_audio_features_fields = spotify_audio_features_fields
+
+    # TODO: Deprecate. Just use numerical_features_df
     @property
     def audio_features_df(self):
         import pandas as pd
 
-        return pd.DataFrame(self.audio_features).set_index('id')
+        return pd.DataFrame(self.audio_features).T.set_index('id')
+    
+    @cached_property
+    def numerical_features_df(self):
+        import pandas as pd
+        from sung.util import spotify_track_metadata_numerical_fields
 
+        # TODO: Add the added year or date when available
+        metadata_num_fields = spotify_track_metadata_numerical_fields + ['album_release_year', 'explicit']
+        metadata_df = self.data[metadata_num_fields].copy()
+        metadata_df['explicit'] = metadata_df['explicit'].astype(int)
+        audio_features_df = pd.DataFrame(self.audio_features).T.set_index('id')
+        audio_features_df = audio_features_df[list(spotify_audio_features_fields)]
+
+        # Merge metadata and audio features
+        df = metadata_df.join(audio_features_df, how='inner')
+        return df
+
+    
     def audio_analysis(self, key: TrackKeySpec):
         track_id = ensure_track_id(key)
         return self._cached_audio_analysis_func(track_id)

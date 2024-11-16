@@ -31,7 +31,7 @@ from typing import (
     Mapping,
 )
 from operator import itemgetter
-from functools import cached_property
+from functools import cached_property, lru_cache
 from collections.abc import Mapping
 from abc import ABC
 import warnings
@@ -100,6 +100,10 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
         self._track_metas = list(track_metas) if track_metas is not None else None
 
     @cached_property
+    def _cached_audio_analysis_func(self):
+        return lru_cache(maxsize=10_000)(self.client.audio_analysis)
+
+    @cached_property
     def track_ids(self) -> List[TrackId]:
         if self._track_ids is not None:
             return self._track_ids
@@ -164,6 +168,20 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
     @cached_property
     def data(self):
         return self.dataframe()
+
+    @cached_property
+    def audio_features(self):
+        return self.client.audio_features(list(self))
+
+    @property
+    def audio_features_df(self):
+        import pandas as pd
+
+        return pd.DataFrame(self.audio_features).set_index('id')
+
+    def audio_analysis(self, key: TrackKeySpec):
+        track_id = ensure_track_id(key)
+        return self._cached_audio_analysis_func(track_id)
 
     def dataframe(
         self,
@@ -280,8 +298,9 @@ def search_tracks(
 # --------------------------------------------------------------------------------------
 # Playlist Classes
 
+
 # TODO: Make it a subclass of TracksBase, or Tracks
-class PlaylistReader(Mapping[TrackId, TrackMetadata]):
+class PlaylistReader(Tracks, Mapping[TrackId, TrackMetadata]):
     """Read-only access to a Spotify playlist."""
 
     def __init__(self, playlist_id: str, *, client: Optional[Any] = None):
@@ -345,7 +364,7 @@ class PlaylistReader(Mapping[TrackId, TrackMetadata]):
     @cached_property
     def data(self):
         return self.dataframe()
-    
+
     def dataframe(self, key: TrackKeySpec = slice(None)) -> 'pd.DataFrame':
         return self.tracks.dataframe(key)
 

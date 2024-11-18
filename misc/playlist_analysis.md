@@ -1,7 +1,3 @@
-```python
-
-```
-
 # Analyze a playlist
 
 
@@ -1345,11 +1341,6 @@ ta.plot_features_pairs()
 ![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_46_0.png)
     
 
-
-
-```python
-ta.plot_features_pairs()
-```
 
 
 ```python

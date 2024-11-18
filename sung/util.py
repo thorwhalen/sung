@@ -352,7 +352,7 @@ spotify_audio_features_fields = {
 }
 
 spotify_features_fields = dict(
-    **{k: spotify_track_metadata_fields[k] for k in spotify_track_metadata_fields},
+    **{k: spotify_track_metadata_fields[k] for k in spotify_track_metadata_numerical_fields},
     **spotify_audio_features_fields,
 )
 

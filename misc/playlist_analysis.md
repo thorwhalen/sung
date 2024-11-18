@@ -1,3 +1,6 @@
+```python
+
+```
 
 # Analyze a playlist
 
@@ -38,6 +41,7 @@ ta.df.head()
 
 
 
+
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -67,147 +71,288 @@ ta.df.head()
       <th>url</th>
       <th>first_letter</th>
       <th>...</th>
+      <th>artists</th>
       <th>disc_number</th>
+      <th>track_number</th>
       <th>external_ids</th>
       <th>external_urls</th>
       <th>href</th>
-      <th>is_local</th>
-      <th>track_number</th>
-      <th>type</th>
       <th>uri</th>
-      <th>preview_url</th>
+      <th>is_local</th>
       <th>added_at_datetime</th>
+      <th>id_y</th>
+    </tr>
+    <tr>
+      <th>id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>181</th>
-      <td>Love The Way You Lie</td>
-      <td>Eminem</td>
-      <td>263373</td>
-      <td>47</td>
+      <th>62HY7V5hRKtfIZ7uCYqYqu</th>
+      <td>The Imperial March (Darth Vader's Theme)</td>
+      <td>John Williams</td>
+      <td>182973</td>
+      <td>0</td>
       <td>False</td>
-      <td>2010-06-18</td>
-      <td>2010</td>
-      <td>2024-11-06</td>
-      <td>https://open.spotify.com/track/4k5Rb51qsUSMFg6...</td>
-      <td>L</td>
-      <td>...</td>
-      <td>1</td>
-      <td>{'isrc': 'USUM71015443'}</td>
-      <td>{'spotify': 'https://open.spotify.com/track/4k...</td>
-      <td>https://api.spotify.com/v1/tracks/4k5Rb51qsUSM...</td>
-      <td>False</td>
-      <td>15</td>
-      <td>track</td>
-      <td>spotify:track:4k5Rb51qsUSMFg6oFdVC48</td>
+      <td>1997-01-01</td>
+      <td>1997</td>
       <td>NaN</td>
-      <td>2024-11-06T16:01:38Z</td>
-    </tr>
-    <tr>
-      <th>180</th>
-      <td>Without Me</td>
-      <td>Eminem</td>
-      <td>290120</td>
-      <td>46</td>
-      <td>False</td>
-      <td>2002-05-26</td>
-      <td>2002</td>
-      <td>2024-11-03</td>
-      <td>https://open.spotify.com/track/3Q0kSmKpkffn4aW...</td>
-      <td>W</td>
-      <td>...</td>
-      <td>1</td>
-      <td>{'isrc': 'USIR10211127'}</td>
-      <td>{'spotify': 'https://open.spotify.com/track/3Q...</td>
-      <td>https://api.spotify.com/v1/tracks/3Q0kSmKpkffn...</td>
-      <td>False</td>
-      <td>10</td>
-      <td>track</td>
-      <td>spotify:track:3Q0kSmKpkffn4aWkYkWwet</td>
-      <td>NaN</td>
-      <td>2024-11-03T11:27:58Z</td>
-    </tr>
-    <tr>
-      <th>179</th>
-      <td>Lose Yourself</td>
-      <td>Eminem</td>
-      <td>320573</td>
-      <td>50</td>
-      <td>False</td>
-      <td>2014-11-24</td>
-      <td>2014</td>
-      <td>2024-11-03</td>
-      <td>https://open.spotify.com/track/2jvHb9SHJDi8Ugk...</td>
-      <td>L</td>
-      <td>...</td>
-      <td>2</td>
-      <td>{'isrc': 'USIR10211570'}</td>
-      <td>{'spotify': 'https://open.spotify.com/track/2j...</td>
-      <td>https://api.spotify.com/v1/tracks/2jvHb9SHJDi8...</td>
-      <td>False</td>
-      <td>3</td>
-      <td>track</td>
-      <td>spotify:track:2jvHb9SHJDi8Ugky7tUzUb</td>
-      <td>NaN</td>
-      <td>2024-11-03T11:27:34Z</td>
-    </tr>
-    <tr>
-      <th>178</th>
-      <td>The Real Slim Shady</td>
-      <td>Eminem</td>
-      <td>283693</td>
-      <td>54</td>
-      <td>False</td>
-      <td>2005-12-06</td>
-      <td>2005</td>
-      <td>2024-11-03</td>
-      <td>https://open.spotify.com/track/2WXUcFnJPPATncU...</td>
+      <td>https://open.spotify.com/track/62HY7V5hRKtfIZ7...</td>
       <td>T</td>
       <td>...</td>
+      <td>[{'external_urls': {'spotify': 'https://open.s...</td>
+      <td>2</td>
       <td>1</td>
-      <td>{'isrc': 'USIR10000449'}</td>
-      <td>{'spotify': 'https://open.spotify.com/track/2W...</td>
-      <td>https://api.spotify.com/v1/tracks/2WXUcFnJPPAT...</td>
+      <td>{'isrc': 'USSM10411815'}</td>
+      <td>{'spotify': 'https://open.spotify.com/track/62...</td>
+      <td>https://api.spotify.com/v1/tracks/62HY7V5hRKtf...</td>
+      <td>spotify:track:62HY7V5hRKtfIZ7uCYqYqu</td>
       <td>False</td>
-      <td>9</td>
-      <td>track</td>
-      <td>spotify:track:2WXUcFnJPPATncUkPYC54v</td>
       <td>NaN</td>
-      <td>2024-11-03T11:27:15Z</td>
+      <td>NaN</td>
     </tr>
     <tr>
-      <th>177</th>
-      <td>Houdini</td>
-      <td>Eminem</td>
-      <td>227239</td>
+      <th>0mVL6TMwrRqFsLRgoKoAfS</th>
+      <td>Wimoweh (Mbube)</td>
+      <td>Yma Sumac</td>
+      <td>158440</td>
+      <td>0</td>
+      <td>False</td>
+      <td>2015-01-28</td>
+      <td>2015</td>
+      <td>NaN</td>
+      <td>https://open.spotify.com/track/0mVL6TMwrRqFsLR...</td>
+      <td>W</td>
+      <td>...</td>
+      <td>[{'external_urls': {'spotify': 'https://open.s...</td>
+      <td>1</td>
+      <td>4</td>
+      <td>{'isrc': 'FR0W61497652'}</td>
+      <td>{'spotify': 'https://open.spotify.com/track/0m...</td>
+      <td>https://api.spotify.com/v1/tracks/0mVL6TMwrRqF...</td>
+      <td>spotify:track:0mVL6TMwrRqFsLRgoKoAfS</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3N7aUWtL9EvKrBtmSCxuYW</th>
+      <td>Mah Na Mah Na</td>
+      <td>Mahna Mahna and The Two Snowths</td>
+      <td>125906</td>
+      <td>10</td>
+      <td>False</td>
+      <td>2011-01-01</td>
+      <td>2011</td>
+      <td>NaN</td>
+      <td>https://open.spotify.com/track/3N7aUWtL9EvKrBt...</td>
+      <td>M</td>
+      <td>...</td>
+      <td>[{'external_urls': {'spotify': 'https://open.s...</td>
+      <td>1</td>
+      <td>30</td>
+      <td>{'isrc': 'USWD11158969'}</td>
+      <td>{'spotify': 'https://open.spotify.com/track/3N...</td>
+      <td>https://api.spotify.com/v1/tracks/3N7aUWtL9EvK...</td>
+      <td>spotify:track:3N7aUWtL9EvKrBtmSCxuYW</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1XieuY2bxCfXNHwSDJQrPs</th>
+      <td>My Baby Just Cares For Me</td>
+      <td>Nina Simone</td>
+      <td>215706</td>
+      <td>36</td>
+      <td>False</td>
+      <td>2007-01-01</td>
+      <td>2007</td>
+      <td>NaN</td>
+      <td>https://open.spotify.com/track/1XieuY2bxCfXNHw...</td>
+      <td>M</td>
+      <td>...</td>
+      <td>[{'external_urls': {'spotify': 'https://open.s...</td>
+      <td>1</td>
+      <td>8</td>
+      <td>{'isrc': 'USPR38700001'}</td>
+      <td>{'spotify': 'https://open.spotify.com/track/1X...</td>
+      <td>https://api.spotify.com/v1/tracks/1XieuY2bxCfX...</td>
+      <td>spotify:track:1XieuY2bxCfXNHwSDJQrPs</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>40Fr7DB1j6RB2DqygQI4LI</th>
+      <td>Holocaust</td>
+      <td>Ceza</td>
+      <td>207746</td>
       <td>57</td>
       <td>False</td>
-      <td>2024-05-30</td>
-      <td>2024</td>
-      <td>2024-11-03</td>
-      <td>https://open.spotify.com/track/6vw2M02LT3otGUo...</td>
+      <td>2004-07-01</td>
+      <td>2004</td>
+      <td>NaN</td>
+      <td>https://open.spotify.com/track/40Fr7DB1j6RB2Dq...</td>
       <td>H</td>
       <td>...</td>
+      <td>[{'external_urls': {'spotify': 'https://open.s...</td>
       <td>1</td>
-      <td>{'isrc': 'USUG12403399'}</td>
-      <td>{'spotify': 'https://open.spotify.com/track/6v...</td>
-      <td>https://api.spotify.com/v1/tracks/6vw2M02LT3ot...</td>
+      <td>3</td>
+      <td>{'isrc': 'TR0640600079'}</td>
+      <td>{'spotify': 'https://open.spotify.com/track/40...</td>
+      <td>https://api.spotify.com/v1/tracks/40Fr7DB1j6RB...</td>
+      <td>spotify:track:40Fr7DB1j6RB2DqygQI4LI</td>
       <td>False</td>
-      <td>1</td>
-      <td>track</td>
-      <td>spotify:track:6vw2M02LT3otGUoK4ZqHwx</td>
       <td>NaN</td>
-      <td>2024-11-03T11:21:18Z</td>
+      <td>NaN</td>
     </tr>
   </tbody>
 </table>
-<p>5 rows × 25 columns</p>
+<p>5 rows × 29 columns</p>
 </div>
 
 
 
-## Perform Analyses
+## Audio Features Analysis
+
+
+```python
+ta.plot_features_histogram()
+```
+
+
+    
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_10_0.png)
+    
+
+
+
+```python
+ta.plot_features_scatter()
+
+```
+
+
+    
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_11_0.png)
+    
+
+
+You can choose what fields to map to what plot features (x, y, size and hue). 
+
+The names of the audio feature fields with their descriptions, are 
+
+
+```python
+from sung.util import spotify_features_fields
+
+spotify_features_fields
+```
+
+
+
+
+    {'name': 'The name of the track.',
+     'artist': 'The name of the primary artist associated with the track.',
+     'album': 'The name of the album in which the track appears.',
+     'release_date': 'The release date of the album or single. Format can vary (e.g., YYYY-MM-DD).',
+     'duration_ms': "The track's duration in milliseconds.",
+     'popularity': 'The popularity of the track, with values ranging from 0 to 100. Higher values indicate greater popularity.',
+     'explicit': 'A boolean indicating whether the track contains explicit content.',
+     'external_url': 'A dictionary of external URLs, including a link to the track on Spotify.',
+     'preview_url': 'A URL to a 30-second preview of the track, if available.',
+     'track_number': "The track's position within its album or single. The first track is 1.",
+     'album_total_tracks': 'The total number of tracks in the album that contains this track.',
+     'available_markets': 'A list of country codes where the track is available.',
+     'album_images': 'A list of album cover art images in various sizes, with URLs to access them.',
+     'acousticness': 'A confidence measure from 0.0 to 1.0 indicating the likelihood that the track is acoustic. Higher values denote a higher probability. Range: 0.0 to 1.0.',
+     'danceability': 'Reflects how suitable a track is for dancing, based on tempo, rhythm stability, beat strength, and overall regularity. Higher values indicate greater danceability. Range: 0.0 to 1.0.',
+     'energy': 'Measures the intensity and activity of a track. Energetic tracks feel fast, loud, and noisy. Higher values represent more energy. Range: 0.0 to 1.0.',
+     'instrumentalness': 'Predicts whether a track contains no vocals. Higher values suggest a greater likelihood of the track being instrumental. Range: 0.0 to 1.0.',
+     'liveness': 'Detects the presence of an audience in the recording. Higher values indicate a higher probability of the track being performed live. Range: 0.0 to 1.0.',
+     'loudness': 'The overall loudness of a track in decibels (dB), averaged across the entire track. Useful for comparing the relative loudness of tracks. Typical range: -60 to 0 dB.',
+     'speechiness': 'Measures the presence of spoken words in a track. Higher values indicate more speech-like content. Values above 0.66 suggest tracks made entirely of spoken words; values between 0.33 and 0.66 may contain both music and speech; values below 0.33 likely represent music and other non-speech-like tracks. Range: 0.0 to 1.0.',
+     'valence': 'Describes the musical positiveness conveyed by a track. Higher values sound more positive (e.g., happy, cheerful), while lower values sound more negative (e.g., sad, angry). Range: 0.0 to 1.0.',
+     'tempo': 'The estimated tempo of a track in beats per minute (BPM). Range: 0 to 250 BPM.',
+     'key': 'The estimated overall key of the track, represented as an integer corresponding to standard Pitch Class notation (e.g., 0 = C, 1 = C♯/D♭, ..., 11 = B). If no key was detected, the value is -1. Range: -1 to 11.',
+     'mode': 'Indicates the modality (major or minor) of a track. Major is represented by 1 and minor by 0. Range: 0 or 1.',
+     'time_signature': 'An estimated overall time signature of a track, indicating how many beats are in each bar. Range: 3 to 7.'}
+
+
+
+
+```python
+ta.plot_features_scatter(x='valence', y='tempo', hue='key')
+```
+
+
+    
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_14_0.png)
+    
+
+
+
+```python
+
+```
+
+
+```python
+ta.plot_dataframe_distributions()
+```
+
+
+    
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_16_0.png)
+    
+
+
+
+```python
+ta.plot_features_pairs()
+```
+
+
+
+
+    <seaborn.axisgrid.PairGrid at 0x3291ac1f0>
+
+
+
+
+    
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_17_1.png)
+    
+
+
+
+```python
+
+```
+
+## Metadata Analyses
 
 
 ```python
@@ -324,7 +469,7 @@ ta.plot_songs_per_year()
 
 
     
-![png](playlist_analysis_files/playlist_analysis_20_1.png)
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_28_1.png)
     
 
 
@@ -337,7 +482,7 @@ ta.plot_added_vs_release_dates()
 
 
     
-![png](playlist_analysis_files/playlist_analysis_22_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_30_0.png)
     
 
 
@@ -348,7 +493,7 @@ ta.plot_added_vs_release_kde()
 
 
     
-![png](playlist_analysis_files/playlist_analysis_23_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_31_0.png)
     
 
 
@@ -359,7 +504,7 @@ ta.plot_added_vs_release_kde_boundary()
 
 
     
-![png](playlist_analysis_files/playlist_analysis_24_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_32_0.png)
     
 
 
@@ -372,7 +517,7 @@ ta.plot_first_letter_distribution(sort_by='lexicographical')
 
 
     
-![png](playlist_analysis_files/playlist_analysis_26_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_34_0.png)
     
 
 
@@ -383,7 +528,7 @@ ta.plot_first_letter_distribution(sort_by='count')
 
 
     
-![png](playlist_analysis_files/playlist_analysis_27_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_35_0.png)
     
 
 
@@ -1168,19 +1313,42 @@ ta.tracks_grouped_by_year
 
 ```
 
+# Play with more playlists now
+
 
 ```python
+from sung import TracksAnalysis
 
+liked_songs_as_of_nov_2024 = "https://open.spotify.com/playlist/0TR0PpkMt37afbzNuexYEc?si=4ba4ec8221d84e94"
+
+ta = TracksAnalysis(liked_songs_as_of_nov_2024)
 ```
 
 
 ```python
-
+ta.plot_dataframe_distributions()
 ```
 
 
-```python
+    
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_45_0.png)
+    
 
+
+
+```python
+ta.plot_features_pairs()
+```
+
+
+    
+![png](https://raw.githubusercontent.com/thorwhalen/sung/main/misc/playlist_analysis_files/playlist_analysis_46_0.png)
+    
+
+
+
+```python
+ta.plot_features_pairs()
 ```
 
 

@@ -427,4 +427,4 @@ class TracksAnalysis:
         """Return the audio features pairplot."""
         import seaborn as sns
 
-        sns.pairplot(self.playlist.audio_features_df[list(features)])
+        sns.pairplot(self.playlist.numerical_features_df[list(features)])

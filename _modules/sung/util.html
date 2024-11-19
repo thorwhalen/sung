@@ -1,0 +1,689 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sung.util &mdash; sung 0.0.14 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=544df88d"></script>
+      <script src="../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            sung
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung.html">sung</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/base.html">sung.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/pydantic_models.html">sung.pydantic_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/tools.html">sung.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/util.html">sung.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sung</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sung.util</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sung.util</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Utility functions for the sung package.&quot;&quot;&quot;</span>
+
+<span class="c1"># TODO: use openAPI definition to create pydantic models for data</span>
+<span class="c1">#  see https://github.com/thorwhalen/sung/discussions/1#discussioncomment-10990012</span>
+
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Literal</span><span class="p">,</span>
+    <span class="n">T</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">TypeVar</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Mapping</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="kn">from</span> <span class="nn">spotipy</span> <span class="kn">import</span> <span class="n">Spotify</span>
+<span class="kn">from</span> <span class="nn">spotipy.oauth2</span> <span class="kn">import</span> <span class="n">SpotifyClientCredentials</span><span class="p">,</span> <span class="n">SpotifyOAuth</span>
+
+<span class="kn">from</span> <span class="nn">glom</span> <span class="kn">import</span> <span class="n">glom</span><span class="p">,</span> <span class="n">Spec</span><span class="p">,</span> <span class="n">Coalesce</span>
+
+<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span>
+
+<span class="n">DFLT_LIMIT</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="c1"># TODO: Get automatically from pydantic model when available</span>
+<span class="n">SearchTypeT</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;artist&#39;</span><span class="p">,</span> <span class="s1">&#39;album&#39;</span><span class="p">,</span> <span class="s1">&#39;track&#39;</span><span class="p">,</span> <span class="s1">&#39;playlist&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> <span class="s1">&#39;episode&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="n">Extractor</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;Extractor&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Callable</span><span class="p">)</span>  <span class="c1"># TODO: Specify more precisely</span>
+
+
+<span class="k">def</span> <span class="nf">extractor</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Spec</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Extractor</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">glom</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">glom</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">coalesce_to_default</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">is_extractor</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="nb">callable</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;func&#39;</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;glom&#39;</span>
+        <span class="ow">or</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">identity</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">ensure_extractor</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extractor</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">identity</span>
+    <span class="k">if</span> <span class="n">is_extractor</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">extractor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="n">extractor</span><span class="o">.</span><span class="n">is_extractor</span> <span class="o">=</span> <span class="n">is_extractor</span>
+<span class="n">extractor</span><span class="o">.</span><span class="n">ensure_extractor</span> <span class="o">=</span> <span class="n">ensure_extractor</span>
+
+
+<span class="k">def</span> <span class="nf">coalesce_string_values</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">coalece_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">coalesced_items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">k</span><span class="p">,</span> <span class="n">Coalesce</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="o">**</span><span class="n">coalece_kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">coalesced_items</span><span class="p">())</span>
+
+
+<span class="n">coalesce_to_default</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">coalesce_string_values</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_config">
+<a class="viewcode-back" href="../../module_docs/sung/util.html#sung.util.get_config">[docs]</a>
+<span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="n">config_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the value of a configuration variable.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">config_name</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">config_name</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Configuration variable </span><span class="si">{</span><span class="n">config_name</span><span class="si">}</span><span class="s2"> not found. &quot;</span>
+            <span class="s2">&quot;Please set it in the environment. To get your Spotify API credentials, &quot;</span>
+            <span class="s2">&quot;see https://developer.spotify.com/documentation/web-api/tutorials/getting-started&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">pop_client_id_and_secret</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="n">client_id</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;client_id&#39;</span><span class="p">,</span> <span class="n">get_config</span><span class="p">(</span><span class="s1">&#39;SPOTIFY_API_CLIENT_ID&#39;</span><span class="p">))</span>
+    <span class="n">client_secret</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;client_secret&#39;</span><span class="p">,</span> <span class="n">get_config</span><span class="p">(</span><span class="s1">&#39;SPOTIFY_API_CLIENT_SECRET&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span>
+
+
+<span class="k">def</span> <span class="nf">get_spotify_creds</span><span class="p">(</span><span class="o">**</span><span class="n">client_creds_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpotifyClientCredentials</span><span class="p">:</span>
+    <span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span> <span class="o">=</span> <span class="n">pop_client_id_and_secret</span><span class="p">(</span><span class="n">client_creds_kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">SpotifyClientCredentials</span><span class="p">(</span>
+        <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span>
+        <span class="n">client_secret</span><span class="o">=</span><span class="n">client_secret</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">client_creds_kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_spotify_oauth_creds</span><span class="p">(</span><span class="o">**</span><span class="n">oauth_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpotifyOAuth</span><span class="p">:</span>
+    <span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span> <span class="o">=</span> <span class="n">pop_client_id_and_secret</span><span class="p">(</span><span class="n">oauth_kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">SpotifyOAuth</span><span class="p">(</span>
+        <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span>
+        <span class="n">client_secret</span><span class="o">=</span><span class="n">client_secret</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">oauth_kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_extract_scope_items</span><span class="p">(</span><span class="n">scope_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scope_string</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;\S+&#39;</span><span class="p">,</span> <span class="n">scope_string</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scope_string</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">scope_string</span>
+
+
+<span class="k">def</span> <span class="nf">_add_to_scope</span><span class="p">(</span><span class="n">scope</span><span class="p">,</span> <span class="n">more_scope</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add new_scope to scope, ensuring no duplicates.</span>
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">    &gt;&gt;&gt; _add_to_scope(&#39;user-top-read&#39;, &#39;user-read-recently-played&#39;)  # note the lexicographic order in output</span>
+<span class="sd">    &#39;user-read-recently-played user-top-read&#39;</span>
+<span class="sd">    &gt;&gt;&gt; _add_to_scope(&#39;user-top-read&#39;, &#39;user-read-recently-played user-top-read&#39;)  # note the absence of duplicates in output</span>
+<span class="sd">    &#39;user-read-recently-played user-top-read&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">scope_items</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_extract_scope_items</span><span class="p">(</span><span class="n">scope</span><span class="p">))</span>
+    <span class="n">scope_items</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_extract_scope_items</span><span class="p">(</span><span class="n">more_scope</span><span class="p">))</span>
+    <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">scope_items</span><span class="p">))</span>
+
+
+<span class="c1"># def get_spotify_client(client=None, *, ensure_scope=None, **kwargs) -&gt; Spotify:</span>
+<span class="c1">#     if ensure_scope is not None:</span>
+<span class="c1">#         kwargs[&#39;scope&#39;] = _add_to_scope(kwargs.get(&#39;scope&#39;, &#39;&#39;), ensure_scope)</span>
+
+<span class="c1">#     spotify_kwargs = Sig(Spotify).map_arguments(</span>
+<span class="c1">#         kwargs=kwargs, allow_partial=True, allow_excess=True</span>
+<span class="c1">#     )</span>
+<span class="c1">#     client_creds_kwargs = Sig(SpotifyClientCredentials).map_arguments(</span>
+<span class="c1">#         kwargs=kwargs, allow_partial=True, allow_excess=True</span>
+<span class="c1">#     )</span>
+
+<span class="c1">#     if client is None:</span>
+<span class="c1">#         return Spotify(</span>
+<span class="c1">#             auth_manager=get_spotify_creds(**client_creds_kwargs),</span>
+<span class="c1">#             **spotify_kwargs,</span>
+<span class="c1">#         )</span>
+<span class="c1">#     else:</span>
+<span class="c1">#         # make a new client, with the updated kwargs</span>
+<span class="c1">#         # extract the client_creds_kwargs and spotify_kwargs kwargs from client instance</span>
+<span class="c1">#         # and update them with the new kwargs</span>
+<span class="c1">#         # then create a new client with these updated kwargs</span>
+<span class="c1">#         # return the new client</span>
+
+<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span>
+
+
+<span class="n">spotify_client_sig</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Sig</span><span class="p">(</span><span class="n">Spotify</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">merge_with_sig</span><span class="p">(</span><span class="n">Sig</span><span class="p">(</span><span class="n">SpotifyOAuth</span><span class="p">)</span> <span class="o">-</span> <span class="s1">&#39;requests_timeout&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">merge_with_sig</span><span class="p">(</span><span class="n">Sig</span><span class="p">(</span><span class="n">SpotifyClientCredentials</span><span class="p">)</span> <span class="o">-</span> <span class="s1">&#39;requests_timeout&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_spotify_client">
+<a class="viewcode-back" href="../../module_docs/sung/util.html#sung.util.get_spotify_client">[docs]</a>
+<span class="nd">@spotify_client_sig</span><span class="o">.</span><span class="n">inject_into_keyword_variadic</span>
+<span class="k">def</span> <span class="nf">get_spotify_client</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">ensure_scope</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Spotify</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a Spotify client.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        - client - an existing Spotify client (optional)</span>
+<span class="sd">        - ensure_scope - a scope to ensure is included in the client&#39;s auth_manager (optional)</span>
+<span class="sd">        - scope - the scope to use for the client (optional)</span>
+<span class="sd">        - **kwargs - additional arguments to pass to the Spotify client</span>
+
+<span class="sd">    The purpose of having scope and ensure_scope is to allow you to ensure some needed</span>
+<span class="sd">    scopes exist when a code block is asking for a Spotify client with it&#39;s own</span>
+<span class="sd">    scope desires.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">scope</span> <span class="o">=</span> <span class="n">_add_to_scope</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;scope&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="n">ensure_scope</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;scope&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scope</span>
+
+    <span class="n">spotify_kwargs</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">Spotify</span><span class="p">)</span><span class="o">.</span><span class="n">map_arguments</span><span class="p">(</span>
+        <span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">allow_partial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_excess</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">scope</span><span class="p">:</span>
+        <span class="n">client_creds_kwargs</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">SpotifyOAuth</span><span class="p">)</span><span class="o">.</span><span class="n">map_arguments</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">allow_partial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_excess</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">client_creds_kwargs</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">SpotifyClientCredentials</span><span class="p">)</span><span class="o">.</span><span class="n">map_arguments</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">allow_partial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_excess</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Spotify</span><span class="p">(</span>
+            <span class="n">auth_manager</span><span class="o">=</span><span class="n">get_spotify_oauth_creds</span><span class="p">(</span><span class="o">**</span><span class="n">client_creds_kwargs</span><span class="p">),</span>
+            <span class="o">**</span><span class="n">spotify_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># TODO: Should I use glom extractors here?</span>
+        <span class="c1"># Extract existing spotify_kwargs from the client instance</span>
+
+        <span class="n">existing_spotify_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;proxies&#39;</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">proxies</span><span class="p">,</span>
+            <span class="s1">&#39;requests_timeout&#39;</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">requests_timeout</span><span class="p">,</span>
+            <span class="s1">&#39;status_forcelist&#39;</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">status_forcelist</span><span class="p">,</span>
+            <span class="s1">&#39;retries&#39;</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">retries</span><span class="p">,</span>
+            <span class="s1">&#39;status_retries&#39;</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">status_retries</span><span class="p">,</span>
+            <span class="s1">&#39;backoff_factor&#39;</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">backoff_factor</span><span class="p">,</span>
+            <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">language</span><span class="p">,</span>
+            <span class="c1"># &#39;chunked&#39;: client.chunked,</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Update existing spotify_kwargs with new spotify_kwargs</span>
+        <span class="n">spotify_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">existing_spotify_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">spotify_kwargs</span><span class="p">}</span>
+
+        <span class="c1"># Extract existing client_creds_kwargs from client.auth_manager</span>
+        <span class="n">existing_client_creds_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">auth_manager</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">auth_manager</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">auth_manager</span><span class="p">,</span> <span class="n">SpotifyClientCredentials</span><span class="p">):</span>
+            <span class="n">existing_client_creds_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;client_id&#39;</span><span class="p">:</span> <span class="n">auth_manager</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+                <span class="s1">&#39;client_secret&#39;</span><span class="p">:</span> <span class="n">auth_manager</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
+                <span class="s1">&#39;proxies&#39;</span><span class="p">:</span> <span class="n">auth_manager</span><span class="o">.</span><span class="n">proxies</span><span class="p">,</span>
+                <span class="s1">&#39;requests_timeout&#39;</span><span class="p">:</span> <span class="n">auth_manager</span><span class="o">.</span><span class="n">requests_timeout</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">auth_manager</span><span class="p">,</span> <span class="n">SpotifyOAuth</span><span class="p">):</span>
+            <span class="n">existing_client_creds_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;client_id&#39;</span><span class="p">:</span> <span class="n">auth_manager</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+                <span class="s1">&#39;client_secret&#39;</span><span class="p">:</span> <span class="n">auth_manager</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
+                <span class="s1">&#39;proxies&#39;</span><span class="p">:</span> <span class="n">auth_manager</span><span class="o">.</span><span class="n">proxies</span><span class="p">,</span>
+                <span class="s1">&#39;requests_timeout&#39;</span><span class="p">:</span> <span class="n">auth_manager</span><span class="o">.</span><span class="n">requests_timeout</span><span class="p">,</span>
+                <span class="s1">&#39;redirect_uri&#39;</span><span class="p">:</span> <span class="n">auth_manager</span><span class="o">.</span><span class="n">redirect_uri</span><span class="p">,</span>
+                <span class="s1">&#39;scope&#39;</span><span class="p">:</span> <span class="n">auth_manager</span><span class="o">.</span><span class="n">scope</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">auth_manager</span><span class="p">,</span> <span class="s1">&#39;client_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span>
+            <span class="n">auth_manager</span><span class="p">,</span> <span class="s1">&#39;client_secret&#39;</span>
+        <span class="p">):</span>
+            <span class="c1"># For other auth managers that have client_id and client_secret</span>
+            <span class="n">existing_client_creds_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;client_id&#39;</span><span class="p">:</span> <span class="n">auth_manager</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+                <span class="s1">&#39;client_secret&#39;</span><span class="p">:</span> <span class="n">auth_manager</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="c1"># Update existing client_creds_kwargs with new client_creds_kwargs</span>
+        <span class="n">client_creds_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">existing_client_creds_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">client_creds_kwargs</span><span class="p">}</span>
+
+        <span class="c1"># Create a new auth_manager with the updated client_creds_kwargs</span>
+        <span class="n">new_auth_manager</span> <span class="o">=</span> <span class="n">get_spotify_creds</span><span class="p">(</span><span class="o">**</span><span class="n">client_creds_kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Create a new Spotify client with the updated kwargs</span>
+        <span class="k">return</span> <span class="n">Spotify</span><span class="p">(</span>
+            <span class="n">auth_manager</span><span class="o">=</span><span class="n">new_auth_manager</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">spotify_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">spotify_search_modifiers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;album:&quot;</span><span class="p">:</span> <span class="s2">&quot;Search within album titles.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;artist:&quot;</span><span class="p">:</span> <span class="s2">&quot;Search within artist names.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;genre:&quot;</span><span class="p">:</span> <span class="s2">&quot;Restrict search results to a specific genre. Example: genre:jazz.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;track:&quot;</span><span class="p">:</span> <span class="s2">&quot;Search within track names.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;year:&quot;</span><span class="p">:</span> <span class="s2">&quot;Filter by release year. Accepts ranges (e.g., year:2000-2020).&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tag:new&quot;</span><span class="p">:</span> <span class="s2">&quot;Search for newly released songs.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tag:hipster&quot;</span><span class="p">:</span> <span class="s2">&quot;Search for music outside the mainstream (less popular).&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;isrc:&quot;</span><span class="p">:</span> <span class="s2">&quot;Search using the International Standard Recording Code.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;upc:&quot;</span><span class="p">:</span> <span class="s2">&quot;Search using the Universal Product Code.&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">spotify_scopes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;ugc-image-upload&quot;</span><span class="p">:</span> <span class="s2">&quot;Write access to user-provided images.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-read-playback-state&quot;</span><span class="p">:</span> <span class="s2">&quot;Read access to a user’s player state.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-modify-playback-state&quot;</span><span class="p">:</span> <span class="s2">&quot;Write access to a user’s playback state.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-read-currently-playing&quot;</span><span class="p">:</span> <span class="s2">&quot;Read access to a user’s currently playing content.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;app-remote-control&quot;</span><span class="p">:</span> <span class="s2">&quot;Remote control playback of Spotify (SDK use only).&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;streaming&quot;</span><span class="p">:</span> <span class="s2">&quot;Control playback of a Spotify track (requires Premium).&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;playlist-read-private&quot;</span><span class="p">:</span> <span class="s2">&quot;Read access to user&#39;s private playlists.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;playlist-read-collaborative&quot;</span><span class="p">:</span> <span class="s2">&quot;Read access to collaborative playlists.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;playlist-modify-private&quot;</span><span class="p">:</span> <span class="s2">&quot;Write access to user&#39;s private playlists.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;playlist-modify-public&quot;</span><span class="p">:</span> <span class="s2">&quot;Write access to user&#39;s public playlists.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-follow-modify&quot;</span><span class="p">:</span> <span class="s2">&quot;Write/delete access to user&#39;s followed artists and users.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-follow-read&quot;</span><span class="p">:</span> <span class="s2">&quot;Read access to user&#39;s followed artists and users.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-read-playback-position&quot;</span><span class="p">:</span> <span class="s2">&quot;Read access to user&#39;s playback position.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-top-read&quot;</span><span class="p">:</span> <span class="s2">&quot;Read access to user&#39;s top artists and tracks.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-read-recently-played&quot;</span><span class="p">:</span> <span class="s2">&quot;Read access to user&#39;s recently played tracks.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-library-modify&quot;</span><span class="p">:</span> <span class="s2">&quot;Write/delete access to user&#39;s &#39;Your Music&#39; library.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-library-read&quot;</span><span class="p">:</span> <span class="s2">&quot;Read access to user&#39;s library.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-read-email&quot;</span><span class="p">:</span> <span class="s2">&quot;Read access to user&#39;s email address.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-read-private&quot;</span><span class="p">:</span> <span class="s2">&quot;Read access to user&#39;s subscription details.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-soa-link&quot;</span><span class="p">:</span> <span class="s2">&quot;Link a partner user account to a Spotify user account.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user-soa-unlink&quot;</span><span class="p">:</span> <span class="s2">&quot;Unlink a partner user account from a Spotify account.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;soa-manage-entitlements&quot;</span><span class="p">:</span> <span class="s2">&quot;Modify entitlements for linked users.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;soa-manage-partner&quot;</span><span class="p">:</span> <span class="s2">&quot;Update partner information.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;soa-create-partner&quot;</span><span class="p">:</span> <span class="s2">&quot;Create new partners (platform partners only).&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="n">spotify_track_metadata_fields</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;The name of the track.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;artist&quot;</span><span class="p">:</span> <span class="s2">&quot;The name of the primary artist associated with the track.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;album&quot;</span><span class="p">:</span> <span class="s2">&quot;The name of the album in which the track appears.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;release_date&quot;</span><span class="p">:</span> <span class="s2">&quot;The release date of the album or single. Format can vary (e.g., YYYY-MM-DD).&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;duration_ms&quot;</span><span class="p">:</span> <span class="s2">&quot;The track&#39;s duration in milliseconds.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;popularity&quot;</span><span class="p">:</span> <span class="s2">&quot;The popularity of the track, with values ranging from 0 to 100. Higher values indicate greater popularity.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;explicit&quot;</span><span class="p">:</span> <span class="s2">&quot;A boolean indicating whether the track contains explicit content.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;external_url&quot;</span><span class="p">:</span> <span class="s2">&quot;A dictionary of external URLs, including a link to the track on Spotify.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;preview_url&quot;</span><span class="p">:</span> <span class="s2">&quot;A URL to a 30-second preview of the track, if available.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;track_number&quot;</span><span class="p">:</span> <span class="s2">&quot;The track&#39;s position within its album or single. The first track is 1.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;album_total_tracks&quot;</span><span class="p">:</span> <span class="s2">&quot;The total number of tracks in the album that contains this track.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;available_markets&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of country codes where the track is available.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;album_images&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of album cover art images in various sizes, with URLs to access them.&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">spotify_track_metadata_description</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">spotify_track_metadata_fields</span>  <span class="c1"># backcompatibility alias</span>
+<span class="p">)</span>
+
+<span class="n">spotify_track_metadata_numerical_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;duration_ms&#39;</span><span class="p">,</span> <span class="s1">&#39;popularity&#39;</span><span class="p">]</span>
+
+<span class="n">spotify_audio_features_fields</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;acousticness&quot;</span><span class="p">:</span> <span class="s2">&quot;A confidence measure from 0.0 to 1.0 indicating the likelihood that the track is acoustic. Higher values denote a higher probability. Range: 0.0 to 1.0.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;danceability&quot;</span><span class="p">:</span> <span class="s2">&quot;Reflects how suitable a track is for dancing, based on tempo, rhythm stability, beat strength, and overall regularity. Higher values indicate greater danceability. Range: 0.0 to 1.0.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;energy&quot;</span><span class="p">:</span> <span class="s2">&quot;Measures the intensity and activity of a track. Energetic tracks feel fast, loud, and noisy. Higher values represent more energy. Range: 0.0 to 1.0.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;instrumentalness&quot;</span><span class="p">:</span> <span class="s2">&quot;Predicts whether a track contains no vocals. Higher values suggest a greater likelihood of the track being instrumental. Range: 0.0 to 1.0.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;liveness&quot;</span><span class="p">:</span> <span class="s2">&quot;Detects the presence of an audience in the recording. Higher values indicate a higher probability of the track being performed live. Range: 0.0 to 1.0.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;loudness&quot;</span><span class="p">:</span> <span class="s2">&quot;The overall loudness of a track in decibels (dB), averaged across the entire track. Useful for comparing the relative loudness of tracks. Typical range: -60 to 0 dB.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;speechiness&quot;</span><span class="p">:</span> <span class="s2">&quot;Measures the presence of spoken words in a track. Higher values indicate more speech-like content. Values above 0.66 suggest tracks made entirely of spoken words; values between 0.33 and 0.66 may contain both music and speech; values below 0.33 likely represent music and other non-speech-like tracks. Range: 0.0 to 1.0.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;valence&quot;</span><span class="p">:</span> <span class="s2">&quot;Describes the musical positiveness conveyed by a track. Higher values sound more positive (e.g., happy, cheerful), while lower values sound more negative (e.g., sad, angry). Range: 0.0 to 1.0.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tempo&quot;</span><span class="p">:</span> <span class="s2">&quot;The estimated tempo of a track in beats per minute (BPM). Range: 0 to 250 BPM.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;The estimated overall key of the track, represented as an integer corresponding to standard Pitch Class notation (e.g., 0 = C, 1 = C♯/D♭, ..., 11 = B). If no key was detected, the value is -1. Range: -1 to 11.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="s2">&quot;Indicates the modality (major or minor) of a track. Major is represented by 1 and minor by 0. Range: 0 or 1.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;time_signature&quot;</span><span class="p">:</span> <span class="s2">&quot;An estimated overall time signature of a track, indicating how many beats are in each bar. Range: 3 to 7.&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">spotify_features_fields</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">spotify_track_metadata_fields</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">spotify_track_metadata_numerical_fields</span><span class="p">},</span>
+    <span class="o">**</span><span class="n">spotify_audio_features_fields</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">spotify_features_field_names</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">spotify_features_fields</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span>
+    <span class="s1">&#39;album_release_year&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;explicit&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># TODO: When supporting only 3.11+, use Literal[*spotify_features_field_names]</span>
+<span class="n">SpotifyFeaturesT</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span>
+    <span class="s1">&#39;duration_ms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;popularity&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_release_year&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;explicit&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;acousticness&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;danceability&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;energy&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;instrumentalness&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;liveness&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;loudness&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;speechiness&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;valence&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tempo&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;key&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;mode&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;time_signature&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="n">spotify_audio_features_fields_with_0_to_1_range</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;acousticness&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;danceability&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;energy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;instrumentalness&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;liveness&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;speechiness&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;valence&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">ensure_client</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Spotify</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">get_spotify_client</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+        <span class="n">client_factory</span> <span class="o">=</span> <span class="n">client</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">client_factory</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">client</span>
+
+
+<span class="c1"># Note here TrackId</span>
+<span class="n">TrackRef</span> <span class="o">=</span> <span class="nb">str</span>  <span class="c1"># can be an id, a url, a uri, a href...</span>
+<span class="n">TrackId</span> <span class="o">=</span> <span class="nb">str</span>  <span class="c1"># really, TrackId is a string with a specific format, but don&#39;t know how to specify that type</span>
+<span class="n">TrackKey</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">TrackRef</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TrackRef</span><span class="p">]]</span>
+<span class="n">TrackMetadata</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+
+
+<span class="c1"># TODO: Maybe use dol.KeyTemplate to implement casting (and other parsing and generation)?</span>
+<span class="kn">import</span> <span class="nn">dol</span>
+
+<span class="n">TrackKeyKinds</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;uri&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;href&quot;</span><span class="p">]</span>
+
+
+<span class="n">track_ref_patterns</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;uri&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^spotify:track:[\w]</span><span class="si">{22}</span><span class="s2">$&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^[\w]</span><span class="si">{22}</span><span class="s2">$&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^https://open.spotify.com/track/[\w]</span><span class="si">{22}</span><span class="s2">$&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^https://api.spotify.com/v1/tracks/[\w]</span><span class="si">{22}</span><span class="s2">$&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="cast_track_key">
+<a class="viewcode-back" href="../../module_docs/sung/util.html#sung.util.cast_track_key">[docs]</a>
+<span class="k">def</span> <span class="nf">cast_track_key</span><span class="p">(</span>
+    <span class="n">track_key</span><span class="p">:</span> <span class="n">TrackRef</span><span class="p">,</span>
+    <span class="n">target_kind</span><span class="p">:</span> <span class="n">TrackKeyKinds</span> <span class="o">=</span> <span class="s2">&quot;uri&quot;</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">src_kind</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TrackKeyKinds</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrackRef</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a Spotify track key between different formats.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        - track_key - the track key to convert</span>
+<span class="sd">        - target_kind - the format to convert to (one of &#39;uri&#39;, &#39;id&#39;, &#39;url&#39;, &#39;href&#39;)</span>
+<span class="sd">        - src_kind - the format of the input track key (optional)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The track key in the target format.</span>
+
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">    &gt;&gt;&gt; cast_track_key(&quot;4iV5W9uYEdYUVa79Axb7Rh&quot;)</span>
+<span class="sd">    &#39;spotify:track:4iV5W9uYEdYUVa79Axb7Rh&#39;</span>
+<span class="sd">    &gt;&gt;&gt; cast_track_key(&quot;spotify:track:4iV5W9uYEdYUVa79Axb7Rh&quot;, target_kind=&quot;id&quot;)</span>
+<span class="sd">    &#39;4iV5W9uYEdYUVa79Axb7Rh&#39;</span>
+<span class="sd">    &gt;&gt;&gt; cast_track_key(&quot;4iV5W9uYEdYUVa79Axb7Rh&quot;, &quot;url&quot;)</span>
+<span class="sd">    &#39;https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh&#39;</span>
+<span class="sd">    &gt;&gt;&gt; cast_track_key(&#39;https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh&#39;, &quot;href&quot;)</span>
+<span class="sd">    &#39;https://api.spotify.com/v1/tracks/4iV5W9uYEdYUVa79Axb7Rh&#39;</span>
+<span class="sd">    &gt;&gt;&gt; cast_track_key(&quot;4iV5W9uYEdYUVa79Axb7Rh&quot;, &quot;uri&quot;)</span>
+<span class="sd">    &#39;spotify:track:4iV5W9uYEdYUVa79Axb7Rh&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Define possible patterns to detect the kind</span>
+
+    <span class="c1"># Detect src_kind if not provided</span>
+    <span class="k">if</span> <span class="n">src_kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">kind</span><span class="p">,</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">track_ref_patterns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">track_key</span><span class="p">):</span>
+                <span class="n">src_kind</span> <span class="o">=</span> <span class="n">kind</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Could not detect source kind for: </span><span class="si">{</span><span class="n">track_key</span><span class="si">=}</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;Please specify a valid `src_kind`.&quot;</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Extract ID from the source format</span>
+    <span class="k">if</span> <span class="n">src_kind</span> <span class="o">==</span> <span class="s2">&quot;uri&quot;</span><span class="p">:</span>
+        <span class="n">track_id</span> <span class="o">=</span> <span class="n">track_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">src_kind</span> <span class="o">==</span> <span class="s2">&quot;url&quot;</span> <span class="ow">or</span> <span class="n">src_kind</span> <span class="o">==</span> <span class="s2">&quot;href&quot;</span><span class="p">:</span>
+        <span class="n">track_id</span> <span class="o">=</span> <span class="n">track_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">src_kind</span> <span class="o">==</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span>
+        <span class="n">track_id</span> <span class="o">=</span> <span class="n">track_key</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported source kind: </span><span class="si">{</span><span class="n">src_kind</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Convert to the target format</span>
+    <span class="k">if</span> <span class="n">target_kind</span> <span class="o">==</span> <span class="s2">&quot;uri&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;spotify:track:</span><span class="si">{</span><span class="n">track_id</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">elif</span> <span class="n">target_kind</span> <span class="o">==</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">track_id</span>
+    <span class="k">elif</span> <span class="n">target_kind</span> <span class="o">==</span> <span class="s2">&quot;url&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;https://open.spotify.com/track/</span><span class="si">{</span><span class="n">track_id</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">elif</span> <span class="n">target_kind</span> <span class="o">==</span> <span class="s2">&quot;href&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;https://api.spotify.com/v1/tracks/</span><span class="si">{</span><span class="n">track_id</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported target kind: </span><span class="si">{</span><span class="n">target_kind</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="n">ensure_track_id</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">cast_track_key</span><span class="p">,</span> <span class="n">target_kind</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># TODO: Make this complete</span>
+<span class="c1"># TODO: Use dol.KeyTemplate to redo cast_track_key and the general playlist cast function</span>
+<div class="viewcode-block" id="ensure_playlist_id">
+<a class="viewcode-back" href="../../module_docs/sung/util.html#sung.util.ensure_playlist_id">[docs]</a>
+<span class="k">def</span> <span class="nf">ensure_playlist_id</span><span class="p">(</span><span class="n">playlist_spec</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ensure that a playlist ID is in the correct format.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        - playlist_id - the playlist ID to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The playlist ID in the correct format.</span>
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">    &gt;&gt;&gt; ensure_playlist_id(&quot;37i9dQZF1DXcBWIGoYBM5M&quot;)</span>
+<span class="sd">    &#39;37i9dQZF1DXcBWIGoYBM5M&#39;</span>
+<span class="sd">    &gt;&gt;&gt; ensure_playlist_id(&quot;spotify:playlist:37i9dQZF1DXcBWIGoYBM5M&quot;)</span>
+<span class="sd">    &#39;37i9dQZF1DXcBWIGoYBM5M&#39;</span>
+<span class="sd">    &gt;&gt;&gt; ensure_playlist_id(&quot;https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M&quot;)</span>
+<span class="sd">    &#39;37i9dQZF1DXcBWIGoYBM5M&#39;</span>
+<span class="sd">    &gt;&gt;&gt; ensure_playlist_id(&quot;https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M&quot;)</span>
+<span class="sd">    &#39;37i9dQZF1DXcBWIGoYBM5M&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">playlist_spec</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;spotify:playlist:&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">playlist_spec</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">playlist_spec</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;https://&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">playlist_spec</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">playlist_spec</span>  <span class="c1"># just cross your fingers and hope it&#39;s a valid playlist ID</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="n">front_columns_for_track_metas</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;first_artist&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;duration_ms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;popularity&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;explicit&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_release_date&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_release_year&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;added_at_date&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;url&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;first_letter&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;id&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="move_columns_to_front">
+<a class="viewcode-back" href="../../module_docs/sung/util.html#sung.util.move_columns_to_front">[docs]</a>
+<span class="k">def</span> <span class="nf">move_columns_to_front</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="s1">&#39;pd.DataFrame&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">allow_excess</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;pd.DataFrame&#39;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a copy of df with given columns in the front, in the order given.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        - df - the DataFrame to modify</span>
+<span class="sd">        - columns - the columns to move to the front</span>
+<span class="sd">        - allow_excess - whether to allow columns not in the DataFrame (optional)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The modified DataFrame.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_excess</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="s2">&quot;Columns not in DataFrame&quot;</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">columns</span> <span class="o">+</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]]</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

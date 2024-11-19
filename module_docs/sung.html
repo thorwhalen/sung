@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sung &mdash; sung 0.0.14 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=544df88d"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sung.base" href="sung/base.html" />
+    <link rel="prev" title="Welcome to sung’s documentation!" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            sung
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">sung</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sung/base.html">sung.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sung/pydantic_models.html">sung.pydantic_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sung/tools.html">sung.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sung/util.html">sung.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sung</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">sung</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/module_docs/sung.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-sung">
+<span id="sung"></span><h1>sung<a class="headerlink" href="#module-sung" title="Link to this heading"></a></h1>
+<p>Tools to get music metadata (from Spotify, Wikipedia, etc.)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sung.base</span> <span class="kn">import</span> <span class="n">Tracks</span><span class="p">,</span> <span class="n">Playlist</span>  <span class="c1"># Import necessary classes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sung</span> <span class="kn">import</span> <span class="n">delete_playlist</span>  <span class="c1"># Import delete function for playlists</span>
+</pre></div>
+</div>
+<p>Search for tracks with the query ‘Love’, limiting the results to 7</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tracks</span> <span class="o">=</span> <span class="n">Tracks</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s1">&#39;Love&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also make a <cite>tracks</cite> object by passing a list of track IDs or urls</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">track_ids</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="s1">&#39;1vrd6UOGamcKNGnSHJQlSt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;3CeCwYWvdfXbZLXFhBrbnf&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;1dGr1c8CrMLDpV6mPbImSI&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;0u2P5u6lvoDfwTYjAADbn4&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;6nGeLlakfzlBcFdZXteDq7&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;6dBUzqjtbnIa1TwYbyw5CM&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;7hR22TOX3RorxJPcsz5Wbo&#39;</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tracks</span> <span class="o">=</span> <span class="n">Tracks</span><span class="p">(</span><span class="n">track_ids</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><cite>tracks</cite> is a <cite>Mapping</cite> (that means “dict-like”), so you can do what you do with dicts…</p>
+<p>Like listing the track keys (IDs)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">tracks</span><span class="p">)</span>  
+<span class="go">[&#39;1vrd6UOGamcKNGnSHJQlSt&#39;,</span>
+<span class="go"> &#39;3CeCwYWvdfXbZLXFhBrbnf&#39;,</span>
+<span class="go"> ...,</span>
+<span class="go"> &#39;6dBUzqjtbnIa1TwYbyw5CM&#39;,</span>
+<span class="go"> &#39;7hR22TOX3RorxJPcsz5Wbo&#39;]</span>
+</pre></div>
+</div>
+<p>Like accessing the value of a track for a given key.
+The value is a bunch of metadata about the track.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">track_metadata</span> <span class="o">=</span> <span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;1dGr1c8CrMLDpV6mPbImSI&#39;</span><span class="p">]</span>  <span class="c1"># get metadata of track via it&#39;s id</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">track_metadata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">track_metadata</span><span class="p">)</span>  
+<span class="go">[&#39;album&#39;,</span>
+<span class="go"> &#39;artists&#39;,</span>
+<span class="go"> &#39;available_markets&#39;,</span>
+<span class="go"> &#39;disc_number&#39;,</span>
+<span class="go"> &#39;duration_ms&#39;,</span>
+<span class="go"> &#39;explicit&#39;,</span>
+<span class="go"> &#39;external_ids&#39;,</span>
+<span class="go"> &#39;external_urls&#39;,</span>
+<span class="go"> &#39;href&#39;,</span>
+<span class="go"> &#39;id&#39;,</span>
+<span class="go"> &#39;is_local&#39;,</span>
+<span class="go"> &#39;name&#39;,</span>
+<span class="go"> &#39;popularity&#39;,</span>
+<span class="go"> &#39;preview_url&#39;,</span>
+<span class="go"> &#39;track_number&#39;,</span>
+<span class="go"> &#39;type&#39;,</span>
+<span class="go"> &#39;uri&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">data</span>  
+<span class="go">                                                    name  duration_ms  popularity  ...  track_number   type                                   uri</span>
+<span class="go">    id                                                                              ...</span>
+<span class="go">    1vrd6UOGamcKNGnSHJQlSt                     Love Story       235266          62  ...             3  track  spotify:track:1vrd6UOGamcKNGnSHJQlSt</span>
+<span class="go">    3CeCwYWvdfXbZLXFhBrbnf  Love Story (Taylor’s Version)       235766          76  ...</span>
+<span class="go">    ...</span>
+<span class="go">    6dBUzqjtbnIa1TwYbyw5CM                    Lovers Rock       213920          85  ...             9  track  spotify:track:6dBUzqjtbnIa1TwYbyw5CM</span>
+<span class="go">    7hR22TOX3RorxJPcsz5Wbo                  Love Somebody       204828          86  ...             1  track  spotify:track:7hR22TOX3RorxJPcsz5Wbo</span>
+</pre></div>
+</div>
+<p>Create a new playlist named ‘my_test_playlist’ with the selected tracks</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">playlist</span> <span class="o">=</span> <span class="n">Playlist</span><span class="o">.</span><span class="n">create_from_track_list</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">track_list</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tracks</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">playlist_name</span><span class="o">=</span><span class="s1">&#39;my_test_playlist&#39;</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Get the playlist URL of the newly created playlist (so you can check it out on Spotify)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">playlist</span><span class="o">.</span><span class="n">playlist_url</span>  
+<span class="go">&#39;https://open.spotify.com/playlist/...&#39;</span>
+</pre></div>
+</div>
+<p>Delete the playlist.</p>
+<p>We purposely tried to make deleting a playlist not as easy as the other actions.
+So we didn’t attach a delete method to the playlist instance, but put this in a
+separate function you have to import.
+Also, we made that function verbose, and asking for confirmation by default.
+(But there’s arguments to control that, so you can use <cite>functools.partial</cite> to
+make your own cowboy (not speaking and not asking for permission) version).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">delete_playlist</span><span class="p">(</span><span class="n">playlist</span><span class="o">.</span><span class="n">playlist_id</span><span class="p">,</span> <span class="n">ask_confirmation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  
+<span class="go">Playlist ... has been deleted (unfollowed).</span>
+</pre></div>
+</div>
+<p>Instantiate a Playlist object using the URL (let’s just use the one we just created!)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">top50_global_url</span> <span class="o">=</span> <span class="s1">&#39;https://open.spotify.com/playlist/37i9dQZEVXbMDoHDwVN2tF?si=d6e0c7bc8f59473b&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">playlist_obj</span> <span class="o">=</span> <span class="n">Playlist</span><span class="p">(</span><span class="n">top50_global_url</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">playlist_obj</span><span class="o">.</span><span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;first_artist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;artists&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;name_and_first_artist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;first_artist&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top_5_tracks</span> <span class="o">=</span> <span class="n">playlist_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">name_and_first_artist</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">top_5_tracks</span>  
+<span class="go">id</span>
+<span class="go">2plbrEY59IikOBgBGLjaoe          Die With A Smile - Lady Gaga</span>
+<span class="go">5vNRhkKd0yEAg8suGBpjeY                           APT. - ROSÉ</span>
+<span class="go">6dOtVTDdiauQNBQEDOtlAB    BIRDS OF A FEATHER - Billie Eilish</span>
+<span class="go">7ne4VBA60CxGM75vw0EYad        That’s So True - Gracie Abrams</span>
+<span class="go">7tI8dRuH2Yc6RuoTjxo4dU                           Who - Jimin</span>
+<span class="go">Name: name_and_first_artist, dtype: object</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to sung’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sung/base.html" class="btn btn-neutral float-right" title="sung.base" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,714 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sung.base &mdash; sung 0.0.14 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=544df88d"></script>
+      <script src="../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            sung
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung.html">sung</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/base.html">sung.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/pydantic_models.html">sung.pydantic_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/tools.html">sung.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/util.html">sung.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sung</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sung.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sung.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Base functionalities for the sung package.</span>
+
+<span class="sd">This module provides foundational tools and abstractions for interacting with Spotify&#39;s</span>
+<span class="sd">API. It includes classes and functions to search for tracks, manage playlists, and </span>
+<span class="sd">handle Spotify track metadata. The utilities here are designed to integrate seamlessly </span>
+<span class="sd">with Spotify&#39;s API and streamline data extraction and manipulation.</span>
+
+<span class="sd">Key Components:</span>
+<span class="sd">- `search_tracks`: A function to perform searches on Spotify, supporting filters such</span>
+<span class="sd">  as year, genre, and market.</span>
+<span class="sd">- `TracksBase`: A base class for managing collections of Spotify tracks,</span>
+<span class="sd">  providing a dictionary-like interface with additional utilities for metadata handling.</span>
+<span class="sd">- `Tracks`: A concrete implementation of `TracksBase` that uses track IDs or track metadata.</span>
+<span class="sd">- `PlaylistReader` and `Playlist`: Classes for managing Spotify playlists, offering </span>
+<span class="sd">  read-only and mutable interfaces respectively.</span>
+<span class="sd">- Utility functions and constants for managing Spotify clients and data extraction.</span>
+
+<span class="sd">This module is foundational for building higher-level operations within the sung package.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">Sequence</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">,</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">MutableMapping</span><span class="p">,</span>
+    <span class="n">Mapping</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cached_property</span><span class="p">,</span> <span class="n">lru_cache</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">sung.util</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_spotify_client</span><span class="p">,</span>
+    <span class="n">ensure_client</span><span class="p">,</span>
+    <span class="n">DFLT_LIMIT</span><span class="p">,</span>
+    <span class="n">extractor</span><span class="p">,</span>
+    <span class="n">cast_track_key</span><span class="p">,</span>
+    <span class="n">ensure_track_id</span><span class="p">,</span>
+    <span class="n">SearchTypeT</span><span class="p">,</span>
+    <span class="n">TrackId</span><span class="p">,</span>
+    <span class="n">TrackRef</span><span class="p">,</span>
+    <span class="n">TrackKey</span><span class="p">,</span>
+    <span class="n">TrackMetadata</span><span class="p">,</span>
+    <span class="n">move_columns_to_front</span><span class="p">,</span>
+    <span class="n">front_columns_for_track_metas</span><span class="p">,</span>
+    <span class="n">spotify_audio_features_fields</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">DFLT_VERBOSE</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># --------------------------------------------------------------------------------------</span>
+<span class="c1"># Tracks and Playlist classes</span>
+
+<span class="n">TrackKeySpec</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">TrackId</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TrackId</span><span class="p">]]</span>
+
+
+<div class="viewcode-block" id="track_ids_to_metas">
+<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.track_ids_to_metas">[docs]</a>
+<span class="k">def</span> <span class="nf">track_ids_to_metas</span><span class="p">(</span><span class="n">track_ids</span><span class="p">,</span> <span class="n">client</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert track IDs to track metadata using the Spotify client.&quot;&quot;&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">tracks</span><span class="p">(</span><span class="n">track_ids</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;tracks&#39;</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="track_metas_to_track_ids">
+<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.track_metas_to_track_ids">[docs]</a>
+<span class="k">def</span> <span class="nf">track_metas_to_track_ids</span><span class="p">(</span><span class="n">track_metas</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract track IDs from track metadata.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">meta</span> <span class="ow">in</span> <span class="n">track_metas</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="TracksBase">
+<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.TracksBase">[docs]</a>
+<span class="k">class</span> <span class="nc">TracksBase</span><span class="p">(</span><span class="n">Mapping</span><span class="p">[</span><span class="n">TrackId</span><span class="p">,</span> <span class="n">TrackMetadata</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class representing a collection of Spotify tracks.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tracks</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">TrackId</span><span class="p">,</span> <span class="n">TrackMetadata</span><span class="p">]],</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="c1"># track_ids: Optional[Iterable[TrackId]] = None,</span>
+        <span class="c1"># track_metas: Optional[Iterable[TrackMetadata]] = None,</span>
+        <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
+
+        <span class="n">tracks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tracks</span><span class="p">)</span>
+
+        <span class="n">track_ids</span><span class="p">,</span> <span class="n">track_metas</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tracks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">track_ids</span> <span class="o">=</span> <span class="n">tracks</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tracks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">track_metas</span> <span class="o">=</span> <span class="n">tracks</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_track_ids</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">ensure_track_id</span><span class="p">,</span> <span class="n">track_ids</span><span class="p">))</span> <span class="k">if</span> <span class="n">track_ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_track_metas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">track_metas</span><span class="p">)</span> <span class="k">if</span> <span class="n">track_metas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">_cached_audio_analysis_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">10_000</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">audio_analysis</span><span class="p">)</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">track_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">TrackId</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track_ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track_ids</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track_metas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_track_ids</span> <span class="o">=</span> <span class="n">track_metas_to_track_ids</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_track_metas</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track_ids</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No track IDs or metadata available&quot;</span><span class="p">)</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">track_metas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track_metas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track_metas</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track_ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_track_metas</span> <span class="o">=</span> <span class="n">track_ids_to_metas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_track_ids</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track_metas</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No track IDs or metadata available&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TrackId</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">track_ids</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">track_ids</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">track_ids</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">]]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getitem</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get track(s) by key.</span>
+
+<span class="sd">        The key could be a track ID, a track index, a slice, or a list of track IDs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">track_ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">track_metas</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">key</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">track_metas</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">key</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">track_metas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> not found in the collection&quot;</span><span class="p">)</span>
+                <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">track_ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">track_metas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid key type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">audio_features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+
+        <span class="n">track_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_audio_features_chunks</span><span class="p">():</span>
+            <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">track_ids</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">100</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">track_ids</span><span class="p">),</span> <span class="mi">100</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">audio_features</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">track_ids</span><span class="p">,</span> <span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">_audio_features_chunks</span><span class="p">())))</span>
+    
+    <span class="n">audio_features</span><span class="o">.</span><span class="n">spotify_audio_features_fields</span> <span class="o">=</span> <span class="n">spotify_audio_features_fields</span>
+
+    <span class="c1"># TODO: Deprecate. Just use numerical_features_df</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">audio_features_df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">audio_features</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+    
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">numerical_features_df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+        <span class="kn">from</span> <span class="nn">sung.util</span> <span class="kn">import</span> <span class="n">spotify_track_metadata_numerical_fields</span>
+
+        <span class="c1"># TODO: Add the added year or date when available</span>
+        <span class="n">metadata_num_fields</span> <span class="o">=</span> <span class="n">spotify_track_metadata_numerical_fields</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;album_release_year&#39;</span><span class="p">,</span> <span class="s1">&#39;explicit&#39;</span><span class="p">]</span>
+        <span class="n">metadata_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">metadata_num_fields</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">metadata_df</span><span class="p">[</span><span class="s1">&#39;explicit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_df</span><span class="p">[</span><span class="s1">&#39;explicit&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">audio_features_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">audio_features</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+        <span class="n">audio_features_df</span> <span class="o">=</span> <span class="n">audio_features_df</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">spotify_audio_features_fields</span><span class="p">)]</span>
+
+        <span class="c1"># Merge metadata and audio features</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">metadata_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">audio_features_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    
+    <span class="k">def</span> <span class="nf">audio_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span><span class="p">):</span>
+        <span class="n">track_id</span> <span class="o">=</span> <span class="n">ensure_track_id</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_audio_analysis_func</span><span class="p">(</span><span class="n">track_id</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TracksBase.dataframe">
+<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.TracksBase.dataframe">[docs]</a>
+    <span class="k">def</span> <span class="nf">dataframe</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">front_columns</span><span class="o">=</span><span class="n">front_columns_for_track_metas</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;pd.DataFrame&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get tracks metadata for given key(s), as a pandas DataFrame.</span>
+
+<span class="sd">        By default, will return all tracks in the collection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># Delayed import to avoid unnecessary dependency in sung</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">move_columns_to_front</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">front_columns</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Tracks">
+<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.Tracks">[docs]</a>
+<span class="k">class</span> <span class="nc">Tracks</span><span class="p">(</span><span class="n">TracksBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A collection of Spotify tracks represented by track IDs or track metadata.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tracks</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">TrackId</span><span class="p">,</span> <span class="n">TrackMetadata</span><span class="p">]],</span>
+        <span class="c1"># track_ids: Optional[Iterable[TrackRef]] = None,</span>
+        <span class="c1"># track_metas: Optional[Iterable[TrackMetadata]] = None,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tracks</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_track_ids_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">track_ids</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">egress</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">extractor</span><span class="p">(</span><span class="s1">&#39;tracks.items&#39;</span><span class="p">),</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">search_type</span><span class="p">:</span> <span class="n">SearchTypeT</span> <span class="o">=</span> <span class="s1">&#39;track&#39;</span><span class="p">,</span>
+        <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">year</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">genre</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DFLT_LIMIT</span><span class="p">,</span>
+        <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">tracks</span> <span class="o">=</span> <span class="n">search_tracks</span><span class="p">(</span>
+            <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+            <span class="n">egress</span><span class="o">=</span><span class="n">egress</span><span class="p">,</span>
+            <span class="n">search_type</span><span class="o">=</span><span class="n">search_type</span><span class="p">,</span>
+            <span class="n">market</span><span class="o">=</span><span class="n">market</span><span class="p">,</span>
+            <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+            <span class="n">genre</span><span class="o">=</span><span class="n">genre</span><span class="p">,</span>
+            <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span>
+            <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span>
+            <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">track_metas</span> <span class="o">=</span> <span class="n">tracks</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">track_metas</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track_ids_set</span></div>
+
+
+
+<span class="c1"># --------------------------------------------------------------------------------------</span>
+<span class="c1"># Search Function</span>
+
+
+<div class="viewcode-block" id="search_tracks">
+<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.search_tracks">[docs]</a>
+<span class="k">def</span> <span class="nf">search_tracks</span><span class="p">(</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">egress</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">extractor</span><span class="p">(</span><span class="s1">&#39;tracks.items&#39;</span><span class="p">),</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">search_type</span><span class="p">:</span> <span class="n">SearchTypeT</span> <span class="o">=</span> <span class="s1">&#39;track&#39;</span><span class="p">,</span>
+    <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">year</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">genre</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DFLT_LIMIT</span><span class="p">,</span>
+    <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">=</span><span class="n">get_spotify_client</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Search for tracks on Spotify.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        - query - the search query (see how to write a query in the</span>
+<span class="sd">                  official documentation)</span>
+<span class="sd">        - search_type - the types of items to return.</span>
+<span class="sd">        - market - An ISO 3166-1 alpha-2 country code or the string &#39;from_token&#39;.</span>
+<span class="sd">        - limit - the number of items to return.</span>
+<span class="sd">        - offset - the index of the first item to return.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">ensure_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+
+    <span class="c1"># Build query</span>
+    <span class="n">query_string</span> <span class="o">=</span> <span class="n">query</span>
+    <span class="k">if</span> <span class="n">year</span><span class="p">:</span>
+        <span class="n">query_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; year:</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">if</span> <span class="n">genre</span><span class="p">:</span>
+        <span class="n">query_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; genre:</span><span class="si">{</span><span class="n">genre</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="c1"># Execute search</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+        <span class="n">q</span><span class="o">=</span><span class="n">query_string</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">search_type</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="n">market</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">egress</span><span class="p">(</span><span class="n">results</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># --------------------------------------------------------------------------------------</span>
+<span class="c1"># Playlist Classes</span>
+
+
+<span class="c1"># TODO: Make it a subclass of TracksBase, or Tracks</span>
+<div class="viewcode-block" id="PlaylistReader">
+<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.PlaylistReader">[docs]</a>
+<span class="k">class</span> <span class="nc">PlaylistReader</span><span class="p">(</span><span class="n">Tracks</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">TrackId</span><span class="p">,</span> <span class="n">TrackMetadata</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read-only access to a Spotify playlist.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">playlist_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">playlist_id</span> <span class="o">=</span> <span class="n">playlist_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tracks</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Will be a Tracks instance</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;PlaylistReader(&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">playlist_id</span><span class="si">}</span><span class="s1">&quot;)&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tracks</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">track_metas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_track_metas</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span> <span class="o">=</span> <span class="n">Tracks</span><span class="p">(</span><span class="n">tracks</span><span class="o">=</span><span class="n">track_metas</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span>
+
+    <span class="k">def</span> <span class="nf">_fetch_track_metas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">]:</span>
+        <span class="n">track_metas</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">playlist_items</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">playlist_id</span><span class="p">,</span>
+                <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span>
+                <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span>
+                <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;items.track,next&#39;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+                <span class="n">track</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;track&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">track</span><span class="p">:</span>
+                    <span class="n">track_metas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">track</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;next&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">offset</span> <span class="o">+=</span> <span class="n">limit</span>
+        <span class="k">return</span> <span class="n">track_metas</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">]]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TrackId</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">playlist_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;https://open.spotify.com/playlist/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">playlist_id</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()</span>
+
+<div class="viewcode-block" id="PlaylistReader.dataframe">
+<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.PlaylistReader.dataframe">[docs]</a>
+    <span class="k">def</span> <span class="nf">dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;pd.DataFrame&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">dataframe</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Playlist">
+<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.Playlist">[docs]</a>
+<span class="k">class</span> <span class="nc">Playlist</span><span class="p">(</span><span class="n">PlaylistReader</span><span class="p">,</span> <span class="n">MutableMapping</span><span class="p">[</span><span class="n">TrackId</span><span class="p">,</span> <span class="n">TrackMetadata</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Spotify playlist with mutable mapping interface.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">playlist_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">playlist_id</span><span class="o">=</span><span class="n">playlist_id</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackId</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;Tracks cannot be added or modified by setting an item. &quot;</span>
+            <span class="s2">&quot;Use the &#39;extend&#39; method to add tracks.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delete_songs</span><span class="p">([</span><span class="n">key</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_invalidate_cache</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">add_songs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">track_list</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TrackId</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TrackId</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">track_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">track_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">track_list</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">track_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">track_list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">track_list</span><span class="p">),</span> <span class="mi">100</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">playlist_add_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">playlist_id</span><span class="p">,</span> <span class="n">track_list</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">100</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_invalidate_cache</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">delete_songs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">track_list</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TrackId</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TrackId</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">track_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">track_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">track_list</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">track_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">track_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">playlist_remove_all_occurrences_of_items</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">playlist_id</span><span class="p">,</span> <span class="n">track_list</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_invalidate_cache</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">track_list</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TrackId</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_songs</span><span class="p">(</span><span class="n">track_list</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">track_id</span><span class="p">:</span> <span class="n">TrackId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">track_id</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_invalidate_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Invalidate the cached Tracks instance</span>
+
+<div class="viewcode-block" id="Playlist.create_from_track_list">
+<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.Playlist.create_from_track_list">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create_from_track_list</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">track_list</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">TrackId</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
+        <span class="n">playlist_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;New Playlist&quot;</span><span class="p">,</span>
+        <span class="n">public</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Playlist&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new playlist from a list of track IDs.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            - track_list: A list of track IDs to add to the playlist.</span>
+<span class="sd">            - playlist_name: The name of the new playlist.</span>
+<span class="sd">            - public: Whether the playlist should be public.</span>
+<span class="sd">            - client: The Spotify client to use for creating the playlist.</span>
+<span class="sd">            - user_id: The user ID of the playlist owner.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">track_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">cast_track_key</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="s2">&quot;uri&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">track_list</span><span class="p">]</span>
+
+        <span class="c1"># self.client = get_spotify_client(client, ensure_scope=&quot;playlist-modify-private playlist-modify-public&quot;)</span>
+
+        <span class="k">if</span> <span class="n">client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">scope</span> <span class="o">=</span> <span class="s2">&quot;playlist-modify-public playlist-modify-private&quot;</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">(</span><span class="n">ensure_scope</span><span class="o">=</span><span class="n">scope</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">user_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Create a new playlist</span>
+        <span class="n">playlist</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">user_playlist_create</span><span class="p">(</span>
+            <span class="n">user</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">playlist_name</span><span class="p">,</span> <span class="n">public</span><span class="o">=</span><span class="n">public</span>
+        <span class="p">)</span>
+        <span class="n">playlist_id</span> <span class="o">=</span> <span class="n">playlist</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Add tracks to the playlist in batches of 100</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">track_list</span><span class="p">),</span> <span class="mi">100</span><span class="p">):</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">playlist_add_items</span><span class="p">(</span><span class="n">playlist_id</span><span class="p">,</span> <span class="n">track_list</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">100</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">playlist_id</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">def</span> <span class="nf">delete_playlist</span><span class="p">(</span><span class="n">playlist_id</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">DFLT_VERBOSE</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">ask_confirmation</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="c1"># Authenticate with appropriate scope</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;playlist-modify-public playlist-modify-private&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ask_confirmation</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
+            <span class="s2">&quot;Are you sure you want to delete the playlist? (y/yes to confirm): &quot;</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Playlist deletion aborted.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+    <span class="c1"># Unfollow (delete) the playlist</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">current_user_unfollow_playlist</span><span class="p">(</span><span class="n">playlist_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Playlist </span><span class="si">{</span><span class="n">playlist_id</span><span class="si">}</span><span class="s2"> has been deleted (unfollowed).&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># --------------------------------------------------------------------------------------</span>
+<span class="c1"># Extracting information from track info</span>
+
+<span class="kn">from</span> <span class="nn">sung.util</span> <span class="kn">import</span> <span class="n">extractor</span>
+
+<span class="n">standard_track_metadata</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;artist&#39;</span><span class="p">:</span> <span class="s1">&#39;artists.0.name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album&#39;</span><span class="p">:</span> <span class="s1">&#39;album.name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;release_date&#39;</span><span class="p">:</span> <span class="s1">&#39;album.release_date&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;duration_ms&#39;</span><span class="p">:</span> <span class="s1">&#39;duration_ms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;popularity&#39;</span><span class="p">:</span> <span class="s1">&#39;popularity&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;explicit&#39;</span><span class="p">:</span> <span class="s1">&#39;explicit&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;external_url&#39;</span><span class="p">:</span> <span class="s1">&#39;external_urls.spotify&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;preview_url&#39;</span><span class="p">:</span> <span class="s1">&#39;preview_url&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;track_number&#39;</span><span class="p">:</span> <span class="s1">&#39;track_number&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_total_tracks&#39;</span><span class="p">:</span> <span class="s1">&#39;album.total_tracks&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;available_markets&#39;</span><span class="p">:</span> <span class="s1">&#39;available_markets&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_images&#39;</span><span class="p">:</span> <span class="s1">&#39;album.images&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">extract_standard_metadata</span> <span class="o">=</span> <span class="n">extractor</span><span class="p">(</span><span class="n">standard_track_metadata</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">track_metadata</span><span class="p">(</span><span class="n">track_id</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">get_spotify_client</span><span class="p">):</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">ensure_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+
+    <span class="c1"># Get track details</span>
+    <span class="n">track</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">track</span><span class="p">(</span><span class="n">track_id</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">extract_standard_metadata</span><span class="p">(</span><span class="n">track</span><span class="p">)</span>
+
+
+<span class="c1"># --------------------------------------------------------------------------------------</span>
+<span class="c1"># A data accessor for Spotify functionality</span>
+
+
+<span class="k">class</span> <span class="nc">SpotifyDacc</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">recently_played</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="s1">&#39;items.*.track.name&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">ensure_scope</span><span class="o">=</span><span class="s1">&#39;user-read-recently-played&#39;</span>
+        <span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">current_user_recently_played</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+        <span class="n">extract</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">ensure_extractor</span><span class="p">(</span><span class="n">extract</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">current_user_top_tracks</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s1">&#39;long_term&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get user&#39;s top tracks</span>
+
+<span class="sd">        time_range: &#39;short_term&#39;, &#39;medium_term&#39;, &#39;long_term&#39;</span>
+
+<span class="sd">        To get names of artists, use extract=&#39;items.*.artists.*.name&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">ensure_scope</span><span class="o">=</span><span class="s1">&#39;user-top-read&#39;</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">current_user_top_tracks</span><span class="p">(</span>
+            <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="n">time_range</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="n">extract</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">ensure_extractor</span><span class="p">(</span><span class="n">extract</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

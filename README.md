@@ -3,7 +3,7 @@
 Music data access. Mainly sources from spotify and wikipedia. 
 [pypi](https://pypi.org/project/sung/).
 
-Docs here.
+[Documentation](https://thorwhalen.github.io/sung)
 
 
 # Install

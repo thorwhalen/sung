@@ -86,6 +86,7 @@
 <span class="sd">with Spotify&#39;s API and streamline data extraction and manipulation.</span>
 
 <span class="sd">Key Components:</span>
+
 <span class="sd">- `search_tracks`: A function to perform searches on Spotify, supporting filters such</span>
 <span class="sd">  as year, genre, and market.</span>
 <span class="sd">- `TracksBase`: A base class for managing collections of Spotify tracks,</span>
@@ -114,13 +115,15 @@
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cached_property</span><span class="p">,</span> <span class="n">lru_cache</span>
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">sung.util</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_spotify_client</span><span class="p">,</span>
     <span class="n">ensure_client</span><span class="p">,</span>
     <span class="n">DFLT_LIMIT</span><span class="p">,</span>
     <span class="n">extractor</span><span class="p">,</span>
+    <span class="n">convert_date</span><span class="p">,</span>
     <span class="n">cast_track_key</span><span class="p">,</span>
     <span class="n">ensure_track_id</span><span class="p">,</span>
     <span class="n">SearchTypeT</span><span class="p">,</span>
@@ -129,11 +132,57 @@
     <span class="n">TrackKey</span><span class="p">,</span>
     <span class="n">TrackMetadata</span><span class="p">,</span>
     <span class="n">move_columns_to_front</span><span class="p">,</span>
+    <span class="n">move_columns_to_back</span><span class="p">,</span>
     <span class="n">front_columns_for_track_metas</span><span class="p">,</span>
+    <span class="n">back_columns_for_track_metas</span><span class="p">,</span>
     <span class="n">spotify_audio_features_fields</span><span class="p">,</span>
+    <span class="n">spotify_track_metadata_numerical_field_names</span><span class="p">,</span>
 <span class="p">)</span>
 
+
 <span class="n">DFLT_VERBOSE</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="c1"># --------------------------------------------------------------------------------------</span>
+<span class="c1"># Extracting information from track info</span>
+
+<span class="kn">from</span> <span class="nn">sung.util</span> <span class="kn">import</span> <span class="n">extractor</span><span class="p">,</span> <span class="n">df_extractor</span>
+
+<span class="n">extra_track_metadata_extractions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;artist_list&#39;</span><span class="p">:</span> <span class="s1">&#39;artists.*.name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_name&#39;</span><span class="p">:</span> <span class="s1">&#39;album.name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_release_date&#39;</span><span class="p">:</span> <span class="s1">&#39;album.release_date&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;external_urls.spotify&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;first_artist&#39;</span><span class="p">:</span> <span class="s1">&#39;artists.0.name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_total_tracks&#39;</span><span class="p">:</span> <span class="s1">&#39;album.total_tracks&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_images&#39;</span><span class="p">:</span> <span class="s1">&#39;album.images&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="n">extract_extra_metadata</span> <span class="o">=</span> <span class="n">extractor</span><span class="p">(</span><span class="n">extra_track_metadata_extractions</span><span class="p">)</span>  <span class="c1"># maybe obsolete?</span>
+<span class="n">df_extract_extra_metadata</span> <span class="o">=</span> <span class="n">df_extractor</span><span class="p">(</span><span class="n">extra_track_metadata_extractions</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">track_metadata</span><span class="p">(</span><span class="n">track_id</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">get_spotify_client</span><span class="p">):</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">ensure_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+
+    <span class="c1"># Get track details</span>
+    <span class="n">track</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">track</span><span class="p">(</span><span class="n">track_id</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">extract_extra_metadata</span><span class="p">(</span><span class="n">track</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">process_track_columns</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">extras</span> <span class="o">=</span> <span class="n">df_extract_extra_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="c1"># assert there&#39;s not duplicate columns between df and extras</span>
+    <span class="n">common_columns</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">extras</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">common_columns</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Columns </span><span class="si">{</span><span class="n">common_columns</span><span class="si">}</span><span class="s2"> are duplicated in both dataframes.&quot;</span><span class="p">)</span>
+    <span class="n">extras</span><span class="p">[</span><span class="s1">&#39;artists_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s1">&#39;artist_list&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s1">&#39;; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">)</span>
+    <span class="n">extras</span><span class="p">[</span><span class="s1">&#39;album_release_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s1">&#39;album_release_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">convert_date</span><span class="p">)</span>
+    <span class="n">extras</span><span class="p">[</span><span class="s1">&#39;album_release_year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s1">&#39;album_release_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">extras</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
 
 <span class="c1"># --------------------------------------------------------------------------------------</span>
 <span class="c1"># Tracks and Playlist classes</span>
@@ -163,6 +212,9 @@
 <span class="k">class</span> <span class="nc">TracksBase</span><span class="p">(</span><span class="n">Mapping</span><span class="p">[</span><span class="n">TrackId</span><span class="p">,</span> <span class="n">TrackMetadata</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class representing a collection of Spotify tracks.&quot;&quot;&quot;</span>
 
+    <span class="n">_track_ids</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">_track_metas</span> <span class="o">=</span> <span class="p">()</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tracks</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">TrackId</span><span class="p">,</span> <span class="n">TrackMetadata</span><span class="p">]],</span>
@@ -178,15 +230,17 @@
         <span class="n">tracks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tracks</span><span class="p">)</span>
 
         <span class="n">track_ids</span><span class="p">,</span> <span class="n">track_metas</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tracks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">track_ids</span> <span class="o">=</span> <span class="n">tracks</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tracks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">track_metas</span> <span class="o">=</span> <span class="n">tracks</span>
+        <span class="n">first_track</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">tracks</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">first_track</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_track</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">track_ids</span> <span class="o">=</span> <span class="n">tracks</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_track</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">track_metas</span> <span class="o">=</span> <span class="n">tracks</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_track_ids</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">ensure_track_id</span><span class="p">,</span> <span class="n">track_ids</span><span class="p">))</span> <span class="k">if</span> <span class="n">track_ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_track_metas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">track_metas</span><span class="p">)</span> <span class="k">if</span> <span class="n">track_metas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_track_ids</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">ensure_track_id</span><span class="p">,</span> <span class="n">track_ids</span><span class="p">))</span> <span class="k">if</span> <span class="n">track_ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_track_metas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">track_metas</span><span class="p">)</span> <span class="k">if</span> <span class="n">track_metas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">_cached_audio_analysis_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -256,7 +310,14 @@
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()</span>
+        <span class="c1"># TODO: Add the added year or date when available</span>
+        <span class="n">metadata_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta_dataframe</span><span class="p">()</span>
+        <span class="n">audio_features_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">audio_features</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+        <span class="n">audio_features_df</span> <span class="o">=</span> <span class="n">audio_features_df</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">spotify_audio_features_fields</span><span class="p">)]</span>
+
+        <span class="c1"># Merge metadata and audio features</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">metadata_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">audio_features_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">audio_features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -270,60 +331,53 @@
                 <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">audio_features</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">track_ids</span><span class="p">,</span> <span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">_audio_features_chunks</span><span class="p">())))</span>
-    
+
     <span class="n">audio_features</span><span class="o">.</span><span class="n">spotify_audio_features_fields</span> <span class="o">=</span> <span class="n">spotify_audio_features_fields</span>
 
     <span class="c1"># TODO: Deprecate. Just use numerical_features_df</span>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">audio_features_df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deprecated: Use &#39;numerical_features_df&#39; instead.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">audio_features</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
-    
-    <span class="nd">@cached_property</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">numerical_features_df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-        <span class="kn">from</span> <span class="nn">sung.util</span> <span class="kn">import</span> <span class="n">spotify_track_metadata_numerical_fields</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">spotify_track_metadata_numerical_field_names</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">spotify_audio_features_fields</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">fields</span><span class="p">]</span>
 
-        <span class="c1"># TODO: Add the added year or date when available</span>
-        <span class="n">metadata_num_fields</span> <span class="o">=</span> <span class="n">spotify_track_metadata_numerical_fields</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;album_release_year&#39;</span><span class="p">,</span> <span class="s1">&#39;explicit&#39;</span><span class="p">]</span>
-        <span class="n">metadata_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">metadata_num_fields</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">metadata_df</span><span class="p">[</span><span class="s1">&#39;explicit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_df</span><span class="p">[</span><span class="s1">&#39;explicit&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-        <span class="n">audio_features_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">audio_features</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
-        <span class="n">audio_features_df</span> <span class="o">=</span> <span class="n">audio_features_df</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">spotify_audio_features_fields</span><span class="p">)]</span>
-
-        <span class="c1"># Merge metadata and audio features</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">metadata_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">audio_features_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">df</span>
-
-    
     <span class="k">def</span> <span class="nf">audio_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span><span class="p">):</span>
         <span class="n">track_id</span> <span class="o">=</span> <span class="n">ensure_track_id</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_audio_analysis_func</span><span class="p">(</span><span class="n">track_id</span><span class="p">)</span>
 
-<div class="viewcode-block" id="TracksBase.dataframe">
-<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.TracksBase.dataframe">[docs]</a>
-    <span class="k">def</span> <span class="nf">dataframe</span><span class="p">(</span>
+<div class="viewcode-block" id="TracksBase.meta_dataframe">
+<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.TracksBase.meta_dataframe">[docs]</a>
+    <span class="k">def</span> <span class="nf">meta_dataframe</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">front_columns</span><span class="o">=</span><span class="n">front_columns_for_track_metas</span><span class="p">,</span>
+        <span class="n">back_columns</span><span class="o">=</span><span class="n">back_columns_for_track_metas</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;pd.DataFrame&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get tracks metadata for given key(s), as a pandas DataFrame.</span>
 
 <span class="sd">        By default, will return all tracks in the collection.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># Delayed import to avoid unnecessary dependency in sung</span>
-
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">]</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">move_columns_to_front</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">front_columns</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">process_track_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">move_columns_to_front</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">front_columns</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">move_columns_to_back</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">back_columns</span><span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span></div>
-</div>
+
+
+    <span class="n">dataframe</span> <span class="o">=</span> <span class="n">meta_dataframe</span>  <span class="c1"># Alias for backwards compatibility</span></div>
 
 
 
@@ -489,18 +543,15 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">playlist_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;https://open.spotify.com/playlist/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">playlist_id</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;https://open.spotify.com/playlist/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">playlist_id</span><span class="si">}</span><span class="s2">&quot;</span></div>
 
-    <span class="nd">@cached_property</span>
-    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">()</span>
 
-<div class="viewcode-block" id="PlaylistReader.dataframe">
-<a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.PlaylistReader.dataframe">[docs]</a>
-    <span class="k">def</span> <span class="nf">dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;pd.DataFrame&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">dataframe</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
-</div>
+    <span class="c1"># @cached_property</span>
+    <span class="c1"># def data(self):</span>
+    <span class="c1">#     return self.meta_dataframe()</span>
 
+    <span class="c1"># def meta_dataframe(self, key: TrackKeySpec = slice(None)) -&gt; &#39;pd.DataFrame&#39;:</span>
+    <span class="c1">#     return self.tracks.meta_dataframe(key)</span>
 
 
 <div class="viewcode-block" id="Playlist">
@@ -615,39 +666,6 @@
     <span class="n">client</span><span class="o">.</span><span class="n">current_user_unfollow_playlist</span><span class="p">(</span><span class="n">playlist_id</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Playlist </span><span class="si">{</span><span class="n">playlist_id</span><span class="si">}</span><span class="s2"> has been deleted (unfollowed).&quot;</span><span class="p">)</span>
-
-
-<span class="c1"># --------------------------------------------------------------------------------------</span>
-<span class="c1"># Extracting information from track info</span>
-
-<span class="kn">from</span> <span class="nn">sung.util</span> <span class="kn">import</span> <span class="n">extractor</span>
-
-<span class="n">standard_track_metadata</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;artist&#39;</span><span class="p">:</span> <span class="s1">&#39;artists.0.name&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;album&#39;</span><span class="p">:</span> <span class="s1">&#39;album.name&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;release_date&#39;</span><span class="p">:</span> <span class="s1">&#39;album.release_date&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;duration_ms&#39;</span><span class="p">:</span> <span class="s1">&#39;duration_ms&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;popularity&#39;</span><span class="p">:</span> <span class="s1">&#39;popularity&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;explicit&#39;</span><span class="p">:</span> <span class="s1">&#39;explicit&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;external_url&#39;</span><span class="p">:</span> <span class="s1">&#39;external_urls.spotify&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;preview_url&#39;</span><span class="p">:</span> <span class="s1">&#39;preview_url&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;track_number&#39;</span><span class="p">:</span> <span class="s1">&#39;track_number&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;album_total_tracks&#39;</span><span class="p">:</span> <span class="s1">&#39;album.total_tracks&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;available_markets&#39;</span><span class="p">:</span> <span class="s1">&#39;available_markets&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;album_images&#39;</span><span class="p">:</span> <span class="s1">&#39;album.images&#39;</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="n">extract_standard_metadata</span> <span class="o">=</span> <span class="n">extractor</span><span class="p">(</span><span class="n">standard_track_metadata</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">track_metadata</span><span class="p">(</span><span class="n">track_id</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">get_spotify_client</span><span class="p">):</span>
-    <span class="n">client</span> <span class="o">=</span> <span class="n">ensure_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
-
-    <span class="c1"># Get track details</span>
-    <span class="n">track</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">track</span><span class="p">(</span><span class="n">track_id</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">extract_standard_metadata</span><span class="p">(</span><span class="n">track</span><span class="p">)</span>
 
 
 <span class="c1"># --------------------------------------------------------------------------------------</span>

@@ -86,6 +86,7 @@
 
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Literal</span><span class="p">,</span>
     <span class="n">T</span><span class="p">,</span>
@@ -100,12 +101,14 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
+<span class="kn">from</span> <span class="nn">glom</span> <span class="kn">import</span> <span class="n">glom</span><span class="p">,</span> <span class="n">Spec</span><span class="p">,</span> <span class="n">Coalesce</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span>
+
+
 <span class="kn">from</span> <span class="nn">spotipy</span> <span class="kn">import</span> <span class="n">Spotify</span>
 <span class="kn">from</span> <span class="nn">spotipy.oauth2</span> <span class="kn">import</span> <span class="n">SpotifyClientCredentials</span><span class="p">,</span> <span class="n">SpotifyOAuth</span>
 
-<span class="kn">from</span> <span class="nn">glom</span> <span class="kn">import</span> <span class="n">glom</span><span class="p">,</span> <span class="n">Spec</span><span class="p">,</span> <span class="n">Coalesce</span>
-
-<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span>
 
 <span class="n">DFLT_LIMIT</span> <span class="o">=</span> <span class="mi">20</span>
 
@@ -117,15 +120,35 @@
     <span class="k">return</span> <span class="n">x</span>
 
 
+<div class="viewcode-block" id="strip_values">
+<a class="viewcode-back" href="../../module_docs/sung/util.html#sung.util.strip_values">[docs]</a>
+<span class="k">def</span> <span class="nf">strip_values</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a new dictionary with all string values stripped.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+
+
+
 <span class="n">Extractor</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;Extractor&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Callable</span><span class="p">)</span>  <span class="c1"># TODO: Specify more precisely</span>
 
 
-<span class="k">def</span> <span class="nf">extractor</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Spec</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Extractor</span><span class="p">:</span>
+<span class="n">SpecT</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Spec</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
+
+
+<span class="k">def</span> <span class="nf">extractor</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">SpecT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extractor</span><span class="p">:</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">glom</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
         <span class="n">spec</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">glom</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">coalesce_to_default</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">df_extraction</span><span class="p">(</span><span class="n">extractor_func</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extractor</span><span class="p">:</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">extractor_func</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">df_extractor</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">SpecT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">df_extraction</span><span class="p">,</span> <span class="n">extractor</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">is_extractor</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -162,6 +185,21 @@
 
 
 <span class="n">coalesce_to_default</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">coalesce_string_values</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="convert_date">
+<a class="viewcode-back" href="../../module_docs/sung/util.html#sung.util.convert_date">[docs]</a>
+<span class="k">def</span> <span class="nf">convert_date</span><span class="p">(</span><span class="n">date_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">read_formats</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;%Y&quot;</span><span class="p">,</span> <span class="s2">&quot;%Y-%m&quot;</span><span class="p">)):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a date string to a standard format (YYYY-MM-DD).&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">date_str</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">read_formats</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date_str</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">date_str</span></div>
+
 
 
 <div class="viewcode-block" id="get_config">
@@ -400,10 +438,11 @@
 <span class="p">}</span>
 
 
+<span class="c1"># TODO: Verify: Doesn&#39;t seem all correct. Perhaps get from pydantic model?</span>
 <span class="n">spotify_track_metadata_fields</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;The name of the track.&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;artist&quot;</span><span class="p">:</span> <span class="s2">&quot;The name of the primary artist associated with the track.&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;album&quot;</span><span class="p">:</span> <span class="s2">&quot;The name of the album in which the track appears.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;artists&quot;</span><span class="p">:</span> <span class="s2">&quot;Artists associated with the track.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;album&quot;</span><span class="p">:</span> <span class="s2">&quot;Information about the album in which the track appears.&quot;</span><span class="p">,</span>
     <span class="s2">&quot;release_date&quot;</span><span class="p">:</span> <span class="s2">&quot;The release date of the album or single. Format can vary (e.g., YYYY-MM-DD).&quot;</span><span class="p">,</span>
     <span class="s2">&quot;duration_ms&quot;</span><span class="p">:</span> <span class="s2">&quot;The track&#39;s duration in milliseconds.&quot;</span><span class="p">,</span>
     <span class="s2">&quot;popularity&quot;</span><span class="p">:</span> <span class="s2">&quot;The popularity of the track, with values ranging from 0 to 100. Higher values indicate greater popularity.&quot;</span><span class="p">,</span>
@@ -414,13 +453,73 @@
     <span class="s2">&quot;album_total_tracks&quot;</span><span class="p">:</span> <span class="s2">&quot;The total number of tracks in the album that contains this track.&quot;</span><span class="p">,</span>
     <span class="s2">&quot;available_markets&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of country codes where the track is available.&quot;</span><span class="p">,</span>
     <span class="s2">&quot;album_images&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of album cover art images in various sizes, with URLs to access them.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;album_release_year&quot;</span><span class="p">:</span> <span class="s2">&quot;The year in which the album was released.&quot;</span><span class="p">,</span>
 <span class="p">}</span>
+
+<span class="c1"># TODO: Replace spotify_track_metadata_fields with one generated by ju.model_field_descriptions, and add</span>
+<span class="c1">#   standard_track_metadata to make an extended version, or extend spotify_track_metadata_fields itself</span>
+<span class="c1"># # spotify_track_metadata_fields = strip_values(__import__(&#39;ju&#39;).model_field_descriptions(TrackObject))</span>
+<span class="c1"># spotify_track_metadata_fields = {&#39;artists&#39;: &#39;The artists who performed the track. Each artist object includes a link in `href` to more detailed information about the artist.&#39;,</span>
+<span class="c1">#  &#39;available_markets&#39;: &#39;A list of the countries in which the track can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.&#39;,</span>
+<span class="c1">#  &#39;disc_number&#39;: &#39;The disc number (usually `1` unless the album consists of more than one disc).&#39;,</span>
+<span class="c1">#  &#39;duration_ms&#39;: &#39;The track length in milliseconds.&#39;,</span>
+<span class="c1">#  &#39;explicit&#39;: &#39;Whether or not the track has explicit lyrics ( `true` = yes it does; `false` = no it does not OR unknown).&#39;,</span>
+<span class="c1">#  &#39;external_urls&#39;: &#39;External URLs for this track.&#39;,</span>
+<span class="c1">#  &#39;href&#39;: &#39;A link to the Web API endpoint providing full details of the track.&#39;,</span>
+<span class="c1">#  &#39;id&#39;: &#39;The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the track.&#39;,</span>
+<span class="c1">#  &#39;is_playable&#39;: &#39;Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking/) is applied. If `true`, the track is playable in the given market. Otherwise `false`.&#39;,</span>
+<span class="c1">#  &#39;linked_from&#39;: &#39;Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking/) is applied and is only part of the response if the track linking, in fact, exists. The requested track has been replaced with a different track. The track in the `linked_from` object contains information about the originally requested track.&#39;,</span>
+<span class="c1">#  &#39;restrictions&#39;: &#39;Included in the response when a content restriction is applied.&#39;,</span>
+<span class="c1">#  &#39;name&#39;: &#39;The name of the track.&#39;,</span>
+<span class="c1">#  &#39;preview_url&#39;: &#39;A URL to a 30 second preview (MP3 format) of the track.&#39;,</span>
+<span class="c1">#  &#39;track_number&#39;: &#39;The number of the track. If an album has several discs, the track number is the number on the specified disc.&#39;,</span>
+<span class="c1">#  &#39;type&#39;: &#39;The object type: &quot;track&quot;.&#39;,</span>
+<span class="c1">#  &#39;uri&#39;: &#39;The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the track.&#39;,</span>
+<span class="c1">#  &#39;is_local&#39;: &#39;Whether or not the track is from a local file.&#39;}</span>
 
 <span class="n">spotify_track_metadata_description</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">spotify_track_metadata_fields</span>  <span class="c1"># backcompatibility alias</span>
 <span class="p">)</span>
 
-<span class="n">spotify_track_metadata_numerical_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;duration_ms&#39;</span><span class="p">,</span> <span class="s1">&#39;popularity&#39;</span><span class="p">]</span>
+<span class="n">spotify_track_metadata_numerical_field_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;duration_ms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;popularity&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;explicit&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_release_year&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">spotify_album_metadata_fields_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;available_markets&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;type&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_type&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;href&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;id&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;images&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;release_date&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;release_date_precision&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;uri&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;artists&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;external_urls&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;total_tracks&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="n">spotify_album_metadata_fields</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;available_markets&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of country codes where the album is available.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;album_type&quot;</span><span class="p">:</span> <span class="s2">&quot;The type of the album: &#39;album&#39;, &#39;single&#39;, &#39;compilation&#39;, etc.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;A link to the Web API endpoint providing full details of the album.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;The Spotify ID for the album.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;images&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of album cover art images in various sizes, with URLs to access them.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;The name of the album.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;release_date&quot;</span><span class="p">:</span> <span class="s2">&quot;The release date of the album. Format can vary (e.g., YYYY-MM-DD).&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;release_date_precision&quot;</span><span class="p">:</span> <span class="s2">&quot;The precision of the release date: &#39;year&#39;, &#39;month&#39;, or &#39;day&#39;.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;The Spotify URI for the album.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;artists&quot;</span><span class="p">:</span> <span class="s2">&quot;Artists associated with the album.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;external_urls&quot;</span><span class="p">:</span> <span class="s2">&quot;A dictionary of external URLs, including a link to the album on Spotify.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;total_tracks&quot;</span><span class="p">:</span> <span class="s2">&quot;The total number of tracks in the album.&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
 
 <span class="n">spotify_audio_features_fields</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;acousticness&quot;</span><span class="p">:</span> <span class="s2">&quot;A confidence measure from 0.0 to 1.0 indicating the likelihood that the track is acoustic. Higher values denote a higher probability. Range: 0.0 to 1.0.&quot;</span><span class="p">,</span>
@@ -438,7 +537,10 @@
 <span class="p">}</span>
 
 <span class="n">spotify_features_fields</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-    <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">spotify_track_metadata_fields</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">spotify_track_metadata_numerical_fields</span><span class="p">},</span>
+    <span class="o">**</span><span class="p">{</span>
+        <span class="n">k</span><span class="p">:</span> <span class="n">spotify_track_metadata_fields</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">spotify_track_metadata_numerical_field_names</span>
+    <span class="p">},</span>
     <span class="o">**</span><span class="n">spotify_audio_features_fields</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -622,25 +724,42 @@
 
 <span class="n">front_columns_for_track_metas</span> <span class="o">=</span> <span class="p">(</span>
     <span class="s1">&#39;name&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;first_artist&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;duration_ms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;artists_names&#39;</span> <span class="s1">&#39;duration_ms&#39;</span><span class="p">,</span>
     <span class="s1">&#39;popularity&#39;</span><span class="p">,</span>
     <span class="s1">&#39;explicit&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album_name&#39;</span><span class="p">,</span>
     <span class="s1">&#39;album_release_date&#39;</span><span class="p">,</span>
     <span class="s1">&#39;album_release_year&#39;</span><span class="p">,</span>
     <span class="s1">&#39;added_at_date&#39;</span><span class="p">,</span>
     <span class="s1">&#39;url&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;artist_list&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;first_artist&#39;</span><span class="p">,</span>
     <span class="s1">&#39;first_letter&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;album_name&#39;</span><span class="p">,</span>
     <span class="s1">&#39;id&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">back_columns_for_track_metas</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;type&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;episode&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;track&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;album&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;disc_number&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;track_number&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;artists&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;preview_url&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;uri&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;href&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;available_markets&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;external_ids&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;external_urls&#39;</span><span class="p">,</span>
 <span class="p">)</span>
 
 
 <div class="viewcode-block" id="move_columns_to_front">
 <a class="viewcode-back" href="../../module_docs/sung/util.html#sung.util.move_columns_to_front">[docs]</a>
 <span class="k">def</span> <span class="nf">move_columns_to_front</span><span class="p">(</span>
-    <span class="n">df</span><span class="p">:</span> <span class="s1">&#39;pd.DataFrame&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">allow_excess</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;pd.DataFrame&#39;</span><span class="p">:</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">allow_excess</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a copy of df with given columns in the front, in the order given.</span>
 
@@ -656,6 +775,29 @@
         <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="s2">&quot;Columns not in DataFrame&quot;</span>
     <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">columns</span> <span class="o">+</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]]</span></div>
+
+
+
+<div class="viewcode-block" id="move_columns_to_back">
+<a class="viewcode-back" href="../../module_docs/sung/util.html#sung.util.move_columns_to_back">[docs]</a>
+<span class="k">def</span> <span class="nf">move_columns_to_back</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">allow_excess</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a copy of df with given columns in the back, in the order given.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        - df - the DataFrame to modify</span>
+<span class="sd">        - columns - the columns to move to the back</span>
+<span class="sd">        - allow_excess - whether to allow columns not in the DataFrame (optional)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The modified DataFrame.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_excess</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="s2">&quot;Columns not in DataFrame&quot;</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span> <span class="o">+</span> <span class="n">columns</span><span class="p">]</span></div>
 
 </pre></div>
 

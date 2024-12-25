@@ -52,7 +52,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../sung.html">sung</a></li>
 <li class="toctree-l1"><a class="reference internal" href="base.html">sung.base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pydantic_models.html">sung.pydantic_models</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">sung.tools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">sung.tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sung.tools.get_content_bytes"><code class="docutils literal notranslate"><span class="pre">get_content_bytes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.tools.raw_github_url"><code class="docutils literal notranslate"><span class="pre">raw_github_url()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">sung.util</a></li>
 </ul>
 
@@ -83,6 +87,34 @@
   <section id="module-sung.tools">
 <span id="sung-tools"></span><h1>sung.tools<a class="headerlink" href="#module-sung.tools" title="Link to this heading"></a></h1>
 <p>Tools using sung</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.tools.get_content_bytes">
+<span class="sig-prename descclassname"><span class="pre">sung.tools.</span></span><span class="sig-name descname"><span class="pre">get_content_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_locally=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_url=&lt;function</span> <span class="pre">raw_github_url&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/tools.html#get_content_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.tools.get_content_bytes" title="Link to this definition"></a></dt>
+<dd><p>Get bytes of content from <cite>thorwhalen/content</cite>, automatically caching locally.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">#</span> <span class="pre">add</span> <span class="pre">max_age=1e-6</span> <span class="pre">if</span> <span class="pre">you</span> <span class="pre">want</span> <span class="pre">to</span> <span class="pre">update</span> <span class="pre">the</span> <span class="pre">data</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">remote</span> <span class="pre">data</span>
+<span class="pre">b</span> <span class="pre">=</span> <span class="pre">get_content_bytes('tables/csv/projects.csv',</span> <span class="pre">max_age=None)</span>
+<span class="pre">`</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.tools.raw_github_url">
+<span class="sig-prename descclassname"><span class="pre">sung.tools.</span></span><span class="sig-name descname"><span class="pre">raw_github_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_stub</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'thorwhalen/sung_content'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://raw.githubusercontent.com'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/tools.html#raw_github_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.tools.raw_github_url" title="Link to this definition"></a></dt>
+<dd><p>Return the raw github url for a given path in a given repo and branch.</p>
+<p>By default, the repo_stub is ‘thorwhalen/sung_content’ and the branch is ‘main’.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">raw_github_url</span><span class="p">(</span><span class="s1">&#39;parquet/greatest_500_songs.parquet&#39;</span><span class="p">)</span>
+<span class="go">&#39;https://raw.githubusercontent.com/thorwhalen/sung_content/main/parquet/greatest_500_songs.parquet&#39;</span>
+</pre></div>
+</div>
+<p>If the path is not given, return a partial function that takes the path as argument.
+That is, will make a “path to url” function for a given repo and branch.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_url</span> <span class="o">=</span> <span class="n">raw_github_url</span><span class="p">(</span><span class="n">repo_stub</span><span class="o">=</span><span class="s1">&#39;thorwhalen/content&#39;</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="s1">&#39;master&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_url</span><span class="p">(</span><span class="s1">&#39;tables/csv/named_urls.csv&#39;</span><span class="p">)</span>
+<span class="go">&#39;https://raw.githubusercontent.com/thorwhalen/content/master/tables/csv/named_urls.csv&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </section>
 
 

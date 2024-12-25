@@ -120,7 +120,8 @@ from sung.base import (
     Tracks,
     PlaylistReader,
     Playlist,
-    extract_standard_metadata,
+    extract_extra_metadata,
+    df_extract_extra_metadata,
     SpotifyDacc,
     delete_playlist,
 )

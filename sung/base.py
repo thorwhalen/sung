@@ -6,6 +6,7 @@ handle Spotify track metadata. The utilities here are designed to integrate seam
 with Spotify's API and streamline data extraction and manipulation.
 
 Key Components:
+
 - `search_tracks`: A function to perform searches on Spotify, supporting filters such
   as year, genre, and market.
 - `TracksBase`: A base class for managing collections of Spotify tracks,
@@ -34,13 +35,15 @@ from operator import itemgetter
 from functools import cached_property, lru_cache
 from collections.abc import Mapping
 from abc import ABC
-import warnings
+
+import pandas as pd
 
 from sung.util import (
     get_spotify_client,
     ensure_client,
     DFLT_LIMIT,
     extractor,
+    convert_date,
     cast_track_key,
     ensure_track_id,
     SearchTypeT,
@@ -49,11 +52,57 @@ from sung.util import (
     TrackKey,
     TrackMetadata,
     move_columns_to_front,
+    move_columns_to_back,
     front_columns_for_track_metas,
+    back_columns_for_track_metas,
     spotify_audio_features_fields,
+    spotify_track_metadata_numerical_field_names,
 )
 
+
 DFLT_VERBOSE = True
+
+
+# --------------------------------------------------------------------------------------
+# Extracting information from track info
+
+from sung.util import extractor, df_extractor
+
+extra_track_metadata_extractions = {
+    'artist_list': 'artists.*.name',
+    'album_name': 'album.name',
+    'album_release_date': 'album.release_date',
+    'url': 'external_urls.spotify',
+    'first_artist': 'artists.0.name',
+    'album_total_tracks': 'album.total_tracks',
+    'album_images': 'album.images',
+}
+
+
+extract_extra_metadata = extractor(extra_track_metadata_extractions)  # maybe obsolete?
+df_extract_extra_metadata = df_extractor(extra_track_metadata_extractions)
+
+
+def track_metadata(track_id, *, client=get_spotify_client):
+    client = ensure_client(client)
+
+    # Get track details
+    track = client.track(track_id)
+
+    return extract_extra_metadata(track)
+
+
+def process_track_columns(df):
+    extras = df_extract_extra_metadata(df)
+    # assert there's not duplicate columns between df and extras
+    common_columns = set(df.columns) & set(extras.columns)
+    if common_columns:
+        raise ValueError(f"Columns {common_columns} are duplicated in both dataframes.")
+    extras['artists_names'] = extras['artist_list'].apply('; '.join)
+    extras['album_release_date'] = extras['album_release_date'].apply(convert_date)
+    extras['album_release_year'] = extras['album_release_date'].str[:4].astype(int)
+    return pd.concat([df, extras], axis=1)
+
 
 # --------------------------------------------------------------------------------------
 # Tracks and Playlist classes
@@ -75,6 +124,9 @@ def track_metas_to_track_ids(track_metas):
 class TracksBase(Mapping[TrackId, TrackMetadata]):
     """Base class representing a collection of Spotify tracks."""
 
+    _track_ids = ()
+    _track_metas = ()
+
     def __init__(
         self,
         tracks: Iterable[Union[TrackId, TrackMetadata]],
@@ -90,15 +142,17 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
         tracks = list(tracks)
 
         track_ids, track_metas = None, None
-        if isinstance(tracks[0], str):
-            track_ids = tracks
-        elif isinstance(tracks[0], dict):
-            track_metas = tracks
+        first_track = next(iter(tracks), None)
+        if first_track is not None:
+            if isinstance(first_track, str):
+                track_ids = tracks
+            elif isinstance(first_track, dict):
+                track_metas = tracks
 
-        self._track_ids = (
-            list(map(ensure_track_id, track_ids)) if track_ids is not None else None
-        )
-        self._track_metas = list(track_metas) if track_metas is not None else None
+            self._track_ids = (
+                list(map(ensure_track_id, track_ids)) if track_ids is not None else None
+            )
+            self._track_metas = list(track_metas) if track_metas is not None else None
 
     @cached_property
     def _cached_audio_analysis_func(self):
@@ -168,7 +222,14 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
 
     @cached_property
     def data(self):
-        return self.dataframe()
+        # TODO: Add the added year or date when available
+        metadata_df = self.meta_dataframe()
+        audio_features_df = pd.DataFrame(self.audio_features).T.set_index('id')
+        audio_features_df = audio_features_df[list(spotify_audio_features_fields)]
+
+        # Merge metadata and audio features
+        df = metadata_df.join(audio_features_df, how='inner')
+        return df
 
     @cached_property
     def audio_features(self):
@@ -182,57 +243,50 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
                 yield self.client.audio_features(chunk)
 
         return dict(zip(track_ids, chain.from_iterable(_audio_features_chunks())))
-    
+
     audio_features.spotify_audio_features_fields = spotify_audio_features_fields
 
     # TODO: Deprecate. Just use numerical_features_df
     @property
     def audio_features_df(self):
-        import pandas as pd
-
+        print(f"Deprecated: Use 'numerical_features_df' instead.")
         return pd.DataFrame(self.audio_features).T.set_index('id')
-    
-    @cached_property
+
+    @property
     def numerical_features_df(self):
-        import pandas as pd
-        from sung.util import spotify_track_metadata_numerical_fields
+        fields = list(spotify_track_metadata_numerical_field_names) + list(
+            spotify_audio_features_fields
+        )
+        return self.data[fields]
 
-        # TODO: Add the added year or date when available
-        metadata_num_fields = spotify_track_metadata_numerical_fields + ['album_release_year', 'explicit']
-        metadata_df = self.data[metadata_num_fields].copy()
-        metadata_df['explicit'] = metadata_df['explicit'].astype(int)
-        audio_features_df = pd.DataFrame(self.audio_features).T.set_index('id')
-        audio_features_df = audio_features_df[list(spotify_audio_features_fields)]
-
-        # Merge metadata and audio features
-        df = metadata_df.join(audio_features_df, how='inner')
-        return df
-
-    
     def audio_analysis(self, key: TrackKeySpec):
         track_id = ensure_track_id(key)
         return self._cached_audio_analysis_func(track_id)
 
-    def dataframe(
+    def meta_dataframe(
         self,
         key: TrackKeySpec = slice(None),
         *,
         front_columns=front_columns_for_track_metas,
+        back_columns=back_columns_for_track_metas,
     ) -> 'pd.DataFrame':
         """
         Get tracks metadata for given key(s), as a pandas DataFrame.
 
         By default, will return all tracks in the collection.
         """
-        import pandas as pd  # Delayed import to avoid unnecessary dependency in sung
-
         data = self[key]
         if isinstance(data, dict):
             data = [data]
-        df = move_columns_to_front(pd.DataFrame(data), front_columns)
+        df = pd.DataFrame(data)
+        df = process_track_columns(df)
+        df = move_columns_to_front(df, front_columns)
+        df = move_columns_to_back(df, back_columns)
         if 'id' in df.columns:
             df.set_index('id', drop=False, inplace=True)
         return df
+
+    dataframe = meta_dataframe  # Alias for backwards compatibility
 
 
 class Tracks(TracksBase):
@@ -391,12 +445,12 @@ class PlaylistReader(Tracks, Mapping[TrackId, TrackMetadata]):
     def playlist_url(self) -> str:
         return f"https://open.spotify.com/playlist/{self.playlist_id}"
 
-    @cached_property
-    def data(self):
-        return self.dataframe()
+    # @cached_property
+    # def data(self):
+    #     return self.meta_dataframe()
 
-    def dataframe(self, key: TrackKeySpec = slice(None)) -> 'pd.DataFrame':
-        return self.tracks.dataframe(key)
+    # def meta_dataframe(self, key: TrackKeySpec = slice(None)) -> 'pd.DataFrame':
+    #     return self.tracks.meta_dataframe(key)
 
 
 class Playlist(PlaylistReader, MutableMapping[TrackId, TrackMetadata]):
@@ -505,39 +559,6 @@ def delete_playlist(playlist_id, verbose=DFLT_VERBOSE, *, ask_confirmation=True)
     client.current_user_unfollow_playlist(playlist_id)
     if verbose:
         print(f"Playlist {playlist_id} has been deleted (unfollowed).")
-
-
-# --------------------------------------------------------------------------------------
-# Extracting information from track info
-
-from sung.util import extractor
-
-standard_track_metadata = {
-    'name': 'name',
-    'artist': 'artists.0.name',
-    'album': 'album.name',
-    'release_date': 'album.release_date',
-    'duration_ms': 'duration_ms',
-    'popularity': 'popularity',
-    'explicit': 'explicit',
-    'external_url': 'external_urls.spotify',
-    'preview_url': 'preview_url',
-    'track_number': 'track_number',
-    'album_total_tracks': 'album.total_tracks',
-    'available_markets': 'available_markets',
-    'album_images': 'album.images',
-}
-
-extract_standard_metadata = extractor(standard_track_metadata)
-
-
-def track_metadata(track_id, *, client=get_spotify_client):
-    client = ensure_client(client)
-
-    # Get track details
-    track = client.track(track_id)
-
-    return extract_standard_metadata(track)
 
 
 # --------------------------------------------------------------------------------------

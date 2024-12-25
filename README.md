@@ -1,6 +1,9 @@
 # sung
 
-Music data access. Mainly sources from spotify and wikipedia.
+Music data access. Mainly sources from spotify and wikipedia. 
+[pypi](https://pypi.org/project/sung/).
+
+[Documentation](https://thorwhalen.github.io/sung)
 
 
 # Install

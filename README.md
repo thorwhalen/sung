@@ -23,21 +23,37 @@ export SPOTIPY_CLIENT_SECRET="$SPOTIFY_API_CLIENT_SECRET"
 ## Spotify API credentials?
 
 To obtain Spotify API credentials, follow these steps:
+
 	1.	Create a Spotify Developer Account:
+
 	•	Visit the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/).
+
 	•	Log in with your Spotify account or create a new one.
+
 	2.	Register a New Application:
+
 	•	Click on “Create an App.”
+
 	•	Provide an App Name and App Description.
+
 	•	Agree to the Developer Terms of Service.
+
 	•	Click “Create.”
+
 	3.	Retrieve Client ID and Client Secret:
+
 	•	After creating the app, you’ll be directed to the app’s dashboard.
+
 	•	Here, you’ll find your Client ID and Client Secret.
+
 	•	Keep these credentials secure; they are essential for API authentication.
+
 	4.	Set Redirect URIs (if applicable):
+
 	•	In your app settings, click “Edit Settings.”
+
 	•	Under “Redirect URIs,” add the URIs where Spotify should redirect after authentication.
+  
 	•	This is crucial for certain authorization flows.
 
 For detailed information on authorization flows and using your credentials, refer to 

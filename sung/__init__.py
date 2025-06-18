@@ -34,7 +34,7 @@ Like listing the track keys (IDs)
  '7hR22TOX3RorxJPcsz5Wbo']
 
 
-Like accessing the value of a track for a given key. 
+Like accessing the value of a track for a given key.
 The value is a bunch of metadata about the track.
 
 >>> track_metadata = tracks['1dGr1c8CrMLDpV6mPbImSI']  # get metadata of track via it's id
@@ -85,11 +85,11 @@ Get the playlist URL of the newly created playlist (so you can check it out on S
 
 Delete the playlist.
 
-We purposely tried to make deleting a playlist not as easy as the other actions. 
-So we didn't attach a delete method to the playlist instance, but put this in a 
-separate function you have to import. 
-Also, we made that function verbose, and asking for confirmation by default. 
-(But there's arguments to control that, so you can use `functools.partial` to 
+We purposely tried to make deleting a playlist not as easy as the other actions.
+So we didn't attach a delete method to the playlist instance, but put this in a
+separate function you have to import.
+Also, we made that function verbose, and asking for confirmation by default.
+(But there's arguments to control that, so you can use `functools.partial` to
 make your own cowboy (not speaking and not asking for permission) version).
 
 >>> delete_playlist(playlist.playlist_id, ask_confirmation=False)  # doctest: +ELLIPSIS
@@ -133,3 +133,9 @@ from sung.util import (
     ensure_playlist_id,
 )
 from sung.tools import TracksAnalysis
+from sung.chords_and_lyrics import (
+    render_chords_and_lyrics,
+    search_songs,
+    remove_non_lyrics,
+    pack_song_text,
+)

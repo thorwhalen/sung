@@ -1,6 +1,6 @@
 # sung
 
-Music data access. Mainly sources from spotify and wikipedia. 
+Music data access. Sources from chords&lyrics dataset, spotify and wikipedia. 
 [pypi](https://pypi.org/project/sung/).
 
 [Documentation](https://thorwhalen.github.io/sung)
@@ -10,7 +10,144 @@ Music data access. Mainly sources from spotify and wikipedia.
 
 To install:	```pip install sung```
 
-For most tools, you'll also need a spotify
+
+# Chords and Lyrics Processing
+
+The `sung` package provides powerful tools for processing chord sheets and lyrics, including parsing, filtering, formatting, and rendering to various formats.
+
+## Basic Usage
+
+```python
+from sung import render_chords_and_lyrics, search_songs
+
+# Search for songs in the dataset
+songs = search_songs(title="wonderwall", artist="oasis")
+print(f"Found {len(songs)} songs")
+
+# Get the raw chord sheet text
+raw_text = songs.iloc[0]['chords&lyrics']
+
+# Render to text (reconstruct the original format)
+formatted_text = render_chords_and_lyrics(raw_text, to='text')
+print(formatted_text)
+
+# Render to PDF
+render_chords_and_lyrics(raw_text, to='pdf', output_path='song.pdf')
+```
+
+## Advanced Features
+
+### Filter Non-Lyrics Content
+
+Remove extraneous text that isn't part of the actual song:
+
+```python
+from sung import remove_non_lyrics
+
+# Remove non-lyrics content (section headers, metadata, etc.)
+clean_lyrics = render_chords_and_lyrics(
+    raw_text, 
+    to='text', 
+    filter_non_lyrics=True
+)
+
+# Keep metadata lines like [Verse], [Chorus]
+clean_with_metadata = render_chords_and_lyrics(
+    raw_text, 
+    to='text', 
+    filter_non_lyrics=True,
+    keep_metadata_lines=True
+)
+
+# Standalone function
+clean_text = remove_non_lyrics(raw_text)
+```
+
+### Pack Lines for Better Space Usage
+
+Combine short lines to make better use of horizontal space:
+
+```python
+from sung import pack_song_text
+
+# Pack lines up to 80 characters
+packed_text = render_chords_and_lyrics(
+    raw_text, 
+    to='text', 
+    pack_lines=True, 
+    max_line_length=80
+)
+
+# Standalone function
+packed = pack_song_text(raw_text, max_length=80)
+```
+
+### Combine Features
+
+Use both filtering and packing together:
+
+```python
+# Clean and optimized output
+optimized = render_chords_and_lyrics(
+    raw_text, 
+    to='text',
+    filter_non_lyrics=True,
+    pack_lines=True,
+    max_line_length=80
+)
+```
+
+## PDF Rendering with Custom Styling
+
+```python
+# Custom fonts and spacing
+render_chords_and_lyrics(
+    raw_text,
+    to='pdf',
+    output_path='styled_song.pdf',
+    page_size='LETTER',  # Can use strings like 'A4', 'LETTER', 'LEGAL'
+    lyrics_font={'name': 'Times-Roman', 'size': 14, 'color': 'black'},
+    chords_font={'name': 'Helvetica-Bold', 'size': 12, 'color': 'blue'},
+    title_font={'name': 'Helvetica-Bold', 'size': 18, 'color': 'darkred'},
+    margin=50,
+    spacing_chord_lyrics=15,
+    spacing_group=20
+)
+```
+
+## Dataset Access
+
+The package provides access to a large dataset of songs with chords and lyrics:
+
+```python
+from sung import get_lyrics_and_chords_dataset
+
+# Load the full dataset (cached after first load)
+df = get_lyrics_and_chords_dataset()
+print(f"Dataset contains {len(df)} songs")
+
+# Search by multiple criteria
+results = search_songs(
+    title='hotel california',
+    artist='eagles',
+    lyrics='welcome to the hotel'
+)
+```
+
+## Core Functions
+
+- `render_chords_and_lyrics()`: Main function for rendering chord sheets
+- `search_songs()`: Search the song database
+- `parse_chord_lyrics()`: Parse raw chord/lyrics text into structured data
+- `filter_non_lyrics()`: Remove non-lyrics content
+- `pack_song_lines()`: Combine short lines for better formatting
+- `extract_title()`: Extract song title from chord sheet
+- `get_lyrics_and_chords_dataset()`: Access the full dataset
+
+
+# Spotify 
+
+For spotify tools, you'll also need spotify API access info:
 
 ```
 export SPOTIFY_API_CLIENT_ID="your_api_client_id"
@@ -61,6 +198,7 @@ For detailed information on authorization flows and using your credentials, refe
 
 Ensure you handle your Client Secret securely and adhere to 
 [Spotify’s Developer Terms of Service](https://developer.spotify.com/terms/).
+
 
 # Using the sung.base Module to Search Tracks and Create a Playlist
 

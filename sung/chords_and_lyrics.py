@@ -250,7 +250,7 @@ def render_chords_and_lyrics(
     song: Union[str, Iterable[Dict]],
     to: str = 'pdf',
     output_path: str = None,
-    filter_non_lyrics: bool = False,
+    apply_filter_non_lyrics: bool = False,
     keep_metadata_lines: bool = False,
     pack_lines: bool = False,
     max_line_length: int = 80,
@@ -265,7 +265,7 @@ def render_chords_and_lyrics(
         song: Raw text or parsed song data
         to: Output format ('pdf' or 'text')
         output_path: Path for PDF output (required for PDF)
-        filter_non_lyrics: If True, filter out non-lyrics content
+        apply_filter_non_lyrics: If True, filter out non-lyrics content
         keep_metadata_lines: If True, keep metadata lines (like [Verse]) when filtering
         pack_lines: If True, pack short lines together for better space usage
         max_line_length: Maximum length for packed lines
@@ -274,7 +274,7 @@ def render_chords_and_lyrics(
     # Apply filters and transformations if requested
     processed_song = song
 
-    if filter_non_lyrics:
+    if apply_filter_non_lyrics:
         processed_song = filter_non_lyrics(
             processed_song, keep_metadata_lines=keep_metadata_lines
         )

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sung.base &mdash; sung 0.0.14 documentation</title>
+  <title>sung.base &mdash; sung 0.0.20 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=544df88d"></script>
+      <script src="../../_static/documentation_options.js?v=056c92e6"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -82,8 +82,8 @@
 <span></span><span class="sd">&quot;&quot;&quot;Base functionalities for the sung package.</span>
 
 <span class="sd">This module provides foundational tools and abstractions for interacting with Spotify&#39;s</span>
-<span class="sd">API. It includes classes and functions to search for tracks, manage playlists, and </span>
-<span class="sd">handle Spotify track metadata. The utilities here are designed to integrate seamlessly </span>
+<span class="sd">API. It includes classes and functions to search for tracks, manage playlists, and</span>
+<span class="sd">handle Spotify track metadata. The utilities here are designed to integrate seamlessly</span>
 <span class="sd">with Spotify&#39;s API and streamline data extraction and manipulation.</span>
 
 <span class="sd">Key Components:</span>
@@ -93,7 +93,7 @@
 <span class="sd">- `TracksBase`: A base class for managing collections of Spotify tracks,</span>
 <span class="sd">  providing a dictionary-like interface with additional utilities for metadata handling.</span>
 <span class="sd">- `Tracks`: A concrete implementation of `TracksBase` that uses track IDs or track metadata.</span>
-<span class="sd">- `PlaylistReader` and `Playlist`: Classes for managing Spotify playlists, offering </span>
+<span class="sd">- `PlaylistReader` and `Playlist`: Classes for managing Spotify playlists, offering</span>
 <span class="sd">  read-only and mutable interfaces respectively.</span>
 <span class="sd">- Utility functions and constants for managing Spotify clients and data extraction.</span>
 
@@ -150,13 +150,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">sung.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">extractor</span><span class="p">,</span> <span class="n">df_extractor</span>
 
 <span class="n">extra_track_metadata_extractions</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;artist_list&#39;</span><span class="p">:</span> <span class="s1">&#39;artists.*.name&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;album_name&#39;</span><span class="p">:</span> <span class="s1">&#39;album.name&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;album_release_date&#39;</span><span class="p">:</span> <span class="s1">&#39;album.release_date&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;external_urls.spotify&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;first_artist&#39;</span><span class="p">:</span> <span class="s1">&#39;artists.0.name&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;album_total_tracks&#39;</span><span class="p">:</span> <span class="s1">&#39;album.total_tracks&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;album_images&#39;</span><span class="p">:</span> <span class="s1">&#39;album.images&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;artist_list&quot;</span><span class="p">:</span> <span class="s2">&quot;artists.*.name&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;album_name&quot;</span><span class="p">:</span> <span class="s2">&quot;album.name&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;album_release_date&quot;</span><span class="p">:</span> <span class="s2">&quot;album.release_date&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;external_urls.spotify&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;first_artist&quot;</span><span class="p">:</span> <span class="s2">&quot;artists.0.name&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;album_total_tracks&quot;</span><span class="p">:</span> <span class="s2">&quot;album.total_tracks&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;album_images&quot;</span><span class="p">:</span> <span class="s2">&quot;album.images&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 
@@ -179,9 +179,9 @@
     <span class="n">common_columns</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">extras</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">common_columns</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Columns </span><span class="si">{</span><span class="n">common_columns</span><span class="si">}</span><span class="s2"> are duplicated in both dataframes.&quot;</span><span class="p">)</span>
-    <span class="n">extras</span><span class="p">[</span><span class="s1">&#39;artists_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s1">&#39;artist_list&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s1">&#39;; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">)</span>
-    <span class="n">extras</span><span class="p">[</span><span class="s1">&#39;album_release_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s1">&#39;album_release_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">convert_date</span><span class="p">)</span>
-    <span class="n">extras</span><span class="p">[</span><span class="s1">&#39;album_release_year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s1">&#39;album_release_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">extras</span><span class="p">[</span><span class="s2">&quot;artists_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s2">&quot;artist_list&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">)</span>
+    <span class="n">extras</span><span class="p">[</span><span class="s2">&quot;album_release_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s2">&quot;album_release_date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">convert_date</span><span class="p">)</span>
+    <span class="n">extras</span><span class="p">[</span><span class="s2">&quot;album_release_year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s2">&quot;album_release_date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">extras</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 
@@ -196,7 +196,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">track_ids_to_metas</span><span class="p">(</span><span class="n">track_ids</span><span class="p">,</span> <span class="n">client</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert track IDs to track metadata using the Spotify client.&quot;&quot;&quot;</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">tracks</span><span class="p">(</span><span class="n">track_ids</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;tracks&#39;</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;tracks&quot;</span><span class="p">]</span></div>
 
 
 
@@ -204,7 +204,7 @@
 <a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.track_metas_to_track_ids">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">track_metas_to_track_ids</span><span class="p">(</span><span class="n">track_metas</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract track IDs from track metadata.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">meta</span> <span class="ow">in</span> <span class="n">track_metas</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">meta</span> <span class="ow">in</span> <span class="n">track_metas</span><span class="p">]</span></div>
 
 
 
@@ -313,11 +313,11 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># TODO: Add the added year or date when available</span>
         <span class="n">metadata_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta_dataframe</span><span class="p">()</span>
-        <span class="n">audio_features_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">audio_features</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+        <span class="n">audio_features_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">audio_features</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
         <span class="n">audio_features_df</span> <span class="o">=</span> <span class="n">audio_features_df</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">spotify_audio_features_fields</span><span class="p">)]</span>
 
         <span class="c1"># Merge metadata and audio features</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">metadata_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">audio_features_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">metadata_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">audio_features_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span>
 
     <span class="nd">@cached_property</span>
@@ -339,7 +339,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">audio_features_df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deprecated: Use &#39;numerical_features_df&#39; instead.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">audio_features</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">audio_features</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">numerical_features_df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -360,7 +360,7 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">front_columns</span><span class="o">=</span><span class="n">front_columns_for_track_metas</span><span class="p">,</span>
         <span class="n">back_columns</span><span class="o">=</span><span class="n">back_columns_for_track_metas</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;pd.DataFrame&#39;</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get tracks metadata for given key(s), as a pandas DataFrame.</span>
 
@@ -373,8 +373,8 @@
         <span class="n">df</span> <span class="o">=</span> <span class="n">process_track_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">move_columns_to_front</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">front_columns</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">move_columns_to_back</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">back_columns</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-            <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span></div>
 
 
@@ -402,9 +402,9 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">egress</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">extractor</span><span class="p">(</span><span class="s1">&#39;tracks.items&#39;</span><span class="p">),</span>
+        <span class="n">egress</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">extractor</span><span class="p">(</span><span class="s2">&quot;tracks.items&quot;</span><span class="p">),</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">search_type</span><span class="p">:</span> <span class="n">SearchTypeT</span> <span class="o">=</span> <span class="s1">&#39;track&#39;</span><span class="p">,</span>
+        <span class="n">search_type</span><span class="p">:</span> <span class="n">SearchTypeT</span> <span class="o">=</span> <span class="s2">&quot;track&quot;</span><span class="p">,</span>
         <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">year</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">genre</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -439,9 +439,9 @@
 <a class="viewcode-back" href="../../module_docs/sung/base.html#sung.base.search_tracks">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">search_tracks</span><span class="p">(</span>
     <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">egress</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">extractor</span><span class="p">(</span><span class="s1">&#39;tracks.items&#39;</span><span class="p">),</span>
+    <span class="n">egress</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">extractor</span><span class="p">(</span><span class="s2">&quot;tracks.items&quot;</span><span class="p">),</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">search_type</span><span class="p">:</span> <span class="n">SearchTypeT</span> <span class="o">=</span> <span class="s1">&#39;track&#39;</span><span class="p">,</span>
+    <span class="n">search_type</span><span class="p">:</span> <span class="n">SearchTypeT</span> <span class="o">=</span> <span class="s2">&quot;track&quot;</span><span class="p">,</span>
     <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">year</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">genre</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -514,16 +514,16 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">playlist_id</span><span class="p">,</span>
                 <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span>
                 <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span>
-                <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;items.track,next&#39;</span><span class="p">,</span>
+                <span class="n">fields</span><span class="o">=</span><span class="s2">&quot;items.track,next&quot;</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">items</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;items&quot;</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
                 <span class="k">break</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-                <span class="n">track</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;track&#39;</span><span class="p">]</span>
+                <span class="n">track</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;track&quot;</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">track</span><span class="p">:</span>
                     <span class="n">track_metas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">track</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;next&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;next&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">break</span>
             <span class="n">offset</span> <span class="o">+=</span> <span class="n">limit</span>
         <span class="k">return</span> <span class="n">track_metas</span>
@@ -614,7 +614,7 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Playlist&#39;</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Playlist&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new playlist from a list of track IDs.</span>
 
@@ -634,13 +634,13 @@
             <span class="n">client</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">(</span><span class="n">ensure_scope</span><span class="o">=</span><span class="n">scope</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">user_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">user_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
 
         <span class="c1"># Create a new playlist</span>
         <span class="n">playlist</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">user_playlist_create</span><span class="p">(</span>
             <span class="n">user</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">playlist_name</span><span class="p">,</span> <span class="n">public</span><span class="o">=</span><span class="n">public</span>
         <span class="p">)</span>
-        <span class="n">playlist_id</span> <span class="o">=</span> <span class="n">playlist</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+        <span class="n">playlist_id</span> <span class="o">=</span> <span class="n">playlist</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
 
         <span class="c1"># Add tracks to the playlist in batches of 100</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">track_list</span><span class="p">),</span> <span class="mi">100</span><span class="p">):</span>
@@ -677,16 +677,16 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">recently_played</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="s1">&#39;items.*.track.name&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">recently_played</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="s2">&quot;items.*.track.name&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">client</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">ensure_scope</span><span class="o">=</span><span class="s1">&#39;user-read-recently-played&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">ensure_scope</span><span class="o">=</span><span class="s2">&quot;user-read-recently-played&quot;</span>
         <span class="p">)</span>
         <span class="n">results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">current_user_recently_played</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
         <span class="n">extract</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">ensure_extractor</span><span class="p">(</span><span class="n">extract</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">extract</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">current_user_top_tracks</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s1">&#39;long_term&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="s2">&quot;long_term&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get user&#39;s top tracks</span>
@@ -695,7 +695,7 @@
 
 <span class="sd">        To get names of artists, use extract=&#39;items.*.artists.*.name&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">client</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">ensure_scope</span><span class="o">=</span><span class="s1">&#39;user-top-read&#39;</span><span class="p">)</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">ensure_scope</span><span class="o">=</span><span class="s2">&quot;user-top-read&quot;</span><span class="p">)</span>
         <span class="n">results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">current_user_top_tracks</span><span class="p">(</span>
             <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="n">time_range</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>

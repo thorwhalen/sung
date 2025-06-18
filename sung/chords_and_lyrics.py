@@ -31,19 +31,19 @@ def get_lyrics_and_chords_dataset():
     import io
     from haggle import get_kaggle_dataset
 
-    data = get_kaggle_dataset('eitanbentora/chords-and-lyrics-dataset')
+    data = get_kaggle_dataset("eitanbentora/chords-and-lyrics-dataset")
 
-    return pd.read_csv(io.BytesIO(data['chords_and_lyrics.csv']))
+    return pd.read_csv(io.BytesIO(data["chords_and_lyrics.csv"]))
 
 
-def search_songs(title='', *, lyrics='', artist='', data=None):
+def search_songs(title="", *, lyrics="", artist="", data=None):
     """Search for a song by title, lyrics, or artist."""
     if data is None:
         data = get_lyrics_and_chords_dataset()
     results = data[
-        (data['song_name'].str.contains(title, case=False))
-        & (data['chords&lyrics'].str.contains(lyrics, case=False))
-        & (data['artist_name'].str.contains(artist, case=False))
+        (data["song_name"].str.contains(title, case=False))
+        & (data["chords&lyrics"].str.contains(lyrics, case=False))
+        & (data["artist_name"].str.contains(artist, case=False))
     ]
     return results
 
@@ -95,7 +95,7 @@ def complete_font_spec(spec: dict, default: dict) -> FontSpec:
 
 def is_chord_line(line: str) -> bool:
     tokens = [t for t in line.strip().split() if t]
-    return bool(tokens) and all(re.match(r'^[A-G][^\s]*$', t) for t in tokens)
+    return bool(tokens) and all(re.match(r"^[A-G][^\s]*$", t) for t in tokens)
 
 
 def parse_chord_lyrics(raw_text: str):
@@ -114,18 +114,18 @@ def parse_chord_lyrics(raw_text: str):
         ):
             chord_line = line
             lyric_line = lines[i + 1]
-            chords = [(m.group(), m.start()) for m in re.finditer(r'\S+', chord_line)]
-            yield {'chords': chords, 'lyrics': lyric_line}
+            chords = [(m.group(), m.start()) for m in re.finditer(r"\S+", chord_line)]
+            yield {"chords": chords, "lyrics": lyric_line}
             i += 2
         else:
-            yield {'chords': [], 'lyrics': line}
+            yield {"chords": [], "lyrics": line}
             i += 1
 
 
 def extract_title(raw_text: str) -> str:
     for line in raw_text.splitlines():
         txt = line.strip()
-        if not txt or txt.startswith('[') or is_chord_line(line):
+        if not txt or txt.startswith("[") or is_chord_line(line):
             continue
         return txt
     return ""
@@ -187,7 +187,7 @@ def render_chords_and_lyrics_to_pdf(
 
     c = canvas.Canvas(output_path, pagesize=page_size)
     width, height = page_size
-    char_width = pdfmetrics.stringWidth('M', lyr_fs.name, lyr_fs.size)
+    char_width = pdfmetrics.stringWidth("M", lyr_fs.name, lyr_fs.size)
     y = height - margin
 
     # Title
@@ -199,8 +199,8 @@ def render_chords_and_lyrics_to_pdf(
         y -= ttl_fs.size * 1.5
 
     for section in song_data:
-        chords = section['chords']
-        lyrics = section['lyrics']
+        chords = section["chords"]
+        lyrics = section["lyrics"]
         if y < margin + lyr_fs.size * 3:
             c.showPage()
             y = height - margin
@@ -232,23 +232,23 @@ def render_chords_and_lyrics_to_text(
     song_data, _ = ensure_parsed_song(song)
     lines = []
     for section in song_data:
-        chords = section['chords']
-        lyrics = section['lyrics']
+        chords = section["chords"]
+        lyrics = section["lyrics"]
         if chords:
             # Determine width
             max_pos = max(pos + len(ch) for ch, pos in chords)
             width = max(max_pos, len(lyrics))
-            chord_line = list(' ' * width)
+            chord_line = list(" " * width)
             for ch, pos in chords:
                 chord_line[pos : pos + len(ch)] = ch
-            lines.append(''.join(chord_line).rstrip())
+            lines.append("".join(chord_line).rstrip())
         lines.append(lyrics)
     return "\n".join(lines)
 
 
 def render_chords_and_lyrics(
     song: Union[str, Iterable[Dict]],
-    to: str = 'pdf',
+    to: str = "pdf",
     output_path: str = None,
     filter_non_lyrics: bool = False,
     keep_metadata_lines: bool = False,
@@ -285,13 +285,13 @@ def render_chords_and_lyrics(
         )
 
     fmt = to.lower()
-    if fmt == 'pdf':
+    if fmt == "pdf":
         if not output_path:
             raise ValueError("output_path is required for PDF rendering")
         return render_chords_and_lyrics_to_pdf(
             processed_song, output_path=output_path, **kwargs
         )
-    elif fmt in ('text', 'txt'):
+    elif fmt in ("text", "txt"):
         return render_chords_and_lyrics_to_text(processed_song)
     else:
         raise ValueError(f"Unknown render format: {to}")
@@ -315,7 +315,7 @@ def is_likely_lyrics(line: str, has_chords_before: bool = False) -> bool:
         return True
 
     # Lines starting with [ are typically metadata (like [Verse], [Chorus])
-    if line.startswith('['):
+    if line.startswith("["):
         return False
 
     # If it's a chord line, it's not lyrics
@@ -332,7 +332,7 @@ def is_likely_lyrics(line: str, has_chords_before: bool = False) -> bool:
         return False
 
     # Lines with lots of dashes or equals might be separators
-    if re.match(r'^[-=_]{3,}$', line):
+    if re.match(r"^[-=_]{3,}$", line):
         return False
 
     # Default to considering it lyrics if we're not sure
@@ -356,8 +356,8 @@ def filter_non_lyrics(
     filtered = []
 
     for i, section in enumerate(song_data):
-        line = section['lyrics']
-        chords = section['chords']
+        line = section["lyrics"]
+        chords = section["chords"]
 
         # Check if previous section had chords
         has_chords_before = bool(chords)
@@ -370,7 +370,7 @@ def filter_non_lyrics(
         # Check if this is likely lyrics
         if is_likely_lyrics(line, has_chords_before):
             # Special case for metadata lines
-            if line.strip().startswith('[') and not keep_metadata_lines:
+            if line.strip().startswith("[") and not keep_metadata_lines:
                 continue
             filtered.append(section)
 
@@ -407,14 +407,14 @@ def pack_song_lines(
         if current_packed_lyrics.strip() or current_packed_chords:
             packed.append(
                 {
-                    'chords': current_packed_chords,
-                    'lyrics': current_packed_lyrics.rstrip(),
+                    "chords": current_packed_chords,
+                    "lyrics": current_packed_lyrics.rstrip(),
                 }
             )
 
     for section in song_data:
-        chords = section['chords']
-        lyrics = section['lyrics']
+        chords = section["chords"]
+        lyrics = section["lyrics"]
 
         # If this section has chords, we need to be more careful about packing
         if chords:
@@ -445,7 +445,7 @@ def pack_song_lines(
         )
 
         if len(potential_line) <= max_line_length and not lyrics.strip().startswith(
-            '['
+            "["
         ):
             # Add to current pack
             current_packed_lyrics = potential_line
@@ -513,11 +513,11 @@ def resolve_page_size(page_size):
         else:
             # Try common variations
             size_map = {
-                'A4': pagesizes.A4,
-                'LETTER': pagesizes.LETTER,
-                'LEGAL': pagesizes.LEGAL,
-                'A3': pagesizes.A3,
-                'A5': pagesizes.A5,
+                "A4": pagesizes.A4,
+                "LETTER": pagesizes.LETTER,
+                "LEGAL": pagesizes.LEGAL,
+                "A3": pagesizes.A3,
+                "A5": pagesizes.A5,
             }
             if page_size_upper in size_map:
                 return size_map[page_size_upper]

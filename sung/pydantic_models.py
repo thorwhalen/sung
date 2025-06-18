@@ -14,7 +14,6 @@ https://developer.spotify.com/reference/web-api/open-api-schema.yaml
 
 """
 
-
 from __future__ import annotations
 
 from datetime import datetime
@@ -32,9 +31,9 @@ class TrackRestrictionObject(BaseModel):
 
 
 class Reason(Enum):
-    market = 'market'
-    product = 'product'
-    explicit = 'explicit'
+    market = "market"
+    product = "product"
+    explicit = "explicit"
 
 
 class AlbumRestrictionObject(BaseModel):
@@ -59,104 +58,104 @@ class ChapterRestrictionObject(BaseModel):
 
 
 class Type(Enum):
-    artist = 'artist'
+    artist = "artist"
 
 
 class DisallowsObject(BaseModel):
     interrupting_playback: Optional[bool] = Field(
-        None, description='Interrupting playback. Optional field.'
+        None, description="Interrupting playback. Optional field."
     )
-    pausing: Optional[bool] = Field(None, description='Pausing. Optional field.')
-    resuming: Optional[bool] = Field(None, description='Resuming. Optional field.')
+    pausing: Optional[bool] = Field(None, description="Pausing. Optional field.")
+    resuming: Optional[bool] = Field(None, description="Resuming. Optional field.")
     seeking: Optional[bool] = Field(
-        None, description='Seeking playback location. Optional field.'
+        None, description="Seeking playback location. Optional field."
     )
     skipping_next: Optional[bool] = Field(
-        None, description='Skipping to the next context. Optional field.'
+        None, description="Skipping to the next context. Optional field."
     )
     skipping_prev: Optional[bool] = Field(
-        None, description='Skipping to the previous context. Optional field.'
+        None, description="Skipping to the previous context. Optional field."
     )
     toggling_repeat_context: Optional[bool] = Field(
-        None, description='Toggling repeat context flag. Optional field.'
+        None, description="Toggling repeat context flag. Optional field."
     )
     toggling_shuffle: Optional[bool] = Field(
-        None, description='Toggling shuffle flag. Optional field.'
+        None, description="Toggling shuffle flag. Optional field."
     )
     toggling_repeat_track: Optional[bool] = Field(
-        None, description='Toggling repeat track flag. Optional field.'
+        None, description="Toggling repeat track flag. Optional field."
     )
     transferring_playback: Optional[bool] = Field(
-        None, description='Transfering playback between devices. Optional field.'
+        None, description="Transfering playback between devices. Optional field."
     )
 
 
 class ErrorObject(BaseModel):
     status: conint(ge=400, le=599) = Field(
         ...,
-        description='The HTTP status code (also returned in the response header; see [Response Status Codes](/documentation/web-api/concepts/api-calls#response-status-codes) for more information).\n',
+        description="The HTTP status code (also returned in the response header; see [Response Status Codes](/documentation/web-api/concepts/api-calls#response-status-codes) for more information).\n",
     )
     message: str = Field(
-        ..., description='A short description of the cause of the error.\n'
+        ..., description="A short description of the cause of the error.\n"
     )
 
 
 class Type2(Enum):
-    user = 'user'
+    user = "user"
 
 
 class Meta(BaseModel):
     analyzer_version: Optional[str] = Field(
         None,
-        description='The version of the Analyzer used to analyze this track.',
-        example='4.0.0',
+        description="The version of the Analyzer used to analyze this track.",
+        example="4.0.0",
     )
     platform: Optional[str] = Field(
         None,
         description="The platform used to read the track's audio data.",
-        example='Linux',
+        example="Linux",
     )
     detailed_status: Optional[str] = Field(
         None,
-        description='A detailed status code for this track. If analysis data is missing, this code may explain why.',
-        example='OK',
+        description="A detailed status code for this track. If analysis data is missing, this code may explain why.",
+        example="OK",
     )
     status_code: Optional[int] = Field(
         None,
-        description='The return code of the analyzer process. 0 if successful, 1 if any errors occurred.',
+        description="The return code of the analyzer process. 0 if successful, 1 if any errors occurred.",
         example=0,
     )
     timestamp: Optional[int] = Field(
         None,
-        description='The Unix timestamp (in seconds) at which this track was analyzed.',
+        description="The Unix timestamp (in seconds) at which this track was analyzed.",
         example=1495193577,
     )
     analysis_time: Optional[float] = Field(
         None,
-        description='The amount of time taken to analyze this track.',
+        description="The amount of time taken to analyze this track.",
         example=6.93906,
     )
     input_process: Optional[str] = Field(
         None,
         description="The method used to read the track's audio data.",
-        example='libvorbisfile L+R 44100->22050',
+        example="libvorbisfile L+R 44100->22050",
     )
 
 
 class TimeIntervalObject(BaseModel):
     start: Optional[float] = Field(
         None,
-        description='The starting point (in seconds) of the time interval.',
+        description="The starting point (in seconds) of the time interval.",
         example=0.49567,
     )
     duration: Optional[float] = Field(
         None,
-        description='The duration (in seconds) of the time interval.',
+        description="The duration (in seconds) of the time interval.",
         example=2.18749,
     )
     confidence: Optional[confloat(ge=0.0, le=1.0)] = Field(
         None,
-        description='The confidence, from 0.0 to 1.0, of the reliability of the interval.',
+        description="The confidence, from 0.0 to 1.0, of the reliability of the interval.",
         example=0.925,
     )
 
@@ -170,15 +169,15 @@ class Mode1(Enum):
 class SegmentObject(BaseModel):
     start: Optional[float] = Field(
         None,
-        description='The starting point (in seconds) of the segment.',
+        description="The starting point (in seconds) of the segment.",
         example=0.70154,
     )
     duration: Optional[float] = Field(
-        None, description='The duration (in seconds) of the segment.', example=0.19891
+        None, description="The duration (in seconds) of the segment.", example=0.19891
     )
     confidence: Optional[confloat(ge=0.0, le=1.0)] = Field(
         None,
-        description='The confidence, from 0.0 to 1.0, of the reliability of the segmentation. Segments of the song which are difficult to logically segment (e.g: noise) may correspond to low values in this field.\n',
+        description="The confidence, from 0.0 to 1.0, of the reliability of the segmentation. Segments of the song which are difficult to logically segment (e.g: noise) may correspond to low values in this field.\n",
         example=0.435,
     )
     loudness_start: Optional[float] = Field(
@@ -198,17 +197,17 @@ class SegmentObject(BaseModel):
     )
     loudness_end: Optional[float] = Field(
         None,
-        description='The offset loudness of the segment in decibels (dB). This value should be equivalent to the loudness_start of the following segment.',
+        description="The offset loudness of the segment in decibels (dB). This value should be equivalent to the loudness_start of the following segment.",
         example=0.0,
     )
     pitches: Optional[List[confloat(ge=0.0, le=1.0)]] = Field(
         None,
-        description='Pitch content is given by a “chroma” vector, corresponding to the 12 pitch classes C, C#, D to B, with values ranging from 0 to 1 that describe the relative dominance of every pitch in the chromatic scale. For example a C Major chord would likely be represented by large values of C, E and G (i.e. classes 0, 4, and 7).\n\nVectors are normalized to 1 by their strongest dimension, therefore noisy sounds are likely represented by values that are all close to 1, while pure tones are described by one value at 1 (the pitch) and others near 0.\nAs can be seen below, the 12 vector indices are a combination of low-power spectrum values at their respective pitch frequencies.\n![pitch vector](https://developer.spotify.com/assets/audio/Pitch_vector.png)\n',
+        description="Pitch content is given by a “chroma” vector, corresponding to the 12 pitch classes C, C#, D to B, with values ranging from 0 to 1 that describe the relative dominance of every pitch in the chromatic scale. For example a C Major chord would likely be represented by large values of C, E and G (i.e. classes 0, 4, and 7).\n\nVectors are normalized to 1 by their strongest dimension, therefore noisy sounds are likely represented by values that are all close to 1, while pure tones are described by one value at 1 (the pitch) and others near 0.\nAs can be seen below, the 12 vector indices are a combination of low-power spectrum values at their respective pitch frequencies.\n![pitch vector](https://developer.spotify.com/assets/audio/Pitch_vector.png)\n",
         example=[0.212, 0.141, 0.294],
     )
     timbre: Optional[List[float]] = Field(
         None,
-        description='Timbre is the quality of a musical note or sound that distinguishes different types of musical instruments, or voices. It is a complex notion also referred to as sound color, texture, or tone quality, and is derived from the shape of a segment’s spectro-temporal surface, independently of pitch and loudness. The timbre feature is a vector that includes 12 unbounded values roughly centered around 0. Those values are high level abstractions of the spectral surface, ordered by degree of importance.\n\nFor completeness however, the first dimension represents the average loudness of the segment; second emphasizes brightness; third is more closely correlated to the flatness of a sound; fourth to sounds with a stronger attack; etc. See an image below representing the 12 basis functions (i.e. template segments).\n![timbre basis functions](https://developer.spotify.com/assets/audio/Timbre_basis_functions.png)\n\nThe actual timbre of the segment is best described as a linear combination of these 12 basis functions weighted by the coefficient values: timbre = c1 x b1 + c2 x b2 + ... + c12 x b12, where c1 to c12 represent the 12 coefficients and b1 to b12 the 12 basis functions as displayed below. Timbre vectors are best used in comparison with each other.\n',
+        description="Timbre is the quality of a musical note or sound that distinguishes different types of musical instruments, or voices. It is a complex notion also referred to as sound color, texture, or tone quality, and is derived from the shape of a segment’s spectro-temporal surface, independently of pitch and loudness. The timbre feature is a vector that includes 12 unbounded values roughly centered around 0. Those values are high level abstractions of the spectral surface, ordered by degree of importance.\n\nFor completeness however, the first dimension represents the average loudness of the segment; second emphasizes brightness; third is more closely correlated to the flatness of a sound; fourth to sounds with a stronger attack; etc. See an image below representing the 12 basis functions (i.e. template segments).\n![timbre basis functions](https://developer.spotify.com/assets/audio/Timbre_basis_functions.png)\n\nThe actual timbre of the segment is best described as a linear combination of these 12 basis functions weighted by the coefficient values: timbre = c1 x b1 + c2 x b2 + ... + c12 x b12, where c1 to c12 represent the 12 coefficients and b1 to b12 the 12 basis functions as displayed below. Timbre vectors are best used in comparison with each other.\n",
         example=[42.115, 64.373, -0.233],
     )
 
@@ -224,7 +223,7 @@ class TimeSignature(RootModel):
 class Tempo(RootModel):
     root: float = Field(
         ...,
-        description='The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.\n',
+        description="The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.\n",
         example=118.211,
     )
 
@@ -232,7 +231,7 @@ class Tempo(RootModel):
 class Loudness(RootModel):
     root: float = Field(
         ...,
-        description='The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.\n',
+        description="The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.\n",
         example=-5.883,
     )
 
@@ -240,7 +239,7 @@ class Loudness(RootModel):
 class Key(RootModel):
     root: conint(ge=-1, le=11) = Field(
         ...,
-        description='The key the track is in. Integers map to pitches using standard [Pitch Class notation](https://en.wikipedia.org/wiki/Pitch_class). E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1.\n',
+        description="The key the track is in. Integers map to pitches using standard [Pitch Class notation](https://en.wikipedia.org/wiki/Pitch_class). E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1.\n",
         example=9,
     )
 
@@ -248,43 +247,43 @@ class Key(RootModel):
 class Mode(RootModel):
     root: int = Field(
         ...,
-        description='Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.\n',
+        description="Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.\n",
         example=0,
     )
 
 
 class Type3(Enum):
-    audio_features = 'audio_features'
+    audio_features = "audio_features"
 
 
 class AudioFeaturesObject(BaseModel):
     acousticness: Optional[confloat(ge=0.0, le=1.0)] = Field(
         None,
-        description='A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.\n',
+        description="A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.\n",
         example=0.00242,
     )
     analysis_url: Optional[str] = Field(
         None,
-        description='A URL to access the full audio analysis of this track. An access token is required to access this data.\n',
-        example='https://api.spotify.com/v1/audio-analysis/2takcwOaAZWiXQijPHIx7B\n',
+        description="A URL to access the full audio analysis of this track. An access token is required to access this data.\n",
+        example="https://api.spotify.com/v1/audio-analysis/2takcwOaAZWiXQijPHIx7B\n",
     )
     danceability: Optional[float] = Field(
         None,
-        description='Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.\n',
+        description="Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.\n",
         example=0.585,
     )
     duration_ms: Optional[int] = Field(
-        None, description='The duration of the track in milliseconds.\n', example=237040
+        None, description="The duration of the track in milliseconds.\n", example=237040
     )
     energy: Optional[float] = Field(
         None,
-        description='Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.\n',
+        description="Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.\n",
         example=0.842,
     )
     id: Optional[str] = Field(
         None,
-        description='The Spotify ID for the track.\n',
-        example='2takcwOaAZWiXQijPHIx7B',
+        description="The Spotify ID for the track.\n",
+        example="2takcwOaAZWiXQijPHIx7B",
     )
     instrumentalness: Optional[float] = Field(
         None,
@@ -294,32 +293,32 @@ class AudioFeaturesObject(BaseModel):
     key: Optional[Key] = None
     liveness: Optional[float] = Field(
         None,
-        description='Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.\n',
+        description="Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.\n",
         example=0.0866,
     )
     loudness: Optional[Loudness] = None
     mode: Optional[Mode] = None
     speechiness: Optional[float] = Field(
         None,
-        description='Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.\n',
+        description="Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.\n",
         example=0.0556,
     )
     tempo: Optional[Tempo] = None
     time_signature: Optional[TimeSignature] = None
     track_href: Optional[str] = Field(
         None,
-        description='A link to the Web API endpoint providing full details of the track.\n',
-        example='https://api.spotify.com/v1/tracks/2takcwOaAZWiXQijPHIx7B\n',
+        description="A link to the Web API endpoint providing full details of the track.\n",
+        example="https://api.spotify.com/v1/tracks/2takcwOaAZWiXQijPHIx7B\n",
     )
-    type: Optional[Type3] = Field(None, description='The object type.\n')
+    type: Optional[Type3] = Field(None, description="The object type.\n")
     uri: Optional[str] = Field(
         None,
-        description='The Spotify URI for the track.\n',
-        example='spotify:track:2takcwOaAZWiXQijPHIx7B',
+        description="The Spotify URI for the track.\n",
+        example="spotify:track:2takcwOaAZWiXQijPHIx7B",
     )
     valence: Optional[confloat(ge=0.0, le=1.0)] = Field(
         None,
-        description='A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).\n',
+        description="A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).\n",
         example=0.428,
     )
 
@@ -327,13 +326,13 @@ class AudioFeaturesObject(BaseModel):
 class DeviceObject(BaseModel):
     id: Optional[str] = Field(
         None,
-        description='The device ID. This ID is unique and persistent to some extent. However, this is not guaranteed and any cached `device_id` should periodically be cleared out and refetched as necessary.',
+        description="The device ID. This ID is unique and persistent to some extent. However, this is not guaranteed and any cached `device_id` should periodically be cleared out and refetched as necessary.",
     )
     is_active: Optional[bool] = Field(
-        None, description='If this device is the currently active device.'
+        None, description="If this device is the currently active device."
     )
     is_private_session: Optional[bool] = Field(
-        None, description='If this device is currently in a private session.'
+        None, description="If this device is currently in a private session."
     )
     is_restricted: Optional[bool] = Field(
         None,
@@ -342,104 +341,104 @@ class DeviceObject(BaseModel):
     name: Optional[str] = Field(
         None,
         description='A human-readable name for the device. Some devices have a name that the user can configure (e.g. \\"Loudest speaker\\") and some devices have a generic name associated with the manufacturer or device model.',
-        example='Kitchen speaker',
+        example="Kitchen speaker",
     )
     type: Optional[str] = Field(
         None,
         description='Device type, such as "computer", "smartphone" or "speaker".',
-        example='computer',
+        example="computer",
     )
     volume_percent: Optional[conint(ge=0, le=100)] = Field(
-        None, description='The current volume in percent.', example=59
+        None, description="The current volume in percent.", example=59
     )
     supports_volume: Optional[bool] = Field(
-        None, description='If this device can be used to set the volume.'
+        None, description="If this device can be used to set the volume."
     )
 
 
 class CursorObject(BaseModel):
     after: Optional[str] = Field(
-        None, description='The cursor to use as key to find the next page of items.'
+        None, description="The cursor to use as key to find the next page of items."
     )
     before: Optional[str] = Field(
-        None, description='The cursor to use as key to find the previous page of items.'
+        None, description="The cursor to use as key to find the previous page of items."
     )
 
 
 class CursorPagingObject(BaseModel):
     href: Optional[str] = Field(
         None,
-        description='A link to the Web API endpoint returning the full result of the request.',
+        description="A link to the Web API endpoint returning the full result of the request.",
     )
     limit: Optional[int] = Field(
         None,
-        description='The maximum number of items in the response (as set in the query or by default).',
+        description="The maximum number of items in the response (as set in the query or by default).",
     )
     next: Optional[str] = Field(
-        None, description='URL to the next page of items. ( `null` if none)'
+        None, description="URL to the next page of items. ( `null` if none)"
     )
     cursors: Optional[CursorObject] = Field(
-        None, description='The cursors used to find the next set of items.'
+        None, description="The cursors used to find the next set of items."
     )
     total: Optional[int] = Field(
-        None, description='The total number of items available to return.'
+        None, description="The total number of items available to return."
     )
 
 
 class PagingObject(BaseModel):
     href: str = Field(
         ...,
-        description='A link to the Web API endpoint returning the full result of the request\n',
-        example='https://api.spotify.com/v1/me/shows?offset=0&limit=20\n',
+        description="A link to the Web API endpoint returning the full result of the request\n",
+        example="https://api.spotify.com/v1/me/shows?offset=0&limit=20\n",
     )
     limit: int = Field(
         ...,
-        description='The maximum number of items in the response (as set in the query or by default).\n',
+        description="The maximum number of items in the response (as set in the query or by default).\n",
         example=20,
     )
     next: str = Field(
         ...,
-        description='URL to the next page of items. ( `null` if none)\n',
-        example='https://api.spotify.com/v1/me/shows?offset=1&limit=1',
+        description="URL to the next page of items. ( `null` if none)\n",
+        example="https://api.spotify.com/v1/me/shows?offset=1&limit=1",
     )
     offset: int = Field(
         ...,
-        description='The offset of the items returned (as set in the query or by default)\n',
+        description="The offset of the items returned (as set in the query or by default)\n",
         example=0,
     )
     previous: str = Field(
         ...,
-        description='URL to the previous page of items. ( `null` if none)\n',
-        example='https://api.spotify.com/v1/me/shows?offset=1&limit=1',
+        description="URL to the previous page of items. ( `null` if none)\n",
+        example="https://api.spotify.com/v1/me/shows?offset=1&limit=1",
     )
     total: int = Field(
-        ..., description='The total number of items available to return.\n', example=4
+        ..., description="The total number of items available to return.\n", example=4
     )
 
 
 class RecommendationSeedObject(BaseModel):
     afterFilteringSize: Optional[int] = Field(
         None,
-        description='The number of tracks available after min\\_\\* and max\\_\\* filters have been applied.\n',
+        description="The number of tracks available after min\\_\\* and max\\_\\* filters have been applied.\n",
     )
     afterRelinkingSize: Optional[int] = Field(
         None,
-        description='The number of tracks available after relinking for regional availability.\n',
+        description="The number of tracks available after relinking for regional availability.\n",
     )
     href: Optional[str] = Field(
         None,
-        description='A link to the full track or artist data for this seed. For tracks this will be a link to a Track Object. For artists a link to an Artist Object. For genre seeds, this value will be `null`.\n',
+        description="A link to the full track or artist data for this seed. For tracks this will be a link to a Track Object. For artists a link to an Artist Object. For genre seeds, this value will be `null`.\n",
     )
     id: Optional[str] = Field(
         None,
-        description='The id used to select this seed. This will be the same as the string used in the `seed_artists`, `seed_tracks` or `seed_genres` parameter.\n',
+        description="The id used to select this seed. This will be the same as the string used in the `seed_artists`, `seed_tracks` or `seed_genres` parameter.\n",
     )
     initialPoolSize: Optional[int] = Field(
-        None, description='The number of recommended tracks available for this seed.\n'
+        None, description="The number of recommended tracks available for this seed.\n"
     )
     type: Optional[str] = Field(
         None,
-        description='The entity type of this seed. One of `artist`, `track` or `genre`.\n',
+        description="The entity type of this seed. One of `artist`, `track` or `genre`.\n",
     )
 
 
@@ -449,32 +448,32 @@ class PlaylistTracksRefObject(BaseModel):
         description="A link to the Web API endpoint where full details of the playlist's tracks can be retrieved.\n",
     )
     total: Optional[int] = Field(
-        None, description='Number of tracks in the playlist.\n'
+        None, description="Number of tracks in the playlist.\n"
     )
 
 
 class Type4(Enum):
-    user = 'user'
+    user = "user"
 
 
 class Type5(Enum):
-    track = 'track'
+    track = "track"
 
 
 class ReleaseDatePrecision(Enum):
-    year = 'year'
-    month = 'month'
-    day = 'day'
+    year = "year"
+    month = "month"
+    day = "day"
 
 
 class Type6(Enum):
-    episode = 'episode'
+    episode = "episode"
 
 
 class ResumePointObject(BaseModel):
     fully_played: Optional[bool] = Field(
         None,
-        description='Whether or not the episode has been fully played by the user.\n',
+        description="Whether or not the episode has been fully played by the user.\n",
     )
     resume_position_ms: Optional[int] = Field(
         None,
@@ -483,96 +482,96 @@ class ResumePointObject(BaseModel):
 
 
 class Type7(Enum):
-    show = 'show'
+    show = "show"
 
 
 class Type8(Enum):
-    audiobook = 'audiobook'
+    audiobook = "audiobook"
 
 
 class AlbumType(Enum):
-    album = 'album'
-    single = 'single'
-    compilation = 'compilation'
+    album = "album"
+    single = "single"
+    compilation = "compilation"
 
 
 class Type9(Enum):
-    album = 'album'
+    album = "album"
 
 
 class AlbumGroup(Enum):
-    album = 'album'
-    single = 'single'
-    compilation = 'compilation'
-    appears_on = 'appears_on'
+    album = "album"
+    single = "single"
+    compilation = "compilation"
+    appears_on = "appears_on"
 
 
 class Type10(Enum):
-    episode = 'episode'
+    episode = "episode"
 
 
 class CopyrightObject(BaseModel):
     text: Optional[str] = Field(
-        None, description='The copyright text for this content.\n'
+        None, description="The copyright text for this content.\n"
     )
     type: Optional[str] = Field(
         None,
-        description='The type of copyright: `C` = the copyright, `P` = the sound recording (performance) copyright.\n',
+        description="The type of copyright: `C` = the copyright, `P` = the sound recording (performance) copyright.\n",
     )
 
 
 class AuthorObject(BaseModel):
-    name: Optional[str] = Field(None, description='The name of the author.\n')
+    name: Optional[str] = Field(None, description="The name of the author.\n")
 
 
 class NarratorObject(BaseModel):
-    name: Optional[str] = Field(None, description='The name of the Narrator.\n')
+    name: Optional[str] = Field(None, description="The name of the Narrator.\n")
 
 
 class ExternalIdObject(BaseModel):
     isrc: Optional[str] = Field(
         None,
-        description='[International Standard Recording Code](http://en.wikipedia.org/wiki/International_Standard_Recording_Code)\n',
+        description="[International Standard Recording Code](http://en.wikipedia.org/wiki/International_Standard_Recording_Code)\n",
     )
     ean: Optional[str] = Field(
         None,
-        description='[International Article Number](http://en.wikipedia.org/wiki/International_Article_Number_%28EAN%29)\n',
+        description="[International Article Number](http://en.wikipedia.org/wiki/International_Article_Number_%28EAN%29)\n",
     )
     upc: Optional[str] = Field(
         None,
-        description='[Universal Product Code](http://en.wikipedia.org/wiki/Universal_Product_Code)\n',
+        description="[Universal Product Code](http://en.wikipedia.org/wiki/Universal_Product_Code)\n",
     )
 
 
 class ExternalUrlObject(BaseModel):
     spotify: Optional[str] = Field(
         None,
-        description='The [Spotify URL](/documentation/web-api/concepts/spotify-uris-ids) for the object.\n',
+        description="The [Spotify URL](/documentation/web-api/concepts/spotify-uris-ids) for the object.\n",
     )
 
 
 class FollowersObject(BaseModel):
     href: Optional[str] = Field(
         None,
-        description='This will always be set to null, as the Web API does not support it at the moment.\n',
+        description="This will always be set to null, as the Web API does not support it at the moment.\n",
     )
-    total: Optional[int] = Field(None, description='The total number of followers.\n')
+    total: Optional[int] = Field(None, description="The total number of followers.\n")
 
 
 class ImageObject(BaseModel):
     url: str = Field(
         ...,
-        description='The source URL of the image.\n',
-        example='https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228\n',
+        description="The source URL of the image.\n",
+        example="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228\n",
     )
-    height: int = Field(..., description='The image height in pixels.\n', example=300)
-    width: int = Field(..., description='The image width in pixels.\n', example=300)
+    height: int = Field(..., description="The image height in pixels.\n", example=300)
+    width: int = Field(..., description="The image width in pixels.\n", example=300)
 
 
 class ExplicitContentSettingsObject(BaseModel):
     filter_enabled: Optional[bool] = Field(
         None,
-        description='When `true`, indicates that explicit content should not be played.\n',
+        description="When `true`, indicates that explicit content should not be played.\n",
     )
     filter_locked: Optional[bool] = Field(
         None,
@@ -582,75 +581,75 @@ class ExplicitContentSettingsObject(BaseModel):
 
 class LinkedTrackObject(BaseModel):
     external_urls: Optional[ExternalUrlObject] = Field(
-        None, description='Known external URLs for this track.\n'
+        None, description="Known external URLs for this track.\n"
     )
     href: Optional[str] = Field(
         None,
-        description='A link to the Web API endpoint providing full details of the track.\n',
+        description="A link to the Web API endpoint providing full details of the track.\n",
     )
     id: Optional[str] = Field(
         None,
-        description='The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the track.\n',
+        description="The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the track.\n",
     )
     type: Optional[str] = Field(None, description='The object type: "track".\n')
     uri: Optional[str] = Field(
         None,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the track.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the track.\n",
     )
 
 
 class ArtistObject(BaseModel):
     external_urls: Optional[ExternalUrlObject] = Field(
-        None, description='Known external URLs for this artist.\n'
+        None, description="Known external URLs for this artist.\n"
     )
     followers: Optional[FollowersObject] = Field(
-        None, description='Information about the followers of the artist.\n'
+        None, description="Information about the followers of the artist.\n"
     )
     genres: Optional[List[str]] = Field(
         None,
-        description='A list of the genres the artist is associated with. If not yet classified, the array is empty.\n',
-        example=['Prog rock', 'Grunge'],
+        description="A list of the genres the artist is associated with. If not yet classified, the array is empty.\n",
+        example=["Prog rock", "Grunge"],
     )
     href: Optional[str] = Field(
         None,
-        description='A link to the Web API endpoint providing full details of the artist.\n',
+        description="A link to the Web API endpoint providing full details of the artist.\n",
     )
     id: Optional[str] = Field(
         None,
-        description='The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the artist.\n',
+        description="The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the artist.\n",
     )
     images: Optional[List[ImageObject]] = Field(
-        None, description='Images of the artist in various sizes, widest first.\n'
+        None, description="Images of the artist in various sizes, widest first.\n"
     )
-    name: Optional[str] = Field(None, description='The name of the artist.\n')
+    name: Optional[str] = Field(None, description="The name of the artist.\n")
     popularity: Optional[int] = Field(
         None,
         description="The popularity of the artist. The value will be between 0 and 100, with 100 being the most popular. The artist's popularity is calculated from the popularity of all the artist's tracks.\n",
     )
-    type: Optional[Type] = Field(None, description='The object type.\n')
+    type: Optional[Type] = Field(None, description="The object type.\n")
     uri: Optional[str] = Field(
         None,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the artist.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the artist.\n",
     )
 
 
 class SimplifiedArtistObject(BaseModel):
     external_urls: Optional[ExternalUrlObject] = Field(
-        None, description='Known external URLs for this artist.\n'
+        None, description="Known external URLs for this artist.\n"
     )
     href: Optional[str] = Field(
         None,
-        description='A link to the Web API endpoint providing full details of the artist.\n',
+        description="A link to the Web API endpoint providing full details of the artist.\n",
     )
     id: Optional[str] = Field(
         None,
-        description='The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the artist.\n',
+        description="The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the artist.\n",
     )
-    name: Optional[str] = Field(None, description='The name of the artist.\n')
-    type: Optional[Type] = Field(None, description='The object type.\n')
+    name: Optional[str] = Field(None, description="The name of the artist.\n")
+    type: Optional[Type] = Field(None, description="The object type.\n")
     uri: Optional[str] = Field(
         None,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the artist.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the artist.\n",
     )
 
 
@@ -672,17 +671,17 @@ class PrivateUserObject(BaseModel):
         description="The user's explicit content settings. _This field is only available when the current user has granted access to the [user-read-private](/documentation/web-api/concepts/scopes/#list-of-scopes) scope._\n",
     )
     external_urls: Optional[ExternalUrlObject] = Field(
-        None, description='Known external URLs for this user.'
+        None, description="Known external URLs for this user."
     )
     followers: Optional[FollowersObject] = Field(
-        None, description='Information about the followers of the user.'
+        None, description="Information about the followers of the user."
     )
     href: Optional[str] = Field(
-        None, description='A link to the Web API endpoint for this user.\n'
+        None, description="A link to the Web API endpoint for this user.\n"
     )
     id: Optional[str] = Field(
         None,
-        description='The [Spotify user ID](/documentation/web-api/concepts/spotify-uris-ids) for the user.\n',
+        description="The [Spotify user ID](/documentation/web-api/concepts/spotify-uris-ids) for the user.\n",
     )
     images: Optional[List[ImageObject]] = Field(
         None, description="The user's profile image."
@@ -694,7 +693,7 @@ class PrivateUserObject(BaseModel):
     type: Optional[str] = Field(None, description='The object type: "user"\n')
     uri: Optional[str] = Field(
         None,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the user.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the user.\n",
     )
 
 
@@ -704,58 +703,58 @@ class PublicUserObject(BaseModel):
         description="The name displayed on the user's profile. `null` if not available.\n",
     )
     external_urls: Optional[ExternalUrlObject] = Field(
-        None, description='Known public external URLs for this user.\n'
+        None, description="Known public external URLs for this user.\n"
     )
     followers: Optional[FollowersObject] = Field(
-        None, description='Information about the followers of this user.\n'
+        None, description="Information about the followers of this user.\n"
     )
     href: Optional[str] = Field(
-        None, description='A link to the Web API endpoint for this user.\n'
+        None, description="A link to the Web API endpoint for this user.\n"
     )
     id: Optional[str] = Field(
         None,
-        description='The [Spotify user ID](/documentation/web-api/concepts/spotify-uris-ids) for this user.\n',
+        description="The [Spotify user ID](/documentation/web-api/concepts/spotify-uris-ids) for this user.\n",
     )
     images: Optional[List[ImageObject]] = Field(
         None, description="The user's profile image.\n"
     )
-    type: Optional[Type2] = Field(None, description='The object type.\n')
+    type: Optional[Type2] = Field(None, description="The object type.\n")
     uri: Optional[str] = Field(
         None,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for this user.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for this user.\n",
     )
 
 
 class Track(BaseModel):
     num_samples: Optional[int] = Field(
         None,
-        description='The exact number of audio samples analyzed from this track. See also `analysis_sample_rate`.',
+        description="The exact number of audio samples analyzed from this track. See also `analysis_sample_rate`.",
         example=4585515,
     )
     duration: Optional[float] = Field(
-        None, description='Length of the track in seconds.', example=207.95985
+        None, description="Length of the track in seconds.", example=207.95985
     )
     sample_md5: Optional[str] = Field(
-        None, description='This field will always contain the empty string.'
+        None, description="This field will always contain the empty string."
     )
     offset_seconds: Optional[int] = Field(
         None,
-        description='An offset to the start of the region of the track that was analyzed. (As the entire track is analyzed, this should always be 0.)',
+        description="An offset to the start of the region of the track that was analyzed. (As the entire track is analyzed, this should always be 0.)",
         example=0,
     )
     window_seconds: Optional[int] = Field(
         None,
-        description='The length of the region of the track was analyzed, if a subset of the track was analyzed. (As the entire track is analyzed, this should always be 0.)',
+        description="The length of the region of the track was analyzed, if a subset of the track was analyzed. (As the entire track is analyzed, this should always be 0.)",
         example=0,
     )
     analysis_sample_rate: Optional[int] = Field(
         None,
-        description='The sample rate used to decode and analyze this track. May differ from the actual sample rate of this track available on Spotify.',
+        description="The sample rate used to decode and analyze this track. May differ from the actual sample rate of this track available on Spotify.",
         example=22050,
     )
     analysis_channels: Optional[int] = Field(
         None,
-        description='The number of channels used for analysis. If 1, all channels are summed together to mono before analysis.',
+        description="The number of channels used for analysis. If 1, all channels are summed together to mono before analysis.",
         example=1,
     )
     end_of_fade_in: Optional[float] = Field(
@@ -772,71 +771,71 @@ class Track(BaseModel):
     tempo: Optional[Tempo] = None
     tempo_confidence: Optional[confloat(ge=0.0, le=1.0)] = Field(
         None,
-        description='The confidence, from 0.0 to 1.0, of the reliability of the `tempo`.',
+        description="The confidence, from 0.0 to 1.0, of the reliability of the `tempo`.",
         example=0.73,
     )
     time_signature: Optional[TimeSignature] = None
     time_signature_confidence: Optional[confloat(ge=0.0, le=1.0)] = Field(
         None,
-        description='The confidence, from 0.0 to 1.0, of the reliability of the `time_signature`.',
+        description="The confidence, from 0.0 to 1.0, of the reliability of the `time_signature`.",
         example=0.994,
     )
     key: Optional[Key] = None
     key_confidence: Optional[confloat(ge=0.0, le=1.0)] = Field(
         None,
-        description='The confidence, from 0.0 to 1.0, of the reliability of the `key`.',
+        description="The confidence, from 0.0 to 1.0, of the reliability of the `key`.",
         example=0.408,
     )
     mode: Optional[Mode] = None
     mode_confidence: Optional[confloat(ge=0.0, le=1.0)] = Field(
         None,
-        description='The confidence, from 0.0 to 1.0, of the reliability of the `mode`.',
+        description="The confidence, from 0.0 to 1.0, of the reliability of the `mode`.",
         example=0.485,
     )
     codestring: Optional[str] = Field(
         None,
-        description='An [Echo Nest Musical Fingerprint (ENMFP)](https://academiccommons.columbia.edu/doi/10.7916/D8Q248M4) codestring for this track.',
+        description="An [Echo Nest Musical Fingerprint (ENMFP)](https://academiccommons.columbia.edu/doi/10.7916/D8Q248M4) codestring for this track.",
     )
     code_version: Optional[float] = Field(
         None,
-        description='A version number for the Echo Nest Musical Fingerprint format used in the codestring field.',
+        description="A version number for the Echo Nest Musical Fingerprint format used in the codestring field.",
         example=3.15,
     )
     echoprintstring: Optional[str] = Field(
         None,
-        description='An [EchoPrint](https://github.com/spotify/echoprint-codegen) codestring for this track.',
+        description="An [EchoPrint](https://github.com/spotify/echoprint-codegen) codestring for this track.",
     )
     echoprint_version: Optional[float] = Field(
         None,
-        description='A version number for the EchoPrint format used in the echoprintstring field.',
+        description="A version number for the EchoPrint format used in the echoprintstring field.",
         example=4.15,
     )
     synchstring: Optional[str] = Field(
         None,
-        description='A [Synchstring](https://github.com/echonest/synchdata) for this track.',
+        description="A [Synchstring](https://github.com/echonest/synchdata) for this track.",
     )
     synch_version: Optional[float] = Field(
         None,
-        description='A version number for the Synchstring used in the synchstring field.',
+        description="A version number for the Synchstring used in the synchstring field.",
         example=1.0,
     )
     rhythmstring: Optional[str] = Field(
         None,
-        description='A Rhythmstring for this track. The format of this string is similar to the Synchstring.',
+        description="A Rhythmstring for this track. The format of this string is similar to the Synchstring.",
     )
     rhythm_version: Optional[float] = Field(
         None,
-        description='A version number for the Rhythmstring used in the rhythmstring field.',
+        description="A version number for the Rhythmstring used in the rhythmstring field.",
         example=1.0,
     )
 
 
 class SectionObject(BaseModel):
     start: Optional[float] = Field(
-        None, description='The starting point (in seconds) of the section.', example=0.0
+        None, description="The starting point (in seconds) of the section.", example=0.0
     )
     duration: Optional[float] = Field(
-        None, description='The duration (in seconds) of the section.', example=6.97092
+        None, description="The duration (in seconds) of the section.", example=6.97092
     )
     confidence: Optional[confloat(ge=0.0, le=1.0)] = Field(
         None,
@@ -845,12 +844,12 @@ class SectionObject(BaseModel):
     )
     loudness: Optional[float] = Field(
         None,
-        description='The overall loudness of the section in decibels (dB). Loudness values are useful for comparing relative loudness of sections within tracks.',
+        description="The overall loudness of the section in decibels (dB). Loudness values are useful for comparing relative loudness of sections within tracks.",
         example=-14.938,
     )
     tempo: Optional[float] = Field(
         None,
-        description='The overall estimated tempo of the section in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.',
+        description="The overall estimated tempo of the section in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.",
         example=113.178,
     )
     tempo_confidence: Optional[confloat(ge=0.0, le=1.0)] = Field(
@@ -860,12 +859,12 @@ class SectionObject(BaseModel):
     )
     key: Optional[int] = Field(
         None,
-        description='The estimated overall key of the section. The values in this field ranging from 0 to 11 mapping to pitches using standard Pitch Class notation (E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on). If no key was detected, the value is -1.',
+        description="The estimated overall key of the section. The values in this field ranging from 0 to 11 mapping to pitches using standard Pitch Class notation (E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on). If no key was detected, the value is -1.",
         example=9,
     )
     key_confidence: Optional[confloat(ge=0.0, le=1.0)] = Field(
         None,
-        description='The confidence, from 0.0 to 1.0, of the reliability of the key. Songs with many key changes may correspond to low values in this field.',
+        description="The confidence, from 0.0 to 1.0, of the reliability of the key. Songs with many key changes may correspond to low values in this field.",
         example=0.297,
     )
     mode: Optional[Mode1] = Field(
@@ -874,13 +873,13 @@ class SectionObject(BaseModel):
     )
     mode_confidence: Optional[confloat(ge=0.0, le=1.0)] = Field(
         None,
-        description='The confidence, from 0.0 to 1.0, of the reliability of the `mode`.',
+        description="The confidence, from 0.0 to 1.0, of the reliability of the `mode`.",
         example=0.471,
     )
     time_signature: Optional[TimeSignature] = None
     time_signature_confidence: Optional[confloat(ge=0.0, le=1.0)] = Field(
         None,
-        description='The confidence, from 0.0 to 1.0, of the reliability of the `time_signature`. Sections with time signature changes may correspond to low values in this field.',
+        description="The confidence, from 0.0 to 1.0, of the reliability of the `time_signature`. Sections with time signature changes may correspond to low values in this field.",
         example=1.0,
     )
 
@@ -888,61 +887,61 @@ class SectionObject(BaseModel):
 class SimplifiedTrackObject(BaseModel):
     artists: Optional[List[SimplifiedArtistObject]] = Field(
         None,
-        description='The artists who performed the track. Each artist object includes a link in `href` to more detailed information about the artist.',
+        description="The artists who performed the track. Each artist object includes a link in `href` to more detailed information about the artist.",
     )
     available_markets: Optional[List[str]] = Field(
         None,
-        description='A list of the countries in which the track can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.\n',
+        description="A list of the countries in which the track can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.\n",
     )
     disc_number: Optional[int] = Field(
         None,
-        description='The disc number (usually `1` unless the album consists of more than one disc).',
+        description="The disc number (usually `1` unless the album consists of more than one disc).",
     )
     duration_ms: Optional[int] = Field(
-        None, description='The track length in milliseconds.'
+        None, description="The track length in milliseconds."
     )
     explicit: Optional[bool] = Field(
         None,
-        description='Whether or not the track has explicit lyrics ( `true` = yes it does; `false` = no it does not OR unknown).',
+        description="Whether or not the track has explicit lyrics ( `true` = yes it does; `false` = no it does not OR unknown).",
     )
     external_urls: Optional[ExternalUrlObject] = Field(
-        None, description='External URLs for this track.\n'
+        None, description="External URLs for this track.\n"
     )
     href: Optional[str] = Field(
         None,
-        description='A link to the Web API endpoint providing full details of the track.',
+        description="A link to the Web API endpoint providing full details of the track.",
     )
     id: Optional[str] = Field(
         None,
-        description='The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the track.\n',
+        description="The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the track.\n",
     )
     is_playable: Optional[bool] = Field(
         None,
-        description='Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking/) is applied. If `true`, the track is playable in the given market. Otherwise `false`.\n',
+        description="Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking/) is applied. If `true`, the track is playable in the given market. Otherwise `false`.\n",
     )
     linked_from: Optional[LinkedTrackObject] = Field(
         None,
-        description='Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking/) is applied and is only part of the response if the track linking, in fact, exists. The requested track has been replaced with a different track. The track in the `linked_from` object contains information about the originally requested track.',
+        description="Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking/) is applied and is only part of the response if the track linking, in fact, exists. The requested track has been replaced with a different track. The track in the `linked_from` object contains information about the originally requested track.",
     )
     restrictions: Optional[TrackRestrictionObject] = Field(
         None,
-        description='Included in the response when a content restriction is applied.\n',
+        description="Included in the response when a content restriction is applied.\n",
     )
-    name: Optional[str] = Field(None, description='The name of the track.')
+    name: Optional[str] = Field(None, description="The name of the track.")
     preview_url: Optional[str] = Field(
-        None, description='A URL to a 30 second preview (MP3 format) of the track.\n'
+        None, description="A URL to a 30 second preview (MP3 format) of the track.\n"
     )
     track_number: Optional[int] = Field(
         None,
-        description='The number of the track. If an album has several discs, the track number is the number on the specified disc.\n',
+        description="The number of the track. If an album has several discs, the track number is the number on the specified disc.\n",
     )
     type: Optional[str] = Field(None, description='The object type: "track".\n')
     uri: Optional[str] = Field(
         None,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the track.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the track.\n",
     )
     is_local: Optional[bool] = Field(
-        None, description='Whether or not the track is from a local file.\n'
+        None, description="Whether or not the track is from a local file.\n"
     )
 
 
@@ -960,22 +959,22 @@ class PagingArtistObject(PagingObject):
 
 class PlaylistUserObject(BaseModel):
     external_urls: Optional[ExternalUrlObject] = Field(
-        None, description='Known public external URLs for this user.\n'
+        None, description="Known public external URLs for this user.\n"
     )
     followers: Optional[FollowersObject] = Field(
-        None, description='Information about the followers of this user.\n'
+        None, description="Information about the followers of this user.\n"
     )
     href: Optional[str] = Field(
-        None, description='A link to the Web API endpoint for this user.\n'
+        None, description="A link to the Web API endpoint for this user.\n"
     )
     id: Optional[str] = Field(
         None,
-        description='The [Spotify user ID](/documentation/web-api/concepts/spotify-uris-ids) for this user.\n',
+        description="The [Spotify user ID](/documentation/web-api/concepts/spotify-uris-ids) for this user.\n",
     )
-    type: Optional[Type4] = Field(None, description='The object type.\n')
+    type: Optional[Type4] = Field(None, description="The object type.\n")
     uri: Optional[str] = Field(
         None,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for this user.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for this user.\n",
     )
 
 
@@ -989,140 +988,140 @@ class PlaylistOwnerObject(PlaylistUserObject):
 class CategoryObject(BaseModel):
     href: str = Field(
         ...,
-        description='A link to the Web API endpoint returning full details of the category.\n',
+        description="A link to the Web API endpoint returning full details of the category.\n",
     )
     icons: List[ImageObject] = Field(
-        ..., description='The category icon, in various sizes.\n'
+        ..., description="The category icon, in various sizes.\n"
     )
     id: str = Field(
         ...,
-        description='The [Spotify category ID](/documentation/web-api/concepts/spotify-uris-ids) of the category.\n',
-        example='equal',
+        description="The [Spotify category ID](/documentation/web-api/concepts/spotify-uris-ids) of the category.\n",
+        example="equal",
     )
-    name: str = Field(..., description='The name of the category.\n', example='EQUAL')
+    name: str = Field(..., description="The name of the category.\n", example="EQUAL")
 
 
 class EpisodeBase(BaseModel):
     audio_preview_url: str = Field(
         ...,
-        description='A URL to a 30 second preview (MP3 format) of the episode. `null` if not available.\n',
-        example='https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17',
+        description="A URL to a 30 second preview (MP3 format) of the episode. `null` if not available.\n",
+        example="https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
     )
     description: str = Field(
         ...,
-        description='A description of the episode. HTML tags are stripped away from this field, use `html_description` field in case HTML tags are needed.\n',
-        example='A Spotify podcast sharing fresh insights on important topics of the moment—in a way only Spotify can. You’ll hear from experts in the music, podcast and tech industries as we discover and uncover stories about our work and the world around us.\n',
+        description="A description of the episode. HTML tags are stripped away from this field, use `html_description` field in case HTML tags are needed.\n",
+        example="A Spotify podcast sharing fresh insights on important topics of the moment—in a way only Spotify can. You’ll hear from experts in the music, podcast and tech industries as we discover and uncover stories about our work and the world around us.\n",
     )
     html_description: str = Field(
         ...,
-        description='A description of the episode. This field may contain HTML tags.\n',
-        example='<p>A Spotify podcast sharing fresh insights on important topics of the moment—in a way only Spotify can. You’ll hear from experts in the music, podcast and tech industries as we discover and uncover stories about our work and the world around us.</p>\n',
+        description="A description of the episode. This field may contain HTML tags.\n",
+        example="<p>A Spotify podcast sharing fresh insights on important topics of the moment—in a way only Spotify can. You’ll hear from experts in the music, podcast and tech industries as we discover and uncover stories about our work and the world around us.</p>\n",
     )
     duration_ms: int = Field(
-        ..., description='The episode length in milliseconds.\n', example=1686230
+        ..., description="The episode length in milliseconds.\n", example=1686230
     )
     explicit: bool = Field(
         ...,
-        description='Whether or not the episode has explicit content (true = yes it does; false = no it does not OR unknown).\n',
+        description="Whether or not the episode has explicit content (true = yes it does; false = no it does not OR unknown).\n",
     )
     external_urls: ExternalUrlObject = Field(
-        ..., description='External URLs for this episode.\n'
+        ..., description="External URLs for this episode.\n"
     )
     href: str = Field(
         ...,
-        description='A link to the Web API endpoint providing full details of the episode.\n',
-        example='https://api.spotify.com/v1/episodes/5Xt5DXGzch68nYYamXrNxZ',
+        description="A link to the Web API endpoint providing full details of the episode.\n",
+        example="https://api.spotify.com/v1/episodes/5Xt5DXGzch68nYYamXrNxZ",
     )
     id: str = Field(
         ...,
-        description='The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the episode.\n',
-        example='5Xt5DXGzch68nYYamXrNxZ',
+        description="The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the episode.\n",
+        example="5Xt5DXGzch68nYYamXrNxZ",
     )
     images: List[ImageObject] = Field(
         ...,
-        description='The cover art for the episode in various sizes, widest first.\n',
+        description="The cover art for the episode in various sizes, widest first.\n",
     )
     is_externally_hosted: bool = Field(
         ..., description="True if the episode is hosted outside of Spotify's CDN.\n"
     )
     is_playable: bool = Field(
         ...,
-        description='True if the episode is playable in the given market. Otherwise false.\n',
+        description="True if the episode is playable in the given market. Otherwise false.\n",
     )
     language: Optional[str] = Field(
         None,
-        description='The language used in the episode, identified by a [ISO 639](https://en.wikipedia.org/wiki/ISO_639) code. This field is deprecated and might be removed in the future. Please use the `languages` field instead.\n',
-        example='en',
+        description="The language used in the episode, identified by a [ISO 639](https://en.wikipedia.org/wiki/ISO_639) code. This field is deprecated and might be removed in the future. Please use the `languages` field instead.\n",
+        example="en",
     )
     languages: List[str] = Field(
         ...,
-        description='A list of the languages used in the episode, identified by their [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639) code.\n',
-        example=['fr', 'en'],
+        description="A list of the languages used in the episode, identified by their [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639) code.\n",
+        example=["fr", "en"],
     )
     name: str = Field(
         ...,
-        description='The name of the episode.\n',
-        example='Starting Your Own Podcast: Tips, Tricks, and Advice From Anchor Creators\n',
+        description="The name of the episode.\n",
+        example="Starting Your Own Podcast: Tips, Tricks, and Advice From Anchor Creators\n",
     )
     release_date: str = Field(
         ...,
         description='The date the episode was first released, for example `"1981-12-15"`. Depending on the precision, it might be shown as `"1981"` or `"1981-12"`.\n',
-        example='1981-12-15',
+        example="1981-12-15",
     )
     release_date_precision: ReleaseDatePrecision = Field(
         ...,
-        description='The precision with which `release_date` value is known.\n',
-        example='day',
+        description="The precision with which `release_date` value is known.\n",
+        example="day",
     )
     resume_point: Optional[ResumePointObject] = Field(
         None,
         description="The user's most recent position in the episode. Set if the supplied access token is a user token and has the scope 'user-read-playback-position'.\n",
     )
-    type: Type6 = Field(..., description='The object type.\n')
+    type: Type6 = Field(..., description="The object type.\n")
     uri: str = Field(
         ...,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the episode.\n',
-        example='spotify:episode:0zLhl3WsOCQHbe1BPTiHgr',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the episode.\n",
+        example="spotify:episode:0zLhl3WsOCQHbe1BPTiHgr",
     )
     restrictions: Optional[EpisodeRestrictionObject] = Field(
         None,
-        description='Included in the response when a content restriction is applied.\n',
+        description="Included in the response when a content restriction is applied.\n",
     )
 
 
 class ShowBase(BaseModel):
     available_markets: List[str] = Field(
         ...,
-        description='A list of the countries in which the show can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.\n',
+        description="A list of the countries in which the show can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.\n",
     )
     copyrights: List[CopyrightObject] = Field(
-        ..., description='The copyright statements of the show.\n'
+        ..., description="The copyright statements of the show.\n"
     )
     description: str = Field(
         ...,
-        description='A description of the show. HTML tags are stripped away from this field, use `html_description` field in case HTML tags are needed.\n',
+        description="A description of the show. HTML tags are stripped away from this field, use `html_description` field in case HTML tags are needed.\n",
     )
     html_description: str = Field(
         ...,
-        description='A description of the show. This field may contain HTML tags.\n',
+        description="A description of the show. This field may contain HTML tags.\n",
     )
     explicit: bool = Field(
         ...,
-        description='Whether or not the show has explicit content (true = yes it does; false = no it does not OR unknown).\n',
+        description="Whether or not the show has explicit content (true = yes it does; false = no it does not OR unknown).\n",
     )
     external_urls: ExternalUrlObject = Field(
-        ..., description='External URLs for this show.\n'
+        ..., description="External URLs for this show.\n"
     )
     href: str = Field(
         ...,
-        description='A link to the Web API endpoint providing full details of the show.\n',
+        description="A link to the Web API endpoint providing full details of the show.\n",
     )
     id: str = Field(
         ...,
-        description='The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the show.\n',
+        description="The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the show.\n",
     )
     images: List[ImageObject] = Field(
-        ..., description='The cover art for the show in various sizes, widest first.\n'
+        ..., description="The cover art for the show in various sizes, widest first.\n"
     )
     is_externally_hosted: bool = Field(
         ...,
@@ -1130,18 +1129,18 @@ class ShowBase(BaseModel):
     )
     languages: List[str] = Field(
         ...,
-        description='A list of the languages used in the show, identified by their [ISO 639](https://en.wikipedia.org/wiki/ISO_639) code.\n',
+        description="A list of the languages used in the show, identified by their [ISO 639](https://en.wikipedia.org/wiki/ISO_639) code.\n",
     )
-    media_type: str = Field(..., description='The media type of the show.\n')
-    name: str = Field(..., description='The name of the episode.\n')
-    publisher: str = Field(..., description='The publisher of the show.\n')
-    type: Type7 = Field(..., description='The object type.\n')
+    media_type: str = Field(..., description="The media type of the show.\n")
+    name: str = Field(..., description="The name of the episode.\n")
+    publisher: str = Field(..., description="The publisher of the show.\n")
+    type: Type7 = Field(..., description="The object type.\n")
     uri: str = Field(
         ...,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the show.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the show.\n",
     )
     total_episodes: int = Field(
-        ..., description='The total number of episodes in the show.\n'
+        ..., description="The total number of episodes in the show.\n"
     )
 
 
@@ -1151,62 +1150,62 @@ class SimplifiedShowObject(ShowBase):
 
 class AudiobookBase(BaseModel):
     authors: List[AuthorObject] = Field(
-        ..., description='The author(s) for the audiobook.\n'
+        ..., description="The author(s) for the audiobook.\n"
     )
     available_markets: List[str] = Field(
         ...,
-        description='A list of the countries in which the audiobook can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.\n',
+        description="A list of the countries in which the audiobook can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.\n",
     )
     copyrights: List[CopyrightObject] = Field(
-        ..., description='The copyright statements of the audiobook.\n'
+        ..., description="The copyright statements of the audiobook.\n"
     )
     description: str = Field(
         ...,
-        description='A description of the audiobook. HTML tags are stripped away from this field, use `html_description` field in case HTML tags are needed.\n',
+        description="A description of the audiobook. HTML tags are stripped away from this field, use `html_description` field in case HTML tags are needed.\n",
     )
     html_description: str = Field(
         ...,
-        description='A description of the audiobook. This field may contain HTML tags.\n',
+        description="A description of the audiobook. This field may contain HTML tags.\n",
     )
     edition: Optional[str] = Field(
-        None, description='The edition of the audiobook.\n', example='Unabridged'
+        None, description="The edition of the audiobook.\n", example="Unabridged"
     )
     explicit: bool = Field(
         ...,
-        description='Whether or not the audiobook has explicit content (true = yes it does; false = no it does not OR unknown).\n',
+        description="Whether or not the audiobook has explicit content (true = yes it does; false = no it does not OR unknown).\n",
     )
     external_urls: ExternalUrlObject = Field(
-        ..., description='External URLs for this audiobook.\n'
+        ..., description="External URLs for this audiobook.\n"
     )
     href: str = Field(
         ...,
-        description='A link to the Web API endpoint providing full details of the audiobook.\n',
+        description="A link to the Web API endpoint providing full details of the audiobook.\n",
     )
     id: str = Field(
         ...,
-        description='The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the audiobook.\n',
+        description="The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the audiobook.\n",
     )
     images: List[ImageObject] = Field(
         ...,
-        description='The cover art for the audiobook in various sizes, widest first.\n',
+        description="The cover art for the audiobook in various sizes, widest first.\n",
     )
     languages: List[str] = Field(
         ...,
-        description='A list of the languages used in the audiobook, identified by their [ISO 639](https://en.wikipedia.org/wiki/ISO_639) code.\n',
+        description="A list of the languages used in the audiobook, identified by their [ISO 639](https://en.wikipedia.org/wiki/ISO_639) code.\n",
     )
-    media_type: str = Field(..., description='The media type of the audiobook.\n')
-    name: str = Field(..., description='The name of the audiobook.\n')
+    media_type: str = Field(..., description="The media type of the audiobook.\n")
+    name: str = Field(..., description="The name of the audiobook.\n")
     narrators: List[NarratorObject] = Field(
-        ..., description='The narrator(s) for the audiobook.\n'
+        ..., description="The narrator(s) for the audiobook.\n"
     )
-    publisher: str = Field(..., description='The publisher of the audiobook.\n')
-    type: Type8 = Field(..., description='The object type.\n')
+    publisher: str = Field(..., description="The publisher of the audiobook.\n")
+    type: Type8 = Field(..., description="The object type.\n")
     uri: str = Field(
         ...,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the audiobook.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the audiobook.\n",
     )
     total_chapters: int = Field(
-        ..., description='The number of chapters in this audiobook.\n'
+        ..., description="The number of chapters in this audiobook.\n"
     )
 
 
@@ -1216,180 +1215,180 @@ class SimplifiedAudiobookObject(AudiobookBase):
 
 class AlbumBase(BaseModel):
     album_type: AlbumType = Field(
-        ..., description='The type of the album.\n', example='compilation'
+        ..., description="The type of the album.\n", example="compilation"
     )
     total_tracks: int = Field(
-        ..., description='The number of tracks in the album.', example=9
+        ..., description="The number of tracks in the album.", example=9
     )
     available_markets: List[str] = Field(
         ...,
-        description='The markets in which the album is available: [ISO 3166-1 alpha-2 country codes](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). _**NOTE**: an album is considered available in a market when at least 1 of its tracks is available in that market._\n',
-        example=['CA', 'BR', 'IT'],
+        description="The markets in which the album is available: [ISO 3166-1 alpha-2 country codes](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). _**NOTE**: an album is considered available in a market when at least 1 of its tracks is available in that market._\n",
+        example=["CA", "BR", "IT"],
     )
     external_urls: ExternalUrlObject = Field(
-        ..., description='Known external URLs for this album.\n'
+        ..., description="Known external URLs for this album.\n"
     )
     href: str = Field(
         ...,
-        description='A link to the Web API endpoint providing full details of the album.\n',
+        description="A link to the Web API endpoint providing full details of the album.\n",
     )
     id: str = Field(
         ...,
-        description='The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the album.\n',
-        example='2up3OPMp9Tb4dAKM2erWXQ',
+        description="The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the album.\n",
+        example="2up3OPMp9Tb4dAKM2erWXQ",
     )
     images: List[ImageObject] = Field(
-        ..., description='The cover art for the album in various sizes, widest first.\n'
+        ..., description="The cover art for the album in various sizes, widest first.\n"
     )
     name: str = Field(
         ...,
-        description='The name of the album. In case of an album takedown, the value may be an empty string.\n',
+        description="The name of the album. In case of an album takedown, the value may be an empty string.\n",
     )
     release_date: str = Field(
-        ..., description='The date the album was first released.\n', example='1981-12'
+        ..., description="The date the album was first released.\n", example="1981-12"
     )
     release_date_precision: ReleaseDatePrecision = Field(
         ...,
-        description='The precision with which `release_date` value is known.\n',
-        example='year',
+        description="The precision with which `release_date` value is known.\n",
+        example="year",
     )
     restrictions: Optional[AlbumRestrictionObject] = Field(
         None,
-        description='Included in the response when a content restriction is applied.\n',
+        description="Included in the response when a content restriction is applied.\n",
     )
-    type: Type9 = Field(..., description='The object type.\n')
+    type: Type9 = Field(..., description="The object type.\n")
     uri: str = Field(
         ...,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the album.\n',
-        example='spotify:album:2up3OPMp9Tb4dAKM2erWXQ',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the album.\n",
+        example="spotify:album:2up3OPMp9Tb4dAKM2erWXQ",
     )
 
 
 class SimplifiedAlbumObject(AlbumBase):
     artists: List[SimplifiedArtistObject] = Field(
         ...,
-        description='The artists of the album. Each artist object includes a link in `href` to more detailed information about the artist.\n',
+        description="The artists of the album. Each artist object includes a link in `href` to more detailed information about the artist.\n",
     )
 
 
 class ArtistDiscographyAlbumObject(SimplifiedAlbumObject):
     album_group: AlbumGroup = Field(
         ...,
-        description='This field describes the relationship between the artist and the album.\n',
-        example='compilation',
+        description="This field describes the relationship between the artist and the album.\n",
+        example="compilation",
     )
 
 
 class ChapterBase(BaseModel):
     audio_preview_url: str = Field(
         ...,
-        description='A URL to a 30 second preview (MP3 format) of the chapter. `null` if not available.\n',
-        example='https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17',
+        description="A URL to a 30 second preview (MP3 format) of the chapter. `null` if not available.\n",
+        example="https://p.scdn.co/mp3-preview/2f37da1d4221f40b9d1a98cd191f4d6f1646ad17",
     )
     available_markets: Optional[List[str]] = Field(
         None,
-        description='A list of the countries in which the chapter can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.\n',
+        description="A list of the countries in which the chapter can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.\n",
     )
     chapter_number: int = Field(
-        ..., description='The number of the chapter\n', example=1
+        ..., description="The number of the chapter\n", example=1
     )
     description: str = Field(
         ...,
-        description='A description of the chapter. HTML tags are stripped away from this field, use `html_description` field in case HTML tags are needed.\n',
-        example='We kept on ascending, with occasional periods of quick descent, but in the main always ascending. Suddenly, I became conscious of the fact that the driver was in the act of pulling up the horses in the courtyard of a vast ruined castle, from whose tall black windows came no ray of light, and whose broken battlements showed a jagged line against the moonlit sky.\n',
+        description="A description of the chapter. HTML tags are stripped away from this field, use `html_description` field in case HTML tags are needed.\n",
+        example="We kept on ascending, with occasional periods of quick descent, but in the main always ascending. Suddenly, I became conscious of the fact that the driver was in the act of pulling up the horses in the courtyard of a vast ruined castle, from whose tall black windows came no ray of light, and whose broken battlements showed a jagged line against the moonlit sky.\n",
     )
     html_description: str = Field(
         ...,
-        description='A description of the chapter. This field may contain HTML tags.\n',
-        example='<p>We kept on ascending, with occasional periods of quick descent, but in the main always ascending. Suddenly, I became conscious of the fact that the driver was in the act of pulling up the horses in the courtyard of a vast ruined castle, from whose tall black windows came no ray of light, and whose broken battlements showed a jagged line against the moonlit sky.</p>\n',
+        description="A description of the chapter. This field may contain HTML tags.\n",
+        example="<p>We kept on ascending, with occasional periods of quick descent, but in the main always ascending. Suddenly, I became conscious of the fact that the driver was in the act of pulling up the horses in the courtyard of a vast ruined castle, from whose tall black windows came no ray of light, and whose broken battlements showed a jagged line against the moonlit sky.</p>\n",
     )
     duration_ms: int = Field(
-        ..., description='The chapter length in milliseconds.\n', example=1686230
+        ..., description="The chapter length in milliseconds.\n", example=1686230
     )
     explicit: bool = Field(
         ...,
-        description='Whether or not the chapter has explicit content (true = yes it does; false = no it does not OR unknown).\n',
+        description="Whether or not the chapter has explicit content (true = yes it does; false = no it does not OR unknown).\n",
     )
     external_urls: ExternalUrlObject = Field(
-        ..., description='External URLs for this chapter.\n'
+        ..., description="External URLs for this chapter.\n"
     )
     href: str = Field(
         ...,
-        description='A link to the Web API endpoint providing full details of the chapter.\n',
-        example='https://api.spotify.com/v1/episodes/5Xt5DXGzch68nYYamXrNxZ',
+        description="A link to the Web API endpoint providing full details of the chapter.\n",
+        example="https://api.spotify.com/v1/episodes/5Xt5DXGzch68nYYamXrNxZ",
     )
     id: str = Field(
         ...,
-        description='The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the chapter.\n',
-        example='5Xt5DXGzch68nYYamXrNxZ',
+        description="The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the chapter.\n",
+        example="5Xt5DXGzch68nYYamXrNxZ",
     )
     images: List[ImageObject] = Field(
         ...,
-        description='The cover art for the chapter in various sizes, widest first.\n',
+        description="The cover art for the chapter in various sizes, widest first.\n",
     )
     is_playable: bool = Field(
         ...,
-        description='True if the chapter is playable in the given market. Otherwise false.\n',
+        description="True if the chapter is playable in the given market. Otherwise false.\n",
     )
     languages: List[str] = Field(
         ...,
-        description='A list of the languages used in the chapter, identified by their [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639) code.\n',
-        example=['fr', 'en'],
+        description="A list of the languages used in the chapter, identified by their [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639) code.\n",
+        example=["fr", "en"],
     )
     name: str = Field(
         ...,
-        description='The name of the chapter.\n',
-        example='Starting Your Own Podcast: Tips, Tricks, and Advice From Anchor Creators\n',
+        description="The name of the chapter.\n",
+        example="Starting Your Own Podcast: Tips, Tricks, and Advice From Anchor Creators\n",
     )
     release_date: str = Field(
         ...,
         description='The date the chapter was first released, for example `"1981-12-15"`. Depending on the precision, it might be shown as `"1981"` or `"1981-12"`.\n',
-        example='1981-12-15',
+        example="1981-12-15",
     )
     release_date_precision: ReleaseDatePrecision = Field(
         ...,
-        description='The precision with which `release_date` value is known.\n',
-        example='day',
+        description="The precision with which `release_date` value is known.\n",
+        example="day",
     )
     resume_point: Optional[ResumePointObject] = Field(
         None,
         description="The user's most recent position in the chapter. Set if the supplied access token is a user token and has the scope 'user-read-playback-position'.\n",
     )
-    type: Type10 = Field(..., description='The object type.\n')
+    type: Type10 = Field(..., description="The object type.\n")
     uri: str = Field(
         ...,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the chapter.\n',
-        example='spotify:episode:0zLhl3WsOCQHbe1BPTiHgr',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the chapter.\n",
+        example="spotify:episode:0zLhl3WsOCQHbe1BPTiHgr",
     )
     restrictions: Optional[ChapterRestrictionObject] = Field(
         None,
-        description='Included in the response when a content restriction is applied.\n',
+        description="Included in the response when a content restriction is applied.\n",
     )
 
 
 class AlbumObject(AlbumBase):
     artists: List[SimplifiedArtistObject] = Field(
         ...,
-        description='The artists of the album. Each artist object includes a link in `href` to more detailed information about the artist.\n',
+        description="The artists of the album. Each artist object includes a link in `href` to more detailed information about the artist.\n",
     )
     tracks: PagingSimplifiedTrackObject = Field(
-        ..., description='The tracks of the album.\n'
+        ..., description="The tracks of the album.\n"
     )
     copyrights: List[CopyrightObject] = Field(
-        ..., description='The copyright statements of the album.\n'
+        ..., description="The copyright statements of the album.\n"
     )
     external_ids: ExternalIdObject = Field(
-        ..., description='Known external IDs for the album.\n'
+        ..., description="Known external IDs for the album.\n"
     )
     genres: List[str] = Field(
         ...,
-        description='A list of the genres the album is associated with. If not yet classified, the array is empty.\n',
-        example=['Egg punk', 'Noise rock'],
+        description="A list of the genres the album is associated with. If not yet classified, the array is empty.\n",
+        example=["Egg punk", "Noise rock"],
     )
-    label: str = Field(..., description='The label associated with the album.\n')
+    label: str = Field(..., description="The label associated with the album.\n")
     popularity: int = Field(
         ...,
-        description='The popularity of the album. The value will be between 0 and 100, with 100 being the most popular.\n',
+        description="The popularity of the album. The value will be between 0 and 100, with 100 being the most popular.\n",
     )
 
 
@@ -1400,14 +1399,14 @@ class ContextObject(BaseModel):
     )
     href: Optional[str] = Field(
         None,
-        description='A link to the Web API endpoint providing full details of the track.',
+        description="A link to the Web API endpoint providing full details of the track.",
     )
     external_urls: Optional[ExternalUrlObject] = Field(
-        None, description='External URLs for this context.'
+        None, description="External URLs for this context."
     )
     uri: Optional[str] = Field(
         None,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the context.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the context.\n",
     )
 
 
@@ -1416,23 +1415,23 @@ class AudioAnalysisObject(BaseModel):
     track: Optional[Track] = None
     bars: Optional[List[TimeIntervalObject]] = Field(
         None,
-        description='The time intervals of the bars throughout the track. A bar (or measure) is a segment of time defined as a given number of beats.',
+        description="The time intervals of the bars throughout the track. A bar (or measure) is a segment of time defined as a given number of beats.",
     )
     beats: Optional[List[TimeIntervalObject]] = Field(
         None,
-        description='The time intervals of beats throughout the track. A beat is the basic time unit of a piece of music; for example, each tick of a metronome. Beats are typically multiples of tatums.',
+        description="The time intervals of beats throughout the track. A beat is the basic time unit of a piece of music; for example, each tick of a metronome. Beats are typically multiples of tatums.",
     )
     sections: Optional[List[SectionObject]] = Field(
         None,
-        description='Sections are defined by large variations in rhythm or timbre, e.g. chorus, verse, bridge, guitar solo, etc. Each section contains its own descriptions of tempo, key, mode, time_signature, and loudness.',
+        description="Sections are defined by large variations in rhythm or timbre, e.g. chorus, verse, bridge, guitar solo, etc. Each section contains its own descriptions of tempo, key, mode, time_signature, and loudness.",
     )
     segments: Optional[List[SegmentObject]] = Field(
         None,
-        description='Each segment contains a roughly conisistent sound throughout its duration.',
+        description="Each segment contains a roughly conisistent sound throughout its duration.",
     )
     tatums: Optional[List[TimeIntervalObject]] = Field(
         None,
-        description='A tatum represents the lowest regular pulse train that a listener intuitively infers from the timing of perceived musical events (segments).',
+        description="A tatum represents the lowest regular pulse train that a listener intuitively infers from the timing of perceived musical events (segments).",
     )
 
 
@@ -1455,50 +1454,50 @@ class PagingSimplifiedAudiobookObject(PagingObject):
 class SavedAlbumObject(BaseModel):
     added_at: Optional[datetime] = Field(
         None,
-        description='The date and time the album was saved\nTimestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.\nIf the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.\n',
+        description="The date and time the album was saved\nTimestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.\nIf the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.\n",
     )
     album: Optional[AlbumObject] = Field(
-        None, description='Information about the album.'
+        None, description="Information about the album."
     )
 
 
 class SavedShowObject(BaseModel):
     added_at: Optional[datetime] = Field(
         None,
-        description='The date and time the show was saved.\nTimestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.\nIf the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.\n',
+        description="The date and time the show was saved.\nTimestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.\nIf the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.\n",
     )
     show: Optional[SimplifiedShowObject] = Field(
-        None, description='Information about the show.'
+        None, description="Information about the show."
     )
 
 
 class SimplifiedPlaylistObject(BaseModel):
     collaborative: Optional[bool] = Field(
         None,
-        description='`true` if the owner allows other users to modify the playlist.\n',
+        description="`true` if the owner allows other users to modify the playlist.\n",
     )
     description: Optional[str] = Field(
         None,
-        description='The playlist description. _Only returned for modified, verified playlists, otherwise_ `null`.\n',
+        description="The playlist description. _Only returned for modified, verified playlists, otherwise_ `null`.\n",
     )
     external_urls: Optional[ExternalUrlObject] = Field(
-        None, description='Known external URLs for this playlist.\n'
+        None, description="Known external URLs for this playlist.\n"
     )
     href: Optional[str] = Field(
         None,
-        description='A link to the Web API endpoint providing full details of the playlist.\n',
+        description="A link to the Web API endpoint providing full details of the playlist.\n",
     )
     id: Optional[str] = Field(
         None,
-        description='The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.\n',
+        description="The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.\n",
     )
     images: Optional[List[ImageObject]] = Field(
         None,
-        description='Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See [Working with Playlists](/documentation/web-api/concepts/playlists). _**Note**: If returned, the source URL for the image (`url`) is temporary and will expire in less than a day._\n',
+        description="Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See [Working with Playlists](/documentation/web-api/concepts/playlists). _**Note**: If returned, the source URL for the image (`url`) is temporary and will expire in less than a day._\n",
     )
-    name: Optional[str] = Field(None, description='The name of the playlist.\n')
+    name: Optional[str] = Field(None, description="The name of the playlist.\n")
     owner: Optional[PlaylistOwnerObject] = Field(
-        None, description='The user who owns the playlist\n'
+        None, description="The user who owns the playlist\n"
     )
     public: Optional[bool] = Field(
         None,
@@ -1506,7 +1505,7 @@ class SimplifiedPlaylistObject(BaseModel):
     )
     snapshot_id: Optional[str] = Field(
         None,
-        description='The version identifier for the current playlist. Can be supplied in other requests to target a specific playlist version\n',
+        description="The version identifier for the current playlist. Can be supplied in other requests to target a specific playlist version\n",
     )
     tracks: Optional[PlaylistTracksRefObject] = Field(
         None,
@@ -1515,88 +1514,88 @@ class SimplifiedPlaylistObject(BaseModel):
     type: Optional[str] = Field(None, description='The object type: "playlist"\n')
     uri: Optional[str] = Field(
         None,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.\n",
     )
 
 
 class TrackObject(BaseModel):
     album: Optional[SimplifiedAlbumObject] = Field(
         None,
-        description='The album on which the track appears. The album object includes a link in `href` to full information about the album.\n',
+        description="The album on which the track appears. The album object includes a link in `href` to full information about the album.\n",
     )
     artists: Optional[List[SimplifiedArtistObject]] = Field(
         None,
-        description='The artists who performed the track. Each artist object includes a link in `href` to more detailed information about the artist.\n',
+        description="The artists who performed the track. Each artist object includes a link in `href` to more detailed information about the artist.\n",
     )
     available_markets: Optional[List[str]] = Field(
         None,
-        description='A list of the countries in which the track can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.\n',
+        description="A list of the countries in which the track can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.\n",
     )
     disc_number: Optional[int] = Field(
         None,
-        description='The disc number (usually `1` unless the album consists of more than one disc).\n',
+        description="The disc number (usually `1` unless the album consists of more than one disc).\n",
     )
     duration_ms: Optional[int] = Field(
-        None, description='The track length in milliseconds.\n'
+        None, description="The track length in milliseconds.\n"
     )
     explicit: Optional[bool] = Field(
         None,
-        description='Whether or not the track has explicit lyrics ( `true` = yes it does; `false` = no it does not OR unknown).\n',
+        description="Whether or not the track has explicit lyrics ( `true` = yes it does; `false` = no it does not OR unknown).\n",
     )
     external_ids: Optional[ExternalIdObject] = Field(
-        None, description='Known external IDs for the track.\n'
+        None, description="Known external IDs for the track.\n"
     )
     external_urls: Optional[ExternalUrlObject] = Field(
-        None, description='Known external URLs for this track.\n'
+        None, description="Known external URLs for this track.\n"
     )
     href: Optional[str] = Field(
         None,
-        description='A link to the Web API endpoint providing full details of the track.\n',
+        description="A link to the Web API endpoint providing full details of the track.\n",
     )
     id: Optional[str] = Field(
         None,
-        description='The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the track.\n',
+        description="The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the track.\n",
     )
     is_playable: Optional[bool] = Field(
         None,
-        description='Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking) is applied. If `true`, the track is playable in the given market. Otherwise `false`.\n',
+        description="Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking) is applied. If `true`, the track is playable in the given market. Otherwise `false`.\n",
     )
     linked_from: Optional[LinkedTrackObject] = Field(
         None,
-        description='Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking) is applied, and the requested track has been replaced with different track. The track in the `linked_from` object contains information about the originally requested track.',
+        description="Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking) is applied, and the requested track has been replaced with different track. The track in the `linked_from` object contains information about the originally requested track.",
     )
     restrictions: Optional[TrackRestrictionObject] = Field(
         None,
-        description='Included in the response when a content restriction is applied.\n',
+        description="Included in the response when a content restriction is applied.\n",
     )
-    name: Optional[str] = Field(None, description='The name of the track.\n')
+    name: Optional[str] = Field(None, description="The name of the track.\n")
     popularity: Optional[int] = Field(
         None,
-        description='The popularity of the track. The value will be between 0 and 100, with 100 being the most popular.<br/>The popularity of a track is a value between 0 and 100, with 100 being the most popular. The popularity is calculated by algorithm and is based, in the most part, on the total number of plays the track has had and how recent those plays are.<br/>Generally speaking, songs that are being played a lot now will have a higher popularity than songs that were played a lot in the past. Duplicate tracks (e.g. the same track from a single and an album) are rated independently. Artist and album popularity is derived mathematically from track popularity. _**Note**: the popularity value may lag actual popularity by a few days: the value is not updated in real time._\n',
+        description="The popularity of the track. The value will be between 0 and 100, with 100 being the most popular.<br/>The popularity of a track is a value between 0 and 100, with 100 being the most popular. The popularity is calculated by algorithm and is based, in the most part, on the total number of plays the track has had and how recent those plays are.<br/>Generally speaking, songs that are being played a lot now will have a higher popularity than songs that were played a lot in the past. Duplicate tracks (e.g. the same track from a single and an album) are rated independently. Artist and album popularity is derived mathematically from track popularity. _**Note**: the popularity value may lag actual popularity by a few days: the value is not updated in real time._\n",
     )
     preview_url: Optional[str] = Field(
         None,
-        description='A link to a 30 second preview (MP3 format) of the track. Can be `null`\n',
+        description="A link to a 30 second preview (MP3 format) of the track. Can be `null`\n",
     )
     track_number: Optional[int] = Field(
         None,
-        description='The number of the track. If an album has several discs, the track number is the number on the specified disc.\n',
+        description="The number of the track. If an album has several discs, the track number is the number on the specified disc.\n",
     )
-    type: Literal['TrackObject'] = Field(..., description='The object type: "track".\n')
+    type: Literal["TrackObject"] = Field(..., description='The object type: "track".\n')
     uri: Optional[str] = Field(
         None,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the track.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the track.\n",
     )
     is_local: Optional[bool] = Field(
-        None, description='Whether or not the track is from a local file.\n'
+        None, description="Whether or not the track is from a local file.\n"
     )
 
 
 class EpisodeObject(EpisodeBase):
     show: SimplifiedShowObject = Field(
-        ..., description='The show on which the episode belongs.\n'
+        ..., description="The show on which the episode belongs.\n"
     )
-    type: Literal['EpisodeObject']
+    type: Literal["EpisodeObject"]
 
 
 class SimplifiedEpisodeObject(EpisodeBase):
@@ -1605,7 +1604,7 @@ class SimplifiedEpisodeObject(EpisodeBase):
 
 class ChapterObject(ChapterBase):
     audiobook: SimplifiedAudiobookObject = Field(
-        ..., description='The audiobook for which the chapter belongs.\n'
+        ..., description="The audiobook for which the chapter belongs.\n"
     )
 
 
@@ -1615,112 +1614,112 @@ class SimplifiedChapterObject(ChapterBase):
 
 class CurrentlyPlayingObject(BaseModel):
     context: Optional[ContextObject] = Field(
-        None, description='A Context Object. Can be `null`.'
+        None, description="A Context Object. Can be `null`."
     )
     timestamp: Optional[int] = Field(
-        None, description='Unix Millisecond Timestamp when data was fetched'
+        None, description="Unix Millisecond Timestamp when data was fetched"
     )
     progress_ms: Optional[int] = Field(
         None,
-        description='Progress into the currently playing track or episode. Can be `null`.',
+        description="Progress into the currently playing track or episode. Can be `null`.",
     )
     is_playing: Optional[bool] = Field(
-        None, description='If something is currently playing, return `true`.'
+        None, description="If something is currently playing, return `true`."
     )
     item: Optional[Union[TrackObject, EpisodeObject]] = Field(
         None,
-        description='The currently playing track or episode. Can be `null`.',
-        discriminator='type',
+        description="The currently playing track or episode. Can be `null`.",
+        discriminator="type",
     )
     currently_playing_type: Optional[str] = Field(
         None,
-        description='The object type of the currently playing item. Can be one of `track`, `episode`, `ad` or `unknown`.\n',
+        description="The object type of the currently playing item. Can be one of `track`, `episode`, `ad` or `unknown`.\n",
     )
     actions: Optional[DisallowsObject] = Field(
         None,
-        description='Allows to update the user interface based on which playback actions are available within the current context.\n',
+        description="Allows to update the user interface based on which playback actions are available within the current context.\n",
     )
 
 
 class PlayHistoryObject(BaseModel):
     track: Optional[TrackObject] = Field(
-        None, description='The track the user listened to.'
+        None, description="The track the user listened to."
     )
     played_at: Optional[datetime] = Field(
-        None, description='The date and time the track was played.'
+        None, description="The date and time the track was played."
     )
     context: Optional[ContextObject] = Field(
-        None, description='The context the track was played from.'
+        None, description="The context the track was played from."
     )
 
 
 class PlaylistTrackObject(BaseModel):
     added_at: Optional[datetime] = Field(
         None,
-        description='The date and time the track or episode was added. _**Note**: some very old playlists may return `null` in this field._\n',
+        description="The date and time the track or episode was added. _**Note**: some very old playlists may return `null` in this field._\n",
     )
     added_by: Optional[PlaylistUserObject] = Field(
         None,
-        description='The Spotify user who added the track or episode. _**Note**: some very old playlists may return `null` in this field._\n',
+        description="The Spotify user who added the track or episode. _**Note**: some very old playlists may return `null` in this field._\n",
     )
     is_local: Optional[bool] = Field(
         None,
-        description='Whether this track or episode is a [local file](/documentation/web-api/concepts/playlists/#local-files) or not.\n',
+        description="Whether this track or episode is a [local file](/documentation/web-api/concepts/playlists/#local-files) or not.\n",
     )
     track: Optional[Union[TrackObject, EpisodeObject]] = Field(
         None,
-        description='Information about the track or episode.',
-        discriminator='type',
+        description="Information about the track or episode.",
+        discriminator="type",
     )
 
 
 class Queue(RootModel):
-    root: Union[TrackObject, EpisodeObject] = Field(..., discriminator='type')
+    root: Union[TrackObject, EpisodeObject] = Field(..., discriminator="type")
 
 
 class QueueObject(BaseModel):
     currently_playing: Optional[Union[TrackObject, EpisodeObject]] = Field(
         None,
-        description='The currently playing track or episode. Can be `null`.',
-        discriminator='type',
+        description="The currently playing track or episode. Can be `null`.",
+        discriminator="type",
     )
     queue: Optional[List[Queue]] = Field(
-        None, description='The tracks or episodes in the queue. Can be empty.'
+        None, description="The tracks or episodes in the queue. Can be empty."
     )
 
 
 class CurrentlyPlayingContextObject(BaseModel):
     device: Optional[DeviceObject] = Field(
-        None, description='The device that is currently active.\n'
+        None, description="The device that is currently active.\n"
     )
-    repeat_state: Optional[str] = Field(None, description='off, track, context')
-    shuffle_state: Optional[bool] = Field(None, description='If shuffle is on or off.')
+    repeat_state: Optional[str] = Field(None, description="off, track, context")
+    shuffle_state: Optional[bool] = Field(None, description="If shuffle is on or off.")
     context: Optional[ContextObject] = Field(
-        None, description='A Context Object. Can be `null`.'
+        None, description="A Context Object. Can be `null`."
     )
     timestamp: Optional[int] = Field(
         None,
-        description='Unix Millisecond Timestamp when playback state was last changed (play, pause, skip, scrub, new song, etc.).',
+        description="Unix Millisecond Timestamp when playback state was last changed (play, pause, skip, scrub, new song, etc.).",
     )
     progress_ms: Optional[int] = Field(
         None,
-        description='Progress into the currently playing track or episode. Can be `null`.',
+        description="Progress into the currently playing track or episode. Can be `null`.",
     )
     is_playing: Optional[bool] = Field(
-        None, description='If something is currently playing, return `true`.'
+        None, description="If something is currently playing, return `true`."
     )
     item: Optional[Union[TrackObject, EpisodeObject]] = Field(
         None,
-        description='The currently playing track or episode. Can be `null`.',
-        discriminator='type',
+        description="The currently playing track or episode. Can be `null`.",
+        discriminator="type",
     )
     currently_playing_type: Optional[str] = Field(
         None,
-        description='The object type of the currently playing item. Can be one of `track`, `episode`, `ad` or `unknown`.\n',
+        description="The object type of the currently playing item. Can be one of `track`, `episode`, `ad` or `unknown`.\n",
     )
     actions: Optional[DisallowsObject] = Field(
         None,
-        description='Allows to update the user interface based on which playback actions are available within the current context.\n',
+        description="Allows to update the user interface based on which playback actions are available within the current context.\n",
     )
 
 
@@ -1735,8 +1734,8 @@ class PagingPlaylistObject(PagingObject):
 class PagingFeaturedPlaylistObject(BaseModel):
     message: Optional[str] = Field(
         None,
-        description='The localized message of a playlist.\n',
-        example='Popular Playlists',
+        description="The localized message of a playlist.\n",
+        example="Popular Playlists",
     )
     playlists: Optional[PagingPlaylistObject] = None
 
@@ -1767,64 +1766,64 @@ class PagingSimplifiedChapterObject(PagingObject):
 
 class RecommendationsObject(BaseModel):
     seeds: List[RecommendationSeedObject] = Field(
-        ..., description='An array of recommendation seed objects.\n'
+        ..., description="An array of recommendation seed objects.\n"
     )
     tracks: List[TrackObject] = Field(
         ...,
-        description='An array of track objects ordered according to the parameters supplied.\n',
+        description="An array of track objects ordered according to the parameters supplied.\n",
     )
 
 
 class SavedTrackObject(BaseModel):
     added_at: Optional[datetime] = Field(
         None,
-        description='The date and time the track was saved.\nTimestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.\nIf the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.\n',
+        description="The date and time the track was saved.\nTimestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.\nIf the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.\n",
     )
     track: Optional[TrackObject] = Field(
-        None, description='Information about the track.'
+        None, description="Information about the track."
     )
 
 
 class SavedEpisodeObject(BaseModel):
     added_at: Optional[datetime] = Field(
         None,
-        description='The date and time the episode was saved.\nTimestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.\n',
+        description="The date and time the episode was saved.\nTimestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.\n",
     )
     episode: Optional[EpisodeObject] = Field(
-        None, description='Information about the episode.'
+        None, description="Information about the episode."
     )
 
 
 class PlaylistObject(BaseModel):
     collaborative: Optional[bool] = Field(
         None,
-        description='`true` if the owner allows other users to modify the playlist.\n',
+        description="`true` if the owner allows other users to modify the playlist.\n",
     )
     description: Optional[str] = Field(
         None,
-        description='The playlist description. _Only returned for modified, verified playlists, otherwise_ `null`.\n',
+        description="The playlist description. _Only returned for modified, verified playlists, otherwise_ `null`.\n",
     )
     external_urls: Optional[ExternalUrlObject] = Field(
-        None, description='Known external URLs for this playlist.\n'
+        None, description="Known external URLs for this playlist.\n"
     )
     followers: Optional[FollowersObject] = Field(
-        None, description='Information about the followers of the playlist.'
+        None, description="Information about the followers of the playlist."
     )
     href: Optional[str] = Field(
         None,
-        description='A link to the Web API endpoint providing full details of the playlist.\n',
+        description="A link to the Web API endpoint providing full details of the playlist.\n",
     )
     id: Optional[str] = Field(
         None,
-        description='The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.\n',
+        description="The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.\n",
     )
     images: Optional[List[ImageObject]] = Field(
         None,
-        description='Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See [Working with Playlists](/documentation/web-api/concepts/playlists). _**Note**: If returned, the source URL for the image (`url`) is temporary and will expire in less than a day._\n',
+        description="Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See [Working with Playlists](/documentation/web-api/concepts/playlists). _**Note**: If returned, the source URL for the image (`url`) is temporary and will expire in less than a day._\n",
     )
-    name: Optional[str] = Field(None, description='The name of the playlist.\n')
+    name: Optional[str] = Field(None, description="The name of the playlist.\n")
     owner: Optional[PlaylistOwnerObject] = Field(
-        None, description='The user who owns the playlist\n'
+        None, description="The user who owns the playlist\n"
     )
     public: Optional[bool] = Field(
         None,
@@ -1832,37 +1831,37 @@ class PlaylistObject(BaseModel):
     )
     snapshot_id: Optional[str] = Field(
         None,
-        description='The version identifier for the current playlist. Can be supplied in other requests to target a specific playlist version\n',
+        description="The version identifier for the current playlist. Can be supplied in other requests to target a specific playlist version\n",
     )
     tracks: Optional[PagingPlaylistTrackObject] = Field(
-        None, description='The tracks of the playlist.\n'
+        None, description="The tracks of the playlist.\n"
     )
     type: Optional[str] = Field(None, description='The object type: "playlist"\n')
     uri: Optional[str] = Field(
         None,
-        description='The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.\n',
+        description="The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.\n",
     )
 
 
 class ShowObject(ShowBase):
     episodes: PagingSimplifiedEpisodeObject = Field(
-        ..., description='The episodes of the show.\n'
+        ..., description="The episodes of the show.\n"
     )
 
 
 class AudiobookObject(AudiobookBase):
     chapters: PagingSimplifiedChapterObject = Field(
-        ..., description='The chapters of the audiobook.\n'
+        ..., description="The chapters of the audiobook.\n"
     )
 
 
 class SavedAudiobookObject(BaseModel):
     added_at: Optional[datetime] = Field(
         None,
-        description='The date and time the audiobook was saved\nTimestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.\nIf the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.\n',
+        description="The date and time the audiobook was saved\nTimestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.\nIf the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.\n",
     )
     audiobook: Optional[AudiobookObject] = Field(
-        None, description='Information about the audiobook.'
+        None, description="Information about the audiobook."
     )
 
 

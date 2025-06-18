@@ -25,8 +25,8 @@ from dol import wrap_kvs
 
 # Code to access thorwhalen/sung_content data with ease
 
-DFLT_GITHUB_BRANCH = 'main'
-DFLT_REPO_STUB = f'thorwhalen/sung_content'
+DFLT_GITHUB_BRANCH = "main"
+DFLT_REPO_STUB = f"thorwhalen/sung_content"
 
 
 # Note: hubcap has tools for url manipulation, but it's overkill for this simple case
@@ -35,7 +35,7 @@ def raw_github_url(
     *,
     repo_stub=DFLT_REPO_STUB,
     branch=None,
-    url_prefix='https://raw.githubusercontent.com',
+    url_prefix="https://raw.githubusercontent.com",
 ):
     """
     Return the raw github url for a given path in a given repo and branch.
@@ -57,12 +57,12 @@ def raw_github_url(
         return partial(raw_github_url, repo_stub=repo_stub, branch=branch)
 
     if branch is None:
-        if len(repo_stub.split('/')) == 3:
-            branch = repo_stub.split('/')[2]
+        if len(repo_stub.split("/")) == 3:
+            branch = repo_stub.split("/")[2]
         else:
             branch = DFLT_GITHUB_BRANCH
 
-    return f'{url_prefix}/{repo_stub}/{branch}/{path}'
+    return f"{url_prefix}/{repo_stub}/{branch}/{path}"
 
 
 def get_content_bytes(
@@ -105,7 +105,7 @@ def get_github_table(
     from tabled import get_table
 
     bytes_ = get_content_bytes(key, max_age=max_age, content_url=content_url)
-    ext = key.split('.')[-1] if '.' in key else None
+    ext = key.split(".")[-1] if "." in key else None
     return get_table(bytes_, ext=ext, **extra_decoder_kwargs)
 
 
@@ -113,10 +113,10 @@ def get_github_table(
 # Track Analysis
 
 _standard = {
-    'name': 'name',
-    'duration_ms': 'duration_ms',
-    'popularity': 'popularity',
-    'explicit': 'explicit',
+    "name": "name",
+    "duration_ms": "duration_ms",
+    "popularity": "popularity",
+    "explicit": "explicit",
 }
 standard_meta_data_extractions = dict(**_standard, **extra_track_metadata_extractions)
 standard_extraction = extractor(standard_meta_data_extractions)
@@ -159,7 +159,7 @@ class TracksAnalysis:
         # df['url'] = df['external_urls'].apply(
         #     lambda x: x.get('spotify', None) if x else None
         # )
-        df['first_letter'] = df['name'].str[0].str.upper()
+        df["first_letter"] = df["name"].str[0].str.upper()
         # df['album_release_date'] = df['album'].apply(
         #     lambda x: x.get('release_date', None) if x else None
         # )
@@ -175,33 +175,33 @@ class TracksAnalysis:
         limit = 100
         while True:
             response = sp.playlist_tracks(self.playlist_id, offset=offset, limit=limit)
-            playlist_tracks.extend(response['items'])
-            if len(response['items']) < limit:
+            playlist_tracks.extend(response["items"])
+            if len(response["items"]) < limit:
                 break
             offset += limit
 
         added_at_data = [
-            {'added_at_datetime': item['added_at'], 'id': item['track']['id']}
+            {"added_at_datetime": item["added_at"], "id": item["track"]["id"]}
             for item in playlist_tracks
         ]
         added_at_df = pd.DataFrame(added_at_data)
-        added_at_df['added_at_date'] = added_at_df['added_at_datetime'].str[:10]
+        added_at_df["added_at_date"] = added_at_df["added_at_datetime"].str[:10]
 
         # Merge with the main dataframe
         self.df = pd.merge(
-            self.df, added_at_df, left_index=True, right_index=True, how='left'
+            self.df, added_at_df, left_index=True, right_index=True, how="left"
         )
-        self.df['id'] = self.df.index.values
+        self.df["id"] = self.df.index.values
 
     def _reorder_and_sort_dataframe(self):
         """Reorder columns and sort the dataframe by 'added_at_date'."""
         self.df = move_columns_to_front(self.df, front_columns_for_track_metas)
-        self.df = self.df.sort_values('added_at_date', ascending=False)
+        self.df = self.df.sort_values("added_at_date", ascending=False)
 
     @cached_property
     def names(self):
         """List of all track names."""
-        return self.df['name']
+        return self.df["name"]
 
     @cached_property
     def number_of_songs(self):
@@ -230,15 +230,15 @@ class TracksAnalysis:
 
     def print_duplicates(self):
         """Print duplicate track names and their counts."""
-        duplicates_series = pd.Series(self.duplicates, name='count')
+        duplicates_series = pd.Series(self.duplicates, name="count")
         print("\n### Duplicates")
         print(duplicates_series.to_markdown())
 
     def most_popular_songs(self, n=20):
         """Return the top 'n' most popular songs."""
         df = self.df
-        top_n = df.sort_values('popularity', ascending=False).head(n)
-        return top_n[['name', 'first_artist', 'popularity']]
+        top_n = df.sort_values("popularity", ascending=False).head(n)
+        return top_n[["name", "first_artist", "popularity"]]
 
     def print_most_popular_songs(self, n=20):
         """Print the top 'n' most popular songs."""
@@ -248,7 +248,7 @@ class TracksAnalysis:
     @cached_property
     def artist_counts(self):
         """Series of artist counts."""
-        return self.df['first_artist'].value_counts()
+        return self.df["first_artist"].value_counts()
 
     def print_top_artists(self, n=25):
         """Print the top 'n' artists by song count."""
@@ -258,15 +258,15 @@ class TracksAnalysis:
     def songs_by_release_year(self):
         """Dataframe grouping songs by their release year."""
         df = self.df.copy()
-        df['name_and_artist'] = df['name'] + " -- " + df['first_artist']
+        df["name_and_artist"] = df["name"] + " -- " + df["first_artist"]
         grouped = (
-            df.groupby('album_release_year')['name_and_artist']
+            df.groupby("album_release_year")["name_and_artist"]
             .apply(list)
             .reset_index()
         )
-        grouped['number_of_songs'] = grouped['name_and_artist'].apply(len)
-        grouped = grouped.sort_values('album_release_year').set_index(
-            'album_release_year'
+        grouped["number_of_songs"] = grouped["name_and_artist"].apply(len)
+        grouped = grouped.sort_values("album_release_year").set_index(
+            "album_release_year"
         )
         return grouped
 
@@ -275,16 +275,16 @@ class TracksAnalysis:
         from oplot import dict_bar_plot  # pip install oplot  # noqa
 
         grouped = self.songs_by_release_year
-        song_counts = grouped['number_of_songs'].to_dict()
+        song_counts = grouped["number_of_songs"].to_dict()
         annotations = {
             year: names[0]
-            for year, names in grouped['name_and_artist'].to_dict().items()
+            for year, names in grouped["name_and_artist"].to_dict().items()
         }
         dict_bar_plot(
             song_counts,
             annotations=annotations,
             annotations_cutoff_length=20,
-            title='Number of Songs per Year',
+            title="Number of Songs per Year",
         )
 
     @cached_property
@@ -293,25 +293,25 @@ class TracksAnalysis:
         df = self.df.copy()
         df = df[
             [
-                'album_release_date',
-                'added_at_date',
-                'name',
-                'first_artist',
-                'album_release_year',
+                "album_release_date",
+                "added_at_date",
+                "name",
+                "first_artist",
+                "album_release_year",
             ]
         ]
-        df['name_and_artist'] = df['name'] + " -- " + df['first_artist']
-        df['album_release_date'] = pd.to_datetime(df['album_release_date'])
-        df['added_at_date'] = pd.to_datetime(df['added_at_date'])
+        df["name_and_artist"] = df["name"] + " -- " + df["first_artist"]
+        df["album_release_date"] = pd.to_datetime(df["album_release_date"])
+        df["added_at_date"] = pd.to_datetime(df["added_at_date"])
         return df
 
     @cached_property
     def tracks_grouped_by_year(self):
-        g = self.dates.groupby('album_release_year')['name_and_artist'].apply(list)
+        g = self.dates.groupby("album_release_year")["name_and_artist"].apply(list)
         g = g.reset_index()
         # grouped['name_and_artist'] = grouped['name_and_artist'].apply(lambda x: "\n".join(x))
-        g['number_of_songs'] = g['name_and_artist'].apply(len)
-        g = g.sort_values('album_release_year').set_index('album_release_year')
+        g["number_of_songs"] = g["name_and_artist"].apply(len)
+        g = g.sort_values("album_release_year").set_index("album_release_year")
         return g
 
     def plot_added_vs_release_dates(self):
@@ -320,7 +320,7 @@ class TracksAnalysis:
 
         dates = self.dates
         sns.set_theme(style="whitegrid")
-        sns.scatterplot(data=dates, x='added_at_date', y='album_release_date', s=100)
+        sns.scatterplot(data=dates, x="added_at_date", y="album_release_date", s=100)
 
     def plot_added_vs_release_kde(self):
         """Plot a KDE of 'added_at_date' versus 'album_release_date'."""
@@ -329,8 +329,8 @@ class TracksAnalysis:
         dates = self.dates
         sns.kdeplot(
             data=dates,
-            x='added_at_date',
-            y='album_release_date',
+            x="added_at_date",
+            y="album_release_date",
             cmap="viridis",
             fill=True,
             bw_adjust=0.7,
@@ -343,8 +343,8 @@ class TracksAnalysis:
         dates = self.dates
         kdeplot_w_boundary_condition(
             data=dates,
-            x='added_at_date',
-            y='album_release_date',
+            x="added_at_date",
+            y="album_release_date",
             cmap="viridis",
             fill=True,
             bw_adjust=0.7,
@@ -361,22 +361,22 @@ class TracksAnalysis:
         letter_counts = {letter: len(names) for letter, names in name_groups.items()}
         return letter_counts
 
-    def plot_first_letter_distribution(self, sort_by='lexicographical'):
+    def plot_first_letter_distribution(self, sort_by="lexicographical"):
         """Plot the distribution of first letters in track names."""
         from oplot import dict_bar_plot  # pip install oplot  # noqa
 
         letter_counts = self.first_letter_counts
-        if sort_by == 'lexicographical':
+        if sort_by == "lexicographical":
             sorted_counts = dict(sorted(letter_counts.items(), key=lambda x: x[0]))
-            title = 'First Letter Distribution (Lexicographical Order)'
-        elif sort_by == 'count':
+            title = "First Letter Distribution (Lexicographical Order)"
+        elif sort_by == "count":
             sorted_counts = dict(
                 sorted(letter_counts.items(), key=lambda x: x[1], reverse=True)
             )
-            title = 'First Letter Distribution (Sorted by Count)'
+            title = "First Letter Distribution (Sorted by Count)"
         else:
             sorted_counts = letter_counts
-            title = 'First Letter Distribution'
+            title = "First Letter Distribution"
 
         dict_bar_plot(sorted_counts, title=title)
 
@@ -389,10 +389,10 @@ class TracksAnalysis:
         top_names = {}
         for letter, names in name_groups.items():
             if names:
-                top_tracks = self.df[self.df['name'].isin(names)].nlargest(
-                    n, 'popularity'
+                top_tracks = self.df[self.df["name"].isin(names)].nlargest(
+                    n, "popularity"
                 )
-                top_names[letter] = top_tracks['name'].tolist()
+                top_names[letter] = top_tracks["name"].tolist()
         return top_names
 
     def print_top_names_by_letter(self, n=20):
@@ -401,12 +401,12 @@ class TracksAnalysis:
         for letter, names in top_names.items():
             print(f"{letter.upper()} ({len(names)} tracks):")
             for name in names:
-                popularity = self.df[self.df['name'] == name]['popularity'].values[0]
+                popularity = self.df[self.df["name"] == name]["popularity"].values[0]
                 print(f"  - ({popularity}) {name}")
 
     def plot_features_histogram(
         self,
-        feature: SpotifyFeaturesT = 'popularity',
+        feature: SpotifyFeaturesT = "popularity",
         bins=20,
         xlim=None,
         ylim=None,
@@ -417,7 +417,7 @@ class TracksAnalysis:
 
         sns.histplot(self.playlist.numerical_features_df[feature], bins=bins)
         plt.xlabel(feature)
-        plt.ylabel('Count')
+        plt.ylabel("Count")
 
         if xlim is not None:
             plt.xlim(*xlim)
@@ -426,10 +426,10 @@ class TracksAnalysis:
 
     def plot_features_scatter(
         self,
-        x: SpotifyFeaturesT = 'danceability',
-        y: SpotifyFeaturesT = 'energy',
-        hue: SpotifyFeaturesT = 'loudness',
-        size: SpotifyFeaturesT = 'popularity',
+        x: SpotifyFeaturesT = "danceability",
+        y: SpotifyFeaturesT = "energy",
+        hue: SpotifyFeaturesT = "loudness",
+        size: SpotifyFeaturesT = "popularity",
         *,
         xlim=None,
         ylim=None,
@@ -450,7 +450,7 @@ class TracksAnalysis:
         sns.scatterplot(data=df, x=x, y=y, hue=hue, size=size, **scatterplot_kwargs)
 
         # Move the legend outside the plot
-        plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+        plt.legend(bbox_to_anchor=(1.05, 1), loc="upper left")
 
         from sung.util import spotify_audio_features_fields_with_0_to_1_range
 

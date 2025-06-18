@@ -33,7 +33,7 @@ from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 DFLT_LIMIT = 20
 
 # TODO: Get automatically from pydantic model when available
-SearchTypeT = Literal['artist', 'album', 'track', 'playlist', 'show', 'episode']
+SearchTypeT = Literal["artist", "album", "track", "playlist", "show", "episode"]
 
 
 def identity(x: T) -> T:
@@ -45,7 +45,7 @@ def strip_values(d: dict) -> dict:
     return {k: v.strip() for k, v in d.items()}
 
 
-Extractor = TypeVar('Extractor', bound=Callable)  # TODO: Specify more precisely
+Extractor = TypeVar("Extractor", bound=Callable)  # TODO: Specify more precisely
 
 
 SpecT = Union[Spec, str, Iterable[str], Mapping[str, str]]
@@ -71,8 +71,8 @@ def df_extractor(spec: SpecT) -> pd.DataFrame:
 def is_extractor(x: Any) -> bool:
     return (
         callable(x)
-        and hasattr(x, 'func')
-        and getattr(x.func, '__name__', '') == 'glom'
+        and hasattr(x, "func")
+        and getattr(x.func, "__name__", "") == "glom"
         or x is identity
     )
 
@@ -129,8 +129,8 @@ def get_config(config_name: str) -> str:
 
 
 def pop_client_id_and_secret(kwargs) -> tuple[str, str]:
-    client_id = kwargs.pop('client_id', get_config('SPOTIFY_API_CLIENT_ID'))
-    client_secret = kwargs.pop('client_secret', get_config('SPOTIFY_API_CLIENT_SECRET'))
+    client_id = kwargs.pop("client_id", get_config("SPOTIFY_API_CLIENT_ID"))
+    client_secret = kwargs.pop("client_secret", get_config("SPOTIFY_API_CLIENT_SECRET"))
     return client_id, client_secret
 
 
@@ -154,13 +154,13 @@ def get_spotify_oauth_creds(**oauth_kwargs) -> SpotifyOAuth:
 
 def _extract_scope_items(scope_string: str) -> Iterable[str]:
     if isinstance(scope_string, str):
-        return re.findall('\S+', scope_string)
+        return re.findall("\S+", scope_string)
     else:
         assert isinstance(scope_string, Iterable)
         return scope_string
 
 
-def _add_to_scope(scope, more_scope=''):
+def _add_to_scope(scope, more_scope=""):
     """
     Add new_scope to scope, ensuring no duplicates.
 
@@ -173,7 +173,7 @@ def _add_to_scope(scope, more_scope=''):
     """
     scope_items = set(_extract_scope_items(scope))
     scope_items.update(_extract_scope_items(more_scope))
-    return ' '.join(sorted(scope_items))
+    return " ".join(sorted(scope_items))
 
 
 # def get_spotify_client(client=None, *, ensure_scope=None, **kwargs) -> Spotify:
@@ -204,13 +204,13 @@ from i2 import Sig
 
 spotify_client_sig = (
     Sig(Spotify)
-    .merge_with_sig(Sig(SpotifyOAuth) - 'requests_timeout')
-    .merge_with_sig(Sig(SpotifyClientCredentials) - 'requests_timeout')
+    .merge_with_sig(Sig(SpotifyOAuth) - "requests_timeout")
+    .merge_with_sig(Sig(SpotifyClientCredentials) - "requests_timeout")
 )
 
 
 @spotify_client_sig.inject_into_keyword_variadic
-def get_spotify_client(client=None, *, ensure_scope='', scope='', **kwargs) -> Spotify:
+def get_spotify_client(client=None, *, ensure_scope="", scope="", **kwargs) -> Spotify:
     """
     Get a Spotify client.
 
@@ -225,8 +225,8 @@ def get_spotify_client(client=None, *, ensure_scope='', scope='', **kwargs) -> S
     scope desires.
 
     """
-    scope = _add_to_scope(kwargs.get('scope', ''), ensure_scope)
-    kwargs['scope'] = scope
+    scope = _add_to_scope(kwargs.get("scope", ""), ensure_scope)
+    kwargs["scope"] = scope
 
     spotify_kwargs = Sig(Spotify).map_arguments(
         kwargs=kwargs, allow_partial=True, allow_excess=True
@@ -251,13 +251,13 @@ def get_spotify_client(client=None, *, ensure_scope='', scope='', **kwargs) -> S
         # Extract existing spotify_kwargs from the client instance
 
         existing_spotify_kwargs = {
-            'proxies': client.proxies,
-            'requests_timeout': client.requests_timeout,
-            'status_forcelist': client.status_forcelist,
-            'retries': client.retries,
-            'status_retries': client.status_retries,
-            'backoff_factor': client.backoff_factor,
-            'language': client.language,
+            "proxies": client.proxies,
+            "requests_timeout": client.requests_timeout,
+            "status_forcelist": client.status_forcelist,
+            "retries": client.retries,
+            "status_retries": client.status_retries,
+            "backoff_factor": client.backoff_factor,
+            "language": client.language,
             # 'chunked': client.chunked,
         }
 
@@ -270,27 +270,27 @@ def get_spotify_client(client=None, *, ensure_scope='', scope='', **kwargs) -> S
 
         if isinstance(auth_manager, SpotifyClientCredentials):
             existing_client_creds_kwargs = {
-                'client_id': auth_manager.client_id,
-                'client_secret': auth_manager.client_secret,
-                'proxies': auth_manager.proxies,
-                'requests_timeout': auth_manager.requests_timeout,
+                "client_id": auth_manager.client_id,
+                "client_secret": auth_manager.client_secret,
+                "proxies": auth_manager.proxies,
+                "requests_timeout": auth_manager.requests_timeout,
             }
         elif isinstance(auth_manager, SpotifyOAuth):
             existing_client_creds_kwargs = {
-                'client_id': auth_manager.client_id,
-                'client_secret': auth_manager.client_secret,
-                'proxies': auth_manager.proxies,
-                'requests_timeout': auth_manager.requests_timeout,
-                'redirect_uri': auth_manager.redirect_uri,
-                'scope': auth_manager.scope,
+                "client_id": auth_manager.client_id,
+                "client_secret": auth_manager.client_secret,
+                "proxies": auth_manager.proxies,
+                "requests_timeout": auth_manager.requests_timeout,
+                "redirect_uri": auth_manager.redirect_uri,
+                "scope": auth_manager.scope,
             }
-        elif hasattr(auth_manager, 'client_id') and hasattr(
-            auth_manager, 'client_secret'
+        elif hasattr(auth_manager, "client_id") and hasattr(
+            auth_manager, "client_secret"
         ):
             # For other auth managers that have client_id and client_secret
             existing_client_creds_kwargs = {
-                'client_id': auth_manager.client_id,
-                'client_secret': auth_manager.client_secret,
+                "client_id": auth_manager.client_id,
+                "client_secret": auth_manager.client_secret,
             }
 
         # Update existing client_creds_kwargs with new client_creds_kwargs
@@ -390,26 +390,26 @@ spotify_track_metadata_description = (
 )
 
 spotify_track_metadata_numerical_field_names = [
-    'duration_ms',
-    'popularity',
-    'explicit',
-    'album_release_year',
+    "duration_ms",
+    "popularity",
+    "explicit",
+    "album_release_year",
 ]
 
 spotify_album_metadata_fields_names = [
-    'available_markets',
-    'type',
-    'album_type',
-    'href',
-    'id',
-    'images',
-    'name',
-    'release_date',
-    'release_date_precision',
-    'uri',
-    'artists',
-    'external_urls',
-    'total_tracks',
+    "available_markets",
+    "type",
+    "album_type",
+    "href",
+    "id",
+    "images",
+    "name",
+    "release_date",
+    "release_date_precision",
+    "uri",
+    "artists",
+    "external_urls",
+    "total_tracks",
 ]
 
 
@@ -453,28 +453,28 @@ spotify_features_fields = dict(
 )
 
 spotify_features_field_names = tuple(spotify_features_fields) + (
-    'album_release_year',
-    'explicit',
+    "album_release_year",
+    "explicit",
 )
 
 # TODO: When supporting only 3.11+, use Literal[*spotify_features_field_names]
 SpotifyFeaturesT = Literal[
-    'duration_ms',
-    'popularity',
-    'album_release_year',
-    'explicit',
-    'acousticness',
-    'danceability',
-    'energy',
-    'instrumentalness',
-    'liveness',
-    'loudness',
-    'speechiness',
-    'valence',
-    'tempo',
-    'key',
-    'mode',
-    'time_signature',
+    "duration_ms",
+    "popularity",
+    "album_release_year",
+    "explicit",
+    "acousticness",
+    "danceability",
+    "energy",
+    "instrumentalness",
+    "liveness",
+    "loudness",
+    "speechiness",
+    "valence",
+    "tempo",
+    "key",
+    "mode",
+    "time_signature",
 ]
 
 
@@ -614,10 +614,10 @@ def ensure_playlist_id(playlist_spec: str) -> str:
     >>> ensure_playlist_id("https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M")
     '37i9dQZF1DXcBWIGoYBM5M'
     """
-    if playlist_spec.startswith('spotify:playlist:'):
-        return playlist_spec.split(':')[-1]
-    elif playlist_spec.startswith('https://'):
-        return playlist_spec.split('/')[-1].split('?')[0]
+    if playlist_spec.startswith("spotify:playlist:"):
+        return playlist_spec.split(":")[-1]
+    elif playlist_spec.startswith("https://"):
+        return playlist_spec.split("/")[-1].split("?")[0]
     else:
         return (
             playlist_spec  # just cross your fingers and hope it's a valid playlist ID
@@ -625,35 +625,35 @@ def ensure_playlist_id(playlist_spec: str) -> str:
 
 
 front_columns_for_track_metas = (
-    'name',
-    'artists_names' 'duration_ms',
-    'popularity',
-    'explicit',
-    'album_name',
-    'album_release_date',
-    'album_release_year',
-    'added_at_date',
-    'url',
-    'artist_list',
-    'first_artist',
-    'first_letter',
-    'id',
+    "name",
+    "artists_names" "duration_ms",
+    "popularity",
+    "explicit",
+    "album_name",
+    "album_release_date",
+    "album_release_year",
+    "added_at_date",
+    "url",
+    "artist_list",
+    "first_artist",
+    "first_letter",
+    "id",
 )
 
 back_columns_for_track_metas = (
-    'type',
-    'episode',
-    'track',
-    'album',
-    'disc_number',
-    'track_number',
-    'artists',
-    'preview_url',
-    'uri',
-    'href',
-    'available_markets',
-    'external_ids',
-    'external_urls',
+    "type",
+    "episode",
+    "track",
+    "album",
+    "disc_number",
+    "track_number",
+    "artists",
+    "preview_url",
+    "uri",
+    "href",
+    "available_markets",
+    "external_ids",
+    "external_urls",
 )
 
 

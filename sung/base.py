@@ -1,8 +1,8 @@
 """Base functionalities for the sung package.
 
 This module provides foundational tools and abstractions for interacting with Spotify's
-API. It includes classes and functions to search for tracks, manage playlists, and 
-handle Spotify track metadata. The utilities here are designed to integrate seamlessly 
+API. It includes classes and functions to search for tracks, manage playlists, and
+handle Spotify track metadata. The utilities here are designed to integrate seamlessly
 with Spotify's API and streamline data extraction and manipulation.
 
 Key Components:
@@ -12,7 +12,7 @@ Key Components:
 - `TracksBase`: A base class for managing collections of Spotify tracks,
   providing a dictionary-like interface with additional utilities for metadata handling.
 - `Tracks`: A concrete implementation of `TracksBase` that uses track IDs or track metadata.
-- `PlaylistReader` and `Playlist`: Classes for managing Spotify playlists, offering 
+- `PlaylistReader` and `Playlist`: Classes for managing Spotify playlists, offering
   read-only and mutable interfaces respectively.
 - Utility functions and constants for managing Spotify clients and data extraction.
 
@@ -69,13 +69,13 @@ DFLT_VERBOSE = True
 from sung.util import extractor, df_extractor
 
 extra_track_metadata_extractions = {
-    'artist_list': 'artists.*.name',
-    'album_name': 'album.name',
-    'album_release_date': 'album.release_date',
-    'url': 'external_urls.spotify',
-    'first_artist': 'artists.0.name',
-    'album_total_tracks': 'album.total_tracks',
-    'album_images': 'album.images',
+    "artist_list": "artists.*.name",
+    "album_name": "album.name",
+    "album_release_date": "album.release_date",
+    "url": "external_urls.spotify",
+    "first_artist": "artists.0.name",
+    "album_total_tracks": "album.total_tracks",
+    "album_images": "album.images",
 }
 
 
@@ -98,9 +98,9 @@ def process_track_columns(df):
     common_columns = set(df.columns) & set(extras.columns)
     if common_columns:
         raise ValueError(f"Columns {common_columns} are duplicated in both dataframes.")
-    extras['artists_names'] = extras['artist_list'].apply('; '.join)
-    extras['album_release_date'] = extras['album_release_date'].apply(convert_date)
-    extras['album_release_year'] = extras['album_release_date'].str[:4].astype(int)
+    extras["artists_names"] = extras["artist_list"].apply("; ".join)
+    extras["album_release_date"] = extras["album_release_date"].apply(convert_date)
+    extras["album_release_year"] = extras["album_release_date"].str[:4].astype(int)
     return pd.concat([df, extras], axis=1)
 
 
@@ -113,12 +113,12 @@ TrackKeySpec = Union[TrackId, int, slice, Iterable[TrackId]]
 def track_ids_to_metas(track_ids, client):
     """Convert track IDs to track metadata using the Spotify client."""
     response = client.tracks(track_ids)
-    return response['tracks']
+    return response["tracks"]
 
 
 def track_metas_to_track_ids(track_metas):
     """Extract track IDs from track metadata."""
-    return [meta['id'] for meta in track_metas]
+    return [meta["id"] for meta in track_metas]
 
 
 class TracksBase(Mapping[TrackId, TrackMetadata]):
@@ -224,11 +224,11 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
     def data(self):
         # TODO: Add the added year or date when available
         metadata_df = self.meta_dataframe()
-        audio_features_df = pd.DataFrame(self.audio_features).T.set_index('id')
+        audio_features_df = pd.DataFrame(self.audio_features).T.set_index("id")
         audio_features_df = audio_features_df[list(spotify_audio_features_fields)]
 
         # Merge metadata and audio features
-        df = metadata_df.join(audio_features_df, how='inner')
+        df = metadata_df.join(audio_features_df, how="inner")
         return df
 
     @cached_property
@@ -250,7 +250,7 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
     @property
     def audio_features_df(self):
         print(f"Deprecated: Use 'numerical_features_df' instead.")
-        return pd.DataFrame(self.audio_features).T.set_index('id')
+        return pd.DataFrame(self.audio_features).T.set_index("id")
 
     @property
     def numerical_features_df(self):
@@ -269,7 +269,7 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
         *,
         front_columns=front_columns_for_track_metas,
         back_columns=back_columns_for_track_metas,
-    ) -> 'pd.DataFrame':
+    ) -> "pd.DataFrame":
         """
         Get tracks metadata for given key(s), as a pandas DataFrame.
 
@@ -282,8 +282,8 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
         df = process_track_columns(df)
         df = move_columns_to_front(df, front_columns)
         df = move_columns_to_back(df, back_columns)
-        if 'id' in df.columns:
-            df.set_index('id', drop=False, inplace=True)
+        if "id" in df.columns:
+            df.set_index("id", drop=False, inplace=True)
         return df
 
     dataframe = meta_dataframe  # Alias for backwards compatibility
@@ -307,9 +307,9 @@ class Tracks(TracksBase):
     def search(
         cls,
         query: str,
-        egress: Callable = extractor('tracks.items'),
+        egress: Callable = extractor("tracks.items"),
         *,
-        search_type: SearchTypeT = 'track',
+        search_type: SearchTypeT = "track",
         market=None,
         year=None,
         genre=None,
@@ -341,9 +341,9 @@ class Tracks(TracksBase):
 
 def search_tracks(
     query: str,
-    egress: Callable = extractor('tracks.items'),
+    egress: Callable = extractor("tracks.items"),
     *,
-    search_type: SearchTypeT = 'track',
+    search_type: SearchTypeT = "track",
     market=None,
     year=None,
     genre=None,
@@ -413,16 +413,16 @@ class PlaylistReader(Tracks, Mapping[TrackId, TrackMetadata]):
                 self.playlist_id,
                 offset=offset,
                 limit=limit,
-                fields='items.track,next',
+                fields="items.track,next",
             )
-            items = response['items']
+            items = response["items"]
             if not items:
                 break
             for item in items:
-                track = item['track']
+                track = item["track"]
                 if track:
                     track_metas.append(track)
-            if response['next'] is None:
+            if response["next"] is None:
                 break
             offset += limit
         return track_metas
@@ -508,7 +508,7 @@ class Playlist(PlaylistReader, MutableMapping[TrackId, TrackMetadata]):
         *,
         client: Optional[Any] = None,
         user_id=None,
-    ) -> 'Playlist':
+    ) -> "Playlist":
         """
         Create a new playlist from a list of track IDs.
 
@@ -528,13 +528,13 @@ class Playlist(PlaylistReader, MutableMapping[TrackId, TrackMetadata]):
             client = get_spotify_client(ensure_scope=scope)
 
         if user_id is None:
-            user_id = client.me()['id']
+            user_id = client.me()["id"]
 
         # Create a new playlist
         playlist = client.user_playlist_create(
             user=user_id, name=playlist_name, public=public
         )
-        playlist_id = playlist['id']
+        playlist_id = playlist["id"]
 
         # Add tracks to the playlist in batches of 100
         for i in range(0, len(track_list), 100):
@@ -569,16 +569,16 @@ class SpotifyDacc:
     def __init__(self, client=None):
         self.client = get_spotify_client(client)
 
-    def recently_played(self, *, extract='items.*.track.name', limit=50, **kwargs):
+    def recently_played(self, *, extract="items.*.track.name", limit=50, **kwargs):
         client = get_spotify_client(
-            self.client, ensure_scope='user-read-recently-played'
+            self.client, ensure_scope="user-read-recently-played"
         )
         results = client.current_user_recently_played(limit=limit)
         extract = extractor.ensure_extractor(extract)
         return extract(results)
 
     def current_user_top_tracks(
-        self, *, extract=None, limit=20, time_range='long_term', **kwargs
+        self, *, extract=None, limit=20, time_range="long_term", **kwargs
     ):
         """
         Get user's top tracks
@@ -587,7 +587,7 @@ class SpotifyDacc:
 
         To get names of artists, use extract='items.*.artists.*.name'
         """
-        client = get_spotify_client(self.client, ensure_scope='user-top-read')
+        client = get_spotify_client(self.client, ensure_scope="user-top-read")
         results = client.current_user_top_tracks(
             limit=limit, time_range=time_range, **kwargs
         )

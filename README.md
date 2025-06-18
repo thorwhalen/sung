@@ -1,8 +1,7 @@
 # sung
 
 Music data access. Sources from chords&lyrics dataset, spotify and wikipedia. 
-[pypi](https://pypi.org/project/sung/).
-
+[pypi](https://pypi.org/project/sung/)
 [Documentation](https://thorwhalen.github.io/sung)
 
 

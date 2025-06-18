@@ -7,16 +7,16 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Welcome to sung’s documentation! &mdash; sung 0.0.14 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=544df88d"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -50,6 +50,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung.html">sung</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/base.html">sung.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html">sung.chords_and_lyrics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/pydantic_models.html">sung.pydantic_models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/tools.html">sung.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/util.html">sung.util</a></li>
@@ -93,6 +94,22 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/sung/base.html#sung.base.search_tracks"><code class="docutils literal notranslate"><span class="pre">search_tracks()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/sung/base.html#sung.base.track_ids_to_metas"><code class="docutils literal notranslate"><span class="pre">track_ids_to_metas()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/sung/base.html#sung.base.track_metas_to_track_ids"><code class="docutils literal notranslate"><span class="pre">track_metas_to_track_ids()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html">sung.chords_and_lyrics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.FontSpec"><code class="docutils literal notranslate"><span class="pre">FontSpec</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.ensure_parsed_song"><code class="docutils literal notranslate"><span class="pre">ensure_parsed_song()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.filter_non_lyrics"><code class="docutils literal notranslate"><span class="pre">filter_non_lyrics()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.is_likely_lyrics"><code class="docutils literal notranslate"><span class="pre">is_likely_lyrics()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.pack_song_lines"><code class="docutils literal notranslate"><span class="pre">pack_song_lines()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.pack_song_text"><code class="docutils literal notranslate"><span class="pre">pack_song_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.parse_chord_lyrics"><code class="docutils literal notranslate"><span class="pre">parse_chord_lyrics()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.remove_non_lyrics"><code class="docutils literal notranslate"><span class="pre">remove_non_lyrics()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics"><code class="docutils literal notranslate"><span class="pre">render_chords_and_lyrics()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics_to_pdf"><code class="docutils literal notranslate"><span class="pre">render_chords_and_lyrics_to_pdf()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics_to_text"><code class="docutils literal notranslate"><span class="pre">render_chords_and_lyrics_to_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.resolve_page_size"><code class="docutils literal notranslate"><span class="pre">resolve_page_size()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.search_songs"><code class="docutils literal notranslate"><span class="pre">search_songs()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/pydantic_models.html">sung.pydantic_models</a><ul>
@@ -234,7 +251,7 @@
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 <p>Release: 0.0.14</p>
-<p>Last change: Dec 27, 2024</p>
+<p>Last change: Jun 18, 2025</p>
 </section>
 
 

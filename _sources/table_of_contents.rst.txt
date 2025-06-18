@@ -4,6 +4,7 @@
 
    module_docs/sung
    module_docs/sung/base
+   module_docs/sung/chords_and_lyrics
    module_docs/sung/pydantic_models
    module_docs/sung/tools
    module_docs/sung/util

@@ -6,16 +6,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>sung.pydantic_models &mdash; sung 0.0.14 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=544df88d"></script>
-      <script src="../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,6 +48,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung.html">sung</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/base.html">sung.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/chords_and_lyrics.html">sung.chords_and_lyrics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/pydantic_models.html">sung.pydantic_models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/tools.html">sung.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/util.html">sung.util</a></li>
@@ -95,18 +96,18 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">confloat</span><span class="p">,</span> <span class="n">conint</span><span class="p">,</span> <span class="n">RootModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">confloat</span><span class="p">,</span> <span class="n">conint</span><span class="p">,</span> <span class="n">RootModel</span>
 
 
 <div class="viewcode-block" id="TrackRestrictionObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.TrackRestrictionObject">[docs]</a>
-<span class="k">class</span> <span class="nc">TrackRestrictionObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TrackRestrictionObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">reason</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The reason for the restriction. Supported values:</span><span class="se">\n</span><span class="s2">- `market` - The content item is not available in the given market.</span><span class="se">\n</span><span class="s2">- `product` - The content item is not available for the user&#39;s subscription type.</span><span class="se">\n</span><span class="s2">- `explicit` - The content item is explicit and the user&#39;s account is set to not play explicit content.</span><span class="se">\n\n</span><span class="s2">Additional reasons may be added in the future.</span><span class="se">\n</span><span class="s2">**Note**: If you use this field, make sure that your application safely handles unknown values.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -116,7 +117,7 @@
 
 <div class="viewcode-block" id="Reason">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Reason">[docs]</a>
-<span class="k">class</span> <span class="nc">Reason</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Reason</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">market</span> <span class="o">=</span> <span class="s1">&#39;market&#39;</span>
     <span class="n">product</span> <span class="o">=</span> <span class="s1">&#39;product&#39;</span>
     <span class="n">explicit</span> <span class="o">=</span> <span class="s1">&#39;explicit&#39;</span></div>
@@ -125,7 +126,7 @@
 
 <div class="viewcode-block" id="AlbumRestrictionObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.AlbumRestrictionObject">[docs]</a>
-<span class="k">class</span> <span class="nc">AlbumRestrictionObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AlbumRestrictionObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">reason</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Reason</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The reason for the restriction. Albums may be restricted if the content is not available in a given market, to the user&#39;s subscription type, or when the user&#39;s account is set to not play explicit content.</span><span class="se">\n</span><span class="s2">Additional reasons may be added in the future.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -135,7 +136,7 @@
 
 <div class="viewcode-block" id="EpisodeRestrictionObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.EpisodeRestrictionObject">[docs]</a>
-<span class="k">class</span> <span class="nc">EpisodeRestrictionObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EpisodeRestrictionObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">reason</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The reason for the restriction. Supported values:</span><span class="se">\n</span><span class="s2">- `market` - The content item is not available in the given market.</span><span class="se">\n</span><span class="s2">- `product` - The content item is not available for the user&#39;s subscription type.</span><span class="se">\n</span><span class="s2">- `explicit` - The content item is explicit and the user&#39;s account is set to not play explicit content.</span><span class="se">\n\n</span><span class="s2">Additional reasons may be added in the future.</span><span class="se">\n</span><span class="s2">**Note**: If you use this field, make sure that your application safely handles unknown values.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -145,7 +146,7 @@
 
 <div class="viewcode-block" id="ChapterRestrictionObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ChapterRestrictionObject">[docs]</a>
-<span class="k">class</span> <span class="nc">ChapterRestrictionObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ChapterRestrictionObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">reason</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The reason for the restriction. Supported values:</span><span class="se">\n</span><span class="s2">- `market` - The content item is not available in the given market.</span><span class="se">\n</span><span class="s2">- `product` - The content item is not available for the user&#39;s subscription type.</span><span class="se">\n</span><span class="s2">- `explicit` - The content item is explicit and the user&#39;s account is set to not play explicit content.</span><span class="se">\n</span><span class="s2">- `payment_required` - Payment is required to play the content item.</span><span class="se">\n\n</span><span class="s2">Additional reasons may be added in the future.</span><span class="se">\n</span><span class="s2">**Note**: If you use this field, make sure that your application safely handles unknown values.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -155,14 +156,14 @@
 
 <div class="viewcode-block" id="Type">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Type">[docs]</a>
-<span class="k">class</span> <span class="nc">Type</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Type</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">artist</span> <span class="o">=</span> <span class="s1">&#39;artist&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="DisallowsObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.DisallowsObject">[docs]</a>
-<span class="k">class</span> <span class="nc">DisallowsObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DisallowsObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">interrupting_playback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Interrupting playback. Optional field.&#39;</span>
     <span class="p">)</span>
@@ -194,7 +195,7 @@
 
 <div class="viewcode-block" id="ErrorObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ErrorObject">[docs]</a>
-<span class="k">class</span> <span class="nc">ErrorObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ErrorObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">status</span><span class="p">:</span> <span class="n">conint</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">599</span><span class="p">)</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The HTTP status code (also returned in the response header; see [Response Status Codes](/documentation/web-api/concepts/api-calls#response-status-codes) for more information).</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -207,14 +208,14 @@
 
 <div class="viewcode-block" id="Type2">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Type2">[docs]</a>
-<span class="k">class</span> <span class="nc">Type2</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Type2</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;user&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="Meta">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Meta">[docs]</a>
-<span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">analyzer_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The version of the Analyzer used to analyze this track.&#39;</span><span class="p">,</span>
@@ -255,7 +256,7 @@
 
 <div class="viewcode-block" id="TimeIntervalObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.TimeIntervalObject">[docs]</a>
-<span class="k">class</span> <span class="nc">TimeIntervalObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TimeIntervalObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The starting point (in seconds) of the time interval.&#39;</span><span class="p">,</span>
@@ -276,7 +277,7 @@
 
 <div class="viewcode-block" id="Mode1">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Mode1">[docs]</a>
-<span class="k">class</span> <span class="nc">Mode1</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Mode1</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">number__1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="n">number_0</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">number_1</span> <span class="o">=</span> <span class="mi">1</span></div>
@@ -285,7 +286,7 @@
 
 <div class="viewcode-block" id="SegmentObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SegmentObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SegmentObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SegmentObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The starting point (in seconds) of the segment.&#39;</span><span class="p">,</span>
@@ -334,7 +335,7 @@
 
 <div class="viewcode-block" id="TimeSignature">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.TimeSignature">[docs]</a>
-<span class="k">class</span> <span class="nc">TimeSignature</span><span class="p">(</span><span class="n">RootModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TimeSignature</span><span class="p">(</span><span class="n">RootModel</span><span class="p">):</span>
     <span class="n">root</span><span class="p">:</span> <span class="n">conint</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;An estimated time signature. The time signature (meter) is a notational convention to specify how many beats are in each bar (or measure). The time signature ranges from 3 to 7 indicating time signatures of &quot;3/4&quot;, to &quot;7/4&quot;.&#39;</span><span class="p">,</span>
@@ -345,7 +346,7 @@
 
 <div class="viewcode-block" id="Tempo">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Tempo">[docs]</a>
-<span class="k">class</span> <span class="nc">Tempo</span><span class="p">(</span><span class="n">RootModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Tempo</span><span class="p">(</span><span class="n">RootModel</span><span class="p">):</span>
     <span class="n">root</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -356,7 +357,7 @@
 
 <div class="viewcode-block" id="Loudness">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Loudness">[docs]</a>
-<span class="k">class</span> <span class="nc">Loudness</span><span class="p">(</span><span class="n">RootModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Loudness</span><span class="p">(</span><span class="n">RootModel</span><span class="p">):</span>
     <span class="n">root</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -367,7 +368,7 @@
 
 <div class="viewcode-block" id="Key">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Key">[docs]</a>
-<span class="k">class</span> <span class="nc">Key</span><span class="p">(</span><span class="n">RootModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Key</span><span class="p">(</span><span class="n">RootModel</span><span class="p">):</span>
     <span class="n">root</span><span class="p">:</span> <span class="n">conint</span><span class="p">(</span><span class="n">ge</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The key the track is in. Integers map to pitches using standard [Pitch Class notation](https://en.wikipedia.org/wiki/Pitch_class). E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -378,7 +379,7 @@
 
 <div class="viewcode-block" id="Mode">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Mode">[docs]</a>
-<span class="k">class</span> <span class="nc">Mode</span><span class="p">(</span><span class="n">RootModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Mode</span><span class="p">(</span><span class="n">RootModel</span><span class="p">):</span>
     <span class="n">root</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -389,14 +390,14 @@
 
 <div class="viewcode-block" id="Type3">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Type3">[docs]</a>
-<span class="k">class</span> <span class="nc">Type3</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Type3</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">audio_features</span> <span class="o">=</span> <span class="s1">&#39;audio_features&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="AudioFeaturesObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.AudioFeaturesObject">[docs]</a>
-<span class="k">class</span> <span class="nc">AudioFeaturesObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AudioFeaturesObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">acousticness</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -466,7 +467,7 @@
 
 <div class="viewcode-block" id="DeviceObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.DeviceObject">[docs]</a>
-<span class="k">class</span> <span class="nc">DeviceObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DeviceObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="nb">id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The device ID. This ID is unique and persistent to some extent. However, this is not guaranteed and any cached `device_id` should periodically be cleared out and refetched as necessary.&#39;</span><span class="p">,</span>
@@ -502,7 +503,7 @@
 
 <div class="viewcode-block" id="CursorObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.CursorObject">[docs]</a>
-<span class="k">class</span> <span class="nc">CursorObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CursorObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">after</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The cursor to use as key to find the next page of items.&#39;</span>
     <span class="p">)</span>
@@ -514,7 +515,7 @@
 
 <div class="viewcode-block" id="CursorPagingObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.CursorPagingObject">[docs]</a>
-<span class="k">class</span> <span class="nc">CursorPagingObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CursorPagingObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">href</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;A link to the Web API endpoint returning the full result of the request.&#39;</span><span class="p">,</span>
@@ -537,7 +538,7 @@
 
 <div class="viewcode-block" id="PagingObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">href</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;A link to the Web API endpoint returning the full result of the request</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -571,7 +572,7 @@
 
 <div class="viewcode-block" id="RecommendationSeedObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.RecommendationSeedObject">[docs]</a>
-<span class="k">class</span> <span class="nc">RecommendationSeedObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RecommendationSeedObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">afterFilteringSize</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The number of tracks available after min</span><span class="se">\\</span><span class="s1">_</span><span class="se">\\</span><span class="s1">* and max</span><span class="se">\\</span><span class="s1">_</span><span class="se">\\</span><span class="s1">* filters have been applied.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -600,7 +601,7 @@
 
 <div class="viewcode-block" id="PlaylistTracksRefObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PlaylistTracksRefObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PlaylistTracksRefObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlaylistTracksRefObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">href</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;A link to the Web API endpoint where full details of the playlist&#39;s tracks can be retrieved.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -613,21 +614,21 @@
 
 <div class="viewcode-block" id="Type4">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Type4">[docs]</a>
-<span class="k">class</span> <span class="nc">Type4</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Type4</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;user&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="Type5">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Type5">[docs]</a>
-<span class="k">class</span> <span class="nc">Type5</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Type5</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">track</span> <span class="o">=</span> <span class="s1">&#39;track&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="ReleaseDatePrecision">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ReleaseDatePrecision">[docs]</a>
-<span class="k">class</span> <span class="nc">ReleaseDatePrecision</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ReleaseDatePrecision</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">year</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span>
     <span class="n">month</span> <span class="o">=</span> <span class="s1">&#39;month&#39;</span>
     <span class="n">day</span> <span class="o">=</span> <span class="s1">&#39;day&#39;</span></div>
@@ -636,14 +637,14 @@
 
 <div class="viewcode-block" id="Type6">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Type6">[docs]</a>
-<span class="k">class</span> <span class="nc">Type6</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Type6</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">episode</span> <span class="o">=</span> <span class="s1">&#39;episode&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="ResumePointObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ResumePointObject">[docs]</a>
-<span class="k">class</span> <span class="nc">ResumePointObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ResumePointObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">fully_played</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Whether or not the episode has been fully played by the user.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -657,21 +658,21 @@
 
 <div class="viewcode-block" id="Type7">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Type7">[docs]</a>
-<span class="k">class</span> <span class="nc">Type7</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Type7</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">show</span> <span class="o">=</span> <span class="s1">&#39;show&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="Type8">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Type8">[docs]</a>
-<span class="k">class</span> <span class="nc">Type8</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Type8</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">audiobook</span> <span class="o">=</span> <span class="s1">&#39;audiobook&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="AlbumType">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.AlbumType">[docs]</a>
-<span class="k">class</span> <span class="nc">AlbumType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AlbumType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">album</span> <span class="o">=</span> <span class="s1">&#39;album&#39;</span>
     <span class="n">single</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
     <span class="n">compilation</span> <span class="o">=</span> <span class="s1">&#39;compilation&#39;</span></div>
@@ -680,14 +681,14 @@
 
 <div class="viewcode-block" id="Type9">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Type9">[docs]</a>
-<span class="k">class</span> <span class="nc">Type9</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Type9</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">album</span> <span class="o">=</span> <span class="s1">&#39;album&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="AlbumGroup">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.AlbumGroup">[docs]</a>
-<span class="k">class</span> <span class="nc">AlbumGroup</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AlbumGroup</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">album</span> <span class="o">=</span> <span class="s1">&#39;album&#39;</span>
     <span class="n">single</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
     <span class="n">compilation</span> <span class="o">=</span> <span class="s1">&#39;compilation&#39;</span>
@@ -697,14 +698,14 @@
 
 <div class="viewcode-block" id="Type10">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Type10">[docs]</a>
-<span class="k">class</span> <span class="nc">Type10</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Type10</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">episode</span> <span class="o">=</span> <span class="s1">&#39;episode&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="CopyrightObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.CopyrightObject">[docs]</a>
-<span class="k">class</span> <span class="nc">CopyrightObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CopyrightObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">text</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The copyright text for this content.</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="p">)</span>
@@ -717,21 +718,21 @@
 
 <div class="viewcode-block" id="AuthorObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.AuthorObject">[docs]</a>
-<span class="k">class</span> <span class="nc">AuthorObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AuthorObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The name of the author.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="NarratorObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.NarratorObject">[docs]</a>
-<span class="k">class</span> <span class="nc">NarratorObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NarratorObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The name of the Narrator.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="ExternalIdObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ExternalIdObject">[docs]</a>
-<span class="k">class</span> <span class="nc">ExternalIdObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExternalIdObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">isrc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;[International Standard Recording Code](http://en.wikipedia.org/wiki/International_Standard_Recording_Code)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -749,7 +750,7 @@
 
 <div class="viewcode-block" id="ExternalUrlObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ExternalUrlObject">[docs]</a>
-<span class="k">class</span> <span class="nc">ExternalUrlObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExternalUrlObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">spotify</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The [Spotify URL](/documentation/web-api/concepts/spotify-uris-ids) for the object.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -759,7 +760,7 @@
 
 <div class="viewcode-block" id="FollowersObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.FollowersObject">[docs]</a>
-<span class="k">class</span> <span class="nc">FollowersObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FollowersObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">href</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;This will always be set to null, as the Web API does not support it at the moment.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -770,7 +771,7 @@
 
 <div class="viewcode-block" id="ImageObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ImageObject">[docs]</a>
-<span class="k">class</span> <span class="nc">ImageObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImageObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The source URL of the image.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -783,7 +784,7 @@
 
 <div class="viewcode-block" id="ExplicitContentSettingsObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ExplicitContentSettingsObject">[docs]</a>
-<span class="k">class</span> <span class="nc">ExplicitContentSettingsObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExplicitContentSettingsObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">filter_enabled</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;When `true`, indicates that explicit content should not be played.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -797,7 +798,7 @@
 
 <div class="viewcode-block" id="LinkedTrackObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.LinkedTrackObject">[docs]</a>
-<span class="k">class</span> <span class="nc">LinkedTrackObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LinkedTrackObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">external_urls</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExternalUrlObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Known external URLs for this track.</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="p">)</span>
@@ -819,7 +820,7 @@
 
 <div class="viewcode-block" id="ArtistObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ArtistObject">[docs]</a>
-<span class="k">class</span> <span class="nc">ArtistObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ArtistObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">external_urls</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExternalUrlObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Known external URLs for this artist.</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="p">)</span>
@@ -857,7 +858,7 @@
 
 <div class="viewcode-block" id="SimplifiedArtistObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedArtistObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SimplifiedArtistObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimplifiedArtistObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">external_urls</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExternalUrlObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Known external URLs for this artist.</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="p">)</span>
@@ -880,7 +881,7 @@
 
 <div class="viewcode-block" id="PrivateUserObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PrivateUserObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PrivateUserObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PrivateUserObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">country</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The country of the user, as set in the user&#39;s account profile. An [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). _This field is only available when the current user has granted access to the [user-read-private](/documentation/web-api/concepts/scopes/#list-of-scopes) scope._</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -927,7 +928,7 @@
 
 <div class="viewcode-block" id="PublicUserObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PublicUserObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PublicUserObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PublicUserObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">display_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The name displayed on the user&#39;s profile. `null` if not available.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -958,7 +959,7 @@
 
 <div class="viewcode-block" id="Track">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Track">[docs]</a>
-<span class="k">class</span> <span class="nc">Track</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Track</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">num_samples</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The exact number of audio samples analyzed from this track. See also `analysis_sample_rate`.&#39;</span><span class="p">,</span>
@@ -1066,7 +1067,7 @@
 
 <div class="viewcode-block" id="SectionObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SectionObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SectionObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SectionObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The starting point (in seconds) of the section.&#39;</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mf">0.0</span>
     <span class="p">)</span>
@@ -1123,7 +1124,7 @@
 
 <div class="viewcode-block" id="SimplifiedTrackObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedTrackObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SimplifiedTrackObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimplifiedTrackObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">artists</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SimplifiedArtistObject</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The artists who performed the track. Each artist object includes a link in `href` to more detailed information about the artist.&#39;</span><span class="p">,</span>
@@ -1187,28 +1188,28 @@
 
 <div class="viewcode-block" id="CursorPagingSimplifiedArtistObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.CursorPagingSimplifiedArtistObject">[docs]</a>
-<span class="k">class</span> <span class="nc">CursorPagingSimplifiedArtistObject</span><span class="p">(</span><span class="n">CursorPagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CursorPagingSimplifiedArtistObject</span><span class="p">(</span><span class="n">CursorPagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ArtistObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingSimplifiedTrackObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedTrackObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingSimplifiedTrackObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingSimplifiedTrackObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SimplifiedTrackObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingArtistObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingArtistObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingArtistObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingArtistObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ArtistObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PlaylistUserObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PlaylistUserObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PlaylistUserObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlaylistUserObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">external_urls</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExternalUrlObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Known public external URLs for this user.</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="p">)</span>
@@ -1232,7 +1233,7 @@
 
 <div class="viewcode-block" id="PlaylistOwnerObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PlaylistOwnerObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PlaylistOwnerObject</span><span class="p">(</span><span class="n">PlaylistUserObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlaylistOwnerObject</span><span class="p">(</span><span class="n">PlaylistUserObject</span><span class="p">):</span>
     <span class="n">display_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The name displayed on the user&#39;s profile. `null` if not available.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -1242,7 +1243,7 @@
 
 <div class="viewcode-block" id="CategoryObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.CategoryObject">[docs]</a>
-<span class="k">class</span> <span class="nc">CategoryObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CategoryObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">href</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;A link to the Web API endpoint returning full details of the category.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1261,7 +1262,7 @@
 
 <div class="viewcode-block" id="EpisodeBase">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.EpisodeBase">[docs]</a>
-<span class="k">class</span> <span class="nc">EpisodeBase</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EpisodeBase</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">audio_preview_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;A URL to a 30 second preview (MP3 format) of the episode. `null` if not available.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1352,7 +1353,7 @@
 
 <div class="viewcode-block" id="ShowBase">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ShowBase">[docs]</a>
-<span class="k">class</span> <span class="nc">ShowBase</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ShowBase</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">available_markets</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;A list of the countries in which the show can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1410,14 +1411,14 @@
 
 <div class="viewcode-block" id="SimplifiedShowObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedShowObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SimplifiedShowObject</span><span class="p">(</span><span class="n">ShowBase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimplifiedShowObject</span><span class="p">(</span><span class="n">ShowBase</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
 
 <div class="viewcode-block" id="AudiobookBase">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.AudiobookBase">[docs]</a>
-<span class="k">class</span> <span class="nc">AudiobookBase</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AudiobookBase</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">authors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AuthorObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The author(s) for the audiobook.</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="p">)</span>
@@ -1481,14 +1482,14 @@
 
 <div class="viewcode-block" id="SimplifiedAudiobookObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedAudiobookObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SimplifiedAudiobookObject</span><span class="p">(</span><span class="n">AudiobookBase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimplifiedAudiobookObject</span><span class="p">(</span><span class="n">AudiobookBase</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
 
 <div class="viewcode-block" id="AlbumBase">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.AlbumBase">[docs]</a>
-<span class="k">class</span> <span class="nc">AlbumBase</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AlbumBase</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">album_type</span><span class="p">:</span> <span class="n">AlbumType</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The type of the album.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="s1">&#39;compilation&#39;</span>
     <span class="p">)</span>
@@ -1542,7 +1543,7 @@
 
 <div class="viewcode-block" id="SimplifiedAlbumObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedAlbumObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SimplifiedAlbumObject</span><span class="p">(</span><span class="n">AlbumBase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimplifiedAlbumObject</span><span class="p">(</span><span class="n">AlbumBase</span><span class="p">):</span>
     <span class="n">artists</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SimplifiedArtistObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The artists of the album. Each artist object includes a link in `href` to more detailed information about the artist.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1552,7 +1553,7 @@
 
 <div class="viewcode-block" id="ArtistDiscographyAlbumObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ArtistDiscographyAlbumObject">[docs]</a>
-<span class="k">class</span> <span class="nc">ArtistDiscographyAlbumObject</span><span class="p">(</span><span class="n">SimplifiedAlbumObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ArtistDiscographyAlbumObject</span><span class="p">(</span><span class="n">SimplifiedAlbumObject</span><span class="p">):</span>
     <span class="n">album_group</span><span class="p">:</span> <span class="n">AlbumGroup</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;This field describes the relationship between the artist and the album.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1563,7 +1564,7 @@
 
 <div class="viewcode-block" id="ChapterBase">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ChapterBase">[docs]</a>
-<span class="k">class</span> <span class="nc">ChapterBase</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ChapterBase</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">audio_preview_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;A URL to a 30 second preview (MP3 format) of the chapter. `null` if not available.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1653,7 +1654,7 @@
 
 <div class="viewcode-block" id="AlbumObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.AlbumObject">[docs]</a>
-<span class="k">class</span> <span class="nc">AlbumObject</span><span class="p">(</span><span class="n">AlbumBase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AlbumObject</span><span class="p">(</span><span class="n">AlbumBase</span><span class="p">):</span>
     <span class="n">artists</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SimplifiedArtistObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The artists of the album. Each artist object includes a link in `href` to more detailed information about the artist.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1682,7 +1683,7 @@
 
 <div class="viewcode-block" id="ContextObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ContextObject">[docs]</a>
-<span class="k">class</span> <span class="nc">ContextObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ContextObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="nb">type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The object type, e.g. &quot;artist&quot;, &quot;playlist&quot;, &quot;album&quot;, &quot;show&quot;.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1703,7 +1704,7 @@
 
 <div class="viewcode-block" id="AudioAnalysisObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.AudioAnalysisObject">[docs]</a>
-<span class="k">class</span> <span class="nc">AudioAnalysisObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AudioAnalysisObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">meta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Meta</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">track</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Track</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">bars</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">TimeIntervalObject</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
@@ -1731,35 +1732,35 @@
 
 <div class="viewcode-block" id="PagingArtistDiscographyAlbumObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingArtistDiscographyAlbumObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingArtistDiscographyAlbumObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingArtistDiscographyAlbumObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ArtistDiscographyAlbumObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingSimplifiedAlbumObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedAlbumObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingSimplifiedAlbumObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingSimplifiedAlbumObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SimplifiedAlbumObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingSimplifiedShowObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedShowObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingSimplifiedShowObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingSimplifiedShowObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SimplifiedShowObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingSimplifiedAudiobookObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedAudiobookObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingSimplifiedAudiobookObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingSimplifiedAudiobookObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SimplifiedAudiobookObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="SavedAlbumObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SavedAlbumObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SavedAlbumObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SavedAlbumObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">added_at</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The date and time the album was saved</span><span class="se">\n</span><span class="s1">Timestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.</span><span class="se">\n</span><span class="s1">If the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1772,7 +1773,7 @@
 
 <div class="viewcode-block" id="SavedShowObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SavedShowObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SavedShowObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SavedShowObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">added_at</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The date and time the show was saved.</span><span class="se">\n</span><span class="s1">Timestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.</span><span class="se">\n</span><span class="s1">If the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1785,7 +1786,7 @@
 
 <div class="viewcode-block" id="SimplifiedPlaylistObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedPlaylistObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SimplifiedPlaylistObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimplifiedPlaylistObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">collaborative</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;`true` if the owner allows other users to modify the playlist.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1835,7 +1836,7 @@
 
 <div class="viewcode-block" id="TrackObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.TrackObject">[docs]</a>
-<span class="k">class</span> <span class="nc">TrackObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TrackObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">album</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SimplifiedAlbumObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The album on which the track appears. The album object includes a link in `href` to full information about the album.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1911,7 +1912,7 @@
 
 <div class="viewcode-block" id="EpisodeObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.EpisodeObject">[docs]</a>
-<span class="k">class</span> <span class="nc">EpisodeObject</span><span class="p">(</span><span class="n">EpisodeBase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EpisodeObject</span><span class="p">(</span><span class="n">EpisodeBase</span><span class="p">):</span>
     <span class="n">show</span><span class="p">:</span> <span class="n">SimplifiedShowObject</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The show on which the episode belongs.</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="p">)</span>
@@ -1921,14 +1922,14 @@
 
 <div class="viewcode-block" id="SimplifiedEpisodeObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedEpisodeObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SimplifiedEpisodeObject</span><span class="p">(</span><span class="n">EpisodeBase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimplifiedEpisodeObject</span><span class="p">(</span><span class="n">EpisodeBase</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
 
 <div class="viewcode-block" id="ChapterObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ChapterObject">[docs]</a>
-<span class="k">class</span> <span class="nc">ChapterObject</span><span class="p">(</span><span class="n">ChapterBase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ChapterObject</span><span class="p">(</span><span class="n">ChapterBase</span><span class="p">):</span>
     <span class="n">audiobook</span><span class="p">:</span> <span class="n">SimplifiedAudiobookObject</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The audiobook for which the chapter belongs.</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="p">)</span></div>
@@ -1937,14 +1938,14 @@
 
 <div class="viewcode-block" id="SimplifiedChapterObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedChapterObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SimplifiedChapterObject</span><span class="p">(</span><span class="n">ChapterBase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimplifiedChapterObject</span><span class="p">(</span><span class="n">ChapterBase</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
 
 <div class="viewcode-block" id="CurrentlyPlayingObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.CurrentlyPlayingObject">[docs]</a>
-<span class="k">class</span> <span class="nc">CurrentlyPlayingObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CurrentlyPlayingObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ContextObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;A Context Object. Can be `null`.&#39;</span>
     <span class="p">)</span>
@@ -1976,7 +1977,7 @@
 
 <div class="viewcode-block" id="PlayHistoryObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PlayHistoryObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PlayHistoryObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlayHistoryObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">track</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TrackObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The track the user listened to.&#39;</span>
     <span class="p">)</span>
@@ -1991,7 +1992,7 @@
 
 <div class="viewcode-block" id="PlaylistTrackObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PlaylistTrackObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PlaylistTrackObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlaylistTrackObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">added_at</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The date and time the track or episode was added. _**Note**: some very old playlists may return `null` in this field._</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -2014,14 +2015,14 @@
 
 <div class="viewcode-block" id="Queue">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.Queue">[docs]</a>
-<span class="k">class</span> <span class="nc">Queue</span><span class="p">(</span><span class="n">RootModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Queue</span><span class="p">(</span><span class="n">RootModel</span><span class="p">):</span>
     <span class="n">root</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TrackObject</span><span class="p">,</span> <span class="n">EpisodeObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">discriminator</span><span class="o">=</span><span class="s1">&#39;type&#39;</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="QueueObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.QueueObject">[docs]</a>
-<span class="k">class</span> <span class="nc">QueueObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">QueueObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">currently_playing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">TrackObject</span><span class="p">,</span> <span class="n">EpisodeObject</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The currently playing track or episode. Can be `null`.&#39;</span><span class="p">,</span>
@@ -2035,7 +2036,7 @@
 
 <div class="viewcode-block" id="CurrentlyPlayingContextObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.CurrentlyPlayingContextObject">[docs]</a>
-<span class="k">class</span> <span class="nc">CurrentlyPlayingContextObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CurrentlyPlayingContextObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DeviceObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The device that is currently active.</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="p">)</span>
@@ -2073,21 +2074,21 @@
 
 <div class="viewcode-block" id="CursorPagingPlayHistoryObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.CursorPagingPlayHistoryObject">[docs]</a>
-<span class="k">class</span> <span class="nc">CursorPagingPlayHistoryObject</span><span class="p">(</span><span class="n">CursorPagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CursorPagingPlayHistoryObject</span><span class="p">(</span><span class="n">CursorPagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PlayHistoryObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingPlaylistObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingPlaylistObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingPlaylistObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingPlaylistObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SimplifiedPlaylistObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingFeaturedPlaylistObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingFeaturedPlaylistObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingFeaturedPlaylistObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingFeaturedPlaylistObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">message</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The localized message of a playlist.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -2099,49 +2100,49 @@
 
 <div class="viewcode-block" id="PagingSavedAlbumObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSavedAlbumObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingSavedAlbumObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingSavedAlbumObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SavedAlbumObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingTrackObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingTrackObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingTrackObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingTrackObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">TrackObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingPlaylistTrackObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingPlaylistTrackObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingPlaylistTrackObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingPlaylistTrackObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PlaylistTrackObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingSavedShowObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSavedShowObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingSavedShowObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingSavedShowObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SavedShowObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingSimplifiedEpisodeObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedEpisodeObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingSimplifiedEpisodeObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingSimplifiedEpisodeObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SimplifiedEpisodeObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingSimplifiedChapterObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedChapterObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingSimplifiedChapterObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingSimplifiedChapterObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SimplifiedChapterObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="RecommendationsObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.RecommendationsObject">[docs]</a>
-<span class="k">class</span> <span class="nc">RecommendationsObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RecommendationsObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">seeds</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RecommendationSeedObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;An array of recommendation seed objects.</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="p">)</span>
@@ -2154,7 +2155,7 @@
 
 <div class="viewcode-block" id="SavedTrackObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SavedTrackObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SavedTrackObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SavedTrackObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">added_at</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The date and time the track was saved.</span><span class="se">\n</span><span class="s1">Timestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.</span><span class="se">\n</span><span class="s1">If the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -2167,7 +2168,7 @@
 
 <div class="viewcode-block" id="SavedEpisodeObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SavedEpisodeObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SavedEpisodeObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SavedEpisodeObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">added_at</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The date and time the episode was saved.</span><span class="se">\n</span><span class="s1">Timestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -2180,7 +2181,7 @@
 
 <div class="viewcode-block" id="PlaylistObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PlaylistObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PlaylistObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlaylistObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">collaborative</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;`true` if the owner allows other users to modify the playlist.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -2232,7 +2233,7 @@
 
 <div class="viewcode-block" id="ShowObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.ShowObject">[docs]</a>
-<span class="k">class</span> <span class="nc">ShowObject</span><span class="p">(</span><span class="n">ShowBase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ShowObject</span><span class="p">(</span><span class="n">ShowBase</span><span class="p">):</span>
     <span class="n">episodes</span><span class="p">:</span> <span class="n">PagingSimplifiedEpisodeObject</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The episodes of the show.</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="p">)</span></div>
@@ -2241,7 +2242,7 @@
 
 <div class="viewcode-block" id="AudiobookObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.AudiobookObject">[docs]</a>
-<span class="k">class</span> <span class="nc">AudiobookObject</span><span class="p">(</span><span class="n">AudiobookBase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AudiobookObject</span><span class="p">(</span><span class="n">AudiobookBase</span><span class="p">):</span>
     <span class="n">chapters</span><span class="p">:</span> <span class="n">PagingSimplifiedChapterObject</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The chapters of the audiobook.</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="p">)</span></div>
@@ -2250,7 +2251,7 @@
 
 <div class="viewcode-block" id="SavedAudiobookObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.SavedAudiobookObject">[docs]</a>
-<span class="k">class</span> <span class="nc">SavedAudiobookObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SavedAudiobookObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">added_at</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The date and time the audiobook was saved</span><span class="se">\n</span><span class="s1">Timestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.</span><span class="se">\n</span><span class="s1">If the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -2263,21 +2264,21 @@
 
 <div class="viewcode-block" id="PagingSavedAudiobookObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSavedAudiobookObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingSavedAudiobookObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingSavedAudiobookObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SavedAudiobookObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingSavedTrackObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSavedTrackObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingSavedTrackObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingSavedTrackObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SavedTrackObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="PagingSavedEpisodeObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSavedEpisodeObject">[docs]</a>
-<span class="k">class</span> <span class="nc">PagingSavedEpisodeObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PagingSavedEpisodeObject</span><span class="p">(</span><span class="n">PagingObject</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SavedEpisodeObject</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 </pre></div>

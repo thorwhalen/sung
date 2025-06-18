@@ -1,0 +1,4 @@
+sung.chords_and_lyrics
+======================
+.. automodule:: sung.chords_and_lyrics
+   :members:

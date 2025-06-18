@@ -6,16 +6,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Index &mdash; sung 0.0.14 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=544df88d"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,6 +48,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung.html">sung</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/base.html">sung.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html">sung.chords_and_lyrics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/pydantic_models.html">sung.pydantic_models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/tools.html">sung.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/util.html">sung.util</a></li>
@@ -185,6 +186,8 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.ensure_parsed_song">ensure_parsed_song() (in module sung.chords_and_lyrics)</a>
+</li>
       <li><a href="module_docs/sung/util.html#sung.util.ensure_playlist_id">ensure_playlist_id() (in module sung.util)</a>
 </li>
       <li><a href="module_docs/sung/util.html#sung.util.ensure_track_id">ensure_track_id() (in module sung.util)</a>
@@ -211,7 +214,13 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.filter_non_lyrics">filter_non_lyrics() (in module sung.chords_and_lyrics)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.FollowersObject">FollowersObject (class in sung.pydantic_models)</a>
+</li>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.FontSpec">FontSpec (class in sung.chords_and_lyrics)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -234,6 +243,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.ImageObject">ImageObject (class in sung.pydantic_models)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.is_likely_lyrics">is_likely_lyrics() (in module sung.chords_and_lyrics)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -269,9 +282,11 @@
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.Mode1">Mode1 (class in sung.pydantic_models)</a>
 </li>
-      <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.AlbumBase.model_config">model_config (sung.pydantic_models.AlbumBase attribute)</a>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.FontSpec.model_config">model_config (sung.chords_and_lyrics.FontSpec attribute)</a>
 
       <ul>
+        <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.AlbumBase.model_config">(sung.pydantic_models.AlbumBase attribute)</a>
+</li>
         <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.AlbumObject.model_config">(sung.pydantic_models.AlbumObject attribute)</a>
 </li>
         <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.AlbumRestrictionObject.model_config">(sung.pydantic_models.AlbumRestrictionObject attribute)</a>
@@ -467,6 +482,8 @@
 </li>
         <li><a href="module_docs/sung/base.html#module-sung.base">sung.base</a>
 </li>
+        <li><a href="module_docs/sung/chords_and_lyrics.html#module-sung.chords_and_lyrics">sung.chords_and_lyrics</a>
+</li>
         <li><a href="module_docs/sung/pydantic_models.html#module-sung.pydantic_models">sung.pydantic_models</a>
 </li>
         <li><a href="module_docs/sung/tools.html#module-sung.tools">sung.tools</a>
@@ -492,6 +509,10 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.pack_song_lines">pack_song_lines() (in module sung.chords_and_lyrics)</a>
+</li>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.pack_song_text">pack_song_text() (in module sung.chords_and_lyrics)</a>
+</li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingArtistDiscographyAlbumObject">PagingArtistDiscographyAlbumObject (class in sung.pydantic_models)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingArtistObject">PagingArtistObject (class in sung.pydantic_models)</a>
@@ -518,10 +539,10 @@
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedAudiobookObject">PagingSimplifiedAudiobookObject (class in sung.pydantic_models)</a>
 </li>
-      <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedChapterObject">PagingSimplifiedChapterObject (class in sung.pydantic_models)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedChapterObject">PagingSimplifiedChapterObject (class in sung.pydantic_models)</a>
+</li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedEpisodeObject">PagingSimplifiedEpisodeObject (class in sung.pydantic_models)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedShowObject">PagingSimplifiedShowObject (class in sung.pydantic_models)</a>
@@ -529,6 +550,8 @@
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedTrackObject">PagingSimplifiedTrackObject (class in sung.pydantic_models)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingTrackObject">PagingTrackObject (class in sung.pydantic_models)</a>
+</li>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.parse_chord_lyrics">parse_chord_lyrics() (in module sung.chords_and_lyrics)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PlayHistoryObject">PlayHistoryObject (class in sung.pydantic_models)</a>
 </li>
@@ -574,11 +597,21 @@
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.RecommendationSeedObject">RecommendationSeedObject (class in sung.pydantic_models)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.RecommendationsObject">RecommendationsObject (class in sung.pydantic_models)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.ReleaseDatePrecision">ReleaseDatePrecision (class in sung.pydantic_models)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.remove_non_lyrics">remove_non_lyrics() (in module sung.chords_and_lyrics)</a>
+</li>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics">render_chords_and_lyrics() (in module sung.chords_and_lyrics)</a>
+</li>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics_to_pdf">render_chords_and_lyrics_to_pdf() (in module sung.chords_and_lyrics)</a>
+</li>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics_to_text">render_chords_and_lyrics_to_text() (in module sung.chords_and_lyrics)</a>
+</li>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.resolve_page_size">resolve_page_size() (in module sung.chords_and_lyrics)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.ResumePointObject">ResumePointObject (class in sung.pydantic_models)</a>
 </li>
@@ -598,6 +631,8 @@
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.SavedTrackObject">SavedTrackObject (class in sung.pydantic_models)</a>
 </li>
+      <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.search_songs">search_songs() (in module sung.chords_and_lyrics)</a>
+</li>
       <li><a href="module_docs/sung/base.html#sung.base.search_tracks">search_tracks() (in module sung.base)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.SectionObject">SectionObject (class in sung.pydantic_models)</a>
@@ -616,10 +651,10 @@
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedChapterObject">SimplifiedChapterObject (class in sung.pydantic_models)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedEpisodeObject">SimplifiedEpisodeObject (class in sung.pydantic_models)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedPlaylistObject">SimplifiedPlaylistObject (class in sung.pydantic_models)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedShowObject">SimplifiedShowObject (class in sung.pydantic_models)</a>
@@ -640,6 +675,13 @@
 
       <ul>
         <li><a href="module_docs/sung/base.html#module-sung.base">module</a>
+</li>
+      </ul></li>
+      <li>
+    sung.chords_and_lyrics
+
+      <ul>
+        <li><a href="module_docs/sung/chords_and_lyrics.html#module-sung.chords_and_lyrics">module</a>
 </li>
       </ul></li>
       <li>

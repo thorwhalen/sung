@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sung.chords_and_lyrics &mdash; sung 0.0.14 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=544df88d"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="sung.pydantic_models" href="pydantic_models.html" />
+    <link rel="prev" title="sung.base" href="base.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            sung
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sung.html">sung</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">sung.base</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">sung.chords_and_lyrics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.FontSpec"><code class="docutils literal notranslate"><span class="pre">FontSpec</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sung.chords_and_lyrics.FontSpec.model_config"><code class="docutils literal notranslate"><span class="pre">FontSpec.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.ensure_parsed_song"><code class="docutils literal notranslate"><span class="pre">ensure_parsed_song()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.filter_non_lyrics"><code class="docutils literal notranslate"><span class="pre">filter_non_lyrics()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.is_likely_lyrics"><code class="docutils literal notranslate"><span class="pre">is_likely_lyrics()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.pack_song_lines"><code class="docutils literal notranslate"><span class="pre">pack_song_lines()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.pack_song_text"><code class="docutils literal notranslate"><span class="pre">pack_song_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.parse_chord_lyrics"><code class="docutils literal notranslate"><span class="pre">parse_chord_lyrics()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.remove_non_lyrics"><code class="docutils literal notranslate"><span class="pre">remove_non_lyrics()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.render_chords_and_lyrics"><code class="docutils literal notranslate"><span class="pre">render_chords_and_lyrics()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.render_chords_and_lyrics_to_pdf"><code class="docutils literal notranslate"><span class="pre">render_chords_and_lyrics_to_pdf()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.render_chords_and_lyrics_to_text"><code class="docutils literal notranslate"><span class="pre">render_chords_and_lyrics_to_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.resolve_page_size"><code class="docutils literal notranslate"><span class="pre">resolve_page_size()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.chords_and_lyrics.search_songs"><code class="docutils literal notranslate"><span class="pre">search_songs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pydantic_models.html">sung.pydantic_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">sung.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">sung.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sung</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">sung.chords_and_lyrics</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/sung/chords_and_lyrics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-sung.chords_and_lyrics">
+<span id="sung-chords-and-lyrics"></span><h1>sung.chords_and_lyrics<a class="headerlink" href="#module-sung.chords_and_lyrics" title="Link to this heading"></a></h1>
+<p>Tools for chords and lyrics acquisition and processing.</p>
+<p>Example usage:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">raw</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;song.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">render_chords_and_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;out.pdf&#39;</span><span class="p">,</span> <span class="n">lyrics_font</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span><span class="mi">14</span><span class="p">})</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">txt</span> <span class="o">=</span> <span class="n">render_chords_and_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>New features:</p>
+<p>Filter out non-lyrics content:
+&gt;&gt;&gt; clean_txt = render_chords_and_lyrics(raw, to=’text’, filter_non_lyrics=True)  # doctest: +SKIP
+&gt;&gt;&gt; clean_txt = remove_non_lyrics(raw)  # doctest: +SKIP</p>
+<p>Pack lines for better space usage (not sure this works as intended):
+&gt;&gt;&gt; packed_txt = render_chords_and_lyrics(raw, to=’text’, pack_lines=True, max_line_length=80)  # doctest: +SKIP
+&gt;&gt;&gt; packed_txt = pack_song_text(raw, max_length=80)  # doctest: +SKIP</p>
+<p>Combine both features:
+&gt;&gt;&gt; optimized = render_chords_and_lyrics(raw, to=’text’, filter_non_lyrics=True, pack_lines=True)  # doctest: +SKIP</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.FontSpec">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">FontSpec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#FontSpec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.FontSpec" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.FontSpec.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#sung.chords_and_lyrics.FontSpec.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.ensure_parsed_song">
+<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">ensure_parsed_song</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#ensure_parsed_song"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.ensure_parsed_song" title="Link to this definition"></a></dt>
+<dd><p>If song is a string, parse it and return (list_of_sections, raw_text).
+If song is already iterable of dicts, return (list(song), None).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.filter_non_lyrics">
+<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">filter_non_lyrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_metadata_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#filter_non_lyrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.filter_non_lyrics" title="Link to this definition"></a></dt>
+<dd><p>Filter out non-lyrics content from a song.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>song</strong> – Raw text or parsed song data</p></li>
+<li><p><strong>keep_metadata_lines</strong> – If True, keep lines that start with [ (like [Verse])</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filtered list of song sections</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.is_likely_lyrics">
+<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">is_likely_lyrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">has_chords_before</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#is_likely_lyrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.is_likely_lyrics" title="Link to this definition"></a></dt>
+<dd><p>Determine if a line is likely to contain lyrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>line</strong> – The line to check</p></li>
+<li><p><strong>has_chords_before</strong> – Whether the previous line contained chords</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the line is likely lyrics, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.pack_song_lines">
+<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">pack_song_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_line_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">80</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve_chord_alignment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#pack_song_lines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.pack_song_lines" title="Link to this definition"></a></dt>
+<dd><p>Pack multiple short lines together to make better use of horizontal space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>song</strong> – Raw text or parsed song data</p></li>
+<li><p><strong>max_line_length</strong> – Maximum length of packed lines</p></li>
+<li><p><strong>preserve_chord_alignment</strong> – If True, keep chord alignment intact</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of song sections with packed lines</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.pack_song_text">
+<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">pack_song_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">80</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#pack_song_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.pack_song_text" title="Link to this definition"></a></dt>
+<dd><p>Convenience function to pack lines and return as text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>song</strong> – Raw text or parsed song data</p></li>
+<li><p><strong>max_length</strong> – Maximum length for packed lines</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Packed song as text</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.parse_chord_lyrics">
+<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">parse_chord_lyrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#parse_chord_lyrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.parse_chord_lyrics" title="Link to this definition"></a></dt>
+<dd><p>Generator: parse fixed-width chords/lyrics and yield dicts with ‘chords’ and ‘lyrics’.
+Each ‘chords’ is List of (chord_name, start_index).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.remove_non_lyrics">
+<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">remove_non_lyrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#remove_non_lyrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.remove_non_lyrics" title="Link to this definition"></a></dt>
+<dd><p>Convenience function to filter non-lyrics and return as text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>song</strong> – Raw text or parsed song data</p></li>
+<li><p><strong>keep_metadata</strong> – If True, keep metadata lines (like [Verse])</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filtered song as text</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.render_chords_and_lyrics">
+<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">render_chords_and_lyrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_non_lyrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_metadata_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pack_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_line_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">80</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#render_chords_and_lyrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.render_chords_and_lyrics" title="Link to this definition"></a></dt>
+<dd><p>Aggregator: render to ‘pdf’ or ‘text’.
+- to=’pdf’: writes file to output_path (required).
+- to=’text’: returns reconstructed text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>song</strong> – Raw text or parsed song data</p></li>
+<li><p><strong>to</strong> – Output format (‘pdf’ or ‘text’)</p></li>
+<li><p><strong>output_path</strong> – Path for PDF output (required for PDF)</p></li>
+<li><p><strong>filter_non_lyrics</strong> – If True, filter out non-lyrics content</p></li>
+<li><p><strong>keep_metadata_lines</strong> – If True, keep metadata lines (like [Verse]) when filtering</p></li>
+<li><p><strong>pack_lines</strong> – If True, pack short lines together for better space usage</p></li>
+<li><p><strong>max_line_length</strong> – Maximum length for packed lines</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments passed to rendering functions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.render_chords_and_lyrics_to_pdf">
+<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">render_chords_and_lyrics_to_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'A4'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">72</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lyrics_font</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chords_font</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_font</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing_chord_lyrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing_group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing_paragraph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#render_chords_and_lyrics_to_pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.render_chords_and_lyrics_to_pdf" title="Link to this definition"></a></dt>
+<dd><p>Render song to PDF with styling parameters. Accepts raw text or parsed song.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.render_chords_and_lyrics_to_text">
+<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">render_chords_and_lyrics_to_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#render_chords_and_lyrics_to_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.render_chords_and_lyrics_to_text" title="Link to this definition"></a></dt>
+<dd><p>Reconstruct fixed-width text from parsed song data.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.resolve_page_size">
+<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">resolve_page_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">page_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#resolve_page_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.resolve_page_size" title="Link to this definition"></a></dt>
+<dd><p>Resolve page size from string or return the object as-is.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>page_size</strong> – Either a string (like “A4”, “LETTER”, “LEGAL”) or a page size object</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The appropriate page size object from reportlab</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.chords_and_lyrics.search_songs">
+<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">search_songs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lyrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/chords_and_lyrics.html#search_songs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.search_songs" title="Link to this definition"></a></dt>
+<dd><p>Search for a song by title, lyrics, or artist.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="base.html" class="btn btn-neutral float-left" title="sung.base" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pydantic_models.html" class="btn btn-neutral float-right" title="sung.pydantic_models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

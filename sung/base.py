@@ -21,16 +21,12 @@ This module is foundational for building higher-level operations within the sung
 
 from typing import (
     Union,
-    Iterable,
-    Sequence,
     Optional,
     List,
     Any,
     Dict,
-    Callable,
-    MutableMapping,
-    Mapping,
 )
+from collections.abc import Iterable, Sequence, Callable, MutableMapping, Mapping
 from operator import itemgetter
 from functools import cached_property, lru_cache
 from collections.abc import Mapping
@@ -129,11 +125,11 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
 
     def __init__(
         self,
-        tracks: Iterable[Union[TrackId, TrackMetadata]],
+        tracks: Iterable[TrackId | TrackMetadata],
         *,
         # track_ids: Optional[Iterable[TrackId]] = None,
         # track_metas: Optional[Iterable[TrackMetadata]] = None,
-        client: Optional[Any] = None,
+        client: Any | None = None,
     ):
         if client is None:
             client = get_spotify_client()
@@ -159,7 +155,7 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
         return lru_cache(maxsize=10_000)(self.client.audio_analysis)
 
     @cached_property
-    def track_ids(self) -> List[TrackId]:
+    def track_ids(self) -> list[TrackId]:
         if self._track_ids is not None:
             return self._track_ids
         elif self._track_metas is not None:
@@ -169,7 +165,7 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
             raise ValueError("No track IDs or metadata available")
 
     @cached_property
-    def track_metas(self) -> List[TrackMetadata]:
+    def track_metas(self) -> list[TrackMetadata]:
         if self._track_metas is not None:
             return self._track_metas
         elif self._track_ids is not None:
@@ -189,10 +185,10 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
 
     def __getitem__(
         self, key: TrackKeySpec
-    ) -> Union[TrackMetadata, List[TrackMetadata]]:
+    ) -> TrackMetadata | list[TrackMetadata]:
         return self._getitem(key)
 
-    def _getitem(self, key: TrackKeySpec) -> Union[TrackMetadata, List[TrackMetadata]]:
+    def _getitem(self, key: TrackKeySpec) -> TrackMetadata | list[TrackMetadata]:
         """
         Get track(s) by key.
 
@@ -294,11 +290,11 @@ class Tracks(TracksBase):
 
     def __init__(
         self,
-        tracks: Iterable[Union[TrackId, TrackMetadata]],
+        tracks: Iterable[TrackId | TrackMetadata],
         # track_ids: Optional[Iterable[TrackRef]] = None,
         # track_metas: Optional[Iterable[TrackMetadata]] = None,
         *,
-        client: Optional[Any] = None,
+        client: Any | None = None,
     ):
         super().__init__(tracks, client=client)
         self._track_ids_set = set(self.track_ids)
@@ -315,7 +311,7 @@ class Tracks(TracksBase):
         genre=None,
         limit: int = DFLT_LIMIT,
         offset: int = 0,
-        client: Optional[Any] = None,
+        client: Any | None = None,
     ):
         tracks = search_tracks(
             query=query,
@@ -387,12 +383,12 @@ def search_tracks(
 class PlaylistReader(Tracks, Mapping[TrackId, TrackMetadata]):
     """Read-only access to a Spotify playlist."""
 
-    def __init__(self, playlist_id: str, *, client: Optional[Any] = None):
+    def __init__(self, playlist_id: str, *, client: Any | None = None):
         if client is None:
             client = get_spotify_client()
         self.client = client
         self.playlist_id = playlist_id
-        self._tracks: Optional[Tracks] = None  # Will be a Tracks instance
+        self._tracks: Tracks | None = None  # Will be a Tracks instance
 
     def __repr__(self) -> str:
         return f'PlaylistReader("{self.playlist_id}")'
@@ -404,7 +400,7 @@ class PlaylistReader(Tracks, Mapping[TrackId, TrackMetadata]):
             self._tracks = Tracks(tracks=track_metas, client=self.client)
         return self._tracks
 
-    def _fetch_track_metas(self) -> List[TrackMetadata]:
+    def _fetch_track_metas(self) -> list[TrackMetadata]:
         track_metas = []
         offset = 0
         limit = 100
@@ -429,7 +425,7 @@ class PlaylistReader(Tracks, Mapping[TrackId, TrackMetadata]):
 
     def __getitem__(
         self, key: TrackKeySpec
-    ) -> Union[TrackMetadata, List[TrackMetadata]]:
+    ) -> TrackMetadata | list[TrackMetadata]:
         return self.tracks[key]
 
     def __iter__(self) -> Iterable[TrackId]:
@@ -456,7 +452,7 @@ class PlaylistReader(Tracks, Mapping[TrackId, TrackMetadata]):
 class Playlist(PlaylistReader, MutableMapping[TrackId, TrackMetadata]):
     """A Spotify playlist with mutable mapping interface."""
 
-    def __init__(self, playlist_id: str, *, client: Optional[Any] = None):
+    def __init__(self, playlist_id: str, *, client: Any | None = None):
         super().__init__(playlist_id=playlist_id, client=client)
 
     def __setitem__(self, key: TrackId, value: Any) -> None:
@@ -471,7 +467,7 @@ class Playlist(PlaylistReader, MutableMapping[TrackId, TrackMetadata]):
         self.delete_songs([key])
         self._invalidate_cache()
 
-    def add_songs(self, track_list: Union[TrackId, Iterable[TrackId]]) -> None:
+    def add_songs(self, track_list: TrackId | Iterable[TrackId]) -> None:
         if isinstance(track_list, str):
             track_list = [track_list]
         else:
@@ -480,7 +476,7 @@ class Playlist(PlaylistReader, MutableMapping[TrackId, TrackMetadata]):
             self.client.playlist_add_items(self.playlist_id, track_list[i : i + 100])
         self._invalidate_cache()
 
-    def delete_songs(self, track_list: Union[TrackId, Iterable[TrackId]]) -> None:
+    def delete_songs(self, track_list: TrackId | Iterable[TrackId]) -> None:
         if isinstance(track_list, str):
             track_list = [track_list]
         else:
@@ -506,7 +502,7 @@ class Playlist(PlaylistReader, MutableMapping[TrackId, TrackMetadata]):
         playlist_name: str = "New Playlist",
         public: bool = True,
         *,
-        client: Optional[Any] = None,
+        client: Any | None = None,
         user_id=None,
     ) -> "Playlist":
         """

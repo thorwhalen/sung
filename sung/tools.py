@@ -433,7 +433,7 @@ class TracksAnalysis:
         *,
         xlim=None,
         ylim=None,
-        annotation_field: Optional[SpotifyFeaturesT] = None,
+        annotation_field: SpotifyFeaturesT | None = None,
         **scatterplot_kwargs,
     ):
         """Return the audio features dataframe."""

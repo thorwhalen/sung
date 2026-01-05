@@ -52,7 +52,8 @@ def search_songs(title="", *, lyrics="", artist="", data=None):
 # Lyrics and Chords Formatting and Processing
 import re
 from pydantic import BaseModel, ValidationError
-from typing import Union, Iterable, Tuple, List, Dict
+from typing import Union, Tuple, List, Dict
+from collections.abc import Iterable
 
 # Default font specifications
 default_lyrics_font = {"name": "Courier", "size": 12, "color": "black", "alpha": 1}
@@ -132,8 +133,8 @@ def extract_title(raw_text: str) -> str:
 
 
 def ensure_parsed_song(
-    song: Union[str, Iterable[Dict]],
-) -> Tuple[List[Dict], Union[str, None]]:
+    song: str | Iterable[dict],
+) -> tuple[list[dict], str | None]:
     """
     If song is a string, parse it and return (list_of_sections, raw_text).
     If song is already iterable of dicts, return (list(song), None).
@@ -149,11 +150,11 @@ def ensure_parsed_song(
 
 
 def render_chords_and_lyrics_to_pdf(
-    song: Union[str, Iterable[Dict]],
+    song: str | Iterable[dict],
     *,
     output_path: str,
     title: str = None,
-    page_size: Union[str, tuple] = "A4",
+    page_size: str | tuple = "A4",
     margin: float = 72,
     lyrics_font: dict = None,
     chords_font: dict = None,
@@ -224,7 +225,7 @@ def render_chords_and_lyrics_to_pdf(
 
 
 def render_chords_and_lyrics_to_text(
-    song: Union[str, Iterable[Dict]],
+    song: str | Iterable[dict],
 ) -> str:
     """
     Reconstruct fixed-width text from parsed song data.
@@ -247,7 +248,7 @@ def render_chords_and_lyrics_to_text(
 
 
 def render_chords_and_lyrics(
-    song: Union[str, Iterable[Dict]],
+    song: str | Iterable[dict],
     to: str = "pdf",
     output_path: str = None,
     apply_filter_non_lyrics: bool = False,
@@ -255,7 +256,7 @@ def render_chords_and_lyrics(
     pack_lines: bool = False,
     max_line_length: int = 80,
     **kwargs,
-) -> Union[None, str]:
+) -> None | str:
     """
     Aggregator: render to 'pdf' or 'text'.
     - to='pdf': writes file to output_path (required).
@@ -340,8 +341,8 @@ def is_likely_lyrics(line: str, has_chords_before: bool = False) -> bool:
 
 
 def filter_non_lyrics(
-    song: Union[str, Iterable[Dict]], keep_metadata_lines: bool = False
-) -> List[Dict]:
+    song: str | Iterable[dict], keep_metadata_lines: bool = False
+) -> list[dict]:
     """
     Filter out non-lyrics content from a song.
 
@@ -379,10 +380,10 @@ def filter_non_lyrics(
 
 # TODO: Make this work
 def pack_song_lines(
-    song: Union[str, Iterable[Dict]],
+    song: str | Iterable[dict],
     max_line_length: int = 80,
     preserve_chord_alignment: bool = True,
-) -> List[Dict]:
+) -> list[dict]:
     """
     Pack multiple short lines together to make better use of horizontal space.
 
@@ -463,7 +464,7 @@ def pack_song_lines(
 
 # Convenience functions for standalone use
 def remove_non_lyrics(
-    song: Union[str, Iterable[Dict]], keep_metadata: bool = False
+    song: str | Iterable[dict], keep_metadata: bool = False
 ) -> str:
     """
     Convenience function to filter non-lyrics and return as text.
@@ -479,7 +480,7 @@ def remove_non_lyrics(
     return render_chords_and_lyrics_to_text(filtered)
 
 
-def pack_song_text(song: Union[str, Iterable[Dict]], max_length: int = 80) -> str:
+def pack_song_text(song: str | Iterable[dict], max_length: int = 80) -> str:
     """
     Convenience function to pack lines and return as text.
 

@@ -10,15 +10,13 @@ from datetime import datetime
 from typing import (
     Literal,
     T,
-    Callable,
     TypeVar,
     Optional,
     Dict,
     Union,
-    Iterable,
     Any,
-    Mapping,
 )
+from collections.abc import Callable, Iterable, Mapping
 from functools import partial
 
 from glom import glom, Spec, Coalesce
@@ -154,7 +152,7 @@ def get_spotify_oauth_creds(**oauth_kwargs) -> SpotifyOAuth:
 
 def _extract_scope_items(scope_string: str) -> Iterable[str]:
     if isinstance(scope_string, str):
-        return re.findall("\S+", scope_string)
+        return re.findall(r"\S+", scope_string)
     else:
         assert isinstance(scope_string, Iterable)
         return scope_string
@@ -502,7 +500,7 @@ def ensure_client(client=None) -> Spotify:
 TrackRef = str  # can be an id, a url, a uri, a href...
 TrackId = str  # really, TrackId is a string with a specific format, but don't know how to specify that type
 TrackKey = Union[TrackRef, int, slice, Iterable[TrackRef]]
-TrackMetadata = Dict[str, Any]
+TrackMetadata = dict[str, Any]
 
 
 # TODO: Maybe use dol.KeyTemplate to implement casting (and other parsing and generation)?
@@ -523,7 +521,7 @@ def cast_track_key(
     track_key: TrackRef,
     target_kind: TrackKeyKinds = "uri",
     *,
-    src_kind: Optional[TrackKeyKinds] = None,
+    src_kind: TrackKeyKinds | None = None,
 ) -> TrackRef:
     """
     Convert a Spotify track key between different formats.

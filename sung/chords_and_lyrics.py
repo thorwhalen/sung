@@ -463,9 +463,7 @@ def pack_song_lines(
 
 
 # Convenience functions for standalone use
-def remove_non_lyrics(
-    song: str | Iterable[dict], keep_metadata: bool = False
-) -> str:
+def remove_non_lyrics(song: str | Iterable[dict], keep_metadata: bool = False) -> str:
     """
     Convenience function to filter non-lyrics and return as text.
 

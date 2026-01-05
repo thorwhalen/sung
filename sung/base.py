@@ -183,9 +183,7 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
     def __contains__(self, key: TrackId) -> bool:
         return key in set(self.track_ids)
 
-    def __getitem__(
-        self, key: TrackKeySpec
-    ) -> TrackMetadata | list[TrackMetadata]:
+    def __getitem__(self, key: TrackKeySpec) -> TrackMetadata | list[TrackMetadata]:
         return self._getitem(key)
 
     def _getitem(self, key: TrackKeySpec) -> TrackMetadata | list[TrackMetadata]:
@@ -423,9 +421,7 @@ class PlaylistReader(Tracks, Mapping[TrackId, TrackMetadata]):
             offset += limit
         return track_metas
 
-    def __getitem__(
-        self, key: TrackKeySpec
-    ) -> TrackMetadata | list[TrackMetadata]:
+    def __getitem__(self, key: TrackKeySpec) -> TrackMetadata | list[TrackMetadata]:
         return self.tracks[key]
 
     def __iter__(self) -> Iterable[TrackId]:

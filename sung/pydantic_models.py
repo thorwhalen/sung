@@ -447,9 +447,7 @@ class PlaylistTracksRefObject(BaseModel):
         None,
         description="A link to the Web API endpoint where full details of the playlist's tracks can be retrieved.\n",
     )
-    total: int | None = Field(
-        None, description="Number of tracks in the playlist.\n"
-    )
+    total: int | None = Field(None, description="Number of tracks in the playlist.\n")
 
 
 class Type4(Enum):
@@ -511,9 +509,7 @@ class Type10(Enum):
 
 
 class CopyrightObject(BaseModel):
-    text: str | None = Field(
-        None, description="The copyright text for this content.\n"
-    )
+    text: str | None = Field(None, description="The copyright text for this content.\n")
     type: str | None = Field(
         None,
         description="The type of copyright: `C` = the copyright, `P` = the sound recording (performance) copyright.\n",
@@ -1456,9 +1452,7 @@ class SavedAlbumObject(BaseModel):
         None,
         description="The date and time the album was saved\nTimestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.\nIf the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.\n",
     )
-    album: AlbumObject | None = Field(
-        None, description="Information about the album."
-    )
+    album: AlbumObject | None = Field(None, description="Information about the album.")
 
 
 class SavedShowObject(BaseModel):
@@ -1779,9 +1773,7 @@ class SavedTrackObject(BaseModel):
         None,
         description="The date and time the track was saved.\nTimestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.\nIf the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.\n",
     )
-    track: TrackObject | None = Field(
-        None, description="Information about the track."
-    )
+    track: TrackObject | None = Field(None, description="Information about the track.")
 
 
 class SavedEpisodeObject(BaseModel):

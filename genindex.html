@@ -5,16 +5,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; sung 0.0.21 documentation</title>
+  <title>Index &mdash; sung 0.0.23 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=a11416ff"></script>
+      <script src="_static/documentation_options.js?v=3294188c"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -49,6 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung.html">sung</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/base.html">sung.base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/chords_and_lyrics.html">sung.chords_and_lyrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/sung/playlists.html">sung.playlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/pydantic_models.html">sung.pydantic_models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/tools.html">sung.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/sung/util.html">sung.util</a></li>
@@ -117,6 +118,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.ArtistObject">ArtistObject (class in sung.pydantic_models)</a>
+</li>
+      <li><a href="module_docs/sung/base.html#sung.base.TracksBase.audio_features">audio_features (sung.base.TracksBase property)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.AudioAnalysisObject">AudioAnalysisObject (class in sung.pydantic_models)</a>
 </li>
@@ -484,6 +487,8 @@
 </li>
         <li><a href="module_docs/sung/chords_and_lyrics.html#module-sung.chords_and_lyrics">sung.chords_and_lyrics</a>
 </li>
+        <li><a href="module_docs/sung/playlists.html#module-sung.playlists">sung.playlists</a>
+</li>
         <li><a href="module_docs/sung/pydantic_models.html#module-sung.pydantic_models">sung.pydantic_models</a>
 </li>
         <li><a href="module_docs/sung/tools.html#module-sung.tools">sung.tools</a>
@@ -539,10 +544,10 @@
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedAudiobookObject">PagingSimplifiedAudiobookObject (class in sung.pydantic_models)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedChapterObject">PagingSimplifiedChapterObject (class in sung.pydantic_models)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedEpisodeObject">PagingSimplifiedEpisodeObject (class in sung.pydantic_models)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PagingSimplifiedShowObject">PagingSimplifiedShowObject (class in sung.pydantic_models)</a>
@@ -553,9 +558,13 @@
 </li>
       <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.parse_chord_lyrics">parse_chord_lyrics() (in module sung.chords_and_lyrics)</a>
 </li>
+      <li><a href="module_docs/sung/playlists.html#sung.playlists.parse_song_descriptor">parse_song_descriptor() (in module sung.playlists)</a>
+</li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PlayHistoryObject">PlayHistoryObject (class in sung.pydantic_models)</a>
 </li>
       <li><a href="module_docs/sung/base.html#sung.base.Playlist">Playlist (class in sung.base)</a>
+</li>
+      <li><a href="module_docs/sung/playlists.html#sung.playlists.playlist_from_songs">playlist_from_songs() (in module sung.playlists)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.PlaylistObject">PlaylistObject (class in sung.pydantic_models)</a>
 </li>
@@ -601,10 +610,10 @@
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.ReleaseDatePrecision">ReleaseDatePrecision (class in sung.pydantic_models)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.remove_non_lyrics">remove_non_lyrics() (in module sung.chords_and_lyrics)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics">render_chords_and_lyrics() (in module sung.chords_and_lyrics)</a>
 </li>
       <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics_to_pdf">render_chords_and_lyrics_to_pdf() (in module sung.chords_and_lyrics)</a>
@@ -612,6 +621,10 @@
       <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics_to_text">render_chords_and_lyrics_to_text() (in module sung.chords_and_lyrics)</a>
 </li>
       <li><a href="module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.resolve_page_size">resolve_page_size() (in module sung.chords_and_lyrics)</a>
+</li>
+      <li><a href="module_docs/sung/playlists.html#sung.playlists.resolve_song">resolve_song() (in module sung.playlists)</a>
+</li>
+      <li><a href="module_docs/sung/playlists.html#sung.playlists.resolve_songs">resolve_songs() (in module sung.playlists)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.ResumePointObject">ResumePointObject (class in sung.pydantic_models)</a>
 </li>
@@ -653,13 +666,15 @@
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedEpisodeObject">SimplifiedEpisodeObject (class in sung.pydantic_models)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedPlaylistObject">SimplifiedPlaylistObject (class in sung.pydantic_models)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedShowObject">SimplifiedShowObject (class in sung.pydantic_models)</a>
 </li>
       <li><a href="module_docs/sung/pydantic_models.html#sung.pydantic_models.SimplifiedTrackObject">SimplifiedTrackObject (class in sung.pydantic_models)</a>
+</li>
+      <li><a href="module_docs/sung/playlists.html#sung.playlists.SongMatch">SongMatch (class in sung.playlists)</a>
 </li>
       <li><a href="module_docs/sung/util.html#sung.util.strip_values">strip_values() (in module sung.util)</a>
 </li>
@@ -682,6 +697,13 @@
 
       <ul>
         <li><a href="module_docs/sung/chords_and_lyrics.html#module-sung.chords_and_lyrics">module</a>
+</li>
+      </ul></li>
+      <li>
+    sung.playlists
+
+      <ul>
+        <li><a href="module_docs/sung/playlists.html#module-sung.playlists">module</a>
 </li>
       </ul></li>
       <li>

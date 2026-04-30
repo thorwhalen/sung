@@ -5,16 +5,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sung.chords_and_lyrics &mdash; sung 0.0.21 documentation</title>
+  <title>sung.chords_and_lyrics &mdash; sung 0.0.23 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=a11416ff"></script>
+      <script src="../../_static/documentation_options.js?v=3294188c"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -49,6 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung.html">sung</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/base.html">sung.base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/chords_and_lyrics.html">sung.chords_and_lyrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/playlists.html">sung.playlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/pydantic_models.html">sung.pydantic_models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/tools.html">sung.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/util.html">sung.util</a></li>
@@ -576,9 +577,7 @@
 <span class="c1"># Convenience functions for standalone use</span>
 <div class="viewcode-block" id="remove_non_lyrics">
 <a class="viewcode-back" href="../../module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.remove_non_lyrics">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">remove_non_lyrics</span><span class="p">(</span>
-    <span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">keep_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_non_lyrics</span><span class="p">(</span><span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">keep_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convenience function to filter non-lyrics and return as text.</span>
 

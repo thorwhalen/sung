@@ -1,0 +1,205 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sung.playlists &mdash; sung 0.0.23 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=3294188c"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="sung.pydantic_models" href="pydantic_models.html" />
+    <link rel="prev" title="sung.chords_and_lyrics" href="chords_and_lyrics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            sung
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sung.html">sung</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">sung.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chords_and_lyrics.html">sung.chords_and_lyrics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">sung.playlists</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sung.playlists.SongMatch"><code class="docutils literal notranslate"><span class="pre">SongMatch</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.playlists.parse_song_descriptor"><code class="docutils literal notranslate"><span class="pre">parse_song_descriptor()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.playlists.playlist_from_songs"><code class="docutils literal notranslate"><span class="pre">playlist_from_songs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.playlists.resolve_song"><code class="docutils literal notranslate"><span class="pre">resolve_song()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sung.playlists.resolve_songs"><code class="docutils literal notranslate"><span class="pre">resolve_songs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pydantic_models.html">sung.pydantic_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">sung.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">sung.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sung</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">sung.playlists</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/sung/playlists.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-sung.playlists">
+<span id="sung-playlists"></span><h1>sung.playlists<a class="headerlink" href="#module-sung.playlists" title="Link to this heading"></a></h1>
+<p>Build Spotify playlists from human-friendly song descriptors.</p>
+<p>Given a list of “song descriptors” — things like <code class="docutils literal notranslate"><span class="pre">&quot;Clocks&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;Clocks</span> <span class="pre">-</span> <span class="pre">Coldplay&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">(&quot;Believer&quot;,</span> <span class="pre">&quot;Imagine</span> <span class="pre">Dragons&quot;)</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">{&quot;name&quot;:</span> <span class="pre">&quot;Fix</span> <span class="pre">You&quot;,</span> <span class="pre">&quot;artist&quot;:</span> <span class="pre">&quot;Coldplay&quot;}</span></code> — resolve each to a Spotify
+track and create a playlist in one call.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sung.playlists</span><span class="w"> </span><span class="kn">import</span> <span class="n">playlist_from_songs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">playlist</span><span class="p">,</span> <span class="n">report</span> <span class="o">=</span> <span class="n">playlist_from_songs</span><span class="p">(</span>  
+<span class="gp">... </span>    <span class="p">[</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">&quot;Clocks&quot;</span><span class="p">,</span> <span class="s2">&quot;Coldplay&quot;</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="s2">&quot;Radioactive - Imagine Dragons&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Believer&quot;</span><span class="p">,</span> <span class="s2">&quot;artist&quot;</span><span class="p">:</span> <span class="s2">&quot;Imagine Dragons&quot;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="p">],</span>
+<span class="gp">... </span>    <span class="n">playlist_name</span><span class="o">=</span><span class="s2">&quot;My Mix&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">playlist</span><span class="o">.</span><span class="n">playlist_url</span>  
+<span class="go">&#39;https://open.spotify.com/playlist/...&#39;</span>
+</pre></div>
+</div>
+<p>The lower-level <a class="reference internal" href="#sung.playlists.resolve_song" title="sung.playlists.resolve_song"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_song()</span></code></a> returns the chosen match plus the full
+ranked candidate list, which the CLI uses to surface ambiguous matches.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sung.playlists.SongMatch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sung.playlists.</span></span><span class="sig-name descname"><span class="pre">SongMatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor:</span> <span class="pre">~typing.Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_artist:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">track_id:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">track_name:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artist_names:</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">album_name:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">popularity:</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidates:</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ambiguous:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">not_found:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/playlists.html#SongMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.playlists.SongMatch" title="Link to this definition"></a></dt>
+<dd><p>Result of resolving a single song descriptor.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.playlists.parse_song_descriptor">
+<span class="sig-prename descclassname"><span class="pre">sung.playlists.</span></span><span class="sig-name descname"><span class="pre">parse_song_descriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/sung/playlists.html#parse_song_descriptor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.playlists.parse_song_descriptor" title="Link to this definition"></a></dt>
+<dd><p>Parse a song descriptor into <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">artist_or_None)</span></code>.</p>
+<p>Accepts:</p>
+<ul class="simple">
+<li><p>a plain string: <code class="docutils literal notranslate"><span class="pre">&quot;Clocks&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Title</span> <span class="pre">-</span> <span class="pre">Artist&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;Title</span> <span class="pre">—</span> <span class="pre">Artist&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;Title</span> <span class="pre">by</span> <span class="pre">Artist&quot;</span></code></p></li>
+<li><p>a 2-tuple/list <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">artist)</span></code></p></li>
+<li><p>a dict with <code class="docutils literal notranslate"><span class="pre">name</span></code>/<code class="docutils literal notranslate"><span class="pre">title</span></code> and optional <code class="docutils literal notranslate"><span class="pre">artist</span></code>/<code class="docutils literal notranslate"><span class="pre">artists</span></code></p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_song_descriptor</span><span class="p">(</span><span class="s2">&quot;Clocks&quot;</span><span class="p">)</span>
+<span class="go">(&#39;Clocks&#39;, None)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_song_descriptor</span><span class="p">(</span><span class="s2">&quot;Clocks - Coldplay&quot;</span><span class="p">)</span>
+<span class="go">(&#39;Clocks&#39;, &#39;Coldplay&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_song_descriptor</span><span class="p">(</span><span class="s2">&quot;Clocks by Coldplay&quot;</span><span class="p">)</span>
+<span class="go">(&#39;Clocks&#39;, &#39;Coldplay&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_song_descriptor</span><span class="p">((</span><span class="s2">&quot;Believer&quot;</span><span class="p">,</span> <span class="s2">&quot;Imagine Dragons&quot;</span><span class="p">))</span>
+<span class="go">(&#39;Believer&#39;, &#39;Imagine Dragons&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_song_descriptor</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Fix You&quot;</span><span class="p">,</span> <span class="s2">&quot;artist&quot;</span><span class="p">:</span> <span class="s2">&quot;Coldplay&quot;</span><span class="p">})</span>
+<span class="go">(&#39;Fix You&#39;, &#39;Coldplay&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.playlists.playlist_from_songs">
+<span class="sig-prename descclassname"><span class="pre">sung.playlists.</span></span><span class="sig-name descname"><span class="pre">playlist_from_songs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playlist_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'New</span> <span class="pre">Playlist'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">market</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_missing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="base.html#sung.base.Playlist" title="sung.base.Playlist"><span class="pre">Playlist</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#sung.playlists.SongMatch" title="sung.playlists.SongMatch"><span class="pre">SongMatch</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/sung/playlists.html#playlist_from_songs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.playlists.playlist_from_songs" title="Link to this definition"></a></dt>
+<dd><p>Search for each song, then create a playlist with the resolved tracks.</p>
+<p>Returns <code class="docutils literal notranslate"><span class="pre">(playlist,</span> <span class="pre">matches)</span></code>. <code class="docutils literal notranslate"><span class="pre">playlist</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code> if no songs
+resolved. <code class="docutils literal notranslate"><span class="pre">matches</span></code> is the list of <a class="reference internal" href="#sung.playlists.SongMatch" title="sung.playlists.SongMatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">SongMatch</span></code></a> results — one
+per descriptor — including any that were <code class="docutils literal notranslate"><span class="pre">not_found</span></code> or <code class="docutils literal notranslate"><span class="pre">ambiguous</span></code>.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">skip_missing=False</span></code> to raise instead of silently dropping
+descriptors that could not be resolved.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.playlists.resolve_song">
+<span class="sig-prename descclassname"><span class="pre">sung.playlists.</span></span><span class="sig-name descname"><span class="pre">resolve_song</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">market</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ambiguous_score_gap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#sung.playlists.SongMatch" title="sung.playlists.SongMatch"><span class="pre">SongMatch</span></a></span></span><a class="reference internal" href="../../_modules/sung/playlists.html#resolve_song"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.playlists.resolve_song" title="Link to this definition"></a></dt>
+<dd><p>Resolve one song descriptor to a Spotify track via search + ranking.</p>
+<p>Returns a <a class="reference internal" href="#sung.playlists.SongMatch" title="sung.playlists.SongMatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">SongMatch</span></code></a> with the best candidate selected. The match
+is flagged <code class="docutils literal notranslate"><span class="pre">ambiguous</span></code> when the top two candidates score within
+<code class="docutils literal notranslate"><span class="pre">ambiguous_score_gap</span></code> of each other (callers may want to confirm).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.playlists.resolve_songs">
+<span class="sig-prename descclassname"><span class="pre">sung.playlists.</span></span><span class="sig-name descname"><span class="pre">resolve_songs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">market</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#sung.playlists.SongMatch" title="sung.playlists.SongMatch"><span class="pre">SongMatch</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/sung/playlists.html#resolve_songs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.playlists.resolve_songs" title="Link to this definition"></a></dt>
+<dd><p>Resolve a list of descriptors. See <a class="reference internal" href="#sung.playlists.resolve_song" title="sung.playlists.resolve_song"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_song()</span></code></a>.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="chords_and_lyrics.html" class="btn btn-neutral float-left" title="sung.chords_and_lyrics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pydantic_models.html" class="btn btn-neutral float-right" title="sung.pydantic_models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

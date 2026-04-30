@@ -5,16 +5,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sung.pydantic_models &mdash; sung 0.0.21 documentation</title>
+  <title>sung.pydantic_models &mdash; sung 0.0.23 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=a11416ff"></script>
+      <script src="../../_static/documentation_options.js?v=3294188c"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -49,6 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung.html">sung</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/base.html">sung.base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/chords_and_lyrics.html">sung.chords_and_lyrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/playlists.html">sung.playlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/pydantic_models.html">sung.pydantic_models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/tools.html">sung.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/util.html">sung.util</a></li>
@@ -605,9 +606,7 @@
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;A link to the Web API endpoint where full details of the playlist&#39;s tracks can be retrieved.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">total</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of tracks in the playlist.</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="p">)</span></div>
+    <span class="n">total</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of tracks in the playlist.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 
@@ -705,9 +704,7 @@
 <div class="viewcode-block" id="CopyrightObject">
 <a class="viewcode-back" href="../../module_docs/sung/pydantic_models.html#sung.pydantic_models.CopyrightObject">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CopyrightObject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The copyright text for this content.</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="p">)</span>
+    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The copyright text for this content.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The type of copyright: `C` = the copyright, `P` = the sound recording (performance) copyright.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -1764,9 +1761,7 @@
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The date and time the album was saved</span><span class="se">\n</span><span class="s2">Timestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.</span><span class="se">\n</span><span class="s2">If the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">album</span><span class="p">:</span> <span class="n">AlbumObject</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Information about the album.&quot;</span>
-    <span class="p">)</span></div>
+    <span class="n">album</span><span class="p">:</span> <span class="n">AlbumObject</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Information about the album.&quot;</span><span class="p">)</span></div>
 
 
 
@@ -2159,9 +2154,7 @@
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The date and time the track was saved.</span><span class="se">\n</span><span class="s2">Timestamps are returned in ISO 8601 format as Coordinated Universal Time (UTC) with a zero offset: YYYY-MM-DDTHH:MM:SSZ.</span><span class="se">\n</span><span class="s2">If the time is imprecise (for example, the date/time of an album release), an additional field indicates the precision; see for example, release_date in an album object.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">track</span><span class="p">:</span> <span class="n">TrackObject</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Information about the track.&quot;</span>
-    <span class="p">)</span></div>
+    <span class="n">track</span><span class="p">:</span> <span class="n">TrackObject</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Information about the track.&quot;</span><span class="p">)</span></div>
 
 
 

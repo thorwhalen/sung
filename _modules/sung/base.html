@@ -5,16 +5,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sung.base &mdash; sung 0.0.21 documentation</title>
+  <title>sung.base &mdash; sung 0.0.23 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=a11416ff"></script>
+      <script src="../../_static/documentation_options.js?v=3294188c"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -49,6 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung.html">sung</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/base.html">sung.base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/chords_and_lyrics.html">sung.chords_and_lyrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/playlists.html">sung.playlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/pydantic_models.html">sung.pydantic_models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/tools.html">sung.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/sung/util.html">sung.util</a></li>
@@ -272,9 +273,7 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">track_ids</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrackMetadata</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrackMetadata</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getitem</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_getitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrackMetadata</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">]:</span>
@@ -309,7 +308,12 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># TODO: Add the added year or date when available</span>
         <span class="n">metadata_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta_dataframe</span><span class="p">()</span>
-        <span class="n">audio_features_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">audio_features</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">audio_features</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">features</span> <span class="ow">or</span> <span class="nb">all</span><span class="p">(</span><span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">features</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="c1"># Spotify removed audio-features API access for new apps in late 2024.</span>
+            <span class="c1"># Degrade to metadata-only so callers like Playlist.data still work.</span>
+            <span class="k">return</span> <span class="n">metadata_df</span>
+        <span class="n">audio_features_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
         <span class="n">audio_features_df</span> <span class="o">=</span> <span class="n">audio_features_df</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">spotify_audio_features_fields</span><span class="p">)]</span>
 
         <span class="c1"># Merge metadata and audio features</span>
@@ -318,14 +322,38 @@
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">audio_features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Track-level audio features keyed by track id.</span>
+
+<span class="sd">        Returns ``{}`` and emits a one-time warning if Spotify rejects the</span>
+<span class="sd">        request (403) — a known restriction for apps registered after the</span>
+<span class="sd">        Nov 2024 Web API deprecation. Callers should treat audio features as</span>
+<span class="sd">        best-effort and fall back to metadata-only paths when empty.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">chain</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
         <span class="n">track_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">_audio_features_chunks</span><span class="p">():</span>
             <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">track_ids</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">100</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">track_ids</span><span class="p">),</span> <span class="mi">100</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">audio_features</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">audio_features</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="c1"># spotipy.exceptions.SpotifyException doesn&#39;t expose a</span>
+                    <span class="c1"># stable status attribute across versions; sniff for 403.</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;403&quot;</span> <span class="ow">in</span> <span class="n">msg</span> <span class="ow">or</span> <span class="s2">&quot;Forbidden&quot;</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                            <span class="s2">&quot;Spotify audio-features endpoint returned 403; &quot;</span>
+                            <span class="s2">&quot;this is expected for apps registered after Nov &quot;</span>
+                            <span class="s2">&quot;2024. Returning empty audio features. &quot;</span>
+                            <span class="s2">&quot;See https://developer.spotify.com/blog/2024-11-27-changes-to-the-web-api&quot;</span><span class="p">,</span>
+                            <span class="ne">RuntimeWarning</span><span class="p">,</span>
+                            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="k">return</span>  <span class="c1"># stop yielding; degrade to empty</span>
+                    <span class="k">raise</span>
 
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">track_ids</span><span class="p">,</span> <span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">_audio_features_chunks</span><span class="p">())))</span>
 
@@ -342,7 +370,10 @@
         <span class="n">fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">spotify_track_metadata_numerical_field_names</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span>
             <span class="n">spotify_audio_features_fields</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">fields</span><span class="p">]</span>
+        <span class="c1"># Audio-features columns may be absent when the endpoint is</span>
+        <span class="c1"># unavailable (see Tracks.audio_features); return what we have.</span>
+        <span class="n">available</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span> <span class="k">if</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">available</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">audio_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span><span class="p">):</span>
         <span class="n">track_id</span> <span class="o">=</span> <span class="n">ensure_track_id</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
@@ -524,9 +555,7 @@
             <span class="n">offset</span> <span class="o">+=</span> <span class="n">limit</span>
         <span class="k">return</span> <span class="n">track_metas</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrackMetadata</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TrackKeySpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrackMetadata</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">TrackMetadata</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TrackId</span><span class="p">]:</span>

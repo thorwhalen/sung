@@ -6,16 +6,16 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sung.base &mdash; sung 0.0.21 documentation</title>
+  <title>sung.base &mdash; sung 0.0.23 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=a11416ff"></script>
+      <script src="../../_static/documentation_options.js?v=3294188c"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -58,6 +58,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#sung.base.PlaylistReader"><code class="docutils literal notranslate"><span class="pre">PlaylistReader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sung.base.Tracks"><code class="docutils literal notranslate"><span class="pre">Tracks</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sung.base.TracksBase"><code class="docutils literal notranslate"><span class="pre">TracksBase</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sung.base.TracksBase.audio_features"><code class="docutils literal notranslate"><span class="pre">TracksBase.audio_features</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sung.base.TracksBase.dataframe"><code class="docutils literal notranslate"><span class="pre">TracksBase.dataframe()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sung.base.TracksBase.meta_dataframe"><code class="docutils literal notranslate"><span class="pre">TracksBase.meta_dataframe()</span></code></a></li>
 </ul>
@@ -68,6 +69,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chords_and_lyrics.html">sung.chords_and_lyrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="playlists.html">sung.playlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pydantic_models.html">sung.pydantic_models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">sung.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">sung.util</a></li>
@@ -155,6 +157,16 @@ read-only and mutable interfaces respectively.</p></li>
 <dt class="sig sig-object py" id="sung.base.TracksBase">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sung.base.</span></span><span class="sig-name descname"><span class="pre">TracksBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/base.html#TracksBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.base.TracksBase" title="Link to this definition"></a></dt>
 <dd><p>Base class representing a collection of Spotify tracks.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="sung.base.TracksBase.audio_features">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">audio_features</span></span><a class="headerlink" href="#sung.base.TracksBase.audio_features" title="Link to this definition"></a></dt>
+<dd><p>Track-level audio features keyed by track id.</p>
+<p>Returns <code class="docutils literal notranslate"><span class="pre">{}</span></code> and emits a one-time warning if Spotify rejects the
+request (403) — a known restriction for apps registered after the
+Nov 2024 Web API deprecation. Callers should treat audio features as
+best-effort and fall back to metadata-only paths when empty.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sung.base.TracksBase.dataframe">
 <span class="sig-name descname"><span class="pre">dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">slice</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">slice(None,</span> <span class="pre">None,</span> <span class="pre">None)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">front_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('name',</span> <span class="pre">'artists_namesduration_ms',</span> <span class="pre">'popularity',</span> <span class="pre">'explicit',</span> <span class="pre">'album_name',</span> <span class="pre">'album_release_date',</span> <span class="pre">'album_release_year',</span> <span class="pre">'added_at_date',</span> <span class="pre">'url',</span> <span class="pre">'artist_list',</span> <span class="pre">'first_artist',</span> <span class="pre">'first_letter',</span> <span class="pre">'id')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">back_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('type',</span> <span class="pre">'episode',</span> <span class="pre">'track',</span> <span class="pre">'album',</span> <span class="pre">'disc_number',</span> <span class="pre">'track_number',</span> <span class="pre">'artists',</span> <span class="pre">'preview_url',</span> <span class="pre">'uri',</span> <span class="pre">'href',</span> <span class="pre">'available_markets',</span> <span class="pre">'external_ids',</span> <span class="pre">'external_urls')</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#sung.base.TracksBase.dataframe" title="Link to this definition"></a></dt>

@@ -55,7 +55,6 @@ from sung.util import (
     spotify_track_metadata_numerical_field_names,
 )
 
-
 DFLT_VERBOSE = True
 
 

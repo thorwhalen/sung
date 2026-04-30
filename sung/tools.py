@@ -19,7 +19,6 @@ from sung.util import (
 )
 from dol import wrap_kvs
 
-
 # --------------------------------------------------------------------------------------
 # Prepared data accessors
 

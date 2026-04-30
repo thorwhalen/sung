@@ -27,7 +27,6 @@ from i2 import Sig
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 
-
 DFLT_LIMIT = 20
 
 # TODO: Get automatically from pydantic model when available
@@ -198,7 +197,6 @@ def _add_to_scope(scope, more_scope=""):
 #         # return the new client
 
 from i2 import Sig
-
 
 spotify_client_sig = (
     Sig(Spotify)

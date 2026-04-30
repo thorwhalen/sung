@@ -30,7 +30,6 @@ from collections.abc import Iterable, Sequence
 from sung.base import Playlist, search_tracks
 from sung.util import get_spotify_client, ensure_client
 
-
 SongDescriptor = Union[str, tuple, dict]
 
 
@@ -367,9 +366,7 @@ def _cli(argv=None):
         help="Path to a text/markdown file with one song per line "
         "(use '-' to read from stdin).",
     )
-    parser.add_argument(
-        "--name", "-n", default="New Playlist", help="Playlist name."
-    )
+    parser.add_argument("--name", "-n", default="New Playlist", help="Playlist name.")
     parser.add_argument(
         "--private", action="store_true", help="Create a private playlist."
     )

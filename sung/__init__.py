@@ -139,3 +139,10 @@ from sung.chords_and_lyrics import (
     remove_non_lyrics,
     pack_song_text,
 )
+from sung.playlists import (
+    parse_song_descriptor,
+    resolve_song,
+    resolve_songs,
+    playlist_from_songs,
+    SongMatch,
+)

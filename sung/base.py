@@ -218,7 +218,12 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
     def data(self):
         # TODO: Add the added year or date when available
         metadata_df = self.meta_dataframe()
-        audio_features_df = pd.DataFrame(self.audio_features).T.set_index("id")
+        features = self.audio_features
+        if not features or all(v is None for v in features.values()):
+            # Spotify removed audio-features API access for new apps in late 2024.
+            # Degrade to metadata-only so callers like Playlist.data still work.
+            return metadata_df
+        audio_features_df = pd.DataFrame(features).T.set_index("id")
         audio_features_df = audio_features_df[list(spotify_audio_features_fields)]
 
         # Merge metadata and audio features
@@ -227,14 +232,38 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
 
     @cached_property
     def audio_features(self):
+        """Track-level audio features keyed by track id.
+
+        Returns ``{}`` and emits a one-time warning if Spotify rejects the
+        request (403) — a known restriction for apps registered after the
+        Nov 2024 Web API deprecation. Callers should treat audio features as
+        best-effort and fall back to metadata-only paths when empty.
+        """
         from itertools import chain
+        import warnings
 
         track_ids = list(self)
 
         def _audio_features_chunks():
             chunks = (track_ids[i : i + 100] for i in range(0, len(track_ids), 100))
             for chunk in chunks:
-                yield self.client.audio_features(chunk)
+                try:
+                    yield self.client.audio_features(chunk)
+                except Exception as e:
+                    # spotipy.exceptions.SpotifyException doesn't expose a
+                    # stable status attribute across versions; sniff for 403.
+                    msg = str(e)
+                    if "403" in msg or "Forbidden" in msg:
+                        warnings.warn(
+                            "Spotify audio-features endpoint returned 403; "
+                            "this is expected for apps registered after Nov "
+                            "2024. Returning empty audio features. "
+                            "See https://developer.spotify.com/blog/2024-11-27-changes-to-the-web-api",
+                            RuntimeWarning,
+                            stacklevel=2,
+                        )
+                        return  # stop yielding; degrade to empty
+                    raise
 
         return dict(zip(track_ids, chain.from_iterable(_audio_features_chunks())))
 
@@ -251,7 +280,10 @@ class TracksBase(Mapping[TrackId, TrackMetadata]):
         fields = list(spotify_track_metadata_numerical_field_names) + list(
             spotify_audio_features_fields
         )
-        return self.data[fields]
+        # Audio-features columns may be absent when the endpoint is
+        # unavailable (see Tracks.audio_features); return what we have.
+        available = [f for f in fields if f in self.data.columns]
+        return self.data[available]
 
     def audio_analysis(self, key: TrackKeySpec):
         track_id = ensure_track_id(key)

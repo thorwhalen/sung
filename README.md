@@ -151,7 +151,7 @@ For spotify tools, you'll also need spotify API access info:
 ```
 export SPOTIFY_API_CLIENT_ID="your_api_client_id"
 export SPOTIFY_API_CLIENT_SECRET="your_api_client_secrete"
-export SPOTIPY_REDIRECT_URI="http://localhost:8000/callback"
+export SPOTIPY_REDIRECT_URI="http://127.0.0.1:8000/callback"
 export SPOTIPY_CLIENT_ID="$SPOTIFY_API_CLIENT_ID"
 export SPOTIPY_CLIENT_SECRET="$SPOTIFY_API_CLIENT_SECRET"
 ```
@@ -197,6 +197,89 @@ For detailed information on authorization flows and using your credentials, refe
 
 Ensure you handle your Client Secret securely and adhere to 
 [Spotify’s Developer Terms of Service](https://developer.spotify.com/terms/).
+
+> **Note on redirect URIs.** Spotify rejects `http://localhost` as
+> "Insecure" since April 2025. Use `http://127.0.0.1:PORT/callback` and
+> add that exact value (no trailing slash, exact case) in your app
+> dashboard's Redirect URIs.
+
+> **Note on audio features.** Spotify [removed `/audio-features`
+> access](https://developer.spotify.com/blog/2024-11-27-changes-to-the-web-api)
+> for apps registered after Nov 2024. `sung` degrades gracefully:
+> `Tracks.audio_features` returns `{}` with a one-time warning, and
+> `Tracks.data` / `Playlist.data` fall back to metadata-only.
+
+
+# Building a Spotify Playlist from a List of Song Names
+
+Got a list of song names (from a setlist, a chat, a markdown doc) and want
+a playlist? Use `playlist_from_songs` — it searches Spotify for each
+song, picks the best match (preferring exact title + artist matches and
+filtering out covers/karaoke), and creates the playlist in one call.
+
+```python
+from sung import playlist_from_songs
+
+songs = [
+    ("Clocks", "Coldplay"),
+    "Fix You — Coldplay",                       # also: "Title - Artist", "Title by Artist"
+    {"name": "Believer", "artist": "Imagine Dragons"},
+    "Radioactive",                              # title only is fine, but match quality drops
+]
+
+playlist, matches = playlist_from_songs(
+    songs,
+    playlist_name="My Mix",
+    # public=True,           # default
+    # market="US",           # optional ISO market code
+    # search_limit=10,       # candidates to consider per song
+    # skip_missing=True,     # drop unresolved instead of raising
+)
+
+print(playlist.playlist_url)
+for m in matches:
+    print(m.summary())
+    if m.ambiguous:
+        for c in m.candidates[:3]:
+            print("   alt:", c["name"], "—", ", ".join(c["artists"]), "pop=", c["popularity"])
+```
+
+`matches` is a `list[SongMatch]`. Each match exposes `track_id`,
+`track_name`, `artist_names`, `album_name`, `popularity`, plus
+`ambiguous: bool` (top two candidates are different songs/artists scoring
+within 10 points — worth showing alternatives) and `not_found: bool`.
+
+## CLI
+
+For one-shot use from a file (or stdin), the same logic is wrapped as
+`python -m sung.playlists`:
+
+```bash
+# songs.txt — one song per line; "Title - Artist" or just "Title".
+# Comment lines (#), markdown bullets (-, *, 1.), and **bold** are tolerated.
+python -m sung.playlists songs.txt --name "My Mix"
+
+# Inspect matches without creating the playlist:
+python -m sung.playlists songs.txt --dry-run
+
+# JSON report (for chaining):
+python -m sung.playlists songs.txt --name "My Mix" --json
+
+# stdin works too:
+cat songs.txt | python -m sung.playlists - --name "My Mix"
+```
+
+Other flags: `--private` (default is public), `--market US`.
+
+## Lower-level building blocks
+
+If you want to inspect matches before creating anything (or hand-tune
+ranking), the helper is a thin layer over:
+
+- `parse_song_descriptor(...)` — turn a descriptor into `(name, artist)`
+- `resolve_song(...)` / `resolve_songs(...)` — search + rank, return `SongMatch`(es)
+- `Playlist.create_from_track_list(...)` — actually creates the playlist
+- `delete_playlist(playlist_id, ask_confirmation=False)` — clean up
 
 
 # Using the sung.base Module to Search Tracks and Create a Playlist
@@ -998,7 +1081,7 @@ For most tools, you'll also need a spotify
 ```
 export SPOTIFY_API_CLIENT_ID="your_api_client_id"
 export SPOTIFY_API_CLIENT_SECRET="your_api_client_secrete"
-export SPOTIPY_REDIRECT_URI="http://localhost:8000/callback"
+export SPOTIPY_REDIRECT_URI="http://127.0.0.1:8000/callback"
 export SPOTIPY_CLIENT_ID="$SPOTIFY_API_CLIENT_ID"
 export SPOTIPY_CLIENT_SECRET="$SPOTIFY_API_CLIENT_SECRET"
 ```

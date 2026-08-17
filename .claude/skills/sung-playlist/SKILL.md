@@ -58,7 +58,7 @@ playlist, matches = playlist_from_songs(
 
 print(playlist.playlist_url)
 for m in matches:
-    print(m.summary())                         # human-readable line
+    print(m.summary())  # human-readable line
     if m.ambiguous:
         # Top two candidates were close in score — surface to user
         for c in m.candidates[:3]:

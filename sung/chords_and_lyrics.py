@@ -368,11 +368,17 @@ def filter_non_lyrics(
             filtered.append(section)
             continue
 
+        # Metadata lines ("[Verse]", "[Chorus]", ...) are decided here, before
+        # the is_likely_lyrics gate. is_likely_lyrics rejects them outright, so
+        # a keep_metadata_lines branch placed after it was unreachable and the
+        # flag silently did nothing.
+        if line.strip().startswith("["):
+            if keep_metadata_lines:
+                filtered.append(section)
+            continue
+
         # Check if this is likely lyrics
         if is_likely_lyrics(line, has_chords_before):
-            # Special case for metadata lines
-            if line.strip().startswith("[") and not keep_metadata_lines:
-                continue
             filtered.append(section)
 
     return filtered

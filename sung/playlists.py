@@ -433,7 +433,7 @@ def _cli(argv=None):
         print("No tracks resolved; no playlist created.")
     print()
     print(f"{'#':>3}  {'descriptor':<40}  resolved")
-    print(f"{'-'*3}  {'-'*40}  {'-'*40}")
+    print(f"{'-' * 3}  {'-' * 40}  {'-' * 40}")
     for i, m in enumerate(matches, 1):
         desc = str(m.descriptor)[:40]
         print(f"{i:>3}  {desc:<40}  {m.summary()}")

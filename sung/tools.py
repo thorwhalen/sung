@@ -82,9 +82,9 @@ def get_content_bytes(
 
         if isinstance(cache_locally, str):
             rootdir = cache_locally
-            assert os.path.isdir(
-                rootdir
-            ), f"cache_locally: {rootdir} is not a directory"
+            assert os.path.isdir(rootdir), (
+                f"cache_locally: {rootdir} is not a directory"
+            )
             return graze(url, rootdir, max_age=max_age)
         return graze(url, max_age=max_age)
     else:

@@ -24,14 +24,14 @@ songs = search_songs(title="wonderwall", artist="oasis")
 print(f"Found {len(songs)} songs")
 
 # Get the raw chord sheet text
-raw_text = songs.iloc[0]['chords&lyrics']
+raw_text = songs.iloc[0]["chords&lyrics"]
 
 # Render to text (reconstruct the original format)
-formatted_text = render_chords_and_lyrics(raw_text, to='text')
+formatted_text = render_chords_and_lyrics(raw_text, to="text")
 print(formatted_text)
 
 # Render to PDF
-render_chords_and_lyrics(raw_text, to='pdf', output_path='song.pdf')
+render_chords_and_lyrics(raw_text, to="pdf", output_path="song.pdf")
 ```
 
 ## Advanced Features
@@ -44,18 +44,11 @@ Remove extraneous text that isn't part of the actual song:
 from sung import remove_non_lyrics
 
 # Remove non-lyrics content (section headers, metadata, etc.)
-clean_lyrics = render_chords_and_lyrics(
-    raw_text, 
-    to='text', 
-    filter_non_lyrics=True
-)
+clean_lyrics = render_chords_and_lyrics(raw_text, to="text", filter_non_lyrics=True)
 
 # Keep metadata lines like [Verse], [Chorus]
 clean_with_metadata = render_chords_and_lyrics(
-    raw_text, 
-    to='text', 
-    filter_non_lyrics=True,
-    keep_metadata_lines=True
+    raw_text, to="text", filter_non_lyrics=True, keep_metadata_lines=True
 )
 
 # Standalone function
@@ -71,10 +64,7 @@ from sung import pack_song_text
 
 # Pack lines up to 80 characters
 packed_text = render_chords_and_lyrics(
-    raw_text, 
-    to='text', 
-    pack_lines=True, 
-    max_line_length=80
+    raw_text, to="text", pack_lines=True, max_line_length=80
 )
 
 # Standalone function
@@ -88,11 +78,7 @@ Use both filtering and packing together:
 ```python
 # Clean and optimized output
 optimized = render_chords_and_lyrics(
-    raw_text, 
-    to='text',
-    filter_non_lyrics=True,
-    pack_lines=True,
-    max_line_length=80
+    raw_text, to="text", filter_non_lyrics=True, pack_lines=True, max_line_length=80
 )
 ```
 
@@ -102,15 +88,15 @@ optimized = render_chords_and_lyrics(
 # Custom fonts and spacing
 render_chords_and_lyrics(
     raw_text,
-    to='pdf',
-    output_path='styled_song.pdf',
-    page_size='LETTER',  # Can use strings like 'A4', 'LETTER', 'LEGAL'
-    lyrics_font={'name': 'Times-Roman', 'size': 14, 'color': 'black'},
-    chords_font={'name': 'Helvetica-Bold', 'size': 12, 'color': 'blue'},
-    title_font={'name': 'Helvetica-Bold', 'size': 18, 'color': 'darkred'},
+    to="pdf",
+    output_path="styled_song.pdf",
+    page_size="LETTER",  # Can use strings like 'A4', 'LETTER', 'LEGAL'
+    lyrics_font={"name": "Times-Roman", "size": 14, "color": "black"},
+    chords_font={"name": "Helvetica-Bold", "size": 12, "color": "blue"},
+    title_font={"name": "Helvetica-Bold", "size": 18, "color": "darkred"},
     margin=50,
     spacing_chord_lyrics=15,
-    spacing_group=20
+    spacing_group=20,
 )
 ```
 
@@ -127,9 +113,7 @@ print(f"Dataset contains {len(df)} songs")
 
 # Search by multiple criteria
 results = search_songs(
-    title='hotel california',
-    artist='eagles',
-    lyrics='welcome to the hotel'
+    title="hotel california", artist="eagles", lyrics="welcome to the hotel"
 )
 ```
 
@@ -222,9 +206,9 @@ from sung import playlist_from_songs
 
 songs = [
     ("Clocks", "Coldplay"),
-    "Fix You — Coldplay",                       # also: "Title - Artist", "Title by Artist"
+    "Fix You — Coldplay",  # also: "Title - Artist", "Title by Artist"
     {"name": "Believer", "artist": "Imagine Dragons"},
-    "Radioactive",                              # title only is fine, but match quality drops
+    "Radioactive",  # title only is fine, but match quality drops
 ]
 
 playlist, matches = playlist_from_songs(
@@ -241,7 +225,14 @@ for m in matches:
     print(m.summary())
     if m.ambiguous:
         for c in m.candidates[:3]:
-            print("   alt:", c["name"], "—", ", ".join(c["artists"]), "pop=", c["popularity"])
+            print(
+                "   alt:",
+                c["name"],
+                "—",
+                ", ".join(c["artists"]),
+                "pop=",
+                c["popularity"],
+            )
 ```
 
 `matches` is a `list[SongMatch]`. Each match exposes `track_id`,
@@ -308,7 +299,7 @@ This will return a Tracks object containing the search results
 
 
 ```python
-tracks = Tracks.search(query='Love', limit=7)
+tracks = Tracks.search(query="Love", limit=7)
 ```
 
 ```
@@ -330,13 +321,13 @@ You can also make a `tracks` object by passing a list of track IDs or urls
 
 ```python
 track_ids = [
-    '1vrd6UOGamcKNGnSHJQlSt',
-    '3CeCwYWvdfXbZLXFhBrbnf',
-    '1dGr1c8CrMLDpV6mPbImSI',
-    '0u2P5u6lvoDfwTYjAADbn4',
-    'https://open.spotify.com/track/6nGeLlakfzlBcFdZXteDq7',  # url
-    'https://open.spotify.com/track/6dBUzqjtbnIa1TwYbyw5CM',   # url
-    'spotify:track:7hR22TOX3RorxJPcsz5Wbo',  # uri
+    "1vrd6UOGamcKNGnSHJQlSt",
+    "3CeCwYWvdfXbZLXFhBrbnf",
+    "1dGr1c8CrMLDpV6mPbImSI",
+    "0u2P5u6lvoDfwTYjAADbn4",
+    "https://open.spotify.com/track/6nGeLlakfzlBcFdZXteDq7",  # url
+    "https://open.spotify.com/track/6dBUzqjtbnIa1TwYbyw5CM",  # url
+    "spotify:track:7hR22TOX3RorxJPcsz5Wbo",  # uri
 ]
 
 tracks = Tracks(track_ids)
@@ -367,7 +358,7 @@ The value is a bunch of metadata about the track.
 
 
 ```python
-track_metadata = tracks['1dGr1c8CrMLDpV6mPbImSI']  # get metadata of track via it's id
+track_metadata = tracks["1dGr1c8CrMLDpV6mPbImSI"]  # get metadata of track via it's id
 assert isinstance(track_metadata, dict)
 sorted(track_metadata)
 ```
@@ -405,7 +396,9 @@ track_metadata = tracks[2]  # get metadata of track via it's id
 We can get a sublist of track metadatas from a list of ids.
 
 ```python
-list_of_track_metadatas = tracks[['6dBUzqjtbnIa1TwYbyw5CM', '1vrd6UOGamcKNGnSHJQlSt']]  # get metadata of tracks via a list of ids
+list_of_track_metadatas = tracks[
+    ["6dBUzqjtbnIa1TwYbyw5CM", "1vrd6UOGamcKNGnSHJQlSt"]
+]  # get metadata of tracks via a list of ids
 ```
 
 We can also get a sublist using slicing.
@@ -628,11 +621,9 @@ The create_from_track_list class method creates a new playlist with the given tr
 
 ```python
 playlist = Playlist.create_from_track_list(
-    track_list=selected_track_ids,
-    playlist_name='my_test_playlist'
+    track_list=selected_track_ids, playlist_name="my_test_playlist"
 )
 print(f"\nPlaylist '{playlist.playlist_id}' created successfully.")
-
 ```
 
     
@@ -672,11 +663,13 @@ This allows you to interact with the playlist, such as accessing its tracks.
 
 
 ```python
-top50_global_url = 'https://open.spotify.com/playlist/37i9dQZEVXbMDoHDwVN2tF?si=d6e0c7bc8f59473b'
+top50_global_url = (
+    "https://open.spotify.com/playlist/37i9dQZEVXbMDoHDwVN2tF?si=d6e0c7bc8f59473b"
+)
 top50_playlist = Playlist(top50_global_url)
 df = top50_playlist.data
-df['first_artist'] = df['artists'].apply(lambda x: x[0]['name'])
-df['name_and_first_artist'] = df['name'] + ' - ' + df['first_artist']
+df["first_artist"] = df["artists"].apply(lambda x: x[0]["name"])
+df["name_and_first_artist"] = df["name"] + " - " + df["first_artist"]
 top_5_tracks = top50_playlist.data.iloc[:5].name_and_first_artist
 top_5_tracks
 ```
@@ -699,7 +692,6 @@ import pandas as pd
 
 print(f"{top50_playlist.audio_features_df.shape=}")
 top50_playlist.audio_features_df.iloc[0]
-
 ```
 
     top50_playlist.audio_features_df.shape=(50, 17)
@@ -734,12 +726,19 @@ top50_playlist.audio_features_df.iloc[0]
 import seaborn as sns
 from matplotlib import pyplot as plt
 
-df = pd.merge(top50_playlist.data, top50_playlist.audio_features_df, left_index=True, right_index=True)
+df = pd.merge(
+    top50_playlist.data,
+    top50_playlist.audio_features_df,
+    left_index=True,
+    right_index=True,
+)
 # scatter plot with danceability and energy, colored by popularity, with size as loudness
-sns.scatterplot(data=df, x='danceability', y='energy', hue='popularity', size='loudness')
+sns.scatterplot(
+    data=df, x="danceability", y="energy", hue="popularity", size="loudness"
+)
 
 # Move the legend outside the plot
-plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left');
+plt.legend(bbox_to_anchor=(1.05, 1), loc="upper left")
 ```
 
 
@@ -752,7 +751,21 @@ plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left');
 ```python
 import seaborn as sns
 
-sns.pairplot(top50_playlist.audio_features_df[['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo']])
+sns.pairplot(
+    top50_playlist.audio_features_df[
+        [
+            "danceability",
+            "energy",
+            "loudness",
+            "speechiness",
+            "acousticness",
+            "instrumentalness",
+            "liveness",
+            "valence",
+            "tempo",
+        ]
+    ]
+)
 ```
 
 
@@ -801,7 +814,7 @@ list(audio_analysis)
 
 
 ```python
-audio_analysis['meta']
+audio_analysis["meta"]
 ```
 
 
@@ -819,7 +832,7 @@ audio_analysis['meta']
 
 
 ```python
-audio_analysis['track']
+audio_analysis["track"]
 ```
 
 
@@ -857,7 +870,7 @@ audio_analysis['track']
 from lkj import truncate_dict_values
 
 print(f"{len(audio_analysis['bars'])=})")
-truncate_dict_values(audio_analysis['bars'])
+truncate_dict_values(audio_analysis["bars"])
 ```
 
     len(audio_analysis['bars'])=211)
@@ -874,7 +887,7 @@ truncate_dict_values(audio_analysis['bars'])
 
 ```python
 print(f"{len(audio_analysis['beats'])=})")
-truncate_dict_values(audio_analysis['beats'])
+truncate_dict_values(audio_analysis["beats"])
 ```
 
     len(audio_analysis['beats'])=639)
@@ -891,7 +904,7 @@ truncate_dict_values(audio_analysis['beats'])
 
 ```python
 print(f"{len(audio_analysis['sections'])=})")
-truncate_dict_values(audio_analysis['sections'])
+truncate_dict_values(audio_analysis["sections"])
 ```
 
     len(audio_analysis['sections'])=10)
@@ -929,7 +942,7 @@ truncate_dict_values(audio_analysis['sections'])
 
 ```python
 print(f"{len(audio_analysis['segments'])=})")
-truncate_dict_values(audio_analysis['segments'])
+truncate_dict_values(audio_analysis["segments"])
 ```
 
     len(audio_analysis['segments'])=780)
@@ -962,7 +975,7 @@ truncate_dict_values(audio_analysis['segments'])
 
 ```python
 print(f"{len(audio_analysis['tatums'])=})")
-truncate_dict_values(audio_analysis['tatums'])
+truncate_dict_values(audio_analysis["tatums"])
 ```
 
     len(audio_analysis['tatums'])=1278)
@@ -1138,7 +1151,7 @@ This will return a Tracks object containing the search results
 
 
 ```python
-tracks = Tracks.search(query='Love', limit=7)
+tracks = Tracks.search(query="Love", limit=7)
 ```
 
 ```
@@ -1160,13 +1173,13 @@ You can also make a `tracks` object by passing a list of track IDs or urls
 
 ```python
 track_ids = [
-    '1vrd6UOGamcKNGnSHJQlSt',
-    '3CeCwYWvdfXbZLXFhBrbnf',
-    '1dGr1c8CrMLDpV6mPbImSI',
-    '0u2P5u6lvoDfwTYjAADbn4',
-    'https://open.spotify.com/track/6nGeLlakfzlBcFdZXteDq7',  # url
-    'https://open.spotify.com/track/6dBUzqjtbnIa1TwYbyw5CM',   # url
-    'spotify:track:7hR22TOX3RorxJPcsz5Wbo',  # uri
+    "1vrd6UOGamcKNGnSHJQlSt",
+    "3CeCwYWvdfXbZLXFhBrbnf",
+    "1dGr1c8CrMLDpV6mPbImSI",
+    "0u2P5u6lvoDfwTYjAADbn4",
+    "https://open.spotify.com/track/6nGeLlakfzlBcFdZXteDq7",  # url
+    "https://open.spotify.com/track/6dBUzqjtbnIa1TwYbyw5CM",  # url
+    "spotify:track:7hR22TOX3RorxJPcsz5Wbo",  # uri
 ]
 
 tracks = Tracks(track_ids)
@@ -1197,7 +1210,7 @@ The value is a bunch of metadata about the track.
 
 
 ```python
-track_metadata = tracks['1dGr1c8CrMLDpV6mPbImSI']  # get metadata of track via it's id
+track_metadata = tracks["1dGr1c8CrMLDpV6mPbImSI"]  # get metadata of track via it's id
 assert isinstance(track_metadata, dict)
 sorted(track_metadata)
 ```
@@ -1235,7 +1248,9 @@ track_metadata = tracks[2]  # get metadata of track via it's id
 We can get a sublist of track metadatas from a list of ids.
 
 ```python
-list_of_track_metadatas = tracks[['6dBUzqjtbnIa1TwYbyw5CM', '1vrd6UOGamcKNGnSHJQlSt']]  # get metadata of tracks via a list of ids
+list_of_track_metadatas = tracks[
+    ["6dBUzqjtbnIa1TwYbyw5CM", "1vrd6UOGamcKNGnSHJQlSt"]
+]  # get metadata of tracks via a list of ids
 ```
 
 We can also get a sublist using slicing.
@@ -1503,11 +1518,13 @@ This allows you to interact with the playlist, such as accessing its tracks.
 
 
 ```python
-top50_global_url = 'https://open.spotify.com/playlist/37i9dQZEVXbMDoHDwVN2tF?si=d6e0c7bc8f59473b'
+top50_global_url = (
+    "https://open.spotify.com/playlist/37i9dQZEVXbMDoHDwVN2tF?si=d6e0c7bc8f59473b"
+)
 top50_playlist = Playlist(top50_global_url)
 df = top50_playlist.data
-df['first_artist'] = df['artists'].apply(lambda x: x[0]['name'])
-df['name_and_first_artist'] = df['name'] + ' - ' + df['first_artist']
+df["first_artist"] = df["artists"].apply(lambda x: x[0]["name"])
+df["name_and_first_artist"] = df["name"] + " - " + df["first_artist"]
 top_5_tracks = top50_playlist.data.iloc[:5].name_and_first_artist
 top_5_tracks
 ```
@@ -1530,7 +1547,6 @@ import pandas as pd
 
 print(f"{top50_playlist.audio_features_df.shape=}")
 top50_playlist.audio_features_df.iloc[0]
-
 ```
 
     top50_playlist.audio_features_df.shape=(50, 17)
@@ -1565,12 +1581,19 @@ top50_playlist.audio_features_df.iloc[0]
 import seaborn as sns
 from matplotlib import pyplot as plt
 
-df = pd.merge(top50_playlist.data, top50_playlist.audio_features_df, left_index=True, right_index=True)
+df = pd.merge(
+    top50_playlist.data,
+    top50_playlist.audio_features_df,
+    left_index=True,
+    right_index=True,
+)
 # scatter plot with danceability and energy, colored by popularity, with size as loudness
-sns.scatterplot(data=df, x='danceability', y='energy', hue='popularity', size='loudness')
+sns.scatterplot(
+    data=df, x="danceability", y="energy", hue="popularity", size="loudness"
+)
 
 # Move the legend outside the plot
-plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left');
+plt.legend(bbox_to_anchor=(1.05, 1), loc="upper left")
 ```
 
 
@@ -1583,7 +1606,21 @@ plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left');
 ```python
 import seaborn as sns
 
-sns.pairplot(top50_playlist.audio_features_df[['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo']])
+sns.pairplot(
+    top50_playlist.audio_features_df[
+        [
+            "danceability",
+            "energy",
+            "loudness",
+            "speechiness",
+            "acousticness",
+            "instrumentalness",
+            "liveness",
+            "valence",
+            "tempo",
+        ]
+    ]
+)
 ```
 
 
@@ -1632,7 +1669,7 @@ list(audio_analysis)
 
 
 ```python
-audio_analysis['meta']
+audio_analysis["meta"]
 ```
 
 
@@ -1650,7 +1687,7 @@ audio_analysis['meta']
 
 
 ```python
-audio_analysis['track']
+audio_analysis["track"]
 ```
 
 
@@ -1688,7 +1725,7 @@ audio_analysis['track']
 from lkj import truncate_dict_values
 
 print(f"{len(audio_analysis['bars'])=})")
-truncate_dict_values(audio_analysis['bars'])
+truncate_dict_values(audio_analysis["bars"])
 ```
 
     len(audio_analysis['bars'])=211)
@@ -1705,7 +1742,7 @@ truncate_dict_values(audio_analysis['bars'])
 
 ```python
 print(f"{len(audio_analysis['beats'])=})")
-truncate_dict_values(audio_analysis['beats'])
+truncate_dict_values(audio_analysis["beats"])
 ```
 
     len(audio_analysis['beats'])=639)
@@ -1722,7 +1759,7 @@ truncate_dict_values(audio_analysis['beats'])
 
 ```python
 print(f"{len(audio_analysis['sections'])=})")
-truncate_dict_values(audio_analysis['sections'])
+truncate_dict_values(audio_analysis["sections"])
 ```
 
     len(audio_analysis['sections'])=10)
@@ -1760,7 +1797,7 @@ truncate_dict_values(audio_analysis['sections'])
 
 ```python
 print(f"{len(audio_analysis['segments'])=})")
-truncate_dict_values(audio_analysis['segments'])
+truncate_dict_values(audio_analysis["segments"])
 ```
 
     len(audio_analysis['segments'])=780)
@@ -1793,7 +1830,7 @@ truncate_dict_values(audio_analysis['segments'])
 
 ```python
 print(f"{len(audio_analysis['tatums'])=})")
-truncate_dict_values(audio_analysis['tatums'])
+truncate_dict_values(audio_analysis["tatums"])
 ```
 
     len(audio_analysis['tatums'])=1278)
@@ -1903,7 +1940,6 @@ truncate_dict_values(audio_analysis, max_list_size=2)
 
 ```python
 from sung import TracksAnalysis, ensure_playlist_id
-
 ```
 
 ## Initialize the Class with a Playlist ID
@@ -1912,7 +1948,9 @@ from sung import TracksAnalysis, ensure_playlist_id
 ```python
 # Let's analyze my daughter's playlist...
 
-playlist = "https://open.spotify.com/playlist/4nEeS47ineUShHK2iAVeO0?si=be16c62b664f43f3"
+playlist = (
+    "https://open.spotify.com/playlist/4nEeS47ineUShHK2iAVeO0?si=be16c62b664f43f3"
+)
 
 ta = TracksAnalysis(playlist)
 ```
@@ -1932,7 +1970,6 @@ Note that it must have been prepared by `TracksAnalysis`, or at least satisfy th
 
 ```python
 ta.df.head()
-
 ```
 
 
@@ -2135,7 +2172,6 @@ ta.plot_features_histogram()
 
 ```python
 ta.plot_features_scatter()
-
 ```
 
 
@@ -2188,7 +2224,7 @@ spotify_features_fields
 
 
 ```python
-ta.plot_features_scatter(x='valence', y='tempo', hue='key')
+ta.plot_features_scatter(x="valence", y="tempo", hue="key")
 ```
 
 
@@ -2396,7 +2432,7 @@ ta.plot_added_vs_release_kde_boundary()
 
 
 ```python
-ta.plot_first_letter_distribution(sort_by='lexicographical')
+ta.plot_first_letter_distribution(sort_by="lexicographical")
 ```
 
 
@@ -2407,7 +2443,7 @@ ta.plot_first_letter_distribution(sort_by='lexicographical')
 
 
 ```python
-ta.plot_first_letter_distribution(sort_by='count')
+ta.plot_first_letter_distribution(sort_by="count")
 ```
 
 
@@ -3179,7 +3215,9 @@ ta.tracks_grouped_by_year
 ```python
 from sung import TracksAnalysis
 
-liked_songs_as_of_nov_2024 = "https://open.spotify.com/playlist/0TR0PpkMt37afbzNuexYEc?si=4ba4ec8221d84e94"
+liked_songs_as_of_nov_2024 = (
+    "https://open.spotify.com/playlist/0TR0PpkMt37afbzNuexYEc?si=4ba4ec8221d84e94"
+)
 
 ta = TracksAnalysis(liked_songs_as_of_nov_2024)
 ```

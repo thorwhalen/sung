@@ -3,7 +3,6 @@
 # TODO: use openAPI definition to create pydantic models for data
 #  see https://github.com/thorwhalen/sung/discussions/1#discussioncomment-10990012
 
-
 import re
 import os
 from datetime import datetime
@@ -622,7 +621,11 @@ def ensure_playlist_id(playlist_spec: str) -> str:
 
 front_columns_for_track_metas = (
     "name",
-    "artists_names" "duration_ms",
+    # NOTE: the missing comma here used to make Python concatenate these two
+    # into a single "artists_namesduration_ms" entry, so neither column was
+    # ever moved to the front.
+    "artists_names",
+    "duration_ms",
     "popularity",
     "explicit",
     "album_name",

@@ -1,0 +1,234 @@
+[build-system]
+requires = [
+    "hatchling",
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "sung"
+version = "0.0.24"
+description = "Music data access"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+keywords = [
+    "music",
+    "spotify",
+    "playlist",
+    "chords",
+    "lyrics",
+    "metadata",
+]
+authors = [
+    { name = "Thor Whalen" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "spotipy",
+    "tabled",
+    "glom",
+    "i2",
+    "pydantic",
+    "pandas",
+    "requests",
+    "reportlab",
+    # Imported at module level by sung.util and sung.tools; it was missing from
+    # the setup.cfg install_requires, so a clean `pip install sung` could not
+    # import the package at all unless dol happened to be present already.
+    "dol",
+]
+
+[project.urls]
+Homepage = "https://github.com/thorwhalen/sung"
+Repository = "https://github.com/thorwhalen/sung"
+Documentation = "https://thorwhalen.github.io/sung"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.1.0",
+]
+docs = [
+    "sphinx>=6.0",
+    "sphinx-rtd-theme>=1.0",
+]
+# sung.chords_and_lyrics.get_lyrics_and_chords_dataset lazily imports haggle to
+# pull a Kaggle dataset. Optional: nothing else in the package needs it.
+kaggle = [
+    "haggle",
+]
+
+# The wheel ships the importable package only. The sdist keeps the repo layout
+# (tests/, .claude/skills/) so the agent skill and the test suite travel with
+# the source distribution -- hatchling's sdist default already includes them;
+# this is stated explicitly so a future include/exclude rule cannot drop them
+# silently.
+[tool.hatch.build.targets.wheel]
+packages = [
+    "sung",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/sung",
+    "/tests",
+    "/.claude",
+    "/README.md",
+    "/LICENSE",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+exclude = [
+    "**/*.ipynb",
+    ".git",
+    ".venv",
+    "build",
+    "dist",
+    "tests",
+    "examples",
+    "scrap",
+    "misc",
+]
+
+[tool.ruff.lint]
+select = [
+    "D100",
+]
+ignore = [
+    "D203",
+    "E501",
+    "B905",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/*" = [
+    "D",
+]
+"**/examples/*" = [
+    "D",
+]
+"**/scrap/*" = [
+    "D",
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+# tests/ only -- deliberately NOT the package. The CI's run-tests-uv action
+# always adds --doctest-modules, and sung/__init__.py's module docstring is a
+# live tutorial (it searches Spotify, creates a playlist, deletes it) that
+# needs interactive OAuth. The pure doctests of the other modules are run as
+# real gates by tests/test_doctests.py.
+testpaths = [
+    "tests",
+]
+doctest_optionflags = [
+    "NORMALIZE_WHITESPACE",
+    "ELLIPSIS",
+]
+markers = [
+    "spotify: requires a reachable Spotify Web API (deselected when unavailable)",
+]
+
+[tool.wads.ci]
+project_name = "sung"
+
+[tool.wads.ci.commands]
+pre_test = []
+test = []
+post_test = []
+lint = []
+format = []
+
+[tool.wads.ci.install]
+extras = "dev"
+
+[tool.wads.ci.env]
+required_envvars = []
+# Spotify credentials. Declared here so read-ci-config / export-ci-env
+# re-export them to the jobs that run tests. They are NOT required: the
+# credential-free tests always run, and tests/conftest.py deselects the
+# Spotify-dependent ones when no working credential is available.
+#
+#   SPOTIFY_API_CLIENT_ID / SPOTIFY_API_CLIENT_SECRET
+#       read by sung.util.pop_client_id_and_secret
+#   SPOTIPY_CLIENT_ID / SPOTIPY_CLIENT_SECRET / SPOTIPY_REDIRECT_URI
+#       read by spotipy itself when sung does not pass credentials explicitly
+test_envvars = [
+    "SPOTIFY_API_CLIENT_ID",
+    "SPOTIFY_API_CLIENT_SECRET",
+    "SPOTIPY_CLIENT_ID",
+    "SPOTIPY_CLIENT_SECRET",
+    "SPOTIPY_REDIRECT_URI",
+]
+extra_envvars = []
+
+[tool.wads.ci.env.defaults]
+
+[tool.wads.ci.quality.ruff]
+enabled = true
+
+[tool.wads.ci.quality.black]
+enabled = false
+
+[tool.wads.ci.quality.mypy]
+enabled = false
+
+[tool.wads.ci.testing]
+python_versions = [
+    "3.10",
+    "3.12",
+]
+pytest_args = [
+    "-v",
+    "--tb=short",
+]
+coverage_enabled = true
+coverage_threshold = 0
+coverage_report_format = [
+    "term",
+    "xml",
+]
+exclude_paths = [
+    "examples",
+    "scrap",
+    "misc",
+]
+test_on_windows = true
+
+[tool.wads.ci.metrics]
+enabled = true
+config_path = ".github/umpyre-config.yml"
+storage_branch = "code-metrics"
+python_version = "3.10"
+force_run = false
+
+[tool.wads.ci.build]
+sdist = true
+wheel = true
+
+[tool.wads.ci.publish]
+enabled = true
+
+[tool.wads.ci.docs]
+enabled = true
+builder = "epythet"
+ignore_paths = [
+    "tests/",
+    "scrap/",
+    "examples/",
+    "misc/",
+]

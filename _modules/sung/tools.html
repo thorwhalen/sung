@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sung.tools &mdash; sung 0.0.23 documentation</title>
+  <title>sung.tools &mdash; sung 0.0.24 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,9 +14,9 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=3294188c"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/documentation_options.js?v=f91d8841"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=f281be69"></script>
@@ -80,7 +80,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for sung.tools</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Tools using sung&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Tools using sung"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">Counter</span>
@@ -101,17 +101,16 @@
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dol</span><span class="w"> </span><span class="kn">import</span> <span class="n">wrap_kvs</span>
 
-
 <span class="c1"># --------------------------------------------------------------------------------------</span>
 <span class="c1"># Prepared data accessors</span>
 
 <span class="c1"># Code to access thorwhalen/sung_content data with ease</span>
 
-<span class="n">DFLT_GITHUB_BRANCH</span> <span class="o">=</span> <span class="s2">&quot;main&quot;</span>
-<span class="n">DFLT_REPO_STUB</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;thorwhalen/sung_content&quot;</span>
+<span class="n">DFLT_GITHUB_BRANCH</span> <span class="o">=</span> <span class="s2">"main"</span>
+<span class="n">DFLT_REPO_STUB</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"thorwhalen/sung_content"</span>
 
 
-<span class="c1"># Note: hubcap has tools for url manipulation, but it&#39;s overkill for this simple case</span>
+<span class="c1"># Note: hubcap has tools for url manipulation, but it's overkill for this simple case</span>
 <div class="viewcode-block" id="raw_github_url">
 <a class="viewcode-back" href="../../module_docs/sung/tools.html#sung.tools.raw_github_url">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">raw_github_url</span><span class="p">(</span>
@@ -119,34 +118,34 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">repo_stub</span><span class="o">=</span><span class="n">DFLT_REPO_STUB</span><span class="p">,</span>
     <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">url_prefix</span><span class="o">=</span><span class="s2">&quot;https://raw.githubusercontent.com&quot;</span><span class="p">,</span>
+    <span class="n">url_prefix</span><span class="o">=</span><span class="s2">"https://raw.githubusercontent.com"</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Return the raw github url for a given path in a given repo and branch.</span>
 
-<span class="sd">    By default, the repo_stub is &#39;thorwhalen/sung_content&#39; and the branch is &#39;main&#39;.</span>
+<span class="sd">    By default, the repo_stub is 'thorwhalen/sung_content' and the branch is 'main'.</span>
 
-<span class="sd">    &gt;&gt;&gt; raw_github_url(&#39;parquet/greatest_500_songs.parquet&#39;)</span>
-<span class="sd">    &#39;https://raw.githubusercontent.com/thorwhalen/sung_content/main/parquet/greatest_500_songs.parquet&#39;</span>
+<span class="sd">    &gt;&gt;&gt; raw_github_url('parquet/greatest_500_songs.parquet')</span>
+<span class="sd">    'https://raw.githubusercontent.com/thorwhalen/sung_content/main/parquet/greatest_500_songs.parquet'</span>
 
 <span class="sd">    If the path is not given, return a partial function that takes the path as argument.</span>
-<span class="sd">    That is, will make a &quot;path to url&quot; function for a given repo and branch.</span>
+<span class="sd">    That is, will make a "path to url" function for a given repo and branch.</span>
 
-<span class="sd">    &gt;&gt;&gt; get_url = raw_github_url(repo_stub=&#39;thorwhalen/content&#39;, branch=&#39;master&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; get_url(&#39;tables/csv/named_urls.csv&#39;)</span>
-<span class="sd">    &#39;https://raw.githubusercontent.com/thorwhalen/content/master/tables/csv/named_urls.csv&#39;</span>
+<span class="sd">    &gt;&gt;&gt; get_url = raw_github_url(repo_stub='thorwhalen/content', branch='master')</span>
+<span class="sd">    &gt;&gt;&gt; get_url('tables/csv/named_urls.csv')</span>
+<span class="sd">    'https://raw.githubusercontent.com/thorwhalen/content/master/tables/csv/named_urls.csv'</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">raw_github_url</span><span class="p">,</span> <span class="n">repo_stub</span><span class="o">=</span><span class="n">repo_stub</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">branch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">repo_stub</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">branch</span> <span class="o">=</span> <span class="n">repo_stub</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">repo_stub</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">))</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">branch</span> <span class="o">=</span> <span class="n">repo_stub</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">branch</span> <span class="o">=</span> <span class="n">DFLT_GITHUB_BRANCH</span>
 
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url_prefix</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">repo_stub</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">branch</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span></div>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">url_prefix</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">repo_stub</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">branch</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span></div>
 
 
 
@@ -155,13 +154,13 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_content_bytes</span><span class="p">(</span>
     <span class="n">key</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">cache_locally</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">content_url</span><span class="o">=</span><span class="n">raw_github_url</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get bytes of content from `thorwhalen/content`, automatically caching locally.</span>
+<span class="w">    </span><span class="sd">"""Get bytes of content from `thorwhalen/content`, automatically caching locally.</span>
 
 <span class="sd">    ```</span>
 <span class="sd">    # add max_age=1e-6 if you want to update the data with the remote data</span>
-<span class="sd">    b = get_content_bytes(&#39;tables/csv/projects.csv&#39;, max_age=None)</span>
+<span class="sd">    b = get_content_bytes('tables/csv/projects.csv', max_age=None)</span>
 <span class="sd">    ```</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">url</span> <span class="o">=</span> <span class="n">content_url</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">cache_locally</span><span class="p">:</span>
@@ -170,9 +169,9 @@
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cache_locally</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">rootdir</span> <span class="o">=</span> <span class="n">cache_locally</span>
-            <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span>
-                <span class="n">rootdir</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;cache_locally: </span><span class="si">{</span><span class="n">rootdir</span><span class="si">}</span><span class="s2"> is not a directory&quot;</span>
+            <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">rootdir</span><span class="p">),</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"cache_locally: </span><span class="si">{</span><span class="n">rootdir</span><span class="si">}</span><span class="s2"> is not a directory"</span>
+            <span class="p">)</span>
             <span class="k">return</span> <span class="n">graze</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">rootdir</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="n">max_age</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">graze</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="n">max_age</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -193,7 +192,7 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">tabled</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_table</span>
 
     <span class="n">bytes_</span> <span class="o">=</span> <span class="n">get_content_bytes</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="n">max_age</span><span class="p">,</span> <span class="n">content_url</span><span class="o">=</span><span class="n">content_url</span><span class="p">)</span>
-    <span class="n">ext</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">key</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">ext</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="s2">"."</span> <span class="ow">in</span> <span class="n">key</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="n">get_table</span><span class="p">(</span><span class="n">bytes_</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">ext</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_decoder_kwargs</span><span class="p">)</span>
 
 
@@ -201,10 +200,10 @@
 <span class="c1"># Track Analysis</span>
 
 <span class="n">_standard</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;duration_ms&quot;</span><span class="p">:</span> <span class="s2">&quot;duration_ms&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;popularity&quot;</span><span class="p">:</span> <span class="s2">&quot;popularity&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;explicit&quot;</span><span class="p">:</span> <span class="s2">&quot;explicit&quot;</span><span class="p">,</span>
+    <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"name"</span><span class="p">,</span>
+    <span class="s2">"duration_ms"</span><span class="p">:</span> <span class="s2">"duration_ms"</span><span class="p">,</span>
+    <span class="s2">"popularity"</span><span class="p">:</span> <span class="s2">"popularity"</span><span class="p">,</span>
+    <span class="s2">"explicit"</span><span class="p">:</span> <span class="s2">"explicit"</span><span class="p">,</span>
 <span class="p">}</span>
 <span class="n">standard_meta_data_extractions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="o">**</span><span class="n">_standard</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_track_metadata_extractions</span><span class="p">)</span>
 <span class="n">standard_extraction</span> <span class="o">=</span> <span class="n">extractor</span><span class="p">(</span><span class="n">standard_meta_data_extractions</span><span class="p">)</span>
@@ -224,7 +223,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">playlist_id</span> <span class="o">=</span> <span class="n">ensure_playlist_id</span><span class="p">(</span><span class="n">playlist</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">playlist_id</span> <span class="o">=</span> <span class="n">playlist_id</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">playlist_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://open.spotify.com/playlist/</span><span class="si">{</span><span class="n">playlist_id</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">playlist_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://open.spotify.com/playlist/</span><span class="si">{</span><span class="n">playlist_id</span><span class="si">}</span><span class="s2">"</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">playlist</span> <span class="o">=</span> <span class="n">wrap_kvs</span><span class="p">(</span>
                     <span class="n">PlaylistReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">playlist_url</span><span class="p">),</span>
                     <span class="n">value_decoder</span><span class="o">=</span><span class="n">standard_extraction</span><span class="p">,</span>
@@ -237,203 +236,203 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_reorder_and_sort_dataframe</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_process_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process the dataframe to extract and compute necessary columns.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Process the dataframe to extract and compute necessary columns."""</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
-        <span class="c1"># df[&#39;first_artist&#39;] = df[&#39;artists&#39;].apply(lambda x: x[0][&#39;name&#39;] if x else None)</span>
-        <span class="c1"># df[&#39;album_name&#39;] = df[&#39;album&#39;].apply(</span>
-        <span class="c1">#     lambda x: x.get(&#39;name&#39;, None) if x else None</span>
+        <span class="c1"># df['first_artist'] = df['artists'].apply(lambda x: x[0]['name'] if x else None)</span>
+        <span class="c1"># df['album_name'] = df['album'].apply(</span>
+        <span class="c1">#     lambda x: x.get('name', None) if x else None</span>
         <span class="c1"># )</span>
-        <span class="c1"># df[&#39;url&#39;] = df[&#39;external_urls&#39;].apply(</span>
-        <span class="c1">#     lambda x: x.get(&#39;spotify&#39;, None) if x else None</span>
+        <span class="c1"># df['url'] = df['external_urls'].apply(</span>
+        <span class="c1">#     lambda x: x.get('spotify', None) if x else None</span>
         <span class="c1"># )</span>
-        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;first_letter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-        <span class="c1"># df[&#39;album_release_date&#39;] = df[&#39;album&#39;].apply(</span>
-        <span class="c1">#     lambda x: x.get(&#39;release_date&#39;, None) if x else None</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"first_letter"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="c1"># df['album_release_date'] = df['album'].apply(</span>
+        <span class="c1">#     lambda x: x.get('release_date', None) if x else None</span>
         <span class="c1"># )</span>
-        <span class="c1"># df[&#39;album_release_date&#39;] = df[&#39;album_release_date&#39;].apply(convert_date)</span>
-        <span class="c1"># df[&#39;album_release_year&#39;] = df[&#39;album_release_date&#39;].str[:4].astype(int)</span>
+        <span class="c1"># df['album_release_date'] = df['album_release_date'].apply(convert_date)</span>
+        <span class="c1"># df['album_release_year'] = df['album_release_date'].str[:4].astype(int)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_add_added_at_dates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add the &#39;added_at&#39; date for each track in the playlist.&quot;&quot;&quot;</span>
-        <span class="n">sp</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">(</span><span class="n">ensure_scope</span><span class="o">=</span><span class="s2">&quot;playlist-read-private&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Add the 'added_at' date for each track in the playlist."""</span>
+        <span class="n">sp</span> <span class="o">=</span> <span class="n">get_spotify_client</span><span class="p">(</span><span class="n">ensure_scope</span><span class="o">=</span><span class="s2">"playlist-read-private"</span><span class="p">)</span>
         <span class="n">playlist_tracks</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">limit</span> <span class="o">=</span> <span class="mi">100</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">playlist_tracks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">playlist_id</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
-            <span class="n">playlist_tracks</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;items&quot;</span><span class="p">])</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;items&quot;</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">:</span>
+            <span class="n">playlist_tracks</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">"items"</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">"items"</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">:</span>
                 <span class="k">break</span>
             <span class="n">offset</span> <span class="o">+=</span> <span class="n">limit</span>
 
         <span class="n">added_at_data</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">{</span><span class="s2">&quot;added_at_datetime&quot;</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;added_at&quot;</span><span class="p">],</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;track&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+            <span class="p">{</span><span class="s2">"added_at_datetime"</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="s2">"added_at"</span><span class="p">],</span> <span class="s2">"id"</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="s2">"track"</span><span class="p">][</span><span class="s2">"id"</span><span class="p">]}</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">playlist_tracks</span>
         <span class="p">]</span>
         <span class="n">added_at_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">added_at_data</span><span class="p">)</span>
-        <span class="n">added_at_df</span><span class="p">[</span><span class="s2">&quot;added_at_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">added_at_df</span><span class="p">[</span><span class="s2">&quot;added_at_datetime&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+        <span class="n">added_at_df</span><span class="p">[</span><span class="s2">"added_at_date"</span><span class="p">]</span> <span class="o">=</span> <span class="n">added_at_df</span><span class="p">[</span><span class="s2">"added_at_datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
 
         <span class="c1"># Merge with the main dataframe</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">added_at_df</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">added_at_df</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_reorder_and_sort_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reorder columns and sort the dataframe by &#39;added_at_date&#39;.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Reorder columns and sort the dataframe by 'added_at_date'."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">move_columns_to_front</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">front_columns_for_track_metas</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;added_at_date&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"added_at_date"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of all track names.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">"""List of all track names."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">number_of_songs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Total number of songs in the playlist.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Total number of songs in the playlist."""</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">unique_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set of unique track names.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Set of unique track names."""</span>
         <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">number_of_unique_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of unique track names.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Number of unique track names."""</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_names</span><span class="p">)</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">name_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Counter of track names.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Counter of track names."""</span>
         <span class="k">return</span> <span class="n">Counter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">duplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dictionary of duplicate track names and their counts.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Dictionary of duplicate track names and their counts."""</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">count</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">print_duplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print duplicate track names and their counts.&quot;&quot;&quot;</span>
-        <span class="n">duplicates_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duplicates</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;count&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">### Duplicates&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Print duplicate track names and their counts."""</span>
+        <span class="n">duplicates_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duplicates</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"count"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">### Duplicates"</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">duplicates_series</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">())</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">most_popular_songs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the top &#39;n&#39; most popular songs.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the top 'n' most popular songs."""</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
-        <span class="n">top_n</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;popularity&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">top_n</span><span class="p">[[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;first_artist&quot;</span><span class="p">,</span> <span class="s2">&quot;popularity&quot;</span><span class="p">]]</span>
+        <span class="n">top_n</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"popularity"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">top_n</span><span class="p">[[</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"first_artist"</span><span class="p">,</span> <span class="s2">"popularity"</span><span class="p">]]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">print_most_popular_songs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print the top &#39;n&#39; most popular songs.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Print the top 'n' most popular songs."""</span>
         <span class="n">top_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">most_popular_songs</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">top_n</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">artist_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Series of artist counts.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;first_artist&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="w">        </span><span class="sd">"""Series of artist counts."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">"first_artist"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">print_top_artists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print the top &#39;n&#39; artists by song count.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Print the top 'n' artists by song count."""</span>
         <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">artist_counts</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">())</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">songs_by_release_year</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dataframe grouping songs by their release year.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Dataframe grouping songs by their release year."""</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;name_and_artist&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; -- &quot;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;first_artist&quot;</span><span class="p">]</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"name_and_artist"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">+</span> <span class="s2">" -- "</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s2">"first_artist"</span><span class="p">]</span>
         <span class="n">grouped</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;album_release_year&quot;</span><span class="p">)[</span><span class="s2">&quot;name_and_artist&quot;</span><span class="p">]</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"album_release_year"</span><span class="p">)[</span><span class="s2">"name_and_artist"</span><span class="p">]</span>
             <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
             <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
         <span class="p">)</span>
-        <span class="n">grouped</span><span class="p">[</span><span class="s2">&quot;number_of_songs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="s2">&quot;name_and_artist&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
-        <span class="n">grouped</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;album_release_year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span>
-            <span class="s2">&quot;album_release_year&quot;</span>
+        <span class="n">grouped</span><span class="p">[</span><span class="s2">"number_of_songs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="s2">"name_and_artist"</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
+        <span class="n">grouped</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"album_release_year"</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span>
+            <span class="s2">"album_release_year"</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">grouped</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_songs_per_year</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the number of songs per release year.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Plot the number of songs per release year."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">oplot</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_bar_plot</span>  <span class="c1"># pip install oplot  # noqa</span>
 
         <span class="n">grouped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">songs_by_release_year</span>
-        <span class="n">song_counts</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="s2">&quot;number_of_songs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="n">song_counts</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="s2">"number_of_songs"</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
         <span class="n">annotations</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">year</span><span class="p">:</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">grouped</span><span class="p">[</span><span class="s2">&quot;name_and_artist&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">grouped</span><span class="p">[</span><span class="s2">"name_and_artist"</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">}</span>
         <span class="n">dict_bar_plot</span><span class="p">(</span>
             <span class="n">song_counts</span><span class="p">,</span>
             <span class="n">annotations</span><span class="o">=</span><span class="n">annotations</span><span class="p">,</span>
             <span class="n">annotations_cutoff_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Number of Songs per Year&quot;</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">"Number of Songs per Year"</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">dates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dataframe containing &#39;album_release_date&#39; and &#39;added_at_date&#39;.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Dataframe containing 'album_release_date' and 'added_at_date'."""</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span>
             <span class="p">[</span>
-                <span class="s2">&quot;album_release_date&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;added_at_date&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;name&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;first_artist&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;album_release_year&quot;</span><span class="p">,</span>
+                <span class="s2">"album_release_date"</span><span class="p">,</span>
+                <span class="s2">"added_at_date"</span><span class="p">,</span>
+                <span class="s2">"name"</span><span class="p">,</span>
+                <span class="s2">"first_artist"</span><span class="p">,</span>
+                <span class="s2">"album_release_year"</span><span class="p">,</span>
             <span class="p">]</span>
         <span class="p">]</span>
-        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;name_and_artist&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; -- &quot;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;first_artist&quot;</span><span class="p">]</span>
-        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;album_release_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;album_release_date&quot;</span><span class="p">])</span>
-        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;added_at_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;added_at_date&quot;</span><span class="p">])</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"name_and_artist"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">+</span> <span class="s2">" -- "</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s2">"first_artist"</span><span class="p">]</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"album_release_date"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"album_release_date"</span><span class="p">])</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"added_at_date"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"added_at_date"</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">df</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">tracks_grouped_by_year</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;album_release_year&quot;</span><span class="p">)[</span><span class="s2">&quot;name_and_artist&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"album_release_year"</span><span class="p">)[</span><span class="s2">"name_and_artist"</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="n">g</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="c1"># grouped[&#39;name_and_artist&#39;] = grouped[&#39;name_and_artist&#39;].apply(lambda x: &quot;\n&quot;.join(x))</span>
-        <span class="n">g</span><span class="p">[</span><span class="s2">&quot;number_of_songs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s2">&quot;name_and_artist&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
-        <span class="n">g</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;album_release_year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;album_release_year&quot;</span><span class="p">)</span>
+        <span class="c1"># grouped['name_and_artist'] = grouped['name_and_artist'].apply(lambda x: "\n".join(x))</span>
+        <span class="n">g</span><span class="p">[</span><span class="s2">"number_of_songs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s2">"name_and_artist"</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"album_release_year"</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"album_release_year"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">g</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_added_vs_release_dates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot &#39;added_at_date&#39; versus &#39;album_release_date&#39;.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Plot 'added_at_date' versus 'album_release_date'."""</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>  <span class="c1"># pip install seaborn  # noqa</span>
 
         <span class="n">dates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dates</span>
-        <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
-        <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;added_at_date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;album_release_date&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"whitegrid"</span><span class="p">)</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"added_at_date"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"album_release_date"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_added_vs_release_kde</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot a KDE of &#39;added_at_date&#39; versus &#39;album_release_date&#39;.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Plot a KDE of 'added_at_date' versus 'album_release_date'."""</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>  <span class="c1"># pip install seaborn  # noqa</span>
 
         <span class="n">dates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dates</span>
         <span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span>
-            <span class="n">x</span><span class="o">=</span><span class="s2">&quot;added_at_date&quot;</span><span class="p">,</span>
-            <span class="n">y</span><span class="o">=</span><span class="s2">&quot;album_release_date&quot;</span><span class="p">,</span>
-            <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span>
+            <span class="n">x</span><span class="o">=</span><span class="s2">"added_at_date"</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="s2">"album_release_date"</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="s2">"viridis"</span><span class="p">,</span>
             <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">bw_adjust</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_added_vs_release_kde_boundary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot a KDE with a boundary condition where &#39;album_release_date&#39; &lt;= &#39;added_at_date&#39;.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Plot a KDE with a boundary condition where 'album_release_date' &lt;= 'added_at_date'."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">oplot</span><span class="w"> </span><span class="kn">import</span> <span class="n">kdeplot_w_boundary_condition</span>  <span class="c1"># pip install oplot  # noqa</span>
 
         <span class="n">dates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dates</span>
         <span class="n">kdeplot_w_boundary_condition</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span>
-            <span class="n">x</span><span class="o">=</span><span class="s2">&quot;added_at_date&quot;</span><span class="p">,</span>
-            <span class="n">y</span><span class="o">=</span><span class="s2">&quot;album_release_date&quot;</span><span class="p">,</span>
-            <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span>
+            <span class="n">x</span><span class="o">=</span><span class="s2">"added_at_date"</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="s2">"album_release_date"</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="s2">"viridis"</span><span class="p">,</span>
             <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">bw_adjust</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
             <span class="n">boundary_condition</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">,</span>
@@ -441,7 +440,7 @@
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">first_letter_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dictionary of counts of track names by their first letter.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Dictionary of counts of track names by their first letter."""</span>
         <span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span>
         <span class="n">name_groups</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
@@ -449,27 +448,27 @@
         <span class="n">letter_counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">letter</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="k">for</span> <span class="n">letter</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">name_groups</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="k">return</span> <span class="n">letter_counts</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_first_letter_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sort_by</span><span class="o">=</span><span class="s2">&quot;lexicographical&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the distribution of first letters in track names.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_first_letter_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sort_by</span><span class="o">=</span><span class="s2">"lexicographical"</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Plot the distribution of first letters in track names."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">oplot</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_bar_plot</span>  <span class="c1"># pip install oplot  # noqa</span>
 
         <span class="n">letter_counts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_letter_counts</span>
-        <span class="k">if</span> <span class="n">sort_by</span> <span class="o">==</span> <span class="s2">&quot;lexicographical&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sort_by</span> <span class="o">==</span> <span class="s2">"lexicographical"</span><span class="p">:</span>
             <span class="n">sorted_counts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">letter_counts</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;First Letter Distribution (Lexicographical Order)&quot;</span>
-        <span class="k">elif</span> <span class="n">sort_by</span> <span class="o">==</span> <span class="s2">&quot;count&quot;</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s2">"First Letter Distribution (Lexicographical Order)"</span>
+        <span class="k">elif</span> <span class="n">sort_by</span> <span class="o">==</span> <span class="s2">"count"</span><span class="p">:</span>
             <span class="n">sorted_counts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
                 <span class="nb">sorted</span><span class="p">(</span><span class="n">letter_counts</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="p">)</span>
-            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;First Letter Distribution (Sorted by Count)&quot;</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s2">"First Letter Distribution (Sorted by Count)"</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">sorted_counts</span> <span class="o">=</span> <span class="n">letter_counts</span>
-            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;First Letter Distribution&quot;</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s2">"First Letter Distribution"</span>
 
         <span class="n">dict_bar_plot</span><span class="p">(</span><span class="n">sorted_counts</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_top_names_by_letter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get up to &#39;n&#39; top tracks for each starting letter, sorted by popularity.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get up to 'n' top tracks for each starting letter, sorted by popularity."""</span>
         <span class="n">name_groups</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
             <span class="n">name_groups</span><span class="p">[</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -477,35 +476,35 @@
         <span class="n">top_names</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">letter</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">name_groups</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">names</span><span class="p">:</span>
-                <span class="n">top_tracks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">names</span><span class="p">)]</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span>
-                    <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;popularity&quot;</span>
+                <span class="n">top_tracks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">names</span><span class="p">)]</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span>
+                    <span class="n">n</span><span class="p">,</span> <span class="s2">"popularity"</span>
                 <span class="p">)</span>
-                <span class="n">top_names</span><span class="p">[</span><span class="n">letter</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_tracks</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                <span class="n">top_names</span><span class="p">[</span><span class="n">letter</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_tracks</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">top_names</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">print_top_names_by_letter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print up to &#39;n&#39; top tracks for each starting letter.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Print up to 'n' top tracks for each starting letter."""</span>
         <span class="n">top_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_top_names_by_letter</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">letter</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">top_names</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">letter</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span><span class="si">}</span><span class="s2"> tracks):&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">letter</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span><span class="si">}</span><span class="s2"> tracks):"</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
-                <span class="n">popularity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">][</span><span class="s2">&quot;popularity&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - (</span><span class="si">{</span><span class="n">popularity</span><span class="si">}</span><span class="s2">) </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">popularity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">][</span><span class="s2">"popularity"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - (</span><span class="si">{</span><span class="n">popularity</span><span class="si">}</span><span class="s2">) </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_features_histogram</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">feature</span><span class="p">:</span> <span class="n">SpotifyFeaturesT</span> <span class="o">=</span> <span class="s2">&quot;popularity&quot;</span><span class="p">,</span>
+        <span class="n">feature</span><span class="p">:</span> <span class="n">SpotifyFeaturesT</span> <span class="o">=</span> <span class="s2">"popularity"</span><span class="p">,</span>
         <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
         <span class="n">xlim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the histogram of a given audio feature.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Plot the histogram of a given audio feature."""</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
         <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">playlist</span><span class="o">.</span><span class="n">numerical_features_df</span><span class="p">[</span><span class="n">feature</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Count&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Count"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">xlim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">*</span><span class="n">xlim</span><span class="p">)</span>
@@ -514,17 +513,17 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_features_scatter</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">x</span><span class="p">:</span> <span class="n">SpotifyFeaturesT</span> <span class="o">=</span> <span class="s2">&quot;danceability&quot;</span><span class="p">,</span>
-        <span class="n">y</span><span class="p">:</span> <span class="n">SpotifyFeaturesT</span> <span class="o">=</span> <span class="s2">&quot;energy&quot;</span><span class="p">,</span>
-        <span class="n">hue</span><span class="p">:</span> <span class="n">SpotifyFeaturesT</span> <span class="o">=</span> <span class="s2">&quot;loudness&quot;</span><span class="p">,</span>
-        <span class="n">size</span><span class="p">:</span> <span class="n">SpotifyFeaturesT</span> <span class="o">=</span> <span class="s2">&quot;popularity&quot;</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">SpotifyFeaturesT</span> <span class="o">=</span> <span class="s2">"danceability"</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">SpotifyFeaturesT</span> <span class="o">=</span> <span class="s2">"energy"</span><span class="p">,</span>
+        <span class="n">hue</span><span class="p">:</span> <span class="n">SpotifyFeaturesT</span> <span class="o">=</span> <span class="s2">"loudness"</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">:</span> <span class="n">SpotifyFeaturesT</span> <span class="o">=</span> <span class="s2">"popularity"</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">xlim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">annotation_field</span><span class="p">:</span> <span class="n">SpotifyFeaturesT</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">scatterplot_kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the audio features dataframe.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the audio features dataframe."""</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
@@ -538,7 +537,7 @@
         <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="n">hue</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="o">**</span><span class="n">scatterplot_kwargs</span><span class="p">)</span>
 
         <span class="c1"># Move the legend outside the plot</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"upper left"</span><span class="p">)</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">sung.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">spotify_audio_features_fields_with_0_to_1_range</span>
 
@@ -560,16 +559,16 @@
                 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="n">annotation_field</span><span class="p">])</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_dataframe_distributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">n_columns</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plots the distributions of all columns in the given DataFrame as histograms.</span>
 
 <span class="sd">        Parameters:</span>
-<span class="sd">            df (pd.DataFrame): The DataFrame whose columns&#39; distributions are to be plotted.</span>
+<span class="sd">            df (pd.DataFrame): The DataFrame whose columns' distributions are to be plotted.</span>
 <span class="sd">            n_columns (int): Number of columns in the grid layout for the plots (default is 4).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            plt.Figure: The matplotlib figure containing the histograms.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 
@@ -589,8 +588,8 @@
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
             <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span> <span class="n">kde</span><span class="o">=</span><span class="n">kde</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
             <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
-            <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Value&quot;</span><span class="p">)</span>
-            <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Value"</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Frequency"</span><span class="p">)</span>
 
         <span class="c1"># Hide unused axes if any</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cols</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">)):</span>
@@ -602,7 +601,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">features</span><span class="o">=</span><span class="n">spotify_features_field_names</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the audio features pairplot.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the audio features pairplot."""</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 
         <span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">playlist</span><span class="o">.</span><span class="n">numerical_features_df</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">features</span><span class="p">)])</span>
@@ -615,7 +614,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

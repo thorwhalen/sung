@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sung.chords_and_lyrics &mdash; sung 0.0.23 documentation</title>
+  <title>sung.chords_and_lyrics &mdash; sung 0.0.24 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,9 +14,9 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=3294188c"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/documentation_options.js?v=f91d8841"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=f281be69"></script>
@@ -80,29 +80,29 @@
            <div itemprop="articleBody">
              
   <h1>Source code for sung.chords_and_lyrics</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Tools for chords and lyrics acquisition and processing.</span>
 
 <span class="sd">Example usage:</span>
 
-<span class="sd">&gt;&gt;&gt; raw = open(&#39;song.txt&#39;).read()  # doctest: +SKIP</span>
-<span class="sd">&gt;&gt;&gt; render_chords_and_lyrics(raw, to=&#39;pdf&#39;, output_path=&#39;out.pdf&#39;, lyrics_font={&#39;size&#39;:14})  # doctest: +SKIP</span>
-<span class="sd">&gt;&gt;&gt; txt = render_chords_and_lyrics(raw, to=&#39;text&#39;)  # doctest: +SKIP</span>
+<span class="sd">&gt;&gt;&gt; raw = open('song.txt').read()  # doctest: +SKIP</span>
+<span class="sd">&gt;&gt;&gt; render_chords_and_lyrics(raw, to='pdf', output_path='out.pdf', lyrics_font={'size':14})  # doctest: +SKIP</span>
+<span class="sd">&gt;&gt;&gt; txt = render_chords_and_lyrics(raw, to='text')  # doctest: +SKIP</span>
 
 <span class="sd">New features:</span>
 
 <span class="sd">Filter out non-lyrics content:</span>
-<span class="sd">&gt;&gt;&gt; clean_txt = render_chords_and_lyrics(raw, to=&#39;text&#39;, filter_non_lyrics=True)  # doctest: +SKIP</span>
+<span class="sd">&gt;&gt;&gt; clean_txt = render_chords_and_lyrics(raw, to='text', filter_non_lyrics=True)  # doctest: +SKIP</span>
 <span class="sd">&gt;&gt;&gt; clean_txt = remove_non_lyrics(raw)  # doctest: +SKIP</span>
 
 <span class="sd">Pack lines for better space usage (not sure this works as intended):</span>
-<span class="sd">&gt;&gt;&gt; packed_txt = render_chords_and_lyrics(raw, to=&#39;text&#39;, pack_lines=True, max_line_length=80)  # doctest: +SKIP</span>
+<span class="sd">&gt;&gt;&gt; packed_txt = render_chords_and_lyrics(raw, to='text', pack_lines=True, max_line_length=80)  # doctest: +SKIP</span>
 <span class="sd">&gt;&gt;&gt; packed_txt = pack_song_text(raw, max_length=80)  # doctest: +SKIP</span>
 
 <span class="sd">Combine both features:</span>
-<span class="sd">&gt;&gt;&gt; optimized = render_chords_and_lyrics(raw, to=&#39;text&#39;, filter_non_lyrics=True, pack_lines=True)  # doctest: +SKIP</span>
+<span class="sd">&gt;&gt;&gt; optimized = render_chords_and_lyrics(raw, to='text', filter_non_lyrics=True, pack_lines=True)  # doctest: +SKIP</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
 
@@ -113,21 +113,21 @@
     <span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">haggle</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_kaggle_dataset</span>
 
-    <span class="n">data</span> <span class="o">=</span> <span class="n">get_kaggle_dataset</span><span class="p">(</span><span class="s2">&quot;eitanbentora/chords-and-lyrics-dataset&quot;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get_kaggle_dataset</span><span class="p">(</span><span class="s2">"eitanbentora/chords-and-lyrics-dataset"</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;chords_and_lyrics.csv&quot;</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">"chords_and_lyrics.csv"</span><span class="p">]))</span>
 
 
 <div class="viewcode-block" id="search_songs">
 <a class="viewcode-back" href="../../module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.search_songs">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">search_songs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lyrics</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">artist</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Search for a song by title, lyrics, or artist.&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search_songs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lyrics</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">artist</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Search for a song by title, lyrics, or artist."""</span>
     <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">get_lyrics_and_chords_dataset</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span>
-        <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;song_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-        <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;chords&amp;lyrics&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">lyrics</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-        <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;artist_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">"song_name"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">"chords&amp;lyrics"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">lyrics</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">"artist_name"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
     <span class="p">]</span>
     <span class="k">return</span> <span class="n">results</span></div>
 
@@ -141,13 +141,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
 
 <span class="c1"># Default font specifications</span>
-<span class="n">default_lyrics_font</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Courier&quot;</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
-<span class="n">default_chords_font</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Courier-Bold&quot;</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="n">default_lyrics_font</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Courier"</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">,</span> <span class="s2">"alpha"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="n">default_chords_font</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Courier-Bold"</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">,</span> <span class="s2">"alpha"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 <span class="n">default_title_font</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Helvetica-Bold&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
-    <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Helvetica-Bold"</span><span class="p">,</span>
+    <span class="s2">"size"</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">,</span>
+    <span class="s2">"alpha"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">}</span>
 
 
@@ -157,7 +157,7 @@
     <span class="n">col_str</span> <span class="o">=</span> <span class="n">col_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">col_str</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">col_str</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^#([0-9A-Fa-f]</span><span class="si">{6}</span><span class="s2">)$&quot;</span><span class="p">,</span> <span class="n">col_str</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^#([0-9A-Fa-f]</span><span class="si">{6}</span><span class="s2">)$"</span><span class="p">,</span> <span class="n">col_str</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">colors</span><span class="o">.</span><span class="n">HexColor</span><span class="p">(</span><span class="n">col_str</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">colors</span><span class="o">.</span><span class="n">black</span>
 
@@ -179,21 +179,21 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">FontSpec</span><span class="p">(</span><span class="o">**</span><span class="n">merged</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid font spec: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid font spec: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">is_chord_line</span><span class="p">(</span><span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span> <span class="n">t</span><span class="p">]</span>
-    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[A-G][^\s]*$&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^[A-G][^\s]*$"</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="parse_chord_lyrics">
 <a class="viewcode-back" href="../../module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.parse_chord_lyrics">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_chord_lyrics</span><span class="p">(</span><span class="n">raw_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generator: parse fixed-width chords/lyrics and yield dicts with &#39;chords&#39; and &#39;lyrics&#39;.</span>
-<span class="sd">    Each &#39;chords&#39; is List of (chord_name, start_index).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Generator: parse fixed-width chords/lyrics and yield dicts with 'chords' and 'lyrics'.</span>
+<span class="sd">    Each 'chords' is List of (chord_name, start_index).</span>
+<span class="sd">    """</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="n">raw_text</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
@@ -205,11 +205,11 @@
         <span class="p">):</span>
             <span class="n">chord_line</span> <span class="o">=</span> <span class="n">line</span>
             <span class="n">lyric_line</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="n">chords</span> <span class="o">=</span> <span class="p">[(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(),</span> <span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">())</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\S+&quot;</span><span class="p">,</span> <span class="n">chord_line</span><span class="p">)]</span>
-            <span class="k">yield</span> <span class="p">{</span><span class="s2">&quot;chords&quot;</span><span class="p">:</span> <span class="n">chords</span><span class="p">,</span> <span class="s2">&quot;lyrics&quot;</span><span class="p">:</span> <span class="n">lyric_line</span><span class="p">}</span>
+            <span class="n">chords</span> <span class="o">=</span> <span class="p">[(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(),</span> <span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">())</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\S+"</span><span class="p">,</span> <span class="n">chord_line</span><span class="p">)]</span>
+            <span class="k">yield</span> <span class="p">{</span><span class="s2">"chords"</span><span class="p">:</span> <span class="n">chords</span><span class="p">,</span> <span class="s2">"lyrics"</span><span class="p">:</span> <span class="n">lyric_line</span><span class="p">}</span>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="p">{</span><span class="s2">&quot;chords&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;lyrics&quot;</span><span class="p">:</span> <span class="n">line</span><span class="p">}</span>
+            <span class="k">yield</span> <span class="p">{</span><span class="s2">"chords"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"lyrics"</span><span class="p">:</span> <span class="n">line</span><span class="p">}</span>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
 
@@ -217,10 +217,10 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">extract_title</span><span class="p">(</span><span class="n">raw_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">raw_text</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
         <span class="n">txt</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">txt</span> <span class="ow">or</span> <span class="n">txt</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_chord_line</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">txt</span> <span class="ow">or</span> <span class="n">txt</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"["</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_chord_line</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
             <span class="k">continue</span>
         <span class="k">return</span> <span class="n">txt</span>
-    <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">""</span>
 
 
 <div class="viewcode-block" id="ensure_parsed_song">
@@ -228,10 +228,10 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">ensure_parsed_song</span><span class="p">(</span>
     <span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    If song is a string, parse it and return (list_of_sections, raw_text).</span>
 <span class="sd">    If song is already iterable of dicts, return (list(song), None).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">song</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">parsed</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">parse_chord_lyrics</span><span class="p">(</span><span class="n">song</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">parsed</span><span class="p">,</span> <span class="n">song</span>
@@ -239,7 +239,7 @@
         <span class="n">parsed</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">song</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">parsed</span><span class="p">,</span> <span class="kc">None</span>
     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Song must be raw text or iterable of sections.&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Song must be raw text or iterable of sections."</span><span class="p">)</span></div>
 
 
 
@@ -250,7 +250,7 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">page_size</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="s2">&quot;A4&quot;</span><span class="p">,</span>
+    <span class="n">page_size</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="s2">"A4"</span><span class="p">,</span>
     <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">72</span><span class="p">,</span>
     <span class="n">lyrics_font</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">chords_font</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -259,9 +259,9 @@
     <span class="n">spacing_group</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">spacing_paragraph</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Render song to PDF with styling parameters. Accepts raw text or parsed song.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">reportlab.pdfgen</span><span class="w"> </span><span class="kn">import</span> <span class="n">canvas</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">reportlab.pdfbase</span><span class="w"> </span><span class="kn">import</span> <span class="n">pdfmetrics</span>
 
@@ -284,7 +284,7 @@
 
     <span class="n">c</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">pagesize</span><span class="o">=</span><span class="n">page_size</span><span class="p">)</span>
     <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">page_size</span>
-    <span class="n">char_width</span> <span class="o">=</span> <span class="n">pdfmetrics</span><span class="o">.</span><span class="n">stringWidth</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="n">lyr_fs</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">lyr_fs</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">char_width</span> <span class="o">=</span> <span class="n">pdfmetrics</span><span class="o">.</span><span class="n">stringWidth</span><span class="p">(</span><span class="s2">"M"</span><span class="p">,</span> <span class="n">lyr_fs</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">lyr_fs</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">height</span> <span class="o">-</span> <span class="n">margin</span>
 
     <span class="c1"># Title</span>
@@ -296,8 +296,8 @@
         <span class="n">y</span> <span class="o">-=</span> <span class="n">ttl_fs</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="mf">1.5</span>
 
     <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">song_data</span><span class="p">:</span>
-        <span class="n">chords</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">&quot;chords&quot;</span><span class="p">]</span>
-        <span class="n">lyrics</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">&quot;lyrics&quot;</span><span class="p">]</span>
+        <span class="n">chords</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">"chords"</span><span class="p">]</span>
+        <span class="n">lyrics</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">"lyrics"</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">margin</span> <span class="o">+</span> <span class="n">lyr_fs</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="mi">3</span><span class="p">:</span>
             <span class="n">c</span><span class="o">.</span><span class="n">showPage</span><span class="p">()</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">height</span> <span class="o">-</span> <span class="n">margin</span>
@@ -326,24 +326,24 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">render_chords_and_lyrics_to_text</span><span class="p">(</span>
     <span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Reconstruct fixed-width text from parsed song data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">song_data</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ensure_parsed_song</span><span class="p">(</span><span class="n">song</span><span class="p">)</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">song_data</span><span class="p">:</span>
-        <span class="n">chords</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">&quot;chords&quot;</span><span class="p">]</span>
-        <span class="n">lyrics</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">&quot;lyrics&quot;</span><span class="p">]</span>
+        <span class="n">chords</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">"chords"</span><span class="p">]</span>
+        <span class="n">lyrics</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">"lyrics"</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">chords</span><span class="p">:</span>
             <span class="c1"># Determine width</span>
             <span class="n">max_pos</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="k">for</span> <span class="n">ch</span><span class="p">,</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">chords</span><span class="p">)</span>
             <span class="n">width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_pos</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lyrics</span><span class="p">))</span>
-            <span class="n">chord_line</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">width</span><span class="p">)</span>
+            <span class="n">chord_line</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s2">" "</span> <span class="o">*</span> <span class="n">width</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">ch</span><span class="p">,</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">chords</span><span class="p">:</span>
                 <span class="n">chord_line</span><span class="p">[</span><span class="n">pos</span> <span class="p">:</span> <span class="n">pos</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">ch</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ch</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chord_line</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chord_line</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lyrics</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
 
 
 
@@ -351,7 +351,7 @@
 <a class="viewcode-back" href="../../module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">render_chords_and_lyrics</span><span class="p">(</span>
     <span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
-    <span class="n">to</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pdf&quot;</span><span class="p">,</span>
+    <span class="n">to</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"pdf"</span><span class="p">,</span>
     <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">apply_filter_non_lyrics</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">keep_metadata_lines</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -359,21 +359,21 @@
     <span class="n">max_line_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Aggregator: render to &#39;pdf&#39; or &#39;text&#39;.</span>
-<span class="sd">    - to=&#39;pdf&#39;: writes file to output_path (required).</span>
-<span class="sd">    - to=&#39;text&#39;: returns reconstructed text.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Aggregator: render to 'pdf' or 'text'.</span>
+<span class="sd">    - to='pdf': writes file to output_path (required).</span>
+<span class="sd">    - to='text': returns reconstructed text.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        song: Raw text or parsed song data</span>
-<span class="sd">        to: Output format (&#39;pdf&#39; or &#39;text&#39;)</span>
+<span class="sd">        to: Output format ('pdf' or 'text')</span>
 <span class="sd">        output_path: Path for PDF output (required for PDF)</span>
 <span class="sd">        apply_filter_non_lyrics: If True, filter out non-lyrics content</span>
 <span class="sd">        keep_metadata_lines: If True, keep metadata lines (like [Verse]) when filtering</span>
 <span class="sd">        pack_lines: If True, pack short lines together for better space usage</span>
 <span class="sd">        max_line_length: Maximum length for packed lines</span>
 <span class="sd">        **kwargs: Additional arguments passed to rendering functions</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Apply filters and transformations if requested</span>
     <span class="n">processed_song</span> <span class="o">=</span> <span class="n">song</span>
 
@@ -388,23 +388,23 @@
         <span class="p">)</span>
 
     <span class="n">fmt</span> <span class="o">=</span> <span class="n">to</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s2">&quot;pdf&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s2">"pdf"</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">output_path</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;output_path is required for PDF rendering&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"output_path is required for PDF rendering"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">render_chords_and_lyrics_to_pdf</span><span class="p">(</span>
             <span class="n">processed_song</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
-    <span class="k">elif</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;txt&quot;</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"text"</span><span class="p">,</span> <span class="s2">"txt"</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">render_chords_and_lyrics_to_text</span><span class="p">(</span><span class="n">processed_song</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown render format: </span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown render format: </span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="is_likely_lyrics">
 <a class="viewcode-back" href="../../module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.is_likely_lyrics">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_likely_lyrics</span><span class="p">(</span><span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">has_chords_before</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Determine if a line is likely to contain lyrics.</span>
 
 <span class="sd">    Args:</span>
@@ -413,7 +413,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        True if the line is likely lyrics, False otherwise</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
     <span class="c1"># Empty lines are kept (they might be intentional spacing)</span>
@@ -421,10 +421,10 @@
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="c1"># Lines starting with [ are typically metadata (like [Verse], [Chorus])</span>
-    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"["</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="c1"># If it&#39;s a chord line, it&#39;s not lyrics</span>
+    <span class="c1"># If it's a chord line, it's not lyrics</span>
     <span class="k">if</span> <span class="n">is_chord_line</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">False</span>
 
@@ -438,10 +438,10 @@
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="c1"># Lines with lots of dashes or equals might be separators</span>
-    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[-=_]{3,}$&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^[-=_]{3,}$"</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="c1"># Default to considering it lyrics if we&#39;re not sure</span>
+    <span class="c1"># Default to considering it lyrics if we're not sure</span>
     <span class="k">return</span> <span class="kc">True</span></div>
 
 
@@ -451,7 +451,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">filter_non_lyrics</span><span class="p">(</span>
     <span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">keep_metadata_lines</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Filter out non-lyrics content from a song.</span>
 
 <span class="sd">    Args:</span>
@@ -460,27 +460,33 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Filtered list of song sections</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">song_data</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ensure_parsed_song</span><span class="p">(</span><span class="n">song</span><span class="p">)</span>
     <span class="n">filtered</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">section</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">song_data</span><span class="p">):</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">&quot;lyrics&quot;</span><span class="p">]</span>
-        <span class="n">chords</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">&quot;chords&quot;</span><span class="p">]</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">"lyrics"</span><span class="p">]</span>
+        <span class="n">chords</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">"chords"</span><span class="p">]</span>
 
         <span class="c1"># Check if previous section had chords</span>
         <span class="n">has_chords_before</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">chords</span><span class="p">)</span>
 
-        <span class="c1"># If this section has chords, it&#39;s definitely part of the song</span>
+        <span class="c1"># If this section has chords, it's definitely part of the song</span>
         <span class="k">if</span> <span class="n">chords</span><span class="p">:</span>
             <span class="n">filtered</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="p">)</span>
             <span class="k">continue</span>
 
+        <span class="c1"># Metadata lines ("[Verse]", "[Chorus]", ...) are decided here, before</span>
+        <span class="c1"># the is_likely_lyrics gate. is_likely_lyrics rejects them outright, so</span>
+        <span class="c1"># a keep_metadata_lines branch placed after it was unreachable and the</span>
+        <span class="c1"># flag silently did nothing.</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"["</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">keep_metadata_lines</span><span class="p">:</span>
+                <span class="n">filtered</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="p">)</span>
+            <span class="k">continue</span>
+
         <span class="c1"># Check if this is likely lyrics</span>
         <span class="k">if</span> <span class="n">is_likely_lyrics</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">has_chords_before</span><span class="p">):</span>
-            <span class="c1"># Special case for metadata lines</span>
-            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">keep_metadata_lines</span><span class="p">:</span>
-                <span class="k">continue</span>
             <span class="n">filtered</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">filtered</span></div>
@@ -495,7 +501,7 @@
     <span class="n">max_line_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span>
     <span class="n">preserve_chord_alignment</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Pack multiple short lines together to make better use of horizontal space.</span>
 
 <span class="sd">    Args:</span>
@@ -505,35 +511,35 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List of song sections with packed lines</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">song_data</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ensure_parsed_song</span><span class="p">(</span><span class="n">song</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">song_data</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
 
     <span class="n">packed</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">current_packed_lyrics</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">current_packed_lyrics</span> <span class="o">=</span> <span class="s2">""</span>
     <span class="n">current_packed_chords</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">finalize_current_pack</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">current_packed_lyrics</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">or</span> <span class="n">current_packed_chords</span><span class="p">:</span>
             <span class="n">packed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;chords&quot;</span><span class="p">:</span> <span class="n">current_packed_chords</span><span class="p">,</span>
-                    <span class="s2">&quot;lyrics&quot;</span><span class="p">:</span> <span class="n">current_packed_lyrics</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(),</span>
+                    <span class="s2">"chords"</span><span class="p">:</span> <span class="n">current_packed_chords</span><span class="p">,</span>
+                    <span class="s2">"lyrics"</span><span class="p">:</span> <span class="n">current_packed_lyrics</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(),</span>
                 <span class="p">}</span>
             <span class="p">)</span>
 
     <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">song_data</span><span class="p">:</span>
-        <span class="n">chords</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">&quot;chords&quot;</span><span class="p">]</span>
-        <span class="n">lyrics</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">&quot;lyrics&quot;</span><span class="p">]</span>
+        <span class="n">chords</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">"chords"</span><span class="p">]</span>
+        <span class="n">lyrics</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s2">"lyrics"</span><span class="p">]</span>
 
         <span class="c1"># If this section has chords, we need to be more careful about packing</span>
         <span class="k">if</span> <span class="n">chords</span><span class="p">:</span>
             <span class="c1"># If we have something in the current pack, finalize it first</span>
             <span class="k">if</span> <span class="n">current_packed_lyrics</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">or</span> <span class="n">current_packed_chords</span><span class="p">:</span>
                 <span class="n">finalize_current_pack</span><span class="p">()</span>
-                <span class="n">current_packed_lyrics</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">current_packed_lyrics</span> <span class="o">=</span> <span class="s2">""</span>
                 <span class="n">current_packed_chords</span> <span class="o">=</span> <span class="p">[]</span>
 
             <span class="c1"># Add this section as-is (chord sections are typically already well-formatted)</span>
@@ -544,7 +550,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lyrics</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
             <span class="c1"># Empty line - finalize current pack and add empty line</span>
             <span class="n">finalize_current_pack</span><span class="p">()</span>
-            <span class="n">current_packed_lyrics</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">current_packed_lyrics</span> <span class="o">=</span> <span class="s2">""</span>
             <span class="n">current_packed_chords</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">packed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="p">)</span>
             <span class="k">continue</span>
@@ -552,12 +558,12 @@
         <span class="c1"># Check if we can add this line to the current pack</span>
         <span class="n">potential_line</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">current_packed_lyrics</span>
-            <span class="o">+</span> <span class="p">(</span><span class="s2">&quot; &quot;</span> <span class="k">if</span> <span class="n">current_packed_lyrics</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="o">+</span> <span class="p">(</span><span class="s2">" "</span> <span class="k">if</span> <span class="n">current_packed_lyrics</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">lyrics</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">potential_line</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_line_length</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">lyrics</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
-            <span class="s2">&quot;[&quot;</span>
+            <span class="s2">"["</span>
         <span class="p">):</span>
             <span class="c1"># Add to current pack</span>
             <span class="n">current_packed_lyrics</span> <span class="o">=</span> <span class="n">potential_line</span>
@@ -567,7 +573,7 @@
             <span class="n">current_packed_lyrics</span> <span class="o">=</span> <span class="n">lyrics</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="n">current_packed_chords</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="c1"># Don&#39;t forget the last pack</span>
+    <span class="c1"># Don't forget the last pack</span>
     <span class="n">finalize_current_pack</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">packed</span></div>
@@ -578,7 +584,7 @@
 <div class="viewcode-block" id="remove_non_lyrics">
 <a class="viewcode-back" href="../../module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.remove_non_lyrics">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">remove_non_lyrics</span><span class="p">(</span><span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">keep_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Convenience function to filter non-lyrics and return as text.</span>
 
 <span class="sd">    Args:</span>
@@ -587,7 +593,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Filtered song as text</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">filtered</span> <span class="o">=</span> <span class="n">filter_non_lyrics</span><span class="p">(</span><span class="n">song</span><span class="p">,</span> <span class="n">keep_metadata_lines</span><span class="o">=</span><span class="n">keep_metadata</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">render_chords_and_lyrics_to_text</span><span class="p">(</span><span class="n">filtered</span><span class="p">)</span></div>
 
@@ -596,7 +602,7 @@
 <div class="viewcode-block" id="pack_song_text">
 <a class="viewcode-back" href="../../module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.pack_song_text">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pack_song_text</span><span class="p">(</span><span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Convenience function to pack lines and return as text.</span>
 
 <span class="sd">    Args:</span>
@@ -605,7 +611,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Packed song as text</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">packed</span> <span class="o">=</span> <span class="n">pack_song_lines</span><span class="p">(</span><span class="n">song</span><span class="p">,</span> <span class="n">max_line_length</span><span class="o">=</span><span class="n">max_length</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">render_chords_and_lyrics_to_text</span><span class="p">(</span><span class="n">packed</span><span class="p">)</span></div>
 
@@ -614,15 +620,15 @@
 <div class="viewcode-block" id="resolve_page_size">
 <a class="viewcode-back" href="../../module_docs/sung/chords_and_lyrics.html#sung.chords_and_lyrics.resolve_page_size">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">resolve_page_size</span><span class="p">(</span><span class="n">page_size</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Resolve page size from string or return the object as-is.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        page_size: Either a string (like &quot;A4&quot;, &quot;LETTER&quot;, &quot;LEGAL&quot;) or a page size object</span>
+<span class="sd">        page_size: Either a string (like "A4", "LETTER", "LEGAL") or a page size object</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The appropriate page size object from reportlab</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">reportlab.lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pagesizes</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">page_size</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -632,20 +638,20 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Try common variations</span>
             <span class="n">size_map</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;A4&quot;</span><span class="p">:</span> <span class="n">pagesizes</span><span class="o">.</span><span class="n">A4</span><span class="p">,</span>
-                <span class="s2">&quot;LETTER&quot;</span><span class="p">:</span> <span class="n">pagesizes</span><span class="o">.</span><span class="n">LETTER</span><span class="p">,</span>
-                <span class="s2">&quot;LEGAL&quot;</span><span class="p">:</span> <span class="n">pagesizes</span><span class="o">.</span><span class="n">LEGAL</span><span class="p">,</span>
-                <span class="s2">&quot;A3&quot;</span><span class="p">:</span> <span class="n">pagesizes</span><span class="o">.</span><span class="n">A3</span><span class="p">,</span>
-                <span class="s2">&quot;A5&quot;</span><span class="p">:</span> <span class="n">pagesizes</span><span class="o">.</span><span class="n">A5</span><span class="p">,</span>
+                <span class="s2">"A4"</span><span class="p">:</span> <span class="n">pagesizes</span><span class="o">.</span><span class="n">A4</span><span class="p">,</span>
+                <span class="s2">"LETTER"</span><span class="p">:</span> <span class="n">pagesizes</span><span class="o">.</span><span class="n">LETTER</span><span class="p">,</span>
+                <span class="s2">"LEGAL"</span><span class="p">:</span> <span class="n">pagesizes</span><span class="o">.</span><span class="n">LEGAL</span><span class="p">,</span>
+                <span class="s2">"A3"</span><span class="p">:</span> <span class="n">pagesizes</span><span class="o">.</span><span class="n">A3</span><span class="p">,</span>
+                <span class="s2">"A5"</span><span class="p">:</span> <span class="n">pagesizes</span><span class="o">.</span><span class="n">A5</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="k">if</span> <span class="n">page_size_upper</span> <span class="ow">in</span> <span class="n">size_map</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">size_map</span><span class="p">[</span><span class="n">page_size_upper</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Unknown page size: </span><span class="si">{</span><span class="n">page_size</span><span class="si">}</span><span class="s2">. Available sizes: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">size_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Unknown page size: </span><span class="si">{</span><span class="n">page_size</span><span class="si">}</span><span class="s2">. Available sizes: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">size_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
 
-    <span class="c1"># If it&#39;s not a string, assume it&#39;s already a valid page size object</span>
+    <span class="c1"># If it's not a string, assume it's already a valid page size object</span>
     <span class="k">return</span> <span class="n">page_size</span></div>
 
 </pre></div>
@@ -657,7 +663,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

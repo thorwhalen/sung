@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sung.tools &mdash; sung 0.0.23 documentation</title>
+  <title>sung.tools &mdash; sung 0.0.24 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,9 +15,9 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=3294188c"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/documentation_options.js?v=f91d8841"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=f281be69"></script>
@@ -91,7 +91,7 @@
 <p>Tools using sung</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="sung.tools.get_content_bytes">
-<span class="sig-prename descclassname"><span class="pre">sung.tools.</span></span><span class="sig-name descname"><span class="pre">get_content_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_locally=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_url=&lt;function</span> <span class="pre">raw_github_url&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/tools.html#get_content_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.tools.get_content_bytes" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sung.tools.</span></span><span class="sig-name descname"><span class="pre">get_content_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_locally</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">raw_github_url&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/tools.html#get_content_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.tools.get_content_bytes" title="Link to this definition"></a></dt>
 <dd><p>Get bytes of content from <cite>thorwhalen/content</cite>, automatically caching locally.</p>
 <p><code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">#</span> <span class="pre">add</span> <span class="pre">max_age=1e-6</span> <span class="pre">if</span> <span class="pre">you</span> <span class="pre">want</span> <span class="pre">to</span> <span class="pre">update</span> <span class="pre">the</span> <span class="pre">data</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">remote</span> <span class="pre">data</span>
@@ -101,18 +101,18 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sung.tools.raw_github_url">
-<span class="sig-prename descclassname"><span class="pre">sung.tools.</span></span><span class="sig-name descname"><span class="pre">raw_github_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_stub</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'thorwhalen/sung_content'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://raw.githubusercontent.com'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/tools.html#raw_github_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.tools.raw_github_url" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sung.tools.</span></span><span class="sig-name descname"><span class="pre">raw_github_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_stub</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'thorwhalen/sung_content'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://raw.githubusercontent.com'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sung/tools.html#raw_github_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.tools.raw_github_url" title="Link to this definition"></a></dt>
 <dd><p>Return the raw github url for a given path in a given repo and branch.</p>
 <p>By default, the repo_stub is ‘thorwhalen/sung_content’ and the branch is ‘main’.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">raw_github_url</span><span class="p">(</span><span class="s1">&#39;parquet/greatest_500_songs.parquet&#39;</span><span class="p">)</span>
-<span class="go">&#39;https://raw.githubusercontent.com/thorwhalen/sung_content/main/parquet/greatest_500_songs.parquet&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">raw_github_url</span><span class="p">(</span><span class="s1">'parquet/greatest_500_songs.parquet'</span><span class="p">)</span>
+<span class="go">'https://raw.githubusercontent.com/thorwhalen/sung_content/main/parquet/greatest_500_songs.parquet'</span>
 </pre></div>
 </div>
 <p>If the path is not given, return a partial function that takes the path as argument.
 That is, will make a “path to url” function for a given repo and branch.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_url</span> <span class="o">=</span> <span class="n">raw_github_url</span><span class="p">(</span><span class="n">repo_stub</span><span class="o">=</span><span class="s1">&#39;thorwhalen/content&#39;</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="s1">&#39;master&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">get_url</span><span class="p">(</span><span class="s1">&#39;tables/csv/named_urls.csv&#39;</span><span class="p">)</span>
-<span class="go">&#39;https://raw.githubusercontent.com/thorwhalen/content/master/tables/csv/named_urls.csv&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_url</span> <span class="o">=</span> <span class="n">raw_github_url</span><span class="p">(</span><span class="n">repo_stub</span><span class="o">=</span><span class="s1">'thorwhalen/content'</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="s1">'master'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_url</span><span class="p">(</span><span class="s1">'tables/csv/named_urls.csv'</span><span class="p">)</span>
+<span class="go">'https://raw.githubusercontent.com/thorwhalen/content/master/tables/csv/named_urls.csv'</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -130,7 +130,7 @@ That is, will make a “path to url” function for a given repo and branch.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+    <p></p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

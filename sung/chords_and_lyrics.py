@@ -1,24 +1,64 @@
 """
 Tools for chords and lyrics acquisition and processing.
 
-Example usage:
+Example usage. The song is inlined rather than read from a file so that the
+``to='text'`` examples below run as real doctests instead of being skipped:
+an example that is never executed is free to drift away from the signature it
+claims to demonstrate.
 
->>> raw = open('song.txt').read()  # doctest: +SKIP
+>>> raw = '''[Verse 1]
+... C       G
+... Hello there my friend
+... Am      F
+... This is a line of lyrics
+... '''
+>>> print(render_chords_and_lyrics(raw, to='text'))
+[Verse 1]
+C       G
+Hello there my friend
+Am      F
+This is a line of lyrics
+
+The same call with ``to='pdf'`` writes a file instead of returning text:
+
 >>> render_chords_and_lyrics(raw, to='pdf', output_path='out.pdf', lyrics_font={'size':14})  # doctest: +SKIP
->>> txt = render_chords_and_lyrics(raw, to='text')  # doctest: +SKIP
 
 New features:
 
-Filter out non-lyrics content:
->>> clean_txt = render_chords_and_lyrics(raw, to='text', filter_non_lyrics=True)  # doctest: +SKIP
->>> clean_txt = remove_non_lyrics(raw)  # doctest: +SKIP
+Filter out non-lyrics content. The keyword is ``apply_filter_non_lyrics``;
+``filter_non_lyrics`` is the standalone function it delegates to, and passing
+*that* name as a keyword would land in ``**kwargs`` and be silently ignored.
+
+>>> print(render_chords_and_lyrics(raw, to='text', apply_filter_non_lyrics=True))
+C       G
+Hello there my friend
+Am      F
+This is a line of lyrics
+>>> print(remove_non_lyrics(raw))
+C       G
+Hello there my friend
+Am      F
+This is a line of lyrics
+
+Keep the section markers (``[Verse 1]`` and friends) while filtering:
+
+>>> print(render_chords_and_lyrics(
+...     raw, to='text', apply_filter_non_lyrics=True, keep_metadata_lines=True
+... ))
+[Verse 1]
+C       G
+Hello there my friend
+Am      F
+This is a line of lyrics
 
 Pack lines for better space usage (not sure this works as intended):
+
 >>> packed_txt = render_chords_and_lyrics(raw, to='text', pack_lines=True, max_line_length=80)  # doctest: +SKIP
 >>> packed_txt = pack_song_text(raw, max_length=80)  # doctest: +SKIP
 
 Combine both features:
->>> optimized = render_chords_and_lyrics(raw, to='text', filter_non_lyrics=True, pack_lines=True)  # doctest: +SKIP
+
+>>> optimized = render_chords_and_lyrics(raw, to='text', apply_filter_non_lyrics=True, pack_lines=True)  # doctest: +SKIP
 
 """
 

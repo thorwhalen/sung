@@ -38,17 +38,19 @@ render_chords_and_lyrics(raw_text, to="pdf", output_path="song.pdf")
 
 ### Filter Non-Lyrics Content
 
-Remove extraneous text that isn't part of the actual song:
+Remove extraneous text that isn't part of the actual song. The keyword is `apply_filter_non_lyrics` -- `filter_non_lyrics` is the standalone function it delegates to, and passing *that* name as a keyword is silently ignored:
 
 ```python
 from sung import remove_non_lyrics
 
 # Remove non-lyrics content (section headers, metadata, etc.)
-clean_lyrics = render_chords_and_lyrics(raw_text, to="text", filter_non_lyrics=True)
+clean_lyrics = render_chords_and_lyrics(
+    raw_text, to="text", apply_filter_non_lyrics=True
+)
 
 # Keep metadata lines like [Verse], [Chorus]
 clean_with_metadata = render_chords_and_lyrics(
-    raw_text, to="text", filter_non_lyrics=True, keep_metadata_lines=True
+    raw_text, to="text", apply_filter_non_lyrics=True, keep_metadata_lines=True
 )
 
 # Standalone function
@@ -78,7 +80,7 @@ Use both filtering and packing together:
 ```python
 # Clean and optimized output
 optimized = render_chords_and_lyrics(
-    raw_text, to="text", filter_non_lyrics=True, pack_lines=True, max_line_length=80
+    raw_text, to="text", apply_filter_non_lyrics=True, pack_lines=True, max_line_length=80
 )
 ```
 

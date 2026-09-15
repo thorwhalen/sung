@@ -6,8 +6,11 @@ parsing and text rendering are inverses: a chord chart round-trips through
 is what makes column-aligned chord positions trustworthy.
 """
 
+import sys
+
 import pytest
 
+from sung import chords_and_lyrics as cl
 from sung.chords_and_lyrics import (
     complete_font_spec,
     default_lyrics_font,
@@ -245,3 +248,68 @@ def test_resolve_page_size_passes_through_tuples():
 def test_resolve_page_size_rejects_unknown_names():
     with pytest.raises(ValueError, match="Unknown page size"):
         resolve_page_size("PAPYRUS")
+
+
+# ---------------------------------------------------------------------------
+# Corpus loading from a local zip (no Kaggle credentials)
+
+_CORPUS_CSV = (
+    "Unnamed: 0,artist_name,song_name,chords&lyrics\n"
+    '0,Nobody,Test Song,"C       G\nHello there my friend"\n'
+    '1,Someone,Other Song,"Am\nHow are you today"\n'
+)
+
+
+def _write_corpus_zip(path):
+    import zipfile
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(path, "w") as z:
+        z.writestr(cl.CHORDS_AND_LYRICS_CSV, _CORPUS_CSV)
+    return path
+
+
+@pytest.fixture
+def corpus_env(monkeypatch, tmp_path):
+    """No env var, an empty haggle root, a cold cache, and haggle unimportable."""
+    monkeypatch.delenv(cl.CHORDS_AND_LYRICS_ZIP_ENVVAR, raising=False)
+    monkeypatch.setenv("HAGGLE_ROOTDIR", str(tmp_path / "haggle"))
+    # A local zip must never reach haggle (which authenticates at import).
+    monkeypatch.setitem(sys.modules, "haggle", None)
+    cl._load_lyrics_and_chords_dataset.cache_clear()
+    yield tmp_path
+    cl._load_lyrics_and_chords_dataset.cache_clear()
+
+
+def test_dataset_loads_from_an_explicit_zip_path(corpus_env):
+    zip_path = _write_corpus_zip(corpus_env / "corpus.zip")
+    df = cl.get_lyrics_and_chords_dataset(zip_path=str(zip_path))
+    assert list(df["song_name"]) == ["Test Song", "Other Song"]
+    assert df["chords&lyrics"][0] == "C       G\nHello there my friend"
+
+
+def test_dataset_loads_only_the_requested_columns(corpus_env):
+    zip_path = _write_corpus_zip(corpus_env / "corpus.zip")
+    df = cl.get_lyrics_and_chords_dataset(
+        zip_path=str(zip_path), usecols=["artist_name", "song_name"]
+    )
+    assert sorted(df.columns) == ["artist_name", "song_name"]
+
+
+def test_env_var_names_the_local_zip(corpus_env, monkeypatch):
+    zip_path = _write_corpus_zip(corpus_env / "elsewhere" / "corpus.zip")
+    monkeypatch.setenv(cl.CHORDS_AND_LYRICS_ZIP_ENVVAR, str(zip_path))
+    assert cl.local_chords_and_lyrics_zip() == str(zip_path)
+    assert len(cl.get_lyrics_and_chords_dataset()) == 2
+
+
+def test_a_zip_in_the_haggle_layout_is_found(corpus_env):
+    zip_path = _write_corpus_zip(
+        corpus_env / "haggle" / "zips" / "eitanbentora" / "chords-and-lyrics-dataset.zip"
+    )
+    assert cl.local_chords_and_lyrics_zip() == str(zip_path)
+    assert len(cl.get_lyrics_and_chords_dataset()) == 2
+
+
+def test_no_local_copy_means_no_local_zip(corpus_env):
+    assert cl.local_chords_and_lyrics_zip() is None

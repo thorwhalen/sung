@@ -1,4 +1,0 @@
-sung
-====
-.. automodule:: sung
-   :members:

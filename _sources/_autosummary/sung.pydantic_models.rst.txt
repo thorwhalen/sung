@@ -1,0 +1,119 @@
+sung.pydantic\_models
+=====================
+
+.. automodule:: sung.pydantic_models
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      AlbumBase
+      AlbumGroup
+      AlbumObject
+      AlbumRestrictionObject
+      AlbumType
+      ArtistDiscographyAlbumObject
+      ArtistObject
+      AudioAnalysisObject
+      AudioFeaturesObject
+      AudiobookBase
+      AudiobookObject
+      AuthorObject
+      CategoryObject
+      ChapterBase
+      ChapterObject
+      ChapterRestrictionObject
+      ContextObject
+      CopyrightObject
+      CurrentlyPlayingContextObject
+      CurrentlyPlayingObject
+      CursorObject
+      CursorPagingObject
+      CursorPagingPlayHistoryObject
+      CursorPagingSimplifiedArtistObject
+      DeviceObject
+      DisallowsObject
+      EpisodeBase
+      EpisodeObject
+      EpisodeRestrictionObject
+      ErrorObject
+      ExplicitContentSettingsObject
+      ExternalIdObject
+      ExternalUrlObject
+      FollowersObject
+      ImageObject
+      Key
+      LinkedTrackObject
+      Loudness
+      Meta
+      Mode
+      Mode1
+      NarratorObject
+      PagingArtistDiscographyAlbumObject
+      PagingArtistObject
+      PagingFeaturedPlaylistObject
+      PagingObject
+      PagingPlaylistObject
+      PagingPlaylistTrackObject
+      PagingSavedAlbumObject
+      PagingSavedAudiobookObject
+      PagingSavedEpisodeObject
+      PagingSavedShowObject
+      PagingSavedTrackObject
+      PagingSimplifiedAlbumObject
+      PagingSimplifiedAudiobookObject
+      PagingSimplifiedChapterObject
+      PagingSimplifiedEpisodeObject
+      PagingSimplifiedShowObject
+      PagingSimplifiedTrackObject
+      PagingTrackObject
+      PlayHistoryObject
+      PlaylistObject
+      PlaylistOwnerObject
+      PlaylistTrackObject
+      PlaylistTracksRefObject
+      PlaylistUserObject
+      PrivateUserObject
+      PublicUserObject
+      Queue
+      QueueObject
+      Reason
+      RecommendationSeedObject
+      RecommendationsObject
+      ReleaseDatePrecision
+      ResumePointObject
+      SavedAlbumObject
+      SavedAudiobookObject
+      SavedEpisodeObject
+      SavedShowObject
+      SavedTrackObject
+      SectionObject
+      SegmentObject
+      ShowBase
+      ShowObject
+      SimplifiedAlbumObject
+      SimplifiedArtistObject
+      SimplifiedAudiobookObject
+      SimplifiedChapterObject
+      SimplifiedEpisodeObject
+      SimplifiedPlaylistObject
+      SimplifiedShowObject
+      SimplifiedTrackObject
+      Tempo
+      TimeIntervalObject
+      TimeSignature
+      Track
+      TrackObject
+      TrackRestrictionObject
+      Type
+      Type10
+      Type2
+      Type3
+      Type4
+      Type5
+      Type6
+      Type7
+      Type8
+      Type9
+   

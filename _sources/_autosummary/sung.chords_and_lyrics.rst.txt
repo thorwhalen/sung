@@ -1,0 +1,41 @@
+sung.chords\_and\_lyrics
+========================
+
+.. automodule:: sung.chords_and_lyrics
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      CHORDS_AND_LYRICS_ZIP_ENVVAR
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      complete_font_spec
+      ensure_parsed_song
+      extract_title
+      filter_non_lyrics
+      get_color
+      get_lyrics_and_chords_dataset
+      is_chord_line
+      is_likely_lyrics
+      local_chords_and_lyrics_zip
+      pack_song_lines
+      pack_song_text
+      parse_chord_lyrics
+      remove_non_lyrics
+      render_chords_and_lyrics
+      render_chords_and_lyrics_to_pdf
+      render_chords_and_lyrics_to_text
+      resolve_page_size
+      search_songs
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      FontSpec
+   

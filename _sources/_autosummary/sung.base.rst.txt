@@ -1,0 +1,27 @@
+sung.base
+=========
+
+.. automodule:: sung.base
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      delete_playlist
+      process_track_columns
+      search_tracks
+      track_ids_to_metas
+      track_metadata
+      track_metas_to_track_ids
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Playlist
+      PlaylistReader
+      SpotifyDacc
+      Tracks
+      TracksBase
+   

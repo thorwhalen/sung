@@ -1,0 +1,21 @@
+sung.playlists
+==============
+
+.. automodule:: sung.playlists
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      parse_song_descriptor
+      playlist_from_songs
+      resolve_song
+      resolve_songs
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      SongMatch
+   

@@ -1,0 +1,18 @@
+﻿sung
+====
+
+.. automodule:: sung
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   base
+   chords_and_lyrics
+   playlists
+   pydantic_models
+   tools
+   util

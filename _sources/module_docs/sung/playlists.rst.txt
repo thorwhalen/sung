@@ -1,4 +1,0 @@
-sung.playlists
-==============
-.. automodule:: sung.playlists
-   :members:

@@ -115,7 +115,9 @@ print(f"Dataset contains {len(df)} songs")
 # pass zip_path=, or set SUNG_CHORDS_AND_LYRICS_ZIP, or keep it where haggle
 # downloads it ($HAGGLE_ROOTDIR/zips/eitanbentora/chords-and-lyrics-dataset.zip).
 # usecols= loads only the columns you need (the CSV is ~650 MB).
-df = get_lyrics_and_chords_dataset(usecols=["artist_name", "song_name", "chords&lyrics"])
+df = get_lyrics_and_chords_dataset(
+    usecols=["artist_name", "song_name", "chords&lyrics"]
+)
 
 # Search by multiple criteria
 results = search_songs(

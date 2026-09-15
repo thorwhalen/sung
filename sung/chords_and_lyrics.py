@@ -42,7 +42,12 @@ def local_chords_and_lyrics_zip():
     """
     explicit = os.environ.get(CHORDS_AND_LYRICS_ZIP_ENVVAR)
     if explicit:
-        return os.path.expanduser(explicit)
+        path = os.path.expanduser(explicit)
+        if not os.path.isfile(path):
+            raise FileNotFoundError(
+                f"${CHORDS_AND_LYRICS_ZIP_ENVVAR} names {path}, which is not a file"
+            )
+        return path
     haggle_root = os.environ.get("HAGGLE_ROOTDIR", os.path.expanduser("~/haggle"))
     owner, dataset = CHORDS_AND_LYRICS_DATASET.split("/")
     path = os.path.join(haggle_root, "zips", owner, f"{dataset}.zip")
@@ -61,10 +66,11 @@ def get_lyrics_and_chords_dataset(*, zip_path=None, usecols=None):
         usecols: Columns to load. The CSV is ~650 MB; loading only the columns
             you need roughly halves the time and memory.
     """
+    zip_path = zip_path or local_chords_and_lyrics_zip()
+    if zip_path is not None:  # the cache is keyed on the path: make it absolute
+        zip_path = os.path.abspath(os.path.expanduser(zip_path))
     usecols = tuple(usecols) if usecols is not None else None
-    return _load_lyrics_and_chords_dataset(
-        zip_path or local_chords_and_lyrics_zip(), usecols
-    )
+    return _load_lyrics_and_chords_dataset(zip_path, usecols)
 
 
 @lru_cache(maxsize=1)

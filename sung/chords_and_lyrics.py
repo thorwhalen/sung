@@ -22,18 +22,74 @@ Combine both features:
 
 """
 
+import os
 from functools import lru_cache
+
+CHORDS_AND_LYRICS_DATASET = "eitanbentora/chords-and-lyrics-dataset"
+CHORDS_AND_LYRICS_CSV = "chords_and_lyrics.csv"
+#: Environment variable naming a local copy of the corpus zip.
+CHORDS_AND_LYRICS_ZIP_ENVVAR = "SUNG_CHORDS_AND_LYRICS_ZIP"
+
+
+def local_chords_and_lyrics_zip():
+    """Return the path of a local copy of the chords-and-lyrics zip, or ``None``.
+
+    Looks at ``$SUNG_CHORDS_AND_LYRICS_ZIP`` first, then at where ``haggle``
+    keeps its downloads (``$HAGGLE_ROOTDIR/zips/<owner>/<dataset>.zip``, root
+    defaulting to ``~/haggle``). The haggle layout is replicated rather than
+    asked of haggle, because importing haggle imports ``kaggle``, which
+    authenticates against Kaggle at import time, even for a cached file.
+    """
+    explicit = os.environ.get(CHORDS_AND_LYRICS_ZIP_ENVVAR)
+    if explicit:
+        path = os.path.expanduser(explicit)
+        if not os.path.isfile(path):
+            raise FileNotFoundError(
+                f"${CHORDS_AND_LYRICS_ZIP_ENVVAR} names {path}, which is not a file"
+            )
+        return path
+    haggle_root = os.environ.get("HAGGLE_ROOTDIR", os.path.expanduser("~/haggle"))
+    owner, dataset = CHORDS_AND_LYRICS_DATASET.split("/")
+    path = os.path.join(haggle_root, "zips", owner, f"{dataset}.zip")
+    return path if os.path.isfile(path) else None
+
+
+def get_lyrics_and_chords_dataset(*, zip_path=None, usecols=None):
+    """Load the Kaggle chords-and-lyrics corpus (~135K songs) as a DataFrame.
+
+    A local zip is read directly, with no Kaggle credentials: ``zip_path`` if
+    given, else :func:`local_chords_and_lyrics_zip`. Only when there is no local
+    copy is the dataset downloaded through ``haggle`` (which needs credentials).
+
+    Args:
+        zip_path: Path to the dataset zip (as downloaded from Kaggle).
+        usecols: Columns to load. The CSV is ~650 MB; loading only the columns
+            you need roughly halves the time and memory.
+    """
+    zip_path = zip_path or local_chords_and_lyrics_zip()
+    if zip_path is not None:  # the cache is keyed on the path: make it absolute
+        zip_path = os.path.abspath(os.path.expanduser(zip_path))
+    usecols = tuple(usecols) if usecols is not None else None
+    return _load_lyrics_and_chords_dataset(zip_path, usecols)
 
 
 @lru_cache(maxsize=1)
-def get_lyrics_and_chords_dataset():
+def _load_lyrics_and_chords_dataset(zip_path, usecols):
     import pandas as pd
+
+    usecols = list(usecols) if usecols is not None else None
+    if zip_path is not None:
+        import zipfile
+
+        with zipfile.ZipFile(os.path.expanduser(zip_path)) as z:
+            with z.open(CHORDS_AND_LYRICS_CSV) as f:
+                return pd.read_csv(f, usecols=usecols)
+
     import io
     from haggle import get_kaggle_dataset
 
-    data = get_kaggle_dataset("eitanbentora/chords-and-lyrics-dataset")
-
-    return pd.read_csv(io.BytesIO(data["chords_and_lyrics.csv"]))
+    data = get_kaggle_dataset(CHORDS_AND_LYRICS_DATASET)
+    return pd.read_csv(io.BytesIO(data[CHORDS_AND_LYRICS_CSV]), usecols=usecols)
 
 
 def search_songs(title="", *, lyrics="", artist="", data=None):

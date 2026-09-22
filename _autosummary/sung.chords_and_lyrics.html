@@ -5,7 +5,9 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="alternate" type="text/markdown" href="sung.chords_and_lyrics.html.md">
-<link rel="describedby" href="../llms.txt" type="text/markdown"><link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="sung.playlists" href="sung.playlists.html"><link rel="prev" title="sung.base" href="sung.base.html">
+<link rel="describedby" href="../llms.txt" type="text/markdown">
+<link rel="alternate" type="text/markdown" href="sung.chords_and_lyrics.html.md">
+<link rel="describedby" href="llms.txt"><link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="sung.playlists" href="sung.playlists.html"><link rel="prev" title="sung.base" href="sung.base.html">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
         <title>sung.chords_and_lyrics - sung</title>
@@ -254,16 +256,53 @@
           <section id="module-sung.chords_and_lyrics">
 <span id="sung-chords-and-lyrics"></span><h1>sung.chords_and_lyrics<a class="headerlink" href="#module-sung.chords_and_lyrics" title="Link to this heading">¶</a></h1>
 <p>Tools for chords and lyrics acquisition and processing.</p>
-<p>Example usage:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">raw</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'song.txt'</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">render_chords_and_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">'pdf'</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s1">'out.pdf'</span><span class="p">,</span> <span class="n">lyrics_font</span><span class="o">=</span><span class="p">{</span><span class="s1">'size'</span><span class="p">:</span><span class="mi">14</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">txt</span> <span class="o">=</span> <span class="n">render_chords_and_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">'text'</span><span class="p">)</span>
+<p>Example usage. The song is inlined rather than read from a file so that the
+<code class="docutils literal notranslate"><span class="pre">to='text'</span></code> examples below run as real doctests instead of being skipped:
+an example that is never executed is free to drift away from the signature it
+claims to demonstrate.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">raw</span> <span class="o">=</span> <span class="s1">'''[Verse 1]</span>
+<span class="gp">... </span><span class="s1">C       G</span>
+<span class="gp">... </span><span class="s1">Hello there my friend</span>
+<span class="gp">... </span><span class="s1">Am      F</span>
+<span class="gp">... </span><span class="s1">This is a line of lyrics</span>
+<span class="gp">... </span><span class="s1">'''</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">render_chords_and_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">'text'</span><span class="p">))</span>
+<span class="go">[Verse 1]</span>
+<span class="go">C       G</span>
+<span class="go">Hello there my friend</span>
+<span class="go">Am      F</span>
+<span class="go">This is a line of lyrics</span>
+</pre></div>
+</div>
+<p>The same call with <code class="docutils literal notranslate"><span class="pre">to='pdf'</span></code> writes a file instead of returning text:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">render_chords_and_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">'pdf'</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s1">'out.pdf'</span><span class="p">,</span> <span class="n">lyrics_font</span><span class="o">=</span><span class="p">{</span><span class="s1">'size'</span><span class="p">:</span><span class="mi">14</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>New features:</p>
-<p>Filter out non-lyrics content:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">clean_txt</span> <span class="o">=</span> <span class="n">render_chords_and_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">'text'</span><span class="p">,</span> <span class="n">filter_non_lyrics</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">clean_txt</span> <span class="o">=</span> <span class="n">remove_non_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+<p>Filter out non-lyrics content. The keyword is <code class="docutils literal notranslate"><span class="pre">apply_filter_non_lyrics</span></code>;
+<code class="docutils literal notranslate"><span class="pre">filter_non_lyrics</span></code> is the standalone function it delegates to, and passing
+<em>that</em> name as a keyword would land in <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> and be silently ignored.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">render_chords_and_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">'text'</span><span class="p">,</span> <span class="n">apply_filter_non_lyrics</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="go">C       G</span>
+<span class="go">Hello there my friend</span>
+<span class="go">Am      F</span>
+<span class="go">This is a line of lyrics</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">remove_non_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">))</span>
+<span class="go">C       G</span>
+<span class="go">Hello there my friend</span>
+<span class="go">Am      F</span>
+<span class="go">This is a line of lyrics</span>
+</pre></div>
+</div>
+<p>Keep the section markers (<code class="docutils literal notranslate"><span class="pre">[Verse</span> <span class="pre">1]</span></code> and friends) while filtering:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">render_chords_and_lyrics</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">raw</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">'text'</span><span class="p">,</span> <span class="n">apply_filter_non_lyrics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">keep_metadata_lines</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span><span class="p">))</span>
+<span class="go">[Verse 1]</span>
+<span class="go">C       G</span>
+<span class="go">Hello there my friend</span>
+<span class="go">Am      F</span>
+<span class="go">This is a line of lyrics</span>
 </pre></div>
 </div>
 <p>Pack lines for better space usage (not sure this works as intended):</p>
@@ -272,7 +311,7 @@
 </pre></div>
 </div>
 <p>Combine both features:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">optimized</span> <span class="o">=</span> <span class="n">render_chords_and_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">'text'</span><span class="p">,</span> <span class="n">filter_non_lyrics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pack_lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">optimized</span> <span class="o">=</span> <span class="n">render_chords_and_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">'text'</span><span class="p">,</span> <span class="n">apply_filter_non_lyrics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pack_lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Module Attributes</p>
@@ -677,7 +716,7 @@ Each ‘chords’ is List of (chord_name, start_index).</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=3d238c28"></script>
+</div><script src="../_static/documentation_options.js?v=9463f84e"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

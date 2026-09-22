@@ -248,24 +248,64 @@
 <span></span><span class="sd">"""</span>
 <span class="sd">Tools for chords and lyrics acquisition and processing.</span>
 
-<span class="sd">Example usage:</span>
+<span class="sd">Example usage. The song is inlined rather than read from a file so that the</span>
+<span class="sd">``to='text'`` examples below run as real doctests instead of being skipped:</span>
+<span class="sd">an example that is never executed is free to drift away from the signature it</span>
+<span class="sd">claims to demonstrate.</span>
 
-<span class="sd">&gt;&gt;&gt; raw = open('song.txt').read()  # doctest: +SKIP</span>
+<span class="sd">&gt;&gt;&gt; raw = '''[Verse 1]</span>
+<span class="sd">... C       G</span>
+<span class="sd">... Hello there my friend</span>
+<span class="sd">... Am      F</span>
+<span class="sd">... This is a line of lyrics</span>
+<span class="sd">... '''</span>
+<span class="sd">&gt;&gt;&gt; print(render_chords_and_lyrics(raw, to='text'))</span>
+<span class="sd">[Verse 1]</span>
+<span class="sd">C       G</span>
+<span class="sd">Hello there my friend</span>
+<span class="sd">Am      F</span>
+<span class="sd">This is a line of lyrics</span>
+
+<span class="sd">The same call with ``to='pdf'`` writes a file instead of returning text:</span>
+
 <span class="sd">&gt;&gt;&gt; render_chords_and_lyrics(raw, to='pdf', output_path='out.pdf', lyrics_font={'size':14})  # doctest: +SKIP</span>
-<span class="sd">&gt;&gt;&gt; txt = render_chords_and_lyrics(raw, to='text')  # doctest: +SKIP</span>
 
 <span class="sd">New features:</span>
 
-<span class="sd">Filter out non-lyrics content:</span>
-<span class="sd">&gt;&gt;&gt; clean_txt = render_chords_and_lyrics(raw, to='text', filter_non_lyrics=True)  # doctest: +SKIP</span>
-<span class="sd">&gt;&gt;&gt; clean_txt = remove_non_lyrics(raw)  # doctest: +SKIP</span>
+<span class="sd">Filter out non-lyrics content. The keyword is ``apply_filter_non_lyrics``;</span>
+<span class="sd">``filter_non_lyrics`` is the standalone function it delegates to, and passing</span>
+<span class="sd">*that* name as a keyword would land in ``**kwargs`` and be silently ignored.</span>
+
+<span class="sd">&gt;&gt;&gt; print(render_chords_and_lyrics(raw, to='text', apply_filter_non_lyrics=True))</span>
+<span class="sd">C       G</span>
+<span class="sd">Hello there my friend</span>
+<span class="sd">Am      F</span>
+<span class="sd">This is a line of lyrics</span>
+<span class="sd">&gt;&gt;&gt; print(remove_non_lyrics(raw))</span>
+<span class="sd">C       G</span>
+<span class="sd">Hello there my friend</span>
+<span class="sd">Am      F</span>
+<span class="sd">This is a line of lyrics</span>
+
+<span class="sd">Keep the section markers (``[Verse 1]`` and friends) while filtering:</span>
+
+<span class="sd">&gt;&gt;&gt; print(render_chords_and_lyrics(</span>
+<span class="sd">...     raw, to='text', apply_filter_non_lyrics=True, keep_metadata_lines=True</span>
+<span class="sd">... ))</span>
+<span class="sd">[Verse 1]</span>
+<span class="sd">C       G</span>
+<span class="sd">Hello there my friend</span>
+<span class="sd">Am      F</span>
+<span class="sd">This is a line of lyrics</span>
 
 <span class="sd">Pack lines for better space usage (not sure this works as intended):</span>
+
 <span class="sd">&gt;&gt;&gt; packed_txt = render_chords_and_lyrics(raw, to='text', pack_lines=True, max_line_length=80)  # doctest: +SKIP</span>
 <span class="sd">&gt;&gt;&gt; packed_txt = pack_song_text(raw, max_length=80)  # doctest: +SKIP</span>
 
 <span class="sd">Combine both features:</span>
-<span class="sd">&gt;&gt;&gt; optimized = render_chords_and_lyrics(raw, to='text', filter_non_lyrics=True, pack_lines=True)  # doctest: +SKIP</span>
+
+<span class="sd">&gt;&gt;&gt; optimized = render_chords_and_lyrics(raw, to='text', apply_filter_non_lyrics=True, pack_lines=True)  # doctest: +SKIP</span>
 
 <span class="sd">"""</span>
 
@@ -909,7 +949,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=3d238c28"></script>
+</div><script src="../../_static/documentation_options.js?v=9463f84e"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

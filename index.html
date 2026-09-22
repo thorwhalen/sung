@@ -5,7 +5,9 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="alternate" type="text/markdown" href="index.html.md">
-<link rel="describedby" href="llms.txt" type="text/markdown"><link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="API reference" href="api.html">
+<link rel="describedby" href="llms.txt" type="text/markdown">
+<link rel="alternate" type="text/markdown" href="index.html.md">
+<link rel="describedby" href="llms.txt"><link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="API reference" href="api.html">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
         <title>sung</title>
@@ -289,15 +291,17 @@
 <h2>Advanced Features<a class="headerlink" href="#advanced-features" title="Link to this heading">¶</a></h2>
 <section id="filter-non-lyrics-content">
 <h3>Filter Non-Lyrics Content<a class="headerlink" href="#filter-non-lyrics-content" title="Link to this heading">¶</a></h3>
-<p>Remove extraneous text that isn’t part of the actual song:</p>
+<p>Remove extraneous text that isn’t part of the actual song. The keyword is <code class="docutils literal notranslate"><span class="pre">apply_filter_non_lyrics</span></code> – <code class="docutils literal notranslate"><span class="pre">filter_non_lyrics</span></code> is the standalone function it delegates to, and passing <em>that</em> name as a keyword is silently ignored:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sung</span><span class="w"> </span><span class="kn">import</span> <span class="n">remove_non_lyrics</span>
 
 <span class="c1"># Remove non-lyrics content (section headers, metadata, etc.)</span>
-<span class="n">clean_lyrics</span> <span class="o">=</span> <span class="n">render_chords_and_lyrics</span><span class="p">(</span><span class="n">raw_text</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s2">"text"</span><span class="p">,</span> <span class="n">filter_non_lyrics</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">clean_lyrics</span> <span class="o">=</span> <span class="n">render_chords_and_lyrics</span><span class="p">(</span>
+    <span class="n">raw_text</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s2">"text"</span><span class="p">,</span> <span class="n">apply_filter_non_lyrics</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 
 <span class="c1"># Keep metadata lines like [Verse], [Chorus]</span>
 <span class="n">clean_with_metadata</span> <span class="o">=</span> <span class="n">render_chords_and_lyrics</span><span class="p">(</span>
-    <span class="n">raw_text</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s2">"text"</span><span class="p">,</span> <span class="n">filter_non_lyrics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">keep_metadata_lines</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">raw_text</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s2">"text"</span><span class="p">,</span> <span class="n">apply_filter_non_lyrics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">keep_metadata_lines</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 
 <span class="c1"># Standalone function</span>
@@ -325,7 +329,11 @@
 <p>Use both filtering and packing together:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clean and optimized output</span>
 <span class="n">optimized</span> <span class="o">=</span> <span class="n">render_chords_and_lyrics</span><span class="p">(</span>
-    <span class="n">raw_text</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s2">"text"</span><span class="p">,</span> <span class="n">filter_non_lyrics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pack_lines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_line_length</span><span class="o">=</span><span class="mi">80</span>
+    <span class="n">raw_text</span><span class="p">,</span>
+    <span class="n">to</span><span class="o">=</span><span class="s2">"text"</span><span class="p">,</span>
+    <span class="n">apply_filter_non_lyrics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">pack_lines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">max_line_length</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -3123,7 +3131,7 @@ J (3 tracks):
 </div>
 </section>
 
-<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-09-15 11:35 UTC from <a href="https://github.com/thorwhalen/sung/commit/61607581ea1c34082f7879b10f0f1bbf22cc0b49">6160758</a> (main) · sung 0.0.26 · <a href="about-this-build.html">about this build</a></p>
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-09-22 12:52 UTC from <a href="https://github.com/thorwhalen/sung/commit/7a64c55ed790b32fc6a6631dfd9e259d8161e184">7a64c55</a> (main) · sung 0.0.27 · <a href="about-this-build.html">about this build</a></p>
         </article>
       </div>
       <footer>
@@ -3159,7 +3167,7 @@ J (3 tracks):
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=3d238c28"></script>
+</div><script src="_static/documentation_options.js?v=9463f84e"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

@@ -5,7 +5,7 @@ orphan: true
 
 # About this build
 
-This documentation was built on **2026-09-15 11:35 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/61607581ea1c34082f7879b10f0f1bbf22cc0b49"><code>6160758</code></a> on branch <code>main</code>, for **sung 0.0.26** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-09-22 12:52 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/7a64c55ed790b32fc6a6631dfd9e259d8161e184"><code>7a64c55</code></a> on branch <code>main</code>, for **sung 0.0.27** (from <code>pyproject.toml</code>).
 
 :::{note}
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -15,9 +15,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 | | |
 |---|---|
-| Commit | <a href="https://github.com/thorwhalen/sung/commit/61607581ea1c34082f7879b10f0f1bbf22cc0b49"><code>61607581ea1c34082f7879b10f0f1bbf22cc0b49</code></a> |
+| Commit | <a href="https://github.com/thorwhalen/sung/commit/7a64c55ed790b32fc6a6631dfd9e259d8161e184"><code>7a64c55ed790b32fc6a6631dfd9e259d8161e184</code></a> |
 | Branch | <code>main</code> |
-| Tags at this commit | <code>0.0.26</code> |
+| Tags at this commit | <code>0.0.27</code> |
 | Working tree | clean |
 | Remote | <code>https://github.com/thorwhalen/sung</code> |
 
@@ -26,15 +26,15 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 | | |
 |---|---|
 | Repository | <code>thorwhalen/sung</code> |
-| Run | <a href="https://github.com/thorwhalen/sung/actions/runs/34963917130">34963917130</a> |
+| Run | <a href="https://github.com/thorwhalen/sung/actions/runs/35729603752">35729603752</a> |
 | Ref | <code>refs/heads/main</code> |
-| Event commit | <code>c62e3ba479530bfb533b245dc460b5a15b0278d4</code> (in the history of the built commit) |
+| Event commit | <code>77328a0251b7638af6e42d12e9fb429a4b7a836b</code> (in the history of the built commit) |
 
 ## Tools
 
 | | |
 |---|---|
-| epythet | 0.2.11 |
+| epythet | 0.2.12 |
 | Sphinx | 9.1.0 |
 | docutils | 0.22.4 |
 | Python | 3.12.14 |
@@ -53,14 +53,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/sung/0.0.26/">0.0.26</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/sung/0.0.27/">0.0.27</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/sung && cd sung
-git checkout 61607581ea1c34082f7879b10f0f1bbf22cc0b49
-pip install "epythet==0.2.11"
+git checkout 7a64c55ed790b32fc6a6631dfd9e259d8161e184
+pip install "epythet==0.2.12"
 epythet quickstart . --ignore tests/ scrap/ examples/ misc/
 ```
 

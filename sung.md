@@ -1,4 +1,4 @@
-> built 2026-09-15 11:35 UTC from 6160758 (main) · sung 0.0.26. Details: build_info.json
+> built 2026-09-22 12:52 UTC from 7a64c55 (main) · sung 0.0.27. Details: build_info.json
 
 # index.html.md
 
@@ -42,17 +42,19 @@ render_chords_and_lyrics(raw_text, to="pdf", output_path="song.pdf")
 
 ### Filter Non-Lyrics Content
 
-Remove extraneous text that isn’t part of the actual song:
+Remove extraneous text that isn’t part of the actual song. The keyword is `apply_filter_non_lyrics` – `filter_non_lyrics` is the standalone function it delegates to, and passing *that* name as a keyword is silently ignored:
 
 ```python
 from sung import remove_non_lyrics
 
 # Remove non-lyrics content (section headers, metadata, etc.)
-clean_lyrics = render_chords_and_lyrics(raw_text, to="text", filter_non_lyrics=True)
+clean_lyrics = render_chords_and_lyrics(
+    raw_text, to="text", apply_filter_non_lyrics=True
+)
 
 # Keep metadata lines like [Verse], [Chorus]
 clean_with_metadata = render_chords_and_lyrics(
-    raw_text, to="text", filter_non_lyrics=True, keep_metadata_lines=True
+    raw_text, to="text", apply_filter_non_lyrics=True, keep_metadata_lines=True
 )
 
 # Standalone function
@@ -82,7 +84,11 @@ Use both filtering and packing together:
 ```python
 # Clean and optimized output
 optimized = render_chords_and_lyrics(
-    raw_text, to="text", filter_non_lyrics=True, pack_lines=True, max_line_length=80
+    raw_text,
+    to="text",
+    apply_filter_non_lyrics=True,
+    pack_lines=True,
+    max_line_length=80,
 )
 ```
 
@@ -3179,21 +3185,62 @@ Extract track IDs from track metadata.
 
 Tools for chords and lyrics acquisition and processing.
 
-Example usage:
+Example usage. The song is inlined rather than read from a file so that the
+`to='text'` examples below run as real doctests instead of being skipped:
+an example that is never executed is free to drift away from the signature it
+claims to demonstrate.
 
 ```pycon
->>> raw = open('song.txt').read()
+>>> raw = '''[Verse 1]
+... C       G
+... Hello there my friend
+... Am      F
+... This is a line of lyrics
+... '''
+>>> print(render_chords_and_lyrics(raw, to='text'))
+[Verse 1]
+C       G
+Hello there my friend
+Am      F
+This is a line of lyrics
+```
+
+The same call with `to='pdf'` writes a file instead of returning text:
+
+```pycon
 >>> render_chords_and_lyrics(raw, to='pdf', output_path='out.pdf', lyrics_font={'size':14})
->>> txt = render_chords_and_lyrics(raw, to='text')
 ```
 
 New features:
 
-Filter out non-lyrics content:
+Filter out non-lyrics content. The keyword is `apply_filter_non_lyrics`;
+`filter_non_lyrics` is the standalone function it delegates to, and passing
+*that* name as a keyword would land in `**kwargs` and be silently ignored.
 
 ```pycon
->>> clean_txt = render_chords_and_lyrics(raw, to='text', filter_non_lyrics=True)
->>> clean_txt = remove_non_lyrics(raw)
+>>> print(render_chords_and_lyrics(raw, to='text', apply_filter_non_lyrics=True))
+C       G
+Hello there my friend
+Am      F
+This is a line of lyrics
+>>> print(remove_non_lyrics(raw))
+C       G
+Hello there my friend
+Am      F
+This is a line of lyrics
+```
+
+Keep the section markers (`[Verse 1]` and friends) while filtering:
+
+```pycon
+>>> print(render_chords_and_lyrics(
+...     raw, to='text', apply_filter_non_lyrics=True, keep_metadata_lines=True
+... ))
+[Verse 1]
+C       G
+Hello there my friend
+Am      F
+This is a line of lyrics
 ```
 
 Pack lines for better space usage (not sure this works as intended):
@@ -3206,7 +3253,7 @@ Pack lines for better space usage (not sure this works as intended):
 Combine both features:
 
 ```pycon
->>> optimized = render_chords_and_lyrics(raw, to='text', filter_non_lyrics=True, pack_lines=True)
+>>> optimized = render_chords_and_lyrics(raw, to='text', apply_filter_non_lyrics=True, pack_lines=True)
 ```
 
 ### Module Attributes
@@ -4800,7 +4847,7 @@ Return a new dictionary with all string values stripped.
 
 # About this build
 
-This documentation was built on **2026-09-15 11:35 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/61607581ea1c34082f7879b10f0f1bbf22cc0b49"><code>6160758</code></a> on branch <code>main</code>, for **sung 0.0.26** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-09-22 12:52 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/7a64c55ed790b32fc6a6631dfd9e259d8161e184"><code>7a64c55</code></a> on branch <code>main</code>, for **sung 0.0.27** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -4809,9 +4856,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/sung/commit/61607581ea1c34082f7879b10f0f1bbf22cc0b49"><code>61607581ea1c34082f7879b10f0f1bbf22cc0b49</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/sung/commit/7a64c55ed790b32fc6a6631dfd9e259d8161e184"><code>7a64c55ed790b32fc6a6631dfd9e259d8161e184</code></a> |
 | Branch              | <code>main</code>                                                                                                                                      |
-| Tags at this commit | <code>0.0.26</code>                                                                                                                                    |
+| Tags at this commit | <code>0.0.27</code>                                                                                                                                    |
 | Working tree        | clean                                                                                                                                                  |
 | Remote              | <code>https://github.com/thorwhalen/sung</code>                                                                                                        |
 
@@ -4820,15 +4867,15 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/sung</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/34963917130">34963917130</a>      |
+| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/35729603752">35729603752</a>      |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>c62e3ba479530bfb533b245dc460b5a15b0278d4</code> (in the history of the built commit) |
+| Event commit | <code>77328a0251b7638af6e42d12e9fb429a4b7a836b</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.11  |
+| epythet  | 0.2.12  |
 | Sphinx   | 9.1.0   |
 | docutils | 0.22.4  |
 | Python   | 3.12.14 |
@@ -4847,14 +4894,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/sung/0.0.26/">0.0.26</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/sung/0.0.27/">0.0.27</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/sung && cd sung
-git checkout 61607581ea1c34082f7879b10f0f1bbf22cc0b49
-pip install "epythet==0.2.11"
+git checkout 7a64c55ed790b32fc6a6631dfd9e259d8161e184
+pip install "epythet==0.2.12"
 epythet quickstart . --ignore tests/ scrap/ examples/ misc/
 ```
 

@@ -80,7 +80,11 @@ Use both filtering and packing together:
 ```python
 # Clean and optimized output
 optimized = render_chords_and_lyrics(
-    raw_text, to="text", apply_filter_non_lyrics=True, pack_lines=True, max_line_length=80
+    raw_text,
+    to="text",
+    apply_filter_non_lyrics=True,
+    pack_lines=True,
+    max_line_length=80,
 )
 ```
 

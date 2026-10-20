@@ -1,10 +1,8 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-20T11:35:53.400191Z
-commit_sha,88d01461fd268136422f7b5d581032bca58f2aad
-commit_message,"Fix demo notebook keyword: apply_filter_non_lyrics (#5)
-
-Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
+timestamp,2026-10-20T11:35:55.506871Z
+commit_sha,c30fc8ee8573e6e8d4b7e1ee1af7d7b3610036b0
+commit_message,Merge 88d01461fd268136422f7b5d581032bca58f2aad into 7a64c55ed790b32fc6a6631dfd9e259d8161e184
 python_version,3.10
 metrics.umpyre_stats.num_functions,31802
 metrics.umpyre_stats.num_classes,4896
@@ -40,4 +38,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,11.007252931594849
+collection_duration_seconds,10.409044742584229

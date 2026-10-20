@@ -1,24 +1,26 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-20T12:17:57.965887Z
+timestamp,2026-10-20T12:18:09.444657Z
 commit_sha,9d8e0bc67b33ddcff5a5a07c2ba1b84c91c67b8b
 commit_message,"Resolve stale TODOs: PlaylistReader is a TracksBase; document and test pack_song_lines (#10) (#14)
 
 Co-authored-by: Claude Sonnet 5.5 <noreply@anthropic.com>"
 python_version,3.10
-metrics.umpyre_stats.num_functions,33031
-metrics.umpyre_stats.num_classes,5139
-metrics.umpyre_stats.total_lines,990672
-metrics.umpyre_stats.empty_lines,143789
-metrics.umpyre_stats.comment_lines,52679
-metrics.umpyre_stats.docs_lines,198255
-metrics.umpyre_stats.function_lines,629442
-metrics.umpyre_stats.empty_lines_ratio,0.145142892905018
-metrics.umpyre_stats.comment_lines_ratio,0.05317501655441963
-metrics.umpyre_stats.function_lines_ratio,0.6353687194147003
-metrics.umpyre_stats.mean_lines_per_function,19.05609881626351
-metrics.umpyre_stats.files_analyzed,1909
+metrics.umpyre_stats.num_functions,31804
+metrics.umpyre_stats.num_classes,4896
+metrics.umpyre_stats.total_lines,983167
+metrics.umpyre_stats.empty_lines,142983
+metrics.umpyre_stats.comment_lines,50728
+metrics.umpyre_stats.docs_lines,221099
+metrics.umpyre_stats.function_lines,634283
+metrics.umpyre_stats.empty_lines_ratio,0.14543104070824184
+metrics.umpyre_stats.comment_lines_ratio,0.05159652429343133
+metrics.umpyre_stats.function_lines_ratio,0.6451426868477075
+metrics.umpyre_stats.mean_lines_per_function,19.943497673248647
+metrics.umpyre_stats.files_analyzed,1795
 metrics.umpyre_stats.pypi_version,0.0.29
+metrics.umpyre_stats.errors,"['mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)', '_scalars.py: invalid syntax (_scalars.py, line 7)', '_char_codes.py: invalid syntax (_char_codes.py, line 3)', '_dtype_like.py: invalid syntax (_dtype_like.py, line 21)', '_nbit.py: invalid syntax (_nbit.py, line 6)', '_shape.py: invalid syntax (_shape.py, line 4)', '_array_like.py: invalid syntax (_array_like.py, line 15)']"
+metrics.umpyre_stats.total_errors,7
 metrics.workflow_status.last_run_status,success
 metrics.workflow_status.last_success_timestamp,2026-10-20T12:16:54Z
 metrics.workflow_status.recent_failure_count,0
@@ -38,4 +40,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,8.91403579711914
+collection_duration_seconds,10.28018832206726

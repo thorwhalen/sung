@@ -1,5 +1,5 @@
 {
-  "collection_duration_seconds": 8.91403579711914,
+  "collection_duration_seconds": 10.28018832206726,
   "commit_message": "Resolve stale TODOs: PlaylistReader is a TracksBase; document and test pack_song_lines (#10) (#14)\n\nCo-authored-by: Claude Sonnet 5.5 <noreply@anthropic.com>",
   "commit_sha": "9d8e0bc67b33ddcff5a5a07c2ba1b84c91c67b8b",
   "metrics": {
@@ -11,19 +11,29 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 52679,
-      "comment_lines_ratio": 0.05317501655441963,
-      "docs_lines": 198255,
-      "empty_lines": 143789,
-      "empty_lines_ratio": 0.145142892905018,
-      "files_analyzed": 1909,
-      "function_lines": 629442,
-      "function_lines_ratio": 0.6353687194147003,
-      "mean_lines_per_function": 19.05609881626351,
-      "num_classes": 5139,
-      "num_functions": 33031,
+      "comment_lines": 50728,
+      "comment_lines_ratio": 0.05159652429343133,
+      "docs_lines": 221099,
+      "empty_lines": 142983,
+      "empty_lines_ratio": 0.14543104070824184,
+      "errors": [
+        "mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)",
+        "_scalars.py: invalid syntax (_scalars.py, line 7)",
+        "_char_codes.py: invalid syntax (_char_codes.py, line 3)",
+        "_dtype_like.py: invalid syntax (_dtype_like.py, line 21)",
+        "_nbit.py: invalid syntax (_nbit.py, line 6)",
+        "_shape.py: invalid syntax (_shape.py, line 4)",
+        "_array_like.py: invalid syntax (_array_like.py, line 15)"
+      ],
+      "files_analyzed": 1795,
+      "function_lines": 634283,
+      "function_lines_ratio": 0.6451426868477075,
+      "mean_lines_per_function": 19.943497673248647,
+      "num_classes": 4896,
+      "num_functions": 31804,
       "pypi_version": "0.0.29",
-      "total_lines": 990672
+      "total_errors": 7,
+      "total_lines": 983167
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -42,6 +52,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-20T12:17:57.965887Z",
+  "timestamp": "2026-10-20T12:18:09.444657Z",
   "workflow_status": {}
 }

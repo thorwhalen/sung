@@ -1,26 +1,44 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-20T19:31:09.737761Z
-commit_sha,4e1e6c6457c1793c9e4a6633ab6270e8bf2b4f29
-commit_message,Merge c5d5f3764a020cfdcf6d8b7d9a0cbd75d9431165 into 15a6ad290bd0f702942021a1c4c0e71ba8379cbb
+timestamp,2026-10-20T19:35:01.090222Z
+commit_sha,d14e0165e9abf8eb6fc2d7bfe163f8936feeb03a
+commit_message,"sung.chords_index: stdlib-only index of the chords corpus (#17 step 2) (#19)
+
+* Add sung.chords_index: the stdlib-only SQLite+FTS5 index of the chords corpus (#17 step 2)
+
+Moves the index build and raw reads from songleaf.kaggle_index into sung,
+schema unchanged so files songleaf built stay valid. Importing it loads
+only the standard library; ranking stays with the consumers.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+* Review fixes: zip lookup moves into chords_index (no pydantic to find the index), loud bad args
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+---------
+
+Co-authored-by: Claude Opus 5.5 <noreply@anthropic.com>"
 python_version,3.10
-metrics.umpyre_stats.num_functions,33129
-metrics.umpyre_stats.num_classes,5152
-metrics.umpyre_stats.total_lines,992794
-metrics.umpyre_stats.empty_lines,144141
-metrics.umpyre_stats.comment_lines,52665
-metrics.umpyre_stats.docs_lines,198766
-metrics.umpyre_stats.function_lines,630665
-metrics.umpyre_stats.empty_lines_ratio,0.14518721910084065
-metrics.umpyre_stats.comment_lines_ratio,0.05304725854507582
-metrics.umpyre_stats.function_lines_ratio,0.6352425578720258
-metrics.umpyre_stats.mean_lines_per_function,19.036644631591656
-metrics.umpyre_stats.files_analyzed,1918
+metrics.umpyre_stats.num_functions,31902
+metrics.umpyre_stats.num_classes,4909
+metrics.umpyre_stats.total_lines,985289
+metrics.umpyre_stats.empty_lines,143335
+metrics.umpyre_stats.comment_lines,50714
+metrics.umpyre_stats.docs_lines,221610
+metrics.umpyre_stats.function_lines,635506
+metrics.umpyre_stats.empty_lines_ratio,0.14547508396013759
+metrics.umpyre_stats.comment_lines_ratio,0.05147119271604575
+metrics.umpyre_stats.function_lines_ratio,0.6449945142998653
+metrics.umpyre_stats.mean_lines_per_function,19.92056924330763
+metrics.umpyre_stats.files_analyzed,1804
 metrics.umpyre_stats.pypi_version,0.0.32
+metrics.umpyre_stats.errors,"['mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)', '_scalars.py: invalid syntax (_scalars.py, line 7)', '_char_codes.py: invalid syntax (_char_codes.py, line 3)', '_dtype_like.py: invalid syntax (_dtype_like.py, line 21)', '_nbit.py: invalid syntax (_nbit.py, line 6)', '_shape.py: invalid syntax (_shape.py, line 4)', '_array_like.py: invalid syntax (_array_like.py, line 15)']"
+metrics.umpyre_stats.total_errors,7
 metrics.workflow_status.last_run_status,success
-metrics.workflow_status.last_success_timestamp,2026-10-20T19:29:17Z
+metrics.workflow_status.last_success_timestamp,2026-10-20T19:31:14Z
 metrics.workflow_status.recent_failure_count,0
-metrics.workflow_status.run_url,https://github.com/thorwhalen/sung/actions/runs/39483665734
+metrics.workflow_status.run_url,https://github.com/thorwhalen/sung/actions/runs/39483940776
 metrics.workflow_status.total_runs_analyzed,10
 metrics.wily.cyclomatic_avg,0.0
 metrics.wily.maintainability_index,0.0
@@ -36,4 +54,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,11.413257360458374
+collection_duration_seconds,8.17574667930603

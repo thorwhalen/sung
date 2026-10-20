@@ -1,22 +1,24 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-20T12:12:18.041611Z
+timestamp,2026-10-20T12:12:19.999279Z
 commit_sha,9b0b62674bdc3b4bad8f933e0df096cb1143a475
 commit_message,Merge c9323de321c909f8934aaac9556c117638a110a4 into 1c9ed4f56a8d922dc076aacc6e3168583497c08d
 python_version,3.10
-metrics.umpyre_stats.num_functions,33031
-metrics.umpyre_stats.num_classes,5139
-metrics.umpyre_stats.total_lines,990668
-metrics.umpyre_stats.empty_lines,143788
-metrics.umpyre_stats.comment_lines,52681
-metrics.umpyre_stats.docs_lines,198249
-metrics.umpyre_stats.function_lines,629436
-metrics.umpyre_stats.empty_lines_ratio,0.14514246952561302
-metrics.umpyre_stats.comment_lines_ratio,0.05317725009791373
-metrics.umpyre_stats.function_lines_ratio,0.6353652283105945
-metrics.umpyre_stats.mean_lines_per_function,19.055917168720292
-metrics.umpyre_stats.files_analyzed,1909
+metrics.umpyre_stats.num_functions,31804
+metrics.umpyre_stats.num_classes,4896
+metrics.umpyre_stats.total_lines,983163
+metrics.umpyre_stats.empty_lines,142982
+metrics.umpyre_stats.comment_lines,50730
+metrics.umpyre_stats.docs_lines,221093
+metrics.umpyre_stats.function_lines,634277
+metrics.umpyre_stats.empty_lines_ratio,0.14543061526928902
+metrics.umpyre_stats.comment_lines_ratio,0.05159876846463913
+metrics.umpyre_stats.function_lines_ratio,0.6451392088595685
+metrics.umpyre_stats.mean_lines_per_function,19.94330901773362
+metrics.umpyre_stats.files_analyzed,1795
 metrics.umpyre_stats.pypi_version,0.0.28
+metrics.umpyre_stats.errors,"['_dtype_like.py: invalid syntax (_dtype_like.py, line 21)', '_char_codes.py: invalid syntax (_char_codes.py, line 3)', '_shape.py: invalid syntax (_shape.py, line 4)', '_array_like.py: invalid syntax (_array_like.py, line 15)', '_scalars.py: invalid syntax (_scalars.py, line 7)', '_nbit.py: invalid syntax (_nbit.py, line 6)', 'mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)']"
+metrics.umpyre_stats.total_errors,7
 metrics.workflow_status.last_run_status,success
 metrics.workflow_status.last_success_timestamp,2026-10-20T11:39:27Z
 metrics.workflow_status.recent_failure_count,0
@@ -33,4 +35,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,7.955321788787842
+collection_duration_seconds,9.32570481300354

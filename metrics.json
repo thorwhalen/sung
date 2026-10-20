@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 9.32570481300354,
-  "commit_message": "Merge c9323de321c909f8934aaac9556c117638a110a4 into 1c9ed4f56a8d922dc076aacc6e3168583497c08d",
-  "commit_sha": "9b0b62674bdc3b4bad8f933e0df096cb1143a475",
+  "collection_duration_seconds": 8.468051433563232,
+  "commit_message": "Redo cast_track_key and ensure_playlist_id on dol.KeyTemplate (#9) (#13)\n\nCo-authored-by: Claude Sonnet 5.5 <noreply@anthropic.com>",
+  "commit_sha": "3ebce9e5f19538fbae424b9e911e2f2cb35bf73d",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -11,29 +11,19 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 50730,
-      "comment_lines_ratio": 0.05159876846463913,
-      "docs_lines": 221093,
-      "empty_lines": 142982,
-      "empty_lines_ratio": 0.14543061526928902,
-      "errors": [
-        "_dtype_like.py: invalid syntax (_dtype_like.py, line 21)",
-        "_char_codes.py: invalid syntax (_char_codes.py, line 3)",
-        "_shape.py: invalid syntax (_shape.py, line 4)",
-        "_array_like.py: invalid syntax (_array_like.py, line 15)",
-        "_scalars.py: invalid syntax (_scalars.py, line 7)",
-        "_nbit.py: invalid syntax (_nbit.py, line 6)",
-        "mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)"
-      ],
-      "files_analyzed": 1795,
-      "function_lines": 634277,
-      "function_lines_ratio": 0.6451392088595685,
-      "mean_lines_per_function": 19.94330901773362,
-      "num_classes": 4896,
-      "num_functions": 31804,
+      "comment_lines": 52681,
+      "comment_lines_ratio": 0.05317725009791373,
+      "docs_lines": 198249,
+      "empty_lines": 143788,
+      "empty_lines_ratio": 0.14514246952561302,
+      "files_analyzed": 1909,
+      "function_lines": 629436,
+      "function_lines_ratio": 0.6353652283105945,
+      "mean_lines_per_function": 19.055917168720292,
+      "num_classes": 5139,
+      "num_functions": 33031,
       "pypi_version": "0.0.28",
-      "total_errors": 7,
-      "total_lines": 983163
+      "total_lines": 990668
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -44,14 +34,14 @@
     },
     "workflow_status": {
       "last_run_status": "success",
-      "last_success_timestamp": "2026-10-20T11:39:27Z",
+      "last_success_timestamp": "2026-10-20T12:12:24Z",
       "recent_failure_count": 0,
-      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39416462843",
+      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39420340784",
       "total_runs_analyzed": 10
     }
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-20T12:12:19.999279Z",
+  "timestamp": "2026-10-20T12:14:10.432646Z",
   "workflow_status": {}
 }

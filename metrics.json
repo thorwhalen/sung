@@ -1,5 +1,5 @@
 {
-  "collection_duration_seconds": 8.17574667930603,
+  "collection_duration_seconds": 7.774088144302368,
   "commit_message": "sung.chords_index: stdlib-only index of the chords corpus (#17 step 2) (#19)\n\n* Add sung.chords_index: the stdlib-only SQLite+FTS5 index of the chords corpus (#17 step 2)\n\nMoves the index build and raw reads from songleaf.kaggle_index into sung,\nschema unchanged so files songleaf built stay valid. Importing it loads\nonly the standard library; ranking stays with the consumers.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n\n* Review fixes: zip lookup moves into chords_index (no pydantic to find the index), loud bad args\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 5.5 <noreply@anthropic.com>",
   "commit_sha": "d14e0165e9abf8eb6fc2d7bfe163f8936feeb03a",
   "metrics": {
@@ -11,29 +11,19 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 50714,
-      "comment_lines_ratio": 0.05147119271604575,
-      "docs_lines": 221610,
-      "empty_lines": 143335,
-      "empty_lines_ratio": 0.14547508396013759,
-      "errors": [
-        "mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)",
-        "_scalars.py: invalid syntax (_scalars.py, line 7)",
-        "_char_codes.py: invalid syntax (_char_codes.py, line 3)",
-        "_dtype_like.py: invalid syntax (_dtype_like.py, line 21)",
-        "_nbit.py: invalid syntax (_nbit.py, line 6)",
-        "_shape.py: invalid syntax (_shape.py, line 4)",
-        "_array_like.py: invalid syntax (_array_like.py, line 15)"
-      ],
-      "files_analyzed": 1804,
-      "function_lines": 635506,
-      "function_lines_ratio": 0.6449945142998653,
-      "mean_lines_per_function": 19.92056924330763,
-      "num_classes": 4909,
-      "num_functions": 31902,
+      "comment_lines": 52665,
+      "comment_lines_ratio": 0.05304725854507582,
+      "docs_lines": 198766,
+      "empty_lines": 144141,
+      "empty_lines_ratio": 0.14518721910084065,
+      "files_analyzed": 1918,
+      "function_lines": 630665,
+      "function_lines_ratio": 0.6352425578720258,
+      "mean_lines_per_function": 19.036644631591656,
+      "num_classes": 5152,
+      "num_functions": 33129,
       "pypi_version": "0.0.32",
-      "total_errors": 7,
-      "total_lines": 985289
+      "total_lines": 992794
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -52,6 +42,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-20T19:35:01.090222Z",
+  "timestamp": "2026-10-20T19:35:05.037354Z",
   "workflow_status": {}
 }

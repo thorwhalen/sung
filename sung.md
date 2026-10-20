@@ -1,4 +1,4 @@
-> built 2026-10-20 12:15 UTC from d6a5e8e (main) · sung 0.0.29. Details: build_info.json
+> built 2026-10-20 12:19 UTC from 94ff9f4 (main) · sung 0.0.30. Details: build_info.json
 
 # index.html.md
 
@@ -3362,11 +3362,19 @@ Pack multiple short lines together to make better use of horizontal space.
 * **Parameters:**
   * **song** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str) | [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)]) – Raw text or parsed song data
   * **max_line_length** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Maximum length of packed lines
-  * **preserve_chord_alignment** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – If True, keep chord alignment intact
+  * **preserve_chord_alignment** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – Reserved. Chord alignment is column-based, so
+    sections that carry chords are always kept as they are and never
+    merged with their neighbours; only chordless lyric lines are packed.
 * **Return type:**
   [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)]
 * **Returns:**
-  List of song sections with packed lines
+  List of song sections with packed lines. Blank lines and `[Section]`
+  headers always start a new packed line.
+
+```pycon
+>>> [s["lyrics"] for s in pack_song_lines("aa bb\n\ncc", max_line_length=80)]
+['aa bb', '', 'cc']
+```
 
 ### sung.chords_and_lyrics.pack_song_text(song, max_length=80)
 
@@ -4852,7 +4860,7 @@ Return a new dictionary with all string values stripped.
 
 # About this build
 
-This documentation was built on **2026-10-20 12:15 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/d6a5e8e9e1927cd3783a92c20f7a7966a0cfe00b"><code>d6a5e8e</code></a> on branch <code>main</code>, for **sung 0.0.29** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 12:19 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/94ff9f40aa901eb23c0353b87c5e3cf81a50ca56"><code>94ff9f4</code></a> on branch <code>main</code>, for **sung 0.0.30** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -4861,9 +4869,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/sung/commit/d6a5e8e9e1927cd3783a92c20f7a7966a0cfe00b"><code>d6a5e8e9e1927cd3783a92c20f7a7966a0cfe00b</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/sung/commit/94ff9f40aa901eb23c0353b87c5e3cf81a50ca56"><code>94ff9f40aa901eb23c0353b87c5e3cf81a50ca56</code></a> |
 | Branch              | <code>main</code>                                                                                                                                      |
-| Tags at this commit | <code>0.0.29</code>                                                                                                                                    |
+| Tags at this commit | <code>0.0.30</code>                                                                                                                                    |
 | Working tree        | clean                                                                                                                                                  |
 | Remote              | <code>https://github.com/thorwhalen/sung</code>                                                                                                        |
 
@@ -4872,9 +4880,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/sung</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39420571767">39420571767</a>      |
+| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39421061944">39421061944</a>      |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>3ebce9e5f19538fbae424b9e911e2f2cb35bf73d</code> (in the history of the built commit) |
+| Event commit | <code>9d8e0bc67b33ddcff5a5a07c2ba1b84c91c67b8b</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -4899,13 +4907,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/sung/0.0.29/">0.0.29</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/sung/0.0.30/">0.0.30</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/sung && cd sung
-git checkout d6a5e8e9e1927cd3783a92c20f7a7966a0cfe00b
+git checkout 94ff9f40aa901eb23c0353b87c5e3cf81a50ca56
 pip install "epythet==0.2.20"
 epythet quickstart . --ignore tests/ scrap/ examples/ misc/
 ```

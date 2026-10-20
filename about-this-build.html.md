@@ -2,7 +2,7 @@
 
 # About this build
 
-This documentation was built on **2026-10-20 12:15 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/d6a5e8e9e1927cd3783a92c20f7a7966a0cfe00b"><code>d6a5e8e</code></a> on branch <code>main</code>, for **sung 0.0.29** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 12:19 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/94ff9f40aa901eb23c0353b87c5e3cf81a50ca56"><code>94ff9f4</code></a> on branch <code>main</code>, for **sung 0.0.30** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -11,9 +11,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/sung/commit/d6a5e8e9e1927cd3783a92c20f7a7966a0cfe00b"><code>d6a5e8e9e1927cd3783a92c20f7a7966a0cfe00b</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/sung/commit/94ff9f40aa901eb23c0353b87c5e3cf81a50ca56"><code>94ff9f40aa901eb23c0353b87c5e3cf81a50ca56</code></a> |
 | Branch              | <code>main</code>                                                                                                                                      |
-| Tags at this commit | <code>0.0.29</code>                                                                                                                                    |
+| Tags at this commit | <code>0.0.30</code>                                                                                                                                    |
 | Working tree        | clean                                                                                                                                                  |
 | Remote              | <code>https://github.com/thorwhalen/sung</code>                                                                                                        |
 
@@ -22,9 +22,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/sung</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39420571767">39420571767</a>      |
+| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39421061944">39421061944</a>      |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>3ebce9e5f19538fbae424b9e911e2f2cb35bf73d</code> (in the history of the built commit) |
+| Event commit | <code>9d8e0bc67b33ddcff5a5a07c2ba1b84c91c67b8b</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -49,13 +49,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/sung/0.0.29/">0.0.29</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/sung/0.0.30/">0.0.30</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/sung && cd sung
-git checkout d6a5e8e9e1927cd3783a92c20f7a7966a0cfe00b
+git checkout 94ff9f40aa901eb23c0353b87c5e3cf81a50ca56
 pip install "epythet==0.2.20"
 epythet quickstart . --ignore tests/ scrap/ examples/ misc/
 ```

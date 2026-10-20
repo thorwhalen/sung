@@ -179,11 +179,19 @@ Pack multiple short lines together to make better use of horizontal space.
 * **Parameters:**
   * **song** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str) | [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)]) – Raw text or parsed song data
   * **max_line_length** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Maximum length of packed lines
-  * **preserve_chord_alignment** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – If True, keep chord alignment intact
+  * **preserve_chord_alignment** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – Reserved. Chord alignment is column-based, so
+    sections that carry chords are always kept as they are and never
+    merged with their neighbours; only chordless lyric lines are packed.
 * **Return type:**
   [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)]
 * **Returns:**
-  List of song sections with packed lines
+  List of song sections with packed lines. Blank lines and `[Section]`
+  headers always start a new packed line.
+
+```pycon
+>>> [s["lyrics"] for s in pack_song_lines("aa bb\n\ncc", max_line_length=80)]
+['aa bb', '', 'cc']
+```
 
 ### sung.chords_and_lyrics.pack_song_text(song, max_length=80)
 

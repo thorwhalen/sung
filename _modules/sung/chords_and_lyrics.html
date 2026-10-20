@@ -761,7 +761,6 @@
 
 
 
-<span class="c1"># TODO: Make this work</span>
 <div class="viewcode-block" id="pack_song_lines">
 <a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.pack_song_lines">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pack_song_lines</span><span class="p">(</span>
@@ -775,10 +774,16 @@
 <span class="sd">    Args:</span>
 <span class="sd">        song: Raw text or parsed song data</span>
 <span class="sd">        max_line_length: Maximum length of packed lines</span>
-<span class="sd">        preserve_chord_alignment: If True, keep chord alignment intact</span>
+<span class="sd">        preserve_chord_alignment: Reserved. Chord alignment is column-based, so</span>
+<span class="sd">            sections that carry chords are always kept as they are and never</span>
+<span class="sd">            merged with their neighbours; only chordless lyric lines are packed.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        List of song sections with packed lines</span>
+<span class="sd">        List of song sections with packed lines. Blank lines and ``[Section]``</span>
+<span class="sd">        headers always start a new packed line.</span>
+
+<span class="sd">    &gt;&gt;&gt; [s["lyrics"] for s in pack_song_lines("aa bb\\n\\ncc", max_line_length=80)]</span>
+<span class="sd">    ['aa bb', '', 'cc']</span>
 <span class="sd">    """</span>
     <span class="n">song_data</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ensure_parsed_song</span><span class="p">(</span><span class="n">song</span><span class="p">)</span>
 
@@ -950,7 +955,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=9f547d6f"></script>
+</div><script src="../../_static/documentation_options.js?v=d8383de7"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

@@ -21,6 +21,7 @@ CREDENTIAL_FREE_MODULES = [
     "sung.playlists",
     "sung.chords_and_lyrics",
     "sung.tools",
+    "sung.chords_index",
 ]
 
 OPTIONFLAGS = doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE

@@ -1,10 +1,8 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-20T12:12:06.341346Z
-commit_sha,c9323de321c909f8934aaac9556c117638a110a4
-commit_message,"Redo cast_track_key and ensure_playlist_id on dol.KeyTemplate (#9)
-
-Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
+timestamp,2026-10-20T12:12:18.041611Z
+commit_sha,9b0b62674bdc3b4bad8f933e0df096cb1143a475
+commit_message,Merge c9323de321c909f8934aaac9556c117638a110a4 into 1c9ed4f56a8d922dc076aacc6e3168583497c08d
 python_version,3.10
 metrics.umpyre_stats.num_functions,33031
 metrics.umpyre_stats.num_classes,5139
@@ -18,7 +16,7 @@ metrics.umpyre_stats.comment_lines_ratio,0.05317725009791373
 metrics.umpyre_stats.function_lines_ratio,0.6353652283105945
 metrics.umpyre_stats.mean_lines_per_function,19.055917168720292
 metrics.umpyre_stats.files_analyzed,1909
-metrics.umpyre_stats.pypi_version,0.0.27
+metrics.umpyre_stats.pypi_version,0.0.28
 metrics.workflow_status.last_run_status,success
 metrics.workflow_status.last_success_timestamp,2026-10-20T11:39:27Z
 metrics.workflow_status.recent_failure_count,0
@@ -35,4 +33,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,6.761853218078613
+collection_duration_seconds,7.955321788787842

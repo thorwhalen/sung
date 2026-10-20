@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 6.761853218078613,
-  "commit_message": "Redo cast_track_key and ensure_playlist_id on dol.KeyTemplate (#9)\n\nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>",
-  "commit_sha": "c9323de321c909f8934aaac9556c117638a110a4",
+  "collection_duration_seconds": 7.955321788787842,
+  "commit_message": "Merge c9323de321c909f8934aaac9556c117638a110a4 into 1c9ed4f56a8d922dc076aacc6e3168583497c08d",
+  "commit_sha": "9b0b62674bdc3b4bad8f933e0df096cb1143a475",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -22,7 +22,7 @@
       "mean_lines_per_function": 19.055917168720292,
       "num_classes": 5139,
       "num_functions": 33031,
-      "pypi_version": "0.0.27",
+      "pypi_version": "0.0.28",
       "total_lines": 990668
     },
     "wily": {
@@ -42,6 +42,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-20T12:12:06.341346Z",
+  "timestamp": "2026-10-20T12:12:18.041611Z",
   "workflow_status": {}
 }

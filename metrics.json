@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 11.144784212112427,
-  "commit_message": "Ship the sung-playlist skill with pip install (#16)\n\n* Ship the sung-playlist skill inside the package (canonical skills layout) (#11)\n\nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>\n\n* Skip Spotify-marked tests on rate limits and API outages\n\nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Sonnet 5.5 <noreply@anthropic.com>",
-  "commit_sha": "205be04415816b747d11eaa72340e6a7e7f8e236",
+  "collection_duration_seconds": 7.361711502075195,
+  "commit_message": "Lazy re-exports in sung/__init__.py: import sung skips pandas/spotipy\n\nimport sung, sung.chords_and_lyrics: 1.2 s / 140 MB max RSS -> 0.2 s / 31 MB.\nfrom sung import X still works (module __getattr__). First slice of #17.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>",
+  "commit_sha": "b8726487c3bbbd8b01f2afac00316d500da2f0e8",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -11,11 +11,11 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 50710,
-      "comment_lines_ratio": 0.051578478419629724,
-      "docs_lines": 221107,
-      "empty_lines": 142986,
-      "empty_lines_ratio": 0.14543483169609892,
+      "comment_lines": 50695,
+      "comment_lines_ratio": 0.051480646140754045,
+      "docs_lines": 221578,
+      "empty_lines": 143251,
+      "empty_lines_ratio": 0.14547103344134843,
       "errors": [
         "mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)",
         "_scalars.py: invalid syntax (_scalars.py, line 7)",
@@ -25,15 +25,15 @@
         "_shape.py: invalid syntax (_shape.py, line 4)",
         "_array_like.py: invalid syntax (_array_like.py, line 15)"
       ],
-      "files_analyzed": 1795,
-      "function_lines": 634298,
-      "function_lines_ratio": 0.6451612247015243,
-      "mean_lines_per_function": 19.94334224178588,
-      "num_classes": 4896,
-      "num_functions": 31805,
-      "pypi_version": "0.0.30",
+      "files_analyzed": 1798,
+      "function_lines": 635345,
+      "function_lines_ratio": 0.6451912638780428,
+      "mean_lines_per_function": 19.924891021419388,
+      "num_classes": 4909,
+      "num_functions": 31887,
+      "pypi_version": "0.0.31",
       "total_errors": 7,
-      "total_lines": 983162
+      "total_lines": 984739
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -44,14 +44,14 @@
     },
     "workflow_status": {
       "last_run_status": "success",
-      "last_success_timestamp": "2026-10-20T12:28:13Z",
+      "last_success_timestamp": "2026-10-20T12:30:45Z",
       "recent_failure_count": 3,
-      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39422351360",
+      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39422713377",
       "total_runs_analyzed": 10
     }
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-20T12:28:25.865192Z",
+  "timestamp": "2026-10-20T18:32:45.220287Z",
   "workflow_status": {}
 }

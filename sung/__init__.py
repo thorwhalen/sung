@@ -115,34 +115,56 @@ Name: name_and_first_artist, dtype: object
 
 """
 
-from sung.base import (
-    search_tracks,
-    Tracks,
-    PlaylistReader,
-    Playlist,
-    extract_extra_metadata,
-    df_extract_extra_metadata,
-    SpotifyDacc,
-    delete_playlist,
-)
-from sung.util import (
-    extractor,
-    cast_track_key,
-    ensure_track_id,
-    get_spotify_client,
-    ensure_playlist_id,
-)
-from sung.tools import TracksAnalysis
-from sung.chords_and_lyrics import (
-    render_chords_and_lyrics,
-    search_songs,
-    remove_non_lyrics,
-    pack_song_text,
-)
-from sung.playlists import (
-    parse_song_descriptor,
-    resolve_song,
-    resolve_songs,
-    playlist_from_songs,
-    SongMatch,
-)
+# Lazy re-exports (thorwhalen/sung#17): ``import sung`` (and so any ``sung.<module>``)
+# must not pay for pandas and spotipy, so that light modules such as the chords and
+# lyrics index can be imported on their own. ``from sung import X`` still works: the
+# defining module is imported the first time ``X`` is asked for.
+_LAZY_EXPORTS = {
+    "sung.base": (
+        "search_tracks",
+        "Tracks",
+        "PlaylistReader",
+        "Playlist",
+        "extract_extra_metadata",
+        "df_extract_extra_metadata",
+        "SpotifyDacc",
+        "delete_playlist",
+    ),
+    "sung.util": (
+        "extractor",
+        "cast_track_key",
+        "ensure_track_id",
+        "get_spotify_client",
+        "ensure_playlist_id",
+    ),
+    "sung.tools": ("TracksAnalysis",),
+    "sung.chords_and_lyrics": (
+        "render_chords_and_lyrics",
+        "search_songs",
+        "remove_non_lyrics",
+        "pack_song_text",
+    ),
+    "sung.playlists": (
+        "parse_song_descriptor",
+        "resolve_song",
+        "resolve_songs",
+        "playlist_from_songs",
+        "SongMatch",
+    ),
+}
+_MODULE_OF = {name: module for module, names in _LAZY_EXPORTS.items() for name in names}
+__all__ = list(_MODULE_OF)
+
+
+def __getattr__(name):
+    if name not in _MODULE_OF:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    from importlib import import_module
+
+    value = getattr(import_module(_MODULE_OF[name]), name)
+    globals()[name] = value  # cache: later lookups skip __getattr__
+    return value
+
+
+def __dir__():
+    return sorted(set(globals()) | set(__all__))

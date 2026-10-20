@@ -1,0 +1,47 @@
+{
+  "collection_duration_seconds": 8.897245168685913,
+  "commit_message": "Add sung.chords_index: the stdlib-only SQLite+FTS5 index of the chords corpus (#17 step 2)\n\nMoves the index build and raw reads from songleaf.kaggle_index into sung,\nschema unchanged so files songleaf built stay valid. Importing it loads\nonly the standard library; ranking stays with the consumers.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>",
+  "commit_sha": "ea34a62403d0f3a8e56a8e3a30815ca6db65b500",
+  "metrics": {
+    "coverage": {
+      "branch_coverage": 0.0,
+      "error": "No coverage file found",
+      "line_coverage": 0.0,
+      "statements_covered": 0,
+      "statements_total": 0
+    },
+    "umpyre_stats": {
+      "comment_lines": 52663,
+      "comment_lines_ratio": 0.05304631265524681,
+      "docs_lines": 198759,
+      "empty_lines": 144139,
+      "empty_lines_ratio": 0.14518812942321213,
+      "files_analyzed": 1918,
+      "function_lines": 630655,
+      "function_lines_ratio": 0.6352452824106997,
+      "mean_lines_per_function": 19.036342781249058,
+      "num_classes": 5152,
+      "num_functions": 33129,
+      "pypi_version": "0.0.32",
+      "total_lines": 992774
+    },
+    "wily": {
+      "cyclomatic_avg": 0.0,
+      "error": "wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...\nTry 'wily report --help' for help.\n\nError: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.\n",
+      "files_analyzed": 0,
+      "maintainability_index": 0.0,
+      "total_loc": 0
+    },
+    "workflow_status": {
+      "last_run_status": "success",
+      "last_success_timestamp": "2026-10-20T18:36:50Z",
+      "recent_failure_count": 0,
+      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39476221164",
+      "total_runs_analyzed": 10
+    }
+  },
+  "python_version": "3.10",
+  "schema_version": "1.0",
+  "timestamp": "2026-10-20T19:28:58.694823Z",
+  "workflow_status": {}
+}

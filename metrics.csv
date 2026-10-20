@@ -1,31 +1,32 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-20T18:34:56.528742Z
-commit_sha,ffdb7bc57b9397aa514abf0cfd2e66c92110ffc8
-commit_message,"Lazy re-exports in sung/__init__.py: import sung skips pandas/spotipy (#18)
+timestamp,2026-10-20T19:28:58.694823Z
+commit_sha,ea34a62403d0f3a8e56a8e3a30815ca6db65b500
+commit_message,"Add sung.chords_index: the stdlib-only SQLite+FTS5 index of the chords corpus (#17 step 2)
 
-import sung, sung.chords_and_lyrics: 1.2 s / 140 MB max RSS -> 0.2 s / 31 MB.
-from sung import X still works (module __getattr__). First slice of #17.
+Moves the index build and raw reads from songleaf.kaggle_index into sung,
+schema unchanged so files songleaf built stay valid. Importing it loads
+only the standard library; ranking stays with the consumers.
 
-Co-authored-by: Claude Opus 5.5 <noreply@anthropic.com>"
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 python_version,3.10
-metrics.umpyre_stats.num_functions,33114
+metrics.umpyre_stats.num_functions,33129
 metrics.umpyre_stats.num_classes,5152
-metrics.umpyre_stats.total_lines,992244
-metrics.umpyre_stats.empty_lines,144057
-metrics.umpyre_stats.comment_lines,52646
-metrics.umpyre_stats.docs_lines,198734
-metrics.umpyre_stats.function_lines,630504
-metrics.umpyre_stats.empty_lines_ratio,0.14518303965556859
-metrics.umpyre_stats.comment_lines_ratio,0.05305751407919826
-metrics.umpyre_stats.function_lines_ratio,0.635432413801444
-metrics.umpyre_stats.mean_lines_per_function,19.04040587062874
-metrics.umpyre_stats.files_analyzed,1912
-metrics.umpyre_stats.pypi_version,0.0.31
+metrics.umpyre_stats.total_lines,992774
+metrics.umpyre_stats.empty_lines,144139
+metrics.umpyre_stats.comment_lines,52663
+metrics.umpyre_stats.docs_lines,198759
+metrics.umpyre_stats.function_lines,630655
+metrics.umpyre_stats.empty_lines_ratio,0.14518812942321213
+metrics.umpyre_stats.comment_lines_ratio,0.05304631265524681
+metrics.umpyre_stats.function_lines_ratio,0.6352452824106997
+metrics.umpyre_stats.mean_lines_per_function,19.036342781249058
+metrics.umpyre_stats.files_analyzed,1918
+metrics.umpyre_stats.pypi_version,0.0.32
 metrics.workflow_status.last_run_status,success
-metrics.workflow_status.last_success_timestamp,2026-10-20T18:33:13Z
-metrics.workflow_status.recent_failure_count,2
-metrics.workflow_status.run_url,https://github.com/thorwhalen/sung/actions/runs/39475547877
+metrics.workflow_status.last_success_timestamp,2026-10-20T18:36:50Z
+metrics.workflow_status.recent_failure_count,0
+metrics.workflow_status.run_url,https://github.com/thorwhalen/sung/actions/runs/39476221164
 metrics.workflow_status.total_runs_analyzed,10
 metrics.wily.cyclomatic_avg,0.0
 metrics.wily.maintainability_index,0.0
@@ -41,4 +42,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,8.064297437667847
+collection_duration_seconds,8.897245168685913

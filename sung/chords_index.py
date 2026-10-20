@@ -41,6 +41,35 @@ from contextlib import closing
 from itertools import islice
 from pathlib import Path
 
+CHORDS_AND_LYRICS_DATASET = "eitanbentora/chords-and-lyrics-dataset"
+CHORDS_AND_LYRICS_CSV = "chords_and_lyrics.csv"
+#: Environment variable naming a local copy of the corpus zip.
+CHORDS_AND_LYRICS_ZIP_ENVVAR = "SUNG_CHORDS_AND_LYRICS_ZIP"
+
+
+def local_chords_and_lyrics_zip():
+    """Return the path of a local copy of the chords-and-lyrics zip, or ``None``.
+
+    Looks at ``$SUNG_CHORDS_AND_LYRICS_ZIP`` first, then at where ``haggle``
+    keeps its downloads (``$HAGGLE_ROOTDIR/zips/<owner>/<dataset>.zip``, root
+    defaulting to ``~/haggle``). The haggle layout is replicated rather than
+    asked of haggle, because importing haggle imports ``kaggle``, which
+    authenticates against Kaggle at import time, even for a cached file.
+    """
+    explicit = os.environ.get(CHORDS_AND_LYRICS_ZIP_ENVVAR)
+    if explicit:
+        path = os.path.expanduser(explicit)
+        if not os.path.isfile(path):
+            raise FileNotFoundError(
+                f"${CHORDS_AND_LYRICS_ZIP_ENVVAR} names {path}, which is not a file"
+            )
+        return path
+    haggle_root = os.environ.get("HAGGLE_ROOTDIR", os.path.expanduser("~/haggle"))
+    owner, dataset = CHORDS_AND_LYRICS_DATASET.split("/")
+    path = os.path.join(haggle_root, "zips", owner, f"{dataset}.zip")
+    return path if os.path.isfile(path) else None
+
+
 #: The index's file name; it lives beside the corpus zip by convention.
 INDEX_NAME = "chords-and-lyrics.sqlite"
 #: Environment variable naming the index file.
@@ -81,7 +110,9 @@ def local_chords_index():
 
     ``$SUNG_CHORDS_INDEX`` first (an error if it names no file), then
     :data:`INDEX_NAME` beside the local corpus zip
-    (:func:`sung.chords_and_lyrics.local_chords_and_lyrics_zip`).
+    (:func:`local_chords_and_lyrics_zip`). An index kept elsewhere (songleaf
+    keeps its own under its data root) is found only through the variable, or
+    passed by path to the readers.
     """
     explicit = os.environ.get(CHORDS_INDEX_ENVVAR)
     if explicit:
@@ -91,8 +122,6 @@ def local_chords_index():
                 f"${CHORDS_INDEX_ENVVAR} names {path}, which is not a file"
             )
         return path
-    from sung.chords_and_lyrics import local_chords_and_lyrics_zip  # no pandas
-
     zip_path = local_chords_and_lyrics_zip()
     if zip_path is None:
         return None
@@ -106,7 +135,12 @@ def dataframe_rows(df) -> Iterable[tuple]:
 
 
 def corpus_rows(*, zip_path=None) -> Iterable[tuple]:
-    """The local corpus's rows, loaded through pandas (see ``get_lyrics_and_chords_dataset``)."""
+    """The corpus's rows, loaded through pandas (see ``get_lyrics_and_chords_dataset``).
+
+    ``zip_path`` defaults to :func:`local_chords_and_lyrics_zip` (and, failing
+    that, a download through haggle): a consumer that keeps the zip elsewhere
+    passes it.
+    """
     from sung.chords_and_lyrics import get_lyrics_and_chords_dataset
 
     df = get_lyrics_and_chords_dataset(zip_path=zip_path, usecols=CORPUS_COLUMNS)
@@ -123,6 +157,8 @@ def build_chords_index(
     ``n`` of the index. The file is written beside ``path`` and moved into place
     when complete, so a reader never sees half an index.
     """
+    if batch_size < 1:
+        raise ValueError(f"batch_size must be at least 1, not {batch_size!r}")
     os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
     started = time.time()
     rows = corpus_rows() if rows is None else rows
@@ -231,8 +267,11 @@ def rows_with_words(path: str, words: Iterable[str]) -> list[int]:
     """The rows whose chart contains every one of ``words`` (whole words, any case).
 
     Words are matched as FTS5 tokens (``unicode61``: ``_`` separates words,
-    accents are kept). No words, no rows.
+    accents are kept). Tokenizing a query is the caller's business: pass words,
+    not a sentence. No words, no rows.
     """
+    if isinstance(words, str):
+        raise TypeError(f"words must be an iterable of words, not the string {words!r}")
     quoted = ['"{}"'.format(word.replace('"', '""')) for word in words if word]
     if not quoted:
         return []

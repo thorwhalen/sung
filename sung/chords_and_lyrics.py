@@ -65,33 +65,14 @@ Combine both features:
 import os
 from functools import lru_cache
 
-CHORDS_AND_LYRICS_DATASET = "eitanbentora/chords-and-lyrics-dataset"
-CHORDS_AND_LYRICS_CSV = "chords_and_lyrics.csv"
-#: Environment variable naming a local copy of the corpus zip.
-CHORDS_AND_LYRICS_ZIP_ENVVAR = "SUNG_CHORDS_AND_LYRICS_ZIP"
-
-
-def local_chords_and_lyrics_zip():
-    """Return the path of a local copy of the chords-and-lyrics zip, or ``None``.
-
-    Looks at ``$SUNG_CHORDS_AND_LYRICS_ZIP`` first, then at where ``haggle``
-    keeps its downloads (``$HAGGLE_ROOTDIR/zips/<owner>/<dataset>.zip``, root
-    defaulting to ``~/haggle``). The haggle layout is replicated rather than
-    asked of haggle, because importing haggle imports ``kaggle``, which
-    authenticates against Kaggle at import time, even for a cached file.
-    """
-    explicit = os.environ.get(CHORDS_AND_LYRICS_ZIP_ENVVAR)
-    if explicit:
-        path = os.path.expanduser(explicit)
-        if not os.path.isfile(path):
-            raise FileNotFoundError(
-                f"${CHORDS_AND_LYRICS_ZIP_ENVVAR} names {path}, which is not a file"
-            )
-        return path
-    haggle_root = os.environ.get("HAGGLE_ROOTDIR", os.path.expanduser("~/haggle"))
-    owner, dataset = CHORDS_AND_LYRICS_DATASET.split("/")
-    path = os.path.join(haggle_root, "zips", owner, f"{dataset}.zip")
-    return path if os.path.isfile(path) else None
+# Where the corpus is found lives in the stdlib-only index module, so that finding
+# it (say, from a web worker serving the index) never imports this module's pydantic.
+from sung.chords_index import (  # noqa: F401  (re-exported)
+    CHORDS_AND_LYRICS_CSV,
+    CHORDS_AND_LYRICS_DATASET,
+    CHORDS_AND_LYRICS_ZIP_ENVVAR,
+    local_chords_and_lyrics_zip,
+)
 
 
 def get_lyrics_and_chords_dataset(*, zip_path=None, usecols=None):

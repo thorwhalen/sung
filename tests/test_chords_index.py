@@ -118,10 +118,11 @@ def test_local_index_from_env_and_beside_the_zip(tmp_path, monkeypatch):
         ci.local_chords_index()
 
 
-def test_importing_the_index_loads_only_the_standard_library():
+def test_finding_and_importing_the_index_load_only_the_standard_library():
     script = (
         "import sys\n"
-        "import sung.chords_index\n"
+        "import sung.chords_index as ci\n"
+        "ci.local_chords_index()\n"
         "print(sorted({'pandas', 'pydantic', 'reportlab', 'spotipy'} & set(sys.modules)))\n"
     )
     result = subprocess.run(
@@ -132,3 +133,10 @@ def test_importing_the_index_loads_only_the_standard_library():
 
 def test_nan_helpers():
     assert ci._text_or_empty(math.nan) == "" and ci._number_or_zero("x") == 0.0
+
+
+def test_bad_arguments_fail_loudly(index, tmp_path):
+    with pytest.raises(ValueError):
+        ci.build_chords_index(str(tmp_path / "x.sqlite"), rows=ROWS, batch_size=0)
+    with pytest.raises(TypeError):
+        ci.rows_with_words(index, "boats")

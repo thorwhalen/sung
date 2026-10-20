@@ -1,6 +1,6 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-20T18:32:45.220287Z
+timestamp,2026-10-20T18:32:50.007453Z
 commit_sha,b8726487c3bbbd8b01f2afac00316d500da2f0e8
 commit_message,"Lazy re-exports in sung/__init__.py: import sung skips pandas/spotipy
 
@@ -9,21 +9,19 @@ from sung import X still works (module __getattr__). First slice of #17.
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 python_version,3.10
-metrics.umpyre_stats.num_functions,31887
-metrics.umpyre_stats.num_classes,4909
-metrics.umpyre_stats.total_lines,984739
-metrics.umpyre_stats.empty_lines,143251
-metrics.umpyre_stats.comment_lines,50695
-metrics.umpyre_stats.docs_lines,221578
-metrics.umpyre_stats.function_lines,635345
-metrics.umpyre_stats.empty_lines_ratio,0.14547103344134843
-metrics.umpyre_stats.comment_lines_ratio,0.051480646140754045
-metrics.umpyre_stats.function_lines_ratio,0.6451912638780428
-metrics.umpyre_stats.mean_lines_per_function,19.924891021419388
-metrics.umpyre_stats.files_analyzed,1798
+metrics.umpyre_stats.num_functions,33114
+metrics.umpyre_stats.num_classes,5152
+metrics.umpyre_stats.total_lines,992244
+metrics.umpyre_stats.empty_lines,144057
+metrics.umpyre_stats.comment_lines,52646
+metrics.umpyre_stats.docs_lines,198734
+metrics.umpyre_stats.function_lines,630504
+metrics.umpyre_stats.empty_lines_ratio,0.14518303965556859
+metrics.umpyre_stats.comment_lines_ratio,0.05305751407919826
+metrics.umpyre_stats.function_lines_ratio,0.635432413801444
+metrics.umpyre_stats.mean_lines_per_function,19.04040587062874
+metrics.umpyre_stats.files_analyzed,1912
 metrics.umpyre_stats.pypi_version,0.0.31
-metrics.umpyre_stats.errors,"['mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)', '_scalars.py: invalid syntax (_scalars.py, line 7)', '_char_codes.py: invalid syntax (_char_codes.py, line 3)', '_dtype_like.py: invalid syntax (_dtype_like.py, line 21)', '_nbit.py: invalid syntax (_nbit.py, line 6)', '_shape.py: invalid syntax (_shape.py, line 4)', '_array_like.py: invalid syntax (_array_like.py, line 15)']"
-metrics.umpyre_stats.total_errors,7
 metrics.workflow_status.last_run_status,success
 metrics.workflow_status.last_success_timestamp,2026-10-20T12:30:45Z
 metrics.workflow_status.recent_failure_count,3
@@ -43,4 +41,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,7.361711502075195
+collection_duration_seconds,7.053006172180176

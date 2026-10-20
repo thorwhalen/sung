@@ -102,14 +102,14 @@ Combine both features:
 
 ### Classes
 
-| [`FontSpec`](#sung.chords_and_lyrics.FontSpec)(\*\*data)   |    |
-|-----------------------------------------------------------------------|----|
+| [`FontSpec`](#sung.chords_and_lyrics.FontSpec)(\*, name, size, color, alpha)   |    |
+|-------------------------------------------------------------------------------------------|----|
 
 ### sung.chords_and_lyrics.CHORDS_AND_LYRICS_ZIP_ENVVAR *= 'SUNG_CHORDS_AND_LYRICS_ZIP'*
 
 Environment variable naming a local copy of the corpus zip.
 
-### *class* sung.chords_and_lyrics.FontSpec(\*\*data)
+### *class* sung.chords_and_lyrics.FontSpec(, name, size, color, alpha)
 
 Bases: `BaseModel`
 

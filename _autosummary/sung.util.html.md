@@ -89,10 +89,10 @@ Convert a Spotify track key between different formats.
   * **convert** ( *- track_key - the track key to*)
   * **to** ( *- target_kind - the format to convert*)
   * **key** ( *- src_kind - the format* *of* *the input track*)
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 * **Returns:**
   The track key in the target format.
-* **Return type:**
-  [*str*](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### Examples
 
@@ -122,7 +122,7 @@ Get a Spotify client.
 
 * **Parameters:**
   * **client** ( *- \*\*kwargs - additional arguments to pass to the Spotify*)
-  * **auth_manager** ( *- ensure_scope - a scope to ensure is included in the client's*)
+  * **auth_manager**
   * **client**
   * **client**
 

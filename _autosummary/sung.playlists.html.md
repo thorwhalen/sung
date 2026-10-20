@@ -39,7 +39,7 @@ ranked candidate list, which the CLI uses to surface ambiguous matches.
 | [`SongMatch`](#sung.playlists.SongMatch)(descriptor, query_name, ...[, ...])   | Result of resolving a single song descriptor.   |
 |--------------------------------------------------------------------------------------------------|-------------------------------------------------|
 
-### *class* sung.playlists.SongMatch(descriptor, query_name, query_artist, track_id, track_name, artist_names=<factory>, album_name=None, popularity=None, score=0.0, candidates=<factory>, ambiguous=False, not_found=False)
+### *class* sung.playlists.SongMatch(descriptor, query_name, query_artist, track_id, track_name, artist_names=list(), album_name=None, popularity=None, score=0.0, candidates=list(), ambiguous=False, not_found=False)
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 

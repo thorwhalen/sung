@@ -1,4 +1,4 @@
-> built 2026-09-22 12:52 UTC from 7a64c55 (main) · sung 0.0.27. Details: build_info.json
+> built 2026-10-20 11:38 UTC from 1c9ed4f (main) · sung 0.0.28. Details: build_info.json
 
 # index.html.md
 
@@ -3110,7 +3110,7 @@ Create a new playlist from a list of track IDs.
   * **playlist_name** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – The name of the new playlist.
   * **public** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – Whether the playlist should be public.
   * **client** ([`Any`](https://docs.python.org/3/library/typing.html#typing.Any) | [`None`](https://docs.python.org/3/builtins/constants.html#None)) – The Spotify client to use for creating the playlist.
-  * **user_id** ( *-*) – The user ID of the playlist owner.
+  * **user_id** – The user ID of the playlist owner.
 * **Return type:**
   [`Playlist`](_autosummary/sung.base.html.md#sung.base.Playlist)
 
@@ -3285,14 +3285,14 @@ Combine both features:
 
 ### Classes
 
-| [`FontSpec`](_autosummary/sung.chords_and_lyrics.html.md#sung.chords_and_lyrics.FontSpec)(\*\*data)   |    |
-|-----------------------------------------------------------------------|----|
+| [`FontSpec`](_autosummary/sung.chords_and_lyrics.html.md#sung.chords_and_lyrics.FontSpec)(\*, name, size, color, alpha)   |    |
+|-------------------------------------------------------------------------------------------|----|
 
 ### sung.chords_and_lyrics.CHORDS_AND_LYRICS_ZIP_ENVVAR *= 'SUNG_CHORDS_AND_LYRICS_ZIP'*
 
 Environment variable naming a local copy of the corpus zip.
 
-### *class* sung.chords_and_lyrics.FontSpec(\*\*data)
+### *class* sung.chords_and_lyrics.FontSpec(, name, size, color, alpha)
 
 Bases: `BaseModel`
 
@@ -3626,7 +3626,7 @@ ranked candidate list, which the CLI uses to surface ambiguous matches.
 | [`SongMatch`](_autosummary/sung.playlists.html.md#sung.playlists.SongMatch)(descriptor, query_name, ...[, ...])   | Result of resolving a single song descriptor.   |
 |--------------------------------------------------------------------------------------------------|-------------------------------------------------|
 
-### *class* sung.playlists.SongMatch(descriptor, query_name, query_artist, track_id, track_name, artist_names=<factory>, album_name=None, popularity=None, score=0.0, candidates=<factory>, ambiguous=False, not_found=False)
+### *class* sung.playlists.SongMatch(descriptor, query_name, query_artist, track_id, track_name, artist_names=list(), album_name=None, popularity=None, score=0.0, candidates=list(), ambiguous=False, not_found=False)
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -3710,117 +3710,117 @@ because that version claims to be more correct than the official Spotify API spe
 
 ### Classes
 
-| [`AlbumBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AlbumBase)(\*\*data)                          |    |
-|-----------------------------------------------------------------------------------------------|----|
-| [`AlbumGroup`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AlbumGroup)(\*values)                         |    |
-| [`AlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AlbumObject)(\*\*data)                        |    |
-| [`AlbumRestrictionObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AlbumRestrictionObject)(\*\*data)             |    |
-| [`AlbumType`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AlbumType)(\*values)                          |    |
-| [`ArtistDiscographyAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ArtistDiscographyAlbumObject)(\*\*data)       |    |
-| [`ArtistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ArtistObject)(\*\*data)                       |    |
-| [`AudioAnalysisObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AudioAnalysisObject)(\*\*data)                |    |
-| [`AudioFeaturesObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AudioFeaturesObject)(\*\*data)                |    |
-| [`AudiobookBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AudiobookBase)(\*\*data)                      |    |
-| [`AudiobookObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AudiobookObject)(\*\*data)                    |    |
-| [`AuthorObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AuthorObject)(\*\*data)                       |    |
-| [`CategoryObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CategoryObject)(\*\*data)                     |    |
-| [`ChapterBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ChapterBase)(\*\*data)                        |    |
-| [`ChapterObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ChapterObject)(\*\*data)                      |    |
-| [`ChapterRestrictionObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ChapterRestrictionObject)(\*\*data)           |    |
-| [`ContextObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ContextObject)(\*\*data)                      |    |
-| [`CopyrightObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CopyrightObject)(\*\*data)                    |    |
-| [`CurrentlyPlayingContextObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CurrentlyPlayingContextObject)(\*\*data)      |    |
-| [`CurrentlyPlayingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CurrentlyPlayingObject)(\*\*data)             |    |
-| [`CursorObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CursorObject)(\*\*data)                       |    |
-| [`CursorPagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CursorPagingObject)(\*\*data)                 |    |
-| [`CursorPagingPlayHistoryObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CursorPagingPlayHistoryObject)(\*\*data)      |    |
-| [`CursorPagingSimplifiedArtistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CursorPagingSimplifiedArtistObject)(\*\*data) |    |
-| [`DeviceObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.DeviceObject)(\*\*data)                       |    |
-| [`DisallowsObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.DisallowsObject)(\*\*data)                    |    |
-| [`EpisodeBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.EpisodeBase)(\*\*data)                        |    |
-| [`EpisodeObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.EpisodeObject)(\*\*data)                      |    |
-| [`EpisodeRestrictionObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.EpisodeRestrictionObject)(\*\*data)           |    |
-| [`ErrorObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ErrorObject)(\*\*data)                        |    |
-| [`ExplicitContentSettingsObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ExplicitContentSettingsObject)(\*\*data)      |    |
-| [`ExternalIdObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ExternalIdObject)(\*\*data)                   |    |
-| [`ExternalUrlObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ExternalUrlObject)(\*\*data)                  |    |
-| [`FollowersObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.FollowersObject)(\*\*data)                    |    |
-| [`ImageObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ImageObject)(\*\*data)                        |    |
-| [`Key`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Key)([root])                                  |    |
-| [`LinkedTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.LinkedTrackObject)(\*\*data)                  |    |
-| [`Loudness`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Loudness)([root])                             |    |
-| [`Meta`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Meta)(\*\*data)                               |    |
-| [`Mode`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Mode)([root])                                 |    |
-| [`Mode1`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Mode1)(\*values)                              |    |
-| [`NarratorObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.NarratorObject)(\*\*data)                     |    |
-| [`PagingArtistDiscographyAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingArtistDiscographyAlbumObject)(\*\*data) |    |
-| [`PagingArtistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingArtistObject)(\*\*data)                 |    |
-| [`PagingFeaturedPlaylistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingFeaturedPlaylistObject)(\*\*data)       |    |
-| [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)(\*\*data)                       |    |
-| [`PagingPlaylistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingPlaylistObject)(\*\*data)               |    |
-| [`PagingPlaylistTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingPlaylistTrackObject)(\*\*data)          |    |
-| [`PagingSavedAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSavedAlbumObject)(\*\*data)             |    |
-| [`PagingSavedAudiobookObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSavedAudiobookObject)(\*\*data)         |    |
-| [`PagingSavedEpisodeObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSavedEpisodeObject)(\*\*data)           |    |
-| [`PagingSavedShowObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSavedShowObject)(\*\*data)              |    |
-| [`PagingSavedTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSavedTrackObject)(\*\*data)             |    |
-| [`PagingSimplifiedAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSimplifiedAlbumObject)(\*\*data)        |    |
-| [`PagingSimplifiedAudiobookObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSimplifiedAudiobookObject)(\*\*data)    |    |
-| [`PagingSimplifiedChapterObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSimplifiedChapterObject)(\*\*data)      |    |
-| [`PagingSimplifiedEpisodeObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSimplifiedEpisodeObject)(\*\*data)      |    |
-| [`PagingSimplifiedShowObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSimplifiedShowObject)(\*\*data)         |    |
-| [`PagingSimplifiedTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSimplifiedTrackObject)(\*\*data)        |    |
-| [`PagingTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingTrackObject)(\*\*data)                  |    |
-| [`PlayHistoryObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlayHistoryObject)(\*\*data)                  |    |
-| [`PlaylistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlaylistObject)(\*\*data)                     |    |
-| [`PlaylistOwnerObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlaylistOwnerObject)(\*\*data)                |    |
-| [`PlaylistTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlaylistTrackObject)(\*\*data)                |    |
-| [`PlaylistTracksRefObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlaylistTracksRefObject)(\*\*data)            |    |
-| [`PlaylistUserObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlaylistUserObject)(\*\*data)                 |    |
-| [`PrivateUserObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PrivateUserObject)(\*\*data)                  |    |
-| [`PublicUserObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PublicUserObject)(\*\*data)                   |    |
-| [`Queue`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Queue)([root])                                |    |
-| [`QueueObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.QueueObject)(\*\*data)                        |    |
-| [`Reason`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Reason)(\*values)                             |    |
-| [`RecommendationSeedObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.RecommendationSeedObject)(\*\*data)           |    |
-| [`RecommendationsObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.RecommendationsObject)(\*\*data)              |    |
-| [`ReleaseDatePrecision`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ReleaseDatePrecision)(\*values)               |    |
-| [`ResumePointObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ResumePointObject)(\*\*data)                  |    |
-| [`SavedAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SavedAlbumObject)(\*\*data)                   |    |
-| [`SavedAudiobookObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SavedAudiobookObject)(\*\*data)               |    |
-| [`SavedEpisodeObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SavedEpisodeObject)(\*\*data)                 |    |
-| [`SavedShowObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SavedShowObject)(\*\*data)                    |    |
-| [`SavedTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SavedTrackObject)(\*\*data)                   |    |
-| [`SectionObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SectionObject)(\*\*data)                      |    |
-| [`SegmentObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SegmentObject)(\*\*data)                      |    |
-| [`ShowBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ShowBase)(\*\*data)                           |    |
-| [`ShowObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ShowObject)(\*\*data)                         |    |
-| [`SimplifiedAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedAlbumObject)(\*\*data)              |    |
-| [`SimplifiedArtistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedArtistObject)(\*\*data)             |    |
-| [`SimplifiedAudiobookObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedAudiobookObject)(\*\*data)          |    |
-| [`SimplifiedChapterObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedChapterObject)(\*\*data)            |    |
-| [`SimplifiedEpisodeObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedEpisodeObject)(\*\*data)            |    |
-| [`SimplifiedPlaylistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedPlaylistObject)(\*\*data)           |    |
-| [`SimplifiedShowObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedShowObject)(\*\*data)               |    |
-| [`SimplifiedTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedTrackObject)(\*\*data)              |    |
-| [`Tempo`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Tempo)([root])                                |    |
-| [`TimeIntervalObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.TimeIntervalObject)(\*\*data)                 |    |
-| [`TimeSignature`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.TimeSignature)([root])                        |    |
-| [`Track`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Track)(\*\*data)                              |    |
-| [`TrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.TrackObject)(\*\*data)                        |    |
-| [`TrackRestrictionObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.TrackRestrictionObject)(\*\*data)             |    |
-| [`Type`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type)(\*values)                               |    |
-| [`Type10`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type10)(\*values)                             |    |
-| [`Type2`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type2)(\*values)                              |    |
-| [`Type3`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type3)(\*values)                              |    |
-| [`Type4`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type4)(\*values)                              |    |
-| [`Type5`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type5)(\*values)                              |    |
-| [`Type6`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type6)(\*values)                              |    |
-| [`Type7`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type7)(\*values)                              |    |
-| [`Type8`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type8)(\*values)                              |    |
-| [`Type9`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type9)(\*values)                              |    |
+| [`AlbumBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AlbumBase)(\*, album_type, total_tracks, ...)       |    |
+|-----------------------------------------------------------------------------------------------------|----|
+| [`AlbumGroup`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AlbumGroup)(\*values)                               |    |
+| [`AlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AlbumObject)(\*, album_type, total_tracks, ...)     |    |
+| [`AlbumRestrictionObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AlbumRestrictionObject)(\*[, reason])               |    |
+| [`AlbumType`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AlbumType)(\*values)                                |    |
+| [`ArtistDiscographyAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ArtistDiscographyAlbumObject)(\*, album_type, ...)  |    |
+| [`ArtistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ArtistObject)(\*[, external_urls, followers, ...])  |    |
+| [`AudioAnalysisObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AudioAnalysisObject)(\*[, meta, track, bars, ...])  |    |
+| [`AudioFeaturesObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AudioFeaturesObject)(\*[, acousticness, ...])       |    |
+| [`AudiobookBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AudiobookBase)(\*, authors, available_markets, ...) |    |
+| [`AudiobookObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AudiobookObject)(\*, authors, ...[, edition])       |    |
+| [`AuthorObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AuthorObject)(\*[, name])                           |    |
+| [`CategoryObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CategoryObject)(\*, href, icons, id, name)          |    |
+| [`ChapterBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ChapterBase)(\*, audio_preview_url[, ...])          |    |
+| [`ChapterObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ChapterObject)(\*, audio_preview_url[, ...])        |    |
+| [`ChapterRestrictionObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ChapterRestrictionObject)(\*[, reason])             |    |
+| [`ContextObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ContextObject)(\*[, type, href, ...])               |    |
+| [`CopyrightObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CopyrightObject)(\*[, text, type])                  |    |
+| [`CurrentlyPlayingContextObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CurrentlyPlayingContextObject)(\*[, device, ...])   |    |
+| [`CurrentlyPlayingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CurrentlyPlayingObject)(\*[, context, ...])         |    |
+| [`CursorObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CursorObject)(\*[, after, before])                  |    |
+| [`CursorPagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CursorPagingObject)(\*[, href, limit, next, ...])   |    |
+| [`CursorPagingPlayHistoryObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CursorPagingPlayHistoryObject)(\*[, href, ...])     |    |
+| [`CursorPagingSimplifiedArtistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CursorPagingSimplifiedArtistObject)(\*[, ...])      |    |
+| [`DeviceObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.DeviceObject)(\*[, id, is_active, ...])             |    |
+| [`DisallowsObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.DisallowsObject)(\*[, interrupting_playback, ...])  |    |
+| [`EpisodeBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.EpisodeBase)(\*, audio_preview_url, ...[, ...])     |    |
+| [`EpisodeObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.EpisodeObject)(\*, audio_preview_url, ...[, ...])   |    |
+| [`EpisodeRestrictionObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.EpisodeRestrictionObject)(\*[, reason])             |    |
+| [`ErrorObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ErrorObject)(\*, status, message)                   |    |
+| [`ExplicitContentSettingsObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ExplicitContentSettingsObject)(\*[, ...])           |    |
+| [`ExternalIdObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ExternalIdObject)(\*[, isrc, ean, upc])             |    |
+| [`ExternalUrlObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ExternalUrlObject)(\*[, spotify])                   |    |
+| [`FollowersObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.FollowersObject)(\*[, href, total])                 |    |
+| [`ImageObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ImageObject)(\*, url, height, width)                |    |
+| [`Key`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Key)([root])                                        |    |
+| [`LinkedTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.LinkedTrackObject)(\*[, external_urls, href, ...])  |    |
+| [`Loudness`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Loudness)([root])                                   |    |
+| [`Meta`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Meta)(\*[, analyzer_version, platform, ...])        |    |
+| [`Mode`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Mode)([root])                                       |    |
+| [`Mode1`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Mode1)(\*values)                                    |    |
+| [`NarratorObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.NarratorObject)(\*[, name])                         |    |
+| [`PagingArtistDiscographyAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingArtistDiscographyAlbumObject)(\*, href, ...)  |    |
+| [`PagingArtistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingArtistObject)(\*, href, limit, next, ...)     |    |
+| [`PagingFeaturedPlaylistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingFeaturedPlaylistObject)(\*[, message, ...])   |    |
+| [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)(\*, href, limit, next, offset, ...)   |    |
+| [`PagingPlaylistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingPlaylistObject)(\*, href, limit, next, ...)   |    |
+| [`PagingPlaylistTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingPlaylistTrackObject)(\*, href, limit, ...)    |    |
+| [`PagingSavedAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSavedAlbumObject)(\*, href, limit, next, ...) |    |
+| [`PagingSavedAudiobookObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSavedAudiobookObject)(\*, href, limit, ...)   |    |
+| [`PagingSavedEpisodeObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSavedEpisodeObject)(\*, href, limit, ...)     |    |
+| [`PagingSavedShowObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSavedShowObject)(\*, href, limit, next, ...)  |    |
+| [`PagingSavedTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSavedTrackObject)(\*, href, limit, next, ...) |    |
+| [`PagingSimplifiedAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSimplifiedAlbumObject)(\*, href, limit, ...)  |    |
+| [`PagingSimplifiedAudiobookObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSimplifiedAudiobookObject)(\*, href, ...)     |    |
+| [`PagingSimplifiedChapterObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSimplifiedChapterObject)(\*, href, ...)       |    |
+| [`PagingSimplifiedEpisodeObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSimplifiedEpisodeObject)(\*, href, ...)       |    |
+| [`PagingSimplifiedShowObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSimplifiedShowObject)(\*, href, limit, ...)   |    |
+| [`PagingSimplifiedTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingSimplifiedTrackObject)(\*, href, limit, ...)  |    |
+| [`PagingTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingTrackObject)(\*, href, limit, next, ...)      |    |
+| [`PlayHistoryObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlayHistoryObject)(\*[, track, played_at, context]) |    |
+| [`PlaylistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlaylistObject)(\*[, collaborative, ...])           |    |
+| [`PlaylistOwnerObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlaylistOwnerObject)(\*[, external_urls, ...])      |    |
+| [`PlaylistTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlaylistTrackObject)(\*[, added_at, added_by, ...]) |    |
+| [`PlaylistTracksRefObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlaylistTracksRefObject)(\*[, href, total])         |    |
+| [`PlaylistUserObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlaylistUserObject)(\*[, external_urls, ...])       |    |
+| [`PrivateUserObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PrivateUserObject)(\*[, country, ...])              |    |
+| [`PublicUserObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PublicUserObject)(\*[, display_name, ...])          |    |
+| [`Queue`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Queue)([root])                                      |    |
+| [`QueueObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.QueueObject)(\*[, currently_playing, queue])        |    |
+| [`Reason`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Reason)(\*values)                                   |    |
+| [`RecommendationSeedObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.RecommendationSeedObject)(\*[, ...])                |    |
+| [`RecommendationsObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.RecommendationsObject)(\*, seeds, tracks)           |    |
+| [`ReleaseDatePrecision`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ReleaseDatePrecision)(\*values)                     |    |
+| [`ResumePointObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ResumePointObject)(\*[, fully_played, ...])         |    |
+| [`SavedAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SavedAlbumObject)(\*[, added_at, album])            |    |
+| [`SavedAudiobookObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SavedAudiobookObject)(\*[, added_at, audiobook])    |    |
+| [`SavedEpisodeObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SavedEpisodeObject)(\*[, added_at, episode])        |    |
+| [`SavedShowObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SavedShowObject)(\*[, added_at, show])              |    |
+| [`SavedTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SavedTrackObject)(\*[, added_at, track])            |    |
+| [`SectionObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SectionObject)(\*[, start, duration, ...])          |    |
+| [`SegmentObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SegmentObject)(\*[, start, duration, ...])          |    |
+| [`ShowBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ShowBase)(\*, available_markets, copyrights, ...)   |    |
+| [`ShowObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ShowObject)(\*, available_markets, copyrights, ...) |    |
+| [`SimplifiedAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedAlbumObject)(\*, album_type, ...[, ...])  |    |
+| [`SimplifiedArtistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedArtistObject)(\*[, external_urls, ...])   |    |
+| [`SimplifiedAudiobookObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedAudiobookObject)(\*, authors, ...[, ...]) |    |
+| [`SimplifiedChapterObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedChapterObject)(\*, audio_preview_url)     |    |
+| [`SimplifiedEpisodeObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedEpisodeObject)(\*, ...[, language, ...])  |    |
+| [`SimplifiedPlaylistObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedPlaylistObject)(\*[, collaborative, ...]) |    |
+| [`SimplifiedShowObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedShowObject)(\*, available_markets, ...)   |    |
+| [`SimplifiedTrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedTrackObject)(\*[, artists, ...])          |    |
+| [`Tempo`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Tempo)([root])                                      |    |
+| [`TimeIntervalObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.TimeIntervalObject)(\*[, start, duration, ...])     |    |
+| [`TimeSignature`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.TimeSignature)([root])                              |    |
+| [`Track`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Track)(\*[, num_samples, duration, ...])            |    |
+| [`TrackObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.TrackObject)(\*[, album, artists, ...])             |    |
+| [`TrackRestrictionObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.TrackRestrictionObject)(\*[, reason])               |    |
+| [`Type`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type)(\*values)                                     |    |
+| [`Type10`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type10)(\*values)                                   |    |
+| [`Type2`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type2)(\*values)                                    |    |
+| [`Type3`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type3)(\*values)                                    |    |
+| [`Type4`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type4)(\*values)                                    |    |
+| [`Type5`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type5)(\*values)                                    |    |
+| [`Type6`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type6)(\*values)                                    |    |
+| [`Type7`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type7)(\*values)                                    |    |
+| [`Type8`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type8)(\*values)                                    |    |
+| [`Type9`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.Type9)(\*values)                                    |    |
 
-### *class* sung.pydantic_models.AlbumBase(\*\*data)
+### *class* sung.pydantic_models.AlbumBase(, album_type, total_tracks, available_markets, external_urls, href, id, images, name, release_date, release_date_precision, restrictions=None, type, uri)
 
 Bases: `BaseModel`
 
@@ -3832,7 +3832,7 @@ Configuration for the model, should be a dictionary conforming to [`ConfigDict`]
 
 Bases: [`Enum`](https://docs.python.org/3/library/enum.html#enum.Enum)
 
-### *class* sung.pydantic_models.AlbumObject(\*\*data)
+### *class* sung.pydantic_models.AlbumObject(, album_type, total_tracks, available_markets, external_urls, href, id, images, name, release_date, release_date_precision, restrictions=None, type, uri, artists, tracks, copyrights, external_ids, genres, label, popularity)
 
 Bases: [`AlbumBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AlbumBase)
 
@@ -3840,7 +3840,7 @@ Bases: [`AlbumBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_mod
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.AlbumRestrictionObject(\*\*data)
+### *class* sung.pydantic_models.AlbumRestrictionObject(, reason=None)
 
 Bases: `BaseModel`
 
@@ -3852,7 +3852,7 @@ Configuration for the model, should be a dictionary conforming to [`ConfigDict`]
 
 Bases: [`Enum`](https://docs.python.org/3/library/enum.html#enum.Enum)
 
-### *class* sung.pydantic_models.ArtistDiscographyAlbumObject(\*\*data)
+### *class* sung.pydantic_models.ArtistDiscographyAlbumObject(, album_type, total_tracks, available_markets, external_urls, href, id, images, name, release_date, release_date_precision, restrictions=None, type, uri, artists, album_group)
 
 Bases: [`SimplifiedAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.SimplifiedAlbumObject)
 
@@ -3860,7 +3860,7 @@ Bases: [`SimplifiedAlbumObject`](_autosummary/sung.pydantic_models.html.md#sung.
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.ArtistObject(\*\*data)
+### *class* sung.pydantic_models.ArtistObject(, external_urls=None, followers=None, genres=None, href=None, id=None, images=None, name=None, popularity=None, type=None, uri=None)
 
 Bases: `BaseModel`
 
@@ -3868,7 +3868,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.AudioAnalysisObject(\*\*data)
+### *class* sung.pydantic_models.AudioAnalysisObject(, meta=None, track=None, bars=None, beats=None, sections=None, segments=None, tatums=None)
 
 Bases: `BaseModel`
 
@@ -3876,7 +3876,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.AudioFeaturesObject(\*\*data)
+### *class* sung.pydantic_models.AudioFeaturesObject(, acousticness=None, analysis_url=None, danceability=None, duration_ms=None, energy=None, id=None, instrumentalness=None, key=None, liveness=None, loudness=None, mode=None, speechiness=None, tempo=None, time_signature=None, track_href=None, type=None, uri=None, valence=None)
 
 Bases: `BaseModel`
 
@@ -3884,7 +3884,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.AudiobookBase(\*\*data)
+### *class* sung.pydantic_models.AudiobookBase(, authors, available_markets, copyrights, description, html_description, edition=None, explicit, external_urls, href, id, images, languages, media_type, name, narrators, publisher, type, uri, total_chapters)
 
 Bases: `BaseModel`
 
@@ -3892,7 +3892,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.AudiobookObject(\*\*data)
+### *class* sung.pydantic_models.AudiobookObject(, authors, available_markets, copyrights, description, html_description, edition=None, explicit, external_urls, href, id, images, languages, media_type, name, narrators, publisher, type, uri, total_chapters, chapters)
 
 Bases: [`AudiobookBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AudiobookBase)
 
@@ -3900,7 +3900,7 @@ Bases: [`AudiobookBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.AuthorObject(\*\*data)
+### *class* sung.pydantic_models.AuthorObject(, name=None)
 
 Bases: `BaseModel`
 
@@ -3908,7 +3908,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.CategoryObject(\*\*data)
+### *class* sung.pydantic_models.CategoryObject(, href, icons, id, name)
 
 Bases: `BaseModel`
 
@@ -3916,7 +3916,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.ChapterBase(\*\*data)
+### *class* sung.pydantic_models.ChapterBase(, audio_preview_url, available_markets=None, chapter_number, description, html_description, duration_ms, explicit, external_urls, href, id, images, is_playable, languages, name, release_date, release_date_precision, resume_point=None, type, uri, restrictions=None)
 
 Bases: `BaseModel`
 
@@ -3924,7 +3924,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.ChapterObject(\*\*data)
+### *class* sung.pydantic_models.ChapterObject(, audio_preview_url, available_markets=None, chapter_number, description, html_description, duration_ms, explicit, external_urls, href, id, images, is_playable, languages, name, release_date, release_date_precision, resume_point=None, type, uri, restrictions=None, audiobook)
 
 Bases: [`ChapterBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ChapterBase)
 
@@ -3932,7 +3932,7 @@ Bases: [`ChapterBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_m
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.ChapterRestrictionObject(\*\*data)
+### *class* sung.pydantic_models.ChapterRestrictionObject(, reason=None)
 
 Bases: `BaseModel`
 
@@ -3940,7 +3940,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.ContextObject(\*\*data)
+### *class* sung.pydantic_models.ContextObject(, type=None, href=None, external_urls=None, uri=None)
 
 Bases: `BaseModel`
 
@@ -3948,7 +3948,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.CopyrightObject(\*\*data)
+### *class* sung.pydantic_models.CopyrightObject(, text=None, type=None)
 
 Bases: `BaseModel`
 
@@ -3956,7 +3956,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.CurrentlyPlayingContextObject(\*\*data)
+### *class* sung.pydantic_models.CurrentlyPlayingContextObject(, device=None, repeat_state=None, shuffle_state=None, context=None, timestamp=None, progress_ms=None, is_playing=None, item=None, currently_playing_type=None, actions=None)
 
 Bases: `BaseModel`
 
@@ -3964,7 +3964,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.CurrentlyPlayingObject(\*\*data)
+### *class* sung.pydantic_models.CurrentlyPlayingObject(, context=None, timestamp=None, progress_ms=None, is_playing=None, item=None, currently_playing_type=None, actions=None)
 
 Bases: `BaseModel`
 
@@ -3972,7 +3972,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.CursorObject(\*\*data)
+### *class* sung.pydantic_models.CursorObject(, after=None, before=None)
 
 Bases: `BaseModel`
 
@@ -3980,7 +3980,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.CursorPagingObject(\*\*data)
+### *class* sung.pydantic_models.CursorPagingObject(, href=None, limit=None, next=None, cursors=None, total=None)
 
 Bases: `BaseModel`
 
@@ -3988,7 +3988,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.CursorPagingPlayHistoryObject(\*\*data)
+### *class* sung.pydantic_models.CursorPagingPlayHistoryObject(, href=None, limit=None, next=None, cursors=None, total=None, items=None)
 
 Bases: [`CursorPagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CursorPagingObject)
 
@@ -3996,7 +3996,7 @@ Bases: [`CursorPagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pyd
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.CursorPagingSimplifiedArtistObject(\*\*data)
+### *class* sung.pydantic_models.CursorPagingSimplifiedArtistObject(, href=None, limit=None, next=None, cursors=None, total=None, items=None)
 
 Bases: [`CursorPagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.CursorPagingObject)
 
@@ -4004,7 +4004,7 @@ Bases: [`CursorPagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pyd
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.DeviceObject(\*\*data)
+### *class* sung.pydantic_models.DeviceObject(, id=None, is_active=None, is_private_session=None, is_restricted=None, name=None, type=None, volume_percent=None, supports_volume=None)
 
 Bases: `BaseModel`
 
@@ -4012,7 +4012,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.DisallowsObject(\*\*data)
+### *class* sung.pydantic_models.DisallowsObject(, interrupting_playback=None, pausing=None, resuming=None, seeking=None, skipping_next=None, skipping_prev=None, toggling_repeat_context=None, toggling_shuffle=None, toggling_repeat_track=None, transferring_playback=None)
 
 Bases: `BaseModel`
 
@@ -4020,7 +4020,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.EpisodeBase(\*\*data)
+### *class* sung.pydantic_models.EpisodeBase(, audio_preview_url, description, html_description, duration_ms, explicit, external_urls, href, id, images, is_externally_hosted, is_playable, language=None, languages, name, release_date, release_date_precision, resume_point=None, type, uri, restrictions=None)
 
 Bases: `BaseModel`
 
@@ -4028,7 +4028,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.EpisodeObject(\*\*data)
+### *class* sung.pydantic_models.EpisodeObject(, audio_preview_url, description, html_description, duration_ms, explicit, external_urls, href, id, images, is_externally_hosted, is_playable, language=None, languages, name, release_date, release_date_precision, resume_point=None, type, uri, restrictions=None, show)
 
 Bases: [`EpisodeBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.EpisodeBase)
 
@@ -4036,7 +4036,7 @@ Bases: [`EpisodeBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_m
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.EpisodeRestrictionObject(\*\*data)
+### *class* sung.pydantic_models.EpisodeRestrictionObject(, reason=None)
 
 Bases: `BaseModel`
 
@@ -4044,7 +4044,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.ErrorObject(\*\*data)
+### *class* sung.pydantic_models.ErrorObject(, status, message)
 
 Bases: `BaseModel`
 
@@ -4052,7 +4052,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.ExplicitContentSettingsObject(\*\*data)
+### *class* sung.pydantic_models.ExplicitContentSettingsObject(, filter_enabled=None, filter_locked=None)
 
 Bases: `BaseModel`
 
@@ -4060,7 +4060,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.ExternalIdObject(\*\*data)
+### *class* sung.pydantic_models.ExternalIdObject(, isrc=None, ean=None, upc=None)
 
 Bases: `BaseModel`
 
@@ -4068,7 +4068,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.ExternalUrlObject(\*\*data)
+### *class* sung.pydantic_models.ExternalUrlObject(, spotify=None)
 
 Bases: `BaseModel`
 
@@ -4076,7 +4076,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.FollowersObject(\*\*data)
+### *class* sung.pydantic_models.FollowersObject(, href=None, total=None)
 
 Bases: `BaseModel`
 
@@ -4084,7 +4084,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.ImageObject(\*\*data)
+### *class* sung.pydantic_models.ImageObject(, url, height, width)
 
 Bases: `BaseModel`
 
@@ -4092,7 +4092,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.Key(root=PydanticUndefined, \*\*data)
+### *class* sung.pydantic_models.Key(root=PydanticUndefined)
 
 Bases: `RootModel`
 
@@ -4100,7 +4100,7 @@ Bases: `RootModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.LinkedTrackObject(\*\*data)
+### *class* sung.pydantic_models.LinkedTrackObject(, external_urls=None, href=None, id=None, type=None, uri=None)
 
 Bases: `BaseModel`
 
@@ -4108,7 +4108,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.Loudness(root=PydanticUndefined, \*\*data)
+### *class* sung.pydantic_models.Loudness(root=PydanticUndefined)
 
 Bases: `RootModel`
 
@@ -4116,7 +4116,7 @@ Bases: `RootModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.Meta(\*\*data)
+### *class* sung.pydantic_models.Meta(, analyzer_version=None, platform=None, detailed_status=None, status_code=None, timestamp=None, analysis_time=None, input_process=None)
 
 Bases: `BaseModel`
 
@@ -4124,7 +4124,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.Mode(root=PydanticUndefined, \*\*data)
+### *class* sung.pydantic_models.Mode(root=PydanticUndefined)
 
 Bases: `RootModel`
 
@@ -4136,7 +4136,7 @@ Configuration for the model, should be a dictionary conforming to [`ConfigDict`]
 
 Bases: [`Enum`](https://docs.python.org/3/library/enum.html#enum.Enum)
 
-### *class* sung.pydantic_models.NarratorObject(\*\*data)
+### *class* sung.pydantic_models.NarratorObject(, name=None)
 
 Bases: `BaseModel`
 
@@ -4144,7 +4144,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingArtistDiscographyAlbumObject(\*\*data)
+### *class* sung.pydantic_models.PagingArtistDiscographyAlbumObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4152,7 +4152,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingArtistObject(\*\*data)
+### *class* sung.pydantic_models.PagingArtistObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4160,7 +4160,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingFeaturedPlaylistObject(\*\*data)
+### *class* sung.pydantic_models.PagingFeaturedPlaylistObject(, message=None, playlists=None)
 
 Bases: `BaseModel`
 
@@ -4168,7 +4168,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingObject(\*\*data)
+### *class* sung.pydantic_models.PagingObject(, href, limit, next, offset, previous, total)
 
 Bases: `BaseModel`
 
@@ -4176,7 +4176,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingPlaylistObject(\*\*data)
+### *class* sung.pydantic_models.PagingPlaylistObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4184,7 +4184,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingPlaylistTrackObject(\*\*data)
+### *class* sung.pydantic_models.PagingPlaylistTrackObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4192,7 +4192,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingSavedAlbumObject(\*\*data)
+### *class* sung.pydantic_models.PagingSavedAlbumObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4200,7 +4200,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingSavedAudiobookObject(\*\*data)
+### *class* sung.pydantic_models.PagingSavedAudiobookObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4208,7 +4208,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingSavedEpisodeObject(\*\*data)
+### *class* sung.pydantic_models.PagingSavedEpisodeObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4216,7 +4216,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingSavedShowObject(\*\*data)
+### *class* sung.pydantic_models.PagingSavedShowObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4224,7 +4224,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingSavedTrackObject(\*\*data)
+### *class* sung.pydantic_models.PagingSavedTrackObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4232,7 +4232,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingSimplifiedAlbumObject(\*\*data)
+### *class* sung.pydantic_models.PagingSimplifiedAlbumObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4240,7 +4240,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingSimplifiedAudiobookObject(\*\*data)
+### *class* sung.pydantic_models.PagingSimplifiedAudiobookObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4248,7 +4248,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingSimplifiedChapterObject(\*\*data)
+### *class* sung.pydantic_models.PagingSimplifiedChapterObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4256,7 +4256,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingSimplifiedEpisodeObject(\*\*data)
+### *class* sung.pydantic_models.PagingSimplifiedEpisodeObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4264,7 +4264,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingSimplifiedShowObject(\*\*data)
+### *class* sung.pydantic_models.PagingSimplifiedShowObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4272,7 +4272,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingSimplifiedTrackObject(\*\*data)
+### *class* sung.pydantic_models.PagingSimplifiedTrackObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4280,7 +4280,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PagingTrackObject(\*\*data)
+### *class* sung.pydantic_models.PagingTrackObject(, href, limit, next, offset, previous, total, items=None)
 
 Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PagingObject)
 
@@ -4288,7 +4288,7 @@ Bases: [`PagingObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PlayHistoryObject(\*\*data)
+### *class* sung.pydantic_models.PlayHistoryObject(, track=None, played_at=None, context=None)
 
 Bases: `BaseModel`
 
@@ -4296,7 +4296,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PlaylistObject(\*\*data)
+### *class* sung.pydantic_models.PlaylistObject(, collaborative=None, description=None, external_urls=None, followers=None, href=None, id=None, images=None, name=None, owner=None, public=None, snapshot_id=None, tracks=None, type=None, uri=None)
 
 Bases: `BaseModel`
 
@@ -4304,7 +4304,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PlaylistOwnerObject(\*\*data)
+### *class* sung.pydantic_models.PlaylistOwnerObject(, external_urls=None, followers=None, href=None, id=None, type=None, uri=None, display_name=None)
 
 Bases: [`PlaylistUserObject`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.PlaylistUserObject)
 
@@ -4312,7 +4312,7 @@ Bases: [`PlaylistUserObject`](_autosummary/sung.pydantic_models.html.md#sung.pyd
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PlaylistTrackObject(\*\*data)
+### *class* sung.pydantic_models.PlaylistTrackObject(, added_at=None, added_by=None, is_local=None, track=None)
 
 Bases: `BaseModel`
 
@@ -4320,7 +4320,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PlaylistTracksRefObject(\*\*data)
+### *class* sung.pydantic_models.PlaylistTracksRefObject(, href=None, total=None)
 
 Bases: `BaseModel`
 
@@ -4328,7 +4328,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PlaylistUserObject(\*\*data)
+### *class* sung.pydantic_models.PlaylistUserObject(, external_urls=None, followers=None, href=None, id=None, type=None, uri=None)
 
 Bases: `BaseModel`
 
@@ -4336,7 +4336,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PrivateUserObject(\*\*data)
+### *class* sung.pydantic_models.PrivateUserObject(, country=None, display_name=None, email=None, explicit_content=None, external_urls=None, followers=None, href=None, id=None, images=None, product=None, type=None, uri=None)
 
 Bases: `BaseModel`
 
@@ -4344,7 +4344,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.PublicUserObject(\*\*data)
+### *class* sung.pydantic_models.PublicUserObject(, display_name=None, external_urls=None, followers=None, href=None, id=None, images=None, type=None, uri=None)
 
 Bases: `BaseModel`
 
@@ -4352,7 +4352,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.Queue(root=PydanticUndefined, \*\*data)
+### *class* sung.pydantic_models.Queue(root=PydanticUndefined)
 
 Bases: `RootModel`
 
@@ -4360,7 +4360,7 @@ Bases: `RootModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.QueueObject(\*\*data)
+### *class* sung.pydantic_models.QueueObject(, currently_playing=None, queue=None)
 
 Bases: `BaseModel`
 
@@ -4372,7 +4372,7 @@ Configuration for the model, should be a dictionary conforming to [`ConfigDict`]
 
 Bases: [`Enum`](https://docs.python.org/3/library/enum.html#enum.Enum)
 
-### *class* sung.pydantic_models.RecommendationSeedObject(\*\*data)
+### *class* sung.pydantic_models.RecommendationSeedObject(, afterFilteringSize=None, afterRelinkingSize=None, href=None, id=None, initialPoolSize=None, type=None)
 
 Bases: `BaseModel`
 
@@ -4380,7 +4380,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.RecommendationsObject(\*\*data)
+### *class* sung.pydantic_models.RecommendationsObject(, seeds, tracks)
 
 Bases: `BaseModel`
 
@@ -4392,7 +4392,7 @@ Configuration for the model, should be a dictionary conforming to [`ConfigDict`]
 
 Bases: [`Enum`](https://docs.python.org/3/library/enum.html#enum.Enum)
 
-### *class* sung.pydantic_models.ResumePointObject(\*\*data)
+### *class* sung.pydantic_models.ResumePointObject(, fully_played=None, resume_position_ms=None)
 
 Bases: `BaseModel`
 
@@ -4400,7 +4400,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SavedAlbumObject(\*\*data)
+### *class* sung.pydantic_models.SavedAlbumObject(, added_at=None, album=None)
 
 Bases: `BaseModel`
 
@@ -4408,7 +4408,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SavedAudiobookObject(\*\*data)
+### *class* sung.pydantic_models.SavedAudiobookObject(, added_at=None, audiobook=None)
 
 Bases: `BaseModel`
 
@@ -4416,7 +4416,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SavedEpisodeObject(\*\*data)
+### *class* sung.pydantic_models.SavedEpisodeObject(, added_at=None, episode=None)
 
 Bases: `BaseModel`
 
@@ -4424,7 +4424,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SavedShowObject(\*\*data)
+### *class* sung.pydantic_models.SavedShowObject(, added_at=None, show=None)
 
 Bases: `BaseModel`
 
@@ -4432,7 +4432,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SavedTrackObject(\*\*data)
+### *class* sung.pydantic_models.SavedTrackObject(, added_at=None, track=None)
 
 Bases: `BaseModel`
 
@@ -4440,7 +4440,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SectionObject(\*\*data)
+### *class* sung.pydantic_models.SectionObject(, start=None, duration=None, confidence=None, loudness=None, tempo=None, tempo_confidence=None, key=None, key_confidence=None, mode=None, mode_confidence=None, time_signature=None, time_signature_confidence=None)
 
 Bases: `BaseModel`
 
@@ -4448,7 +4448,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SegmentObject(\*\*data)
+### *class* sung.pydantic_models.SegmentObject(, start=None, duration=None, confidence=None, loudness_start=None, loudness_max=None, loudness_max_time=None, loudness_end=None, pitches=None, timbre=None)
 
 Bases: `BaseModel`
 
@@ -4456,7 +4456,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.ShowBase(\*\*data)
+### *class* sung.pydantic_models.ShowBase(, available_markets, copyrights, description, html_description, explicit, external_urls, href, id, images, is_externally_hosted, languages, media_type, name, publisher, type, uri, total_episodes)
 
 Bases: `BaseModel`
 
@@ -4464,7 +4464,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.ShowObject(\*\*data)
+### *class* sung.pydantic_models.ShowObject(, available_markets, copyrights, description, html_description, explicit, external_urls, href, id, images, is_externally_hosted, languages, media_type, name, publisher, type, uri, total_episodes, episodes)
 
 Bases: [`ShowBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ShowBase)
 
@@ -4472,7 +4472,7 @@ Bases: [`ShowBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_mode
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SimplifiedAlbumObject(\*\*data)
+### *class* sung.pydantic_models.SimplifiedAlbumObject(, album_type, total_tracks, available_markets, external_urls, href, id, images, name, release_date, release_date_precision, restrictions=None, type, uri, artists)
 
 Bases: [`AlbumBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AlbumBase)
 
@@ -4480,7 +4480,7 @@ Bases: [`AlbumBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_mod
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SimplifiedArtistObject(\*\*data)
+### *class* sung.pydantic_models.SimplifiedArtistObject(, external_urls=None, href=None, id=None, name=None, type=None, uri=None)
 
 Bases: `BaseModel`
 
@@ -4488,7 +4488,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SimplifiedAudiobookObject(\*\*data)
+### *class* sung.pydantic_models.SimplifiedAudiobookObject(, authors, available_markets, copyrights, description, html_description, edition=None, explicit, external_urls, href, id, images, languages, media_type, name, narrators, publisher, type, uri, total_chapters)
 
 Bases: [`AudiobookBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.AudiobookBase)
 
@@ -4496,7 +4496,7 @@ Bases: [`AudiobookBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SimplifiedChapterObject(\*\*data)
+### *class* sung.pydantic_models.SimplifiedChapterObject(, audio_preview_url, available_markets=None, chapter_number, description, html_description, duration_ms, explicit, external_urls, href, id, images, is_playable, languages, name, release_date, release_date_precision, resume_point=None, type, uri, restrictions=None)
 
 Bases: [`ChapterBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ChapterBase)
 
@@ -4504,7 +4504,7 @@ Bases: [`ChapterBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_m
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SimplifiedEpisodeObject(\*\*data)
+### *class* sung.pydantic_models.SimplifiedEpisodeObject(, audio_preview_url, description, html_description, duration_ms, explicit, external_urls, href, id, images, is_externally_hosted, is_playable, language=None, languages, name, release_date, release_date_precision, resume_point=None, type, uri, restrictions=None)
 
 Bases: [`EpisodeBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.EpisodeBase)
 
@@ -4512,7 +4512,7 @@ Bases: [`EpisodeBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_m
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SimplifiedPlaylistObject(\*\*data)
+### *class* sung.pydantic_models.SimplifiedPlaylistObject(, collaborative=None, description=None, external_urls=None, href=None, id=None, images=None, name=None, owner=None, public=None, snapshot_id=None, tracks=None, type=None, uri=None)
 
 Bases: `BaseModel`
 
@@ -4520,7 +4520,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SimplifiedShowObject(\*\*data)
+### *class* sung.pydantic_models.SimplifiedShowObject(, available_markets, copyrights, description, html_description, explicit, external_urls, href, id, images, is_externally_hosted, languages, media_type, name, publisher, type, uri, total_episodes)
 
 Bases: [`ShowBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_models.ShowBase)
 
@@ -4528,7 +4528,7 @@ Bases: [`ShowBase`](_autosummary/sung.pydantic_models.html.md#sung.pydantic_mode
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.SimplifiedTrackObject(\*\*data)
+### *class* sung.pydantic_models.SimplifiedTrackObject(, artists=None, available_markets=None, disc_number=None, duration_ms=None, explicit=None, external_urls=None, href=None, id=None, is_playable=None, linked_from=None, restrictions=None, name=None, preview_url=None, track_number=None, type=None, uri=None, is_local=None)
 
 Bases: `BaseModel`
 
@@ -4536,7 +4536,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.Tempo(root=PydanticUndefined, \*\*data)
+### *class* sung.pydantic_models.Tempo(root=PydanticUndefined)
 
 Bases: `RootModel`
 
@@ -4544,7 +4544,7 @@ Bases: `RootModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.TimeIntervalObject(\*\*data)
+### *class* sung.pydantic_models.TimeIntervalObject(, start=None, duration=None, confidence=None)
 
 Bases: `BaseModel`
 
@@ -4552,7 +4552,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.TimeSignature(root=PydanticUndefined, \*\*data)
+### *class* sung.pydantic_models.TimeSignature(root=PydanticUndefined)
 
 Bases: `RootModel`
 
@@ -4560,7 +4560,7 @@ Bases: `RootModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.Track(\*\*data)
+### *class* sung.pydantic_models.Track(, num_samples=None, duration=None, sample_md5=None, offset_seconds=None, window_seconds=None, analysis_sample_rate=None, analysis_channels=None, end_of_fade_in=None, start_of_fade_out=None, loudness=None, tempo=None, tempo_confidence=None, time_signature=None, time_signature_confidence=None, key=None, key_confidence=None, mode=None, mode_confidence=None, codestring=None, code_version=None, echoprintstring=None, echoprint_version=None, synchstring=None, synch_version=None, rhythmstring=None, rhythm_version=None)
 
 Bases: `BaseModel`
 
@@ -4568,7 +4568,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.TrackObject(\*\*data)
+### *class* sung.pydantic_models.TrackObject(, album=None, artists=None, available_markets=None, disc_number=None, duration_ms=None, explicit=None, external_ids=None, external_urls=None, href=None, id=None, is_playable=None, linked_from=None, restrictions=None, name=None, popularity=None, preview_url=None, track_number=None, type, uri=None, is_local=None)
 
 Bases: `BaseModel`
 
@@ -4576,7 +4576,7 @@ Bases: `BaseModel`
 
 Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
 
-### *class* sung.pydantic_models.TrackRestrictionObject(\*\*data)
+### *class* sung.pydantic_models.TrackRestrictionObject(, reason=None)
 
 Bases: `BaseModel`
 
@@ -4766,10 +4766,10 @@ Convert a Spotify track key between different formats.
   * **convert** ( *- track_key - the track key to*)
   * **to** ( *- target_kind - the format to convert*)
   * **key** ( *- src_kind - the format* *of* *the input track*)
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 * **Returns:**
   The track key in the target format.
-* **Return type:**
-  [*str*](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### Examples
 
@@ -4799,7 +4799,7 @@ Get a Spotify client.
 
 * **Parameters:**
   * **client** ( *- \*\*kwargs - additional arguments to pass to the Spotify*)
-  * **auth_manager** ( *- ensure_scope - a scope to ensure is included in the client's*)
+  * **auth_manager**
   * **client**
   * **client**
 
@@ -4847,7 +4847,7 @@ Return a new dictionary with all string values stripped.
 
 # About this build
 
-This documentation was built on **2026-09-22 12:52 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/7a64c55ed790b32fc6a6631dfd9e259d8161e184"><code>7a64c55</code></a> on branch <code>main</code>, for **sung 0.0.27** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 11:38 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/1c9ed4f56a8d922dc076aacc6e3168583497c08d"><code>1c9ed4f</code></a> on branch <code>main</code>, for **sung 0.0.28** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -4856,9 +4856,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/sung/commit/7a64c55ed790b32fc6a6631dfd9e259d8161e184"><code>7a64c55ed790b32fc6a6631dfd9e259d8161e184</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/sung/commit/1c9ed4f56a8d922dc076aacc6e3168583497c08d"><code>1c9ed4f56a8d922dc076aacc6e3168583497c08d</code></a> |
 | Branch              | <code>main</code>                                                                                                                                      |
-| Tags at this commit | <code>0.0.27</code>                                                                                                                                    |
+| Tags at this commit | <code>0.0.28</code>                                                                                                                                    |
 | Working tree        | clean                                                                                                                                                  |
 | Remote              | <code>https://github.com/thorwhalen/sung</code>                                                                                                        |
 
@@ -4867,18 +4867,18 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/sung</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/35729603752">35729603752</a>      |
+| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39416153655">39416153655</a>      |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>77328a0251b7638af6e42d12e9fb429a4b7a836b</code> (in the history of the built commit) |
+| Event commit | <code>8b3d77168aa29508c49232c691ea4ed992c9ec22</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.12  |
-| Sphinx   | 9.1.0   |
+| epythet  | 0.2.19  |
+| Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
-| Python   | 3.12.14 |
+| Python   | 3.12.15 |
 
 ## Configuration as resolved
 
@@ -4894,14 +4894,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/sung/0.0.27/">0.0.27</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/sung/0.0.28/">0.0.28</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/sung && cd sung
-git checkout 7a64c55ed790b32fc6a6631dfd9e259d8161e184
-pip install "epythet==0.2.12"
+git checkout 1c9ed4f56a8d922dc076aacc6e3168583497c08d
+pip install "epythet==0.2.19"
 epythet quickstart . --ignore tests/ scrap/ examples/ misc/
 ```
 

@@ -54,7 +54,7 @@ Create a new playlist from a list of track IDs.
   * **playlist_name** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – The name of the new playlist.
   * **public** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – Whether the playlist should be public.
   * **client** ([`Any`](https://docs.python.org/3/library/typing.html#typing.Any) | [`None`](https://docs.python.org/3/builtins/constants.html#None)) – The Spotify client to use for creating the playlist.
-  * **user_id** ( *-*) – The user ID of the playlist owner.
+  * **user_id** – The user ID of the playlist owner.
 * **Return type:**
   [`Playlist`](#sung.base.Playlist)
 

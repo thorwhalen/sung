@@ -539,7 +539,9 @@ _track_key_templates = _mk_ref_key_templates(track_ref_templates)
 
 # Anchored regexes derived from the templates (kept for backward compatibility).
 track_ref_patterns = {
-    kind: "^" + re.escape(template).replace(re.escape("{id}"), _SPOTIFY_ID_PATTERN) + "$"
+    kind: "^"
+    + re.escape(template).replace(re.escape("{id}"), _SPOTIFY_ID_PATTERN)
+    + "$"
     for kind, template in track_ref_templates.items()
 }
 

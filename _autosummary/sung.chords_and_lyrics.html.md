@@ -73,11 +73,6 @@ Combine both features:
 >>> optimized = render_chords_and_lyrics(raw, to='text', apply_filter_non_lyrics=True, pack_lines=True)
 ```
 
-### Module Attributes
-
-| [`CHORDS_AND_LYRICS_ZIP_ENVVAR`](#sung.chords_and_lyrics.CHORDS_AND_LYRICS_ZIP_ENVVAR)   | Environment variable naming a local copy of the corpus zip.   |
-|---------------------------------------------------------------------------------|---------------------------------------------------------------|
-
 ### Functions
 
 | `complete_font_spec`(spec, default)                                                                 |                                                                                        |
@@ -89,7 +84,6 @@ Combine both features:
 | [`get_lyrics_and_chords_dataset`](#sung.chords_and_lyrics.get_lyrics_and_chords_dataset)(\*[, zip_path, ...]) | Load the Kaggle chords-and-lyrics corpus (~135K songs) as a DataFrame.                 |
 | `is_chord_line`(line)                                                                               |                                                                                        |
 | [`is_likely_lyrics`](#sung.chords_and_lyrics.is_likely_lyrics)(line[, has_chords_before])        | Determine if a line is likely to contain lyrics.                                       |
-| [`local_chords_and_lyrics_zip`](#sung.chords_and_lyrics.local_chords_and_lyrics_zip)()                      | Return the path of a local copy of the chords-and-lyrics zip, or `None`.               |
 | [`pack_song_lines`](#sung.chords_and_lyrics.pack_song_lines)(song[, max_line_length, ...])      | Pack multiple short lines together to make better use of horizontal space.             |
 | [`pack_song_text`](#sung.chords_and_lyrics.pack_song_text)(song[, max_length])                 | Convenience function to pack lines and return as text.                                 |
 | [`parse_chord_lyrics`](#sung.chords_and_lyrics.parse_chord_lyrics)(raw_text)                       | Generator: parse fixed-width chords/lyrics and yield dicts with 'chords' and 'lyrics'. |
@@ -104,10 +98,6 @@ Combine both features:
 
 | [`FontSpec`](#sung.chords_and_lyrics.FontSpec)(\*, name, size, color, alpha)   |    |
 |-------------------------------------------------------------------------------------------|----|
-
-### sung.chords_and_lyrics.CHORDS_AND_LYRICS_ZIP_ENVVAR *= 'SUNG_CHORDS_AND_LYRICS_ZIP'*
-
-Environment variable naming a local copy of the corpus zip.
 
 ### *class* sung.chords_and_lyrics.FontSpec(, name, size, color, alpha)
 
@@ -142,7 +132,7 @@ Filter out non-lyrics content from a song.
 Load the Kaggle chords-and-lyrics corpus (~135K songs) as a DataFrame.
 
 A local zip is read directly, with no Kaggle credentials: `zip_path` if
-given, else [`local_chords_and_lyrics_zip()`](#sung.chords_and_lyrics.local_chords_and_lyrics_zip). Only when there is no local
+given, else `local_chords_and_lyrics_zip()`. Only when there is no local
 copy is the dataset downloaded through `haggle` (which needs credentials).
 
 * **Parameters:**
@@ -161,16 +151,6 @@ Determine if a line is likely to contain lyrics.
   [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
 * **Returns:**
   True if the line is likely lyrics, False otherwise
-
-### sung.chords_and_lyrics.local_chords_and_lyrics_zip()
-
-Return the path of a local copy of the chords-and-lyrics zip, or `None`.
-
-Looks at `$SUNG_CHORDS_AND_LYRICS_ZIP` first, then at where `haggle`
-keeps its downloads (`$HAGGLE_ROOTDIR/zips/<owner>/<dataset>.zip`, root
-defaulting to `~/haggle`). The haggle layout is replicated rather than
-asked of haggle, because importing haggle imports `kaggle`, which
-authenticates against Kaggle at import time, even for a cached file.
 
 ### sung.chords_and_lyrics.pack_song_lines(song, max_line_length=80, preserve_chord_alignment=True)
 

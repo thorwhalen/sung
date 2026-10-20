@@ -45,6 +45,7 @@
 
    base
    chords_and_lyrics
+   chords_index
    playlists
    pydantic_models
    tools

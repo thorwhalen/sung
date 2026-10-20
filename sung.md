@@ -1,4 +1,4 @@
-> built 2026-10-20 18:36 UTC from 15a6ad2 (main) · sung 0.0.32. Details: build_info.json
+> built 2026-10-20 19:36 UTC from 4699f9b (main) · sung 0.0.33. Details: build_info.json
 
 # index.html.md
 
@@ -3260,11 +3260,6 @@ Combine both features:
 >>> optimized = render_chords_and_lyrics(raw, to='text', apply_filter_non_lyrics=True, pack_lines=True)
 ```
 
-### Module Attributes
-
-| [`CHORDS_AND_LYRICS_ZIP_ENVVAR`](_autosummary/sung.chords_and_lyrics.html.md#sung.chords_and_lyrics.CHORDS_AND_LYRICS_ZIP_ENVVAR)   | Environment variable naming a local copy of the corpus zip.   |
-|---------------------------------------------------------------------------------|---------------------------------------------------------------|
-
 ### Functions
 
 | `complete_font_spec`(spec, default)                                                                 |                                                                                        |
@@ -3276,7 +3271,6 @@ Combine both features:
 | [`get_lyrics_and_chords_dataset`](_autosummary/sung.chords_and_lyrics.html.md#sung.chords_and_lyrics.get_lyrics_and_chords_dataset)(\*[, zip_path, ...]) | Load the Kaggle chords-and-lyrics corpus (~135K songs) as a DataFrame.                 |
 | `is_chord_line`(line)                                                                               |                                                                                        |
 | [`is_likely_lyrics`](_autosummary/sung.chords_and_lyrics.html.md#sung.chords_and_lyrics.is_likely_lyrics)(line[, has_chords_before])        | Determine if a line is likely to contain lyrics.                                       |
-| [`local_chords_and_lyrics_zip`](_autosummary/sung.chords_and_lyrics.html.md#sung.chords_and_lyrics.local_chords_and_lyrics_zip)()                      | Return the path of a local copy of the chords-and-lyrics zip, or `None`.               |
 | [`pack_song_lines`](_autosummary/sung.chords_and_lyrics.html.md#sung.chords_and_lyrics.pack_song_lines)(song[, max_line_length, ...])      | Pack multiple short lines together to make better use of horizontal space.             |
 | [`pack_song_text`](_autosummary/sung.chords_and_lyrics.html.md#sung.chords_and_lyrics.pack_song_text)(song[, max_length])                 | Convenience function to pack lines and return as text.                                 |
 | [`parse_chord_lyrics`](_autosummary/sung.chords_and_lyrics.html.md#sung.chords_and_lyrics.parse_chord_lyrics)(raw_text)                       | Generator: parse fixed-width chords/lyrics and yield dicts with 'chords' and 'lyrics'. |
@@ -3291,10 +3285,6 @@ Combine both features:
 
 | [`FontSpec`](_autosummary/sung.chords_and_lyrics.html.md#sung.chords_and_lyrics.FontSpec)(\*, name, size, color, alpha)   |    |
 |-------------------------------------------------------------------------------------------|----|
-
-### sung.chords_and_lyrics.CHORDS_AND_LYRICS_ZIP_ENVVAR *= 'SUNG_CHORDS_AND_LYRICS_ZIP'*
-
-Environment variable naming a local copy of the corpus zip.
 
 ### *class* sung.chords_and_lyrics.FontSpec(, name, size, color, alpha)
 
@@ -3329,7 +3319,7 @@ Filter out non-lyrics content from a song.
 Load the Kaggle chords-and-lyrics corpus (~135K songs) as a DataFrame.
 
 A local zip is read directly, with no Kaggle credentials: `zip_path` if
-given, else [`local_chords_and_lyrics_zip()`](_autosummary/sung.chords_and_lyrics.html.md#sung.chords_and_lyrics.local_chords_and_lyrics_zip). Only when there is no local
+given, else `local_chords_and_lyrics_zip()`. Only when there is no local
 copy is the dataset downloaded through `haggle` (which needs credentials).
 
 * **Parameters:**
@@ -3348,16 +3338,6 @@ Determine if a line is likely to contain lyrics.
   [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
 * **Returns:**
   True if the line is likely lyrics, False otherwise
-
-### sung.chords_and_lyrics.local_chords_and_lyrics_zip()
-
-Return the path of a local copy of the chords-and-lyrics zip, or `None`.
-
-Looks at `$SUNG_CHORDS_AND_LYRICS_ZIP` first, then at where `haggle`
-keeps its downloads (`$HAGGLE_ROOTDIR/zips/<owner>/<dataset>.zip`, root
-defaulting to `~/haggle`). The haggle layout is replicated rather than
-asked of haggle, because importing haggle imports `kaggle`, which
-authenticates against Kaggle at import time, even for a cached file.
 
 ### sung.chords_and_lyrics.pack_song_lines(song, max_line_length=80, preserve_chord_alignment=True)
 
@@ -3451,6 +3431,182 @@ Resolve page size from string or return the object as-is.
 ### sung.chords_and_lyrics.search_songs(title='', , lyrics='', artist='', data=None)
 
 Search for a song by title, lyrics, or artist.
+
+
+# _autosummary/sung.chords_index.html.md
+
+# sung.chords_index
+
+A SQLite + FTS5 index of the chords-and-lyrics corpus, read without the corpus in memory.
+
+The corpus ([`sung.chords_and_lyrics.get_lyrics_and_chords_dataset()`](_autosummary/sung.chords_and_lyrics.html.md#sung.chords_and_lyrics.get_lyrics_and_chords_dataset)) is a
+~650 MB CSV: as a DataFrame it costs about 1.1 GB per process. This module
+writes it once to one SQLite file (titles, artists, language, popularity, each
+chart zlib-compressed, and an FTS5 table of the charts’ words) and reads that
+file back piecemeal: the short columns for matching, the words for lyrics
+search, one chart at a time.
+
+It imports only the standard library, so a web worker that serves from the
+index never loads pandas (thorwhalen/sung#17). Building it does load the corpus
+(through pandas), so run [`build_chords_index()`](_autosummary/sung.chords_index.html.md#sung.chords_index.build_chords_index) once, apart from any server.
+Ranking and fuzzy matching are the consumer’s business (`songleaf`,
+`scoreseek`); this module only stores and fetches.
+
+```pycon
+>>> import os, tempfile
+>>> rows = [
+...     (1, "The Band", "Paper Boats", "G\nPaper boats drift", "en", 3),
+...     (2, "Other", "Quiet Road", "C\nquiet road", "en", 1),
+... ]
+>>> path = os.path.join(tempfile.mkdtemp(), INDEX_NAME)
+>>> build_chords_index(path, rows=rows)["songs"]
+2
+>>> read_columns(path)["titles"]
+['Paper Boats', 'Quiet Road']
+>>> rows_with_words(path, ["boats"])
+[0]
+>>> print(read_chart(path, 0))
+G
+Paper boats drift
+```
+
+### Module Attributes
+
+| [`CHORDS_AND_LYRICS_ZIP_ENVVAR`](_autosummary/sung.chords_index.html.md#sung.chords_index.CHORDS_AND_LYRICS_ZIP_ENVVAR)   | Environment variable naming a local copy of the corpus zip.                                                                                           |
+|---------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`INDEX_NAME`](_autosummary/sung.chords_index.html.md#sung.chords_index.INDEX_NAME)                     | The index's file name; it lives beside the corpus zip by convention.                                                                                  |
+| [`CHORDS_INDEX_ENVVAR`](_autosummary/sung.chords_index.html.md#sung.chords_index.CHORDS_INDEX_ENVVAR)            | Environment variable naming the index file.                                                                                                           |
+| [`CORPUS_COLUMNS`](_autosummary/sung.chords_index.html.md#sung.chords_index.CORPUS_COLUMNS)                 | The corpus columns the index is built from, in the order `rows` gives them: song id, artist, title, chart (chords over lyrics), language, popularity. |
+| [`COLUMN_NAMES`](_autosummary/sung.chords_index.html.md#sung.chords_index.COLUMN_NAMES)                   | What [`read_columns()`](_autosummary/sung.chords_index.html.md#sung.chords_index.read_columns) returns, in row order.                                                           |
+
+### Functions
+
+| [`build_chords_index`](_autosummary/sung.chords_index.html.md#sung.chords_index.build_chords_index)(path, \*[, rows, batch_size])   | Write the index to `path`; return its song count, size and build time.                                         |
+|-----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| [`connect`](_autosummary/sung.chords_index.html.md#sung.chords_index.connect)(path)                                      | A read-only connection to the index, closed on exit of a `with` block.                                         |
+| [`corpus_rows`](_autosummary/sung.chords_index.html.md#sung.chords_index.corpus_rows)(\*[, zip_path])                        | The corpus's rows, loaded through pandas (see `get_lyrics_and_chords_dataset`).                                |
+| [`dataframe_rows`](_autosummary/sung.chords_index.html.md#sung.chords_index.dataframe_rows)(df)                                 | The rows [`build_chords_index()`](_autosummary/sung.chords_index.html.md#sung.chords_index.build_chords_index) takes, from a corpus DataFrame. |
+| [`index_version`](_autosummary/sung.chords_index.html.md#sung.chords_index.index_version)(path)                                | `(mtime_ns, size)` of the index file, or `None`: changes when it is rebuilt.                                   |
+| [`local_chords_and_lyrics_zip`](_autosummary/sung.chords_index.html.md#sung.chords_index.local_chords_and_lyrics_zip)()                      | Return the path of a local copy of the chords-and-lyrics zip, or `None`.                                       |
+| [`local_chords_index`](_autosummary/sung.chords_index.html.md#sung.chords_index.local_chords_index)()                               | Return the path of a local index file, or `None`.                                                              |
+| [`read_chart`](_autosummary/sung.chords_index.html.md#sung.chords_index.read_chart)(path, row)                              | The chart (chords over lyrics) of `row`; `""` for a row not in the index.                                      |
+| [`read_columns`](_autosummary/sung.chords_index.html.md#sung.chords_index.read_columns)(path)                                 | The short columns ([`COLUMN_NAMES`](_autosummary/sung.chords_index.html.md#sung.chords_index.COLUMN_NAMES)), each a list in row order.   |
+| [`read_meta`](_autosummary/sung.chords_index.html.md#sung.chords_index.read_meta)(path)                                    | What the build recorded: song count and build time.                                                            |
+| [`rows_with_words`](_autosummary/sung.chords_index.html.md#sung.chords_index.rows_with_words)(path, words)                       | The rows whose chart contains every one of `words` (whole words, any case).                                    |
+
+### sung.chords_index.CHORDS_AND_LYRICS_ZIP_ENVVAR *= 'SUNG_CHORDS_AND_LYRICS_ZIP'*
+
+Environment variable naming a local copy of the corpus zip.
+
+### sung.chords_index.CHORDS_INDEX_ENVVAR *= 'SUNG_CHORDS_INDEX'*
+
+Environment variable naming the index file.
+
+### sung.chords_index.COLUMN_NAMES *= ('ids', 'titles', 'artists', 'langs', 'popularity')*
+
+What [`read_columns()`](_autosummary/sung.chords_index.html.md#sung.chords_index.read_columns) returns, in row order.
+
+### sung.chords_index.CORPUS_COLUMNS *= ('Unnamed: 0', 'artist_name', 'song_name', 'chords&lyrics', 'lang', 'popularity')*
+
+The corpus columns the index is built from, in the order `rows` gives them:
+song id, artist, title, chart (chords over lyrics), language, popularity.
+
+### sung.chords_index.INDEX_NAME *= 'chords-and-lyrics.sqlite'*
+
+The index’s file name; it lives beside the corpus zip by convention.
+
+### sung.chords_index.build_chords_index(path, , rows=None, batch_size=5000)
+
+Write the index to `path`; return its song count, size and build time.
+
+`rows` are tuples in [`CORPUS_COLUMNS`](_autosummary/sung.chords_index.html.md#sung.chords_index.CORPUS_COLUMNS) order (default:
+[`corpus_rows()`](_autosummary/sung.chords_index.html.md#sung.chords_index.corpus_rows), which loads the corpus). Row `n` of `rows` is row
+`n` of the index. The file is written beside `path` and moved into place
+when complete, so a reader never sees half an index.
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
+### sung.chords_index.connect(path)
+
+A read-only connection to the index, closed on exit of a `with` block.
+
+One connection per call is safe across threads. Raises `FileNotFoundError`
+when there is no index at `path`.
+
+### sung.chords_index.corpus_rows(, zip_path=None)
+
+The corpus’s rows, loaded through pandas (see `get_lyrics_and_chords_dataset`).
+
+`zip_path` defaults to [`local_chords_and_lyrics_zip()`](_autosummary/sung.chords_index.html.md#sung.chords_index.local_chords_and_lyrics_zip) (and, failing
+that, a download through haggle): a consumer that keeps the zip elsewhere
+passes it.
+
+* **Return type:**
+  [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)]
+
+### sung.chords_index.dataframe_rows(df)
+
+The rows [`build_chords_index()`](_autosummary/sung.chords_index.html.md#sung.chords_index.build_chords_index) takes, from a corpus DataFrame.
+
+* **Return type:**
+  [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)]
+
+### sung.chords_index.index_version(path)
+
+`(mtime_ns, size)` of the index file, or `None`: changes when it is rebuilt.
+
+### sung.chords_index.local_chords_and_lyrics_zip()
+
+Return the path of a local copy of the chords-and-lyrics zip, or `None`.
+
+Looks at `$SUNG_CHORDS_AND_LYRICS_ZIP` first, then at where `haggle`
+keeps its downloads (`$HAGGLE_ROOTDIR/zips/<owner>/<dataset>.zip`, root
+defaulting to `~/haggle`). The haggle layout is replicated rather than
+asked of haggle, because importing haggle imports `kaggle`, which
+authenticates against Kaggle at import time, even for a cached file.
+
+### sung.chords_index.local_chords_index()
+
+Return the path of a local index file, or `None`.
+
+`$SUNG_CHORDS_INDEX` first (an error if it names no file), then
+[`INDEX_NAME`](_autosummary/sung.chords_index.html.md#sung.chords_index.INDEX_NAME) beside the local corpus zip
+([`local_chords_and_lyrics_zip()`](_autosummary/sung.chords_index.html.md#sung.chords_index.local_chords_and_lyrics_zip)). An index kept elsewhere (songleaf
+keeps its own under its data root) is found only through the variable, or
+passed by path to the readers.
+
+### sung.chords_index.read_chart(path, row)
+
+The chart (chords over lyrics) of `row`; `""` for a row not in the index.
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
+### sung.chords_index.read_columns(path)
+
+The short columns ([`COLUMN_NAMES`](_autosummary/sung.chords_index.html.md#sung.chords_index.COLUMN_NAMES)), each a list in row order.
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)]
+
+### sung.chords_index.read_meta(path)
+
+What the build recorded: song count and build time.
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
+
+### sung.chords_index.rows_with_words(path, words)
+
+The rows whose chart contains every one of `words` (whole words, any case).
+
+Words are matched as FTS5 tokens (`unicode61`: `_` separates words,
+accents are kept). Tokenizing a query is the caller’s business: pass words,
+not a sentence. No words, no rows.
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
 
 
 # _autosummary/sung.html.md
@@ -3949,13 +4105,14 @@ Search for tracks on Spotify.
 
 ### Modules
 
-| [`base`](_autosummary/sung.base.html.md#module-sung.base)                           | Base functionalities for the sung package.                                         |
-|--------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
-| [`chords_and_lyrics`](_autosummary/sung.chords_and_lyrics.html.md#module-sung.chords_and_lyrics) | Tools for chords and lyrics acquisition and processing.                            |
-| [`playlists`](_autosummary/sung.playlists.html.md#module-sung.playlists)                 | Build Spotify playlists from human-friendly song descriptors.                      |
-| [`pydantic_models`](_autosummary/sung.pydantic_models.html.md#module-sung.pydantic_models)     | Pydantic models generated by datamodel-codegen using the Spotify API OpenAPI spec. |
-| [`tools`](_autosummary/sung.tools.html.md#module-sung.tools)                         | Tools using sung                                                                   |
-| [`util`](_autosummary/sung.util.html.md#module-sung.util)                           | Utility functions for the sung package.                                            |
+| [`base`](_autosummary/sung.base.html.md#module-sung.base)                           | Base functionalities for the sung package.                                                |
+|--------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [`chords_and_lyrics`](_autosummary/sung.chords_and_lyrics.html.md#module-sung.chords_and_lyrics) | Tools for chords and lyrics acquisition and processing.                                   |
+| [`chords_index`](_autosummary/sung.chords_index.html.md#module-sung.chords_index)           | A SQLite + FTS5 index of the chords-and-lyrics corpus, read without the corpus in memory. |
+| [`playlists`](_autosummary/sung.playlists.html.md#module-sung.playlists)                 | Build Spotify playlists from human-friendly song descriptors.                             |
+| [`pydantic_models`](_autosummary/sung.pydantic_models.html.md#module-sung.pydantic_models)     | Pydantic models generated by datamodel-codegen using the Spotify API OpenAPI spec.        |
+| [`tools`](_autosummary/sung.tools.html.md#module-sung.tools)                         | Tools using sung                                                                          |
+| [`util`](_autosummary/sung.util.html.md#module-sung.util)                           | Utility functions for the sung package.                                                   |
 
 
 # _autosummary/sung.playlists.html.md
@@ -5244,18 +5401,20 @@ Return a new dictionary with all string values stripped.
 
 # About this build
 
-This documentation was built on **2026-10-20 18:36 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/15a6ad290bd0f702942021a1c4c0e71ba8379cbb"><code>15a6ad2</code></a> on branch <code>main</code>, for **sung 0.0.32** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 19:36 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/4699f9ba4f97a0b88ce92e6f634d35359f641099"><code>4699f9b</code></a> on branch <code>main</code>, for **sung 0.0.33** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.0.33) is ahead of the latest release on PyPI (0.0.32): these docs describe unreleased code.
 
 ## Source
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/sung/commit/15a6ad290bd0f702942021a1c4c0e71ba8379cbb"><code>15a6ad290bd0f702942021a1c4c0e71ba8379cbb</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/sung/commit/4699f9ba4f97a0b88ce92e6f634d35359f641099"><code>4699f9ba4f97a0b88ce92e6f634d35359f641099</code></a> |
 | Branch              | <code>main</code>                                                                                                                                      |
-| Tags at this commit | <code>0.0.32</code>                                                                                                                                    |
+| Tags at this commit | <code>0.0.33</code>                                                                                                                                    |
 | Working tree        | clean                                                                                                                                                  |
 | Remote              | <code>https://github.com/thorwhalen/sung</code>                                                                                                        |
 
@@ -5264,9 +5423,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/sung</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39475819007">39475819007</a>      |
+| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39484538751">39484538751</a>      |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>ffdb7bc57b9397aa514abf0cfd2e66c92110ffc8</code> (in the history of the built commit) |
+| Event commit | <code>d14e0165e9abf8eb6fc2d7bfe163f8936feeb03a</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -5291,13 +5450,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/sung/0.0.32/">0.0.32</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/sung/0.0.32/">0.0.32</a>, older than the documented version (0.0.33).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/sung && cd sung
-git checkout 15a6ad290bd0f702942021a1c4c0e71ba8379cbb
+git checkout 4699f9ba4f97a0b88ce92e6f634d35359f641099
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/ misc/
 ```

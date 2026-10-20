@@ -1,0 +1,32 @@
+sung.chords\_index
+==================
+
+.. automodule:: sung.chords_index
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      CHORDS_AND_LYRICS_ZIP_ENVVAR
+      INDEX_NAME
+      CHORDS_INDEX_ENVVAR
+      CORPUS_COLUMNS
+      COLUMN_NAMES
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      build_chords_index
+      connect
+      corpus_rows
+      dataframe_rows
+      index_version
+      local_chords_and_lyrics_zip
+      local_chords_index
+      read_chart
+      read_columns
+      read_meta
+      rows_with_words
+   

@@ -204,6 +204,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../_autosummary/sung.html">sung</a><input aria-label="Toggle navigation of sung" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../_autosummary/sung.base.html">sung.base</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../_autosummary/sung.chords_and_lyrics.html">sung.chords_and_lyrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../_autosummary/sung.chords_index.html">sung.chords_index</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../_autosummary/sung.playlists.html">sung.playlists</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../_autosummary/sung.pydantic_models.html">sung.pydantic_models</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../_autosummary/sung.tools.html">sung.tools</a></li>
@@ -313,36 +314,14 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
 
-<span class="n">CHORDS_AND_LYRICS_DATASET</span> <span class="o">=</span> <span class="s2">"eitanbentora/chords-and-lyrics-dataset"</span>
-<span class="n">CHORDS_AND_LYRICS_CSV</span> <span class="o">=</span> <span class="s2">"chords_and_lyrics.csv"</span>
-<span class="c1">#: Environment variable naming a local copy of the corpus zip.</span>
-<span class="n">CHORDS_AND_LYRICS_ZIP_ENVVAR</span> <span class="o">=</span> <span class="s2">"SUNG_CHORDS_AND_LYRICS_ZIP"</span>
-
-
-<div class="viewcode-block" id="local_chords_and_lyrics_zip">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.local_chords_and_lyrics_zip">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">local_chords_and_lyrics_zip</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">"""Return the path of a local copy of the chords-and-lyrics zip, or ``None``.</span>
-
-<span class="sd">    Looks at ``$SUNG_CHORDS_AND_LYRICS_ZIP`` first, then at where ``haggle``</span>
-<span class="sd">    keeps its downloads (``$HAGGLE_ROOTDIR/zips/&lt;owner&gt;/&lt;dataset&gt;.zip``, root</span>
-<span class="sd">    defaulting to ``~/haggle``). The haggle layout is replicated rather than</span>
-<span class="sd">    asked of haggle, because importing haggle imports ``kaggle``, which</span>
-<span class="sd">    authenticates against Kaggle at import time, even for a cached file.</span>
-<span class="sd">    """</span>
-    <span class="n">explicit</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CHORDS_AND_LYRICS_ZIP_ENVVAR</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">explicit</span><span class="p">:</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">explicit</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"$</span><span class="si">{</span><span class="n">CHORDS_AND_LYRICS_ZIP_ENVVAR</span><span class="si">}</span><span class="s2"> names </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">, which is not a file"</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="n">path</span>
-    <span class="n">haggle_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"HAGGLE_ROOTDIR"</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">"~/haggle"</span><span class="p">))</span>
-    <span class="n">owner</span><span class="p">,</span> <span class="n">dataset</span> <span class="o">=</span> <span class="n">CHORDS_AND_LYRICS_DATASET</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">haggle_root</span><span class="p">,</span> <span class="s2">"zips"</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">.zip"</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">path</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
-
+<span class="c1"># Where the corpus is found lives in the stdlib-only index module, so that finding</span>
+<span class="c1"># it (say, from a web worker serving the index) never imports this module's pydantic.</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sung.chords_index</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401  (re-exported)</span>
+    <span class="n">CHORDS_AND_LYRICS_CSV</span><span class="p">,</span>
+    <span class="n">CHORDS_AND_LYRICS_DATASET</span><span class="p">,</span>
+    <span class="n">CHORDS_AND_LYRICS_ZIP_ENVVAR</span><span class="p">,</span>
+    <span class="n">local_chords_and_lyrics_zip</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="get_lyrics_and_chords_dataset">
@@ -955,7 +934,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=51c9d36a"></script>
+</div><script src="../../_static/documentation_options.js?v=f889a70c"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

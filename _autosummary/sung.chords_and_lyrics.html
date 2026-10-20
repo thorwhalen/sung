@@ -7,7 +7,7 @@
 <link rel="alternate" type="text/markdown" href="sung.chords_and_lyrics.html.md">
 <link rel="describedby" href="../llms.txt" type="text/markdown">
 <link rel="alternate" type="text/markdown" href="sung.chords_and_lyrics.html.md">
-<link rel="describedby" href="llms.txt"><link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="sung.playlists" href="sung.playlists.html"><link rel="prev" title="sung.base" href="sung.base.html">
+<link rel="describedby" href="llms.txt"><link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="sung.chords_index" href="sung.chords_index.html"><link rel="prev" title="sung.base" href="sung.base.html">
 
     <!-- Generated with Sphinx 9.1.1 and Furo 2025.12.19 -->
         <title>sung.chords_and_lyrics - sung</title>
@@ -207,6 +207,7 @@
 <li class="toctree-l2 current has-children"><a class="reference internal" href="sung.html">sung</a><input aria-label="Toggle navigation of sung" checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="sung.base.html">sung.base</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">sung.chords_and_lyrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sung.chords_index.html">sung.chords_index</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sung.playlists.html">sung.playlists</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sung.pydantic_models.html">sung.pydantic_models</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sung.tools.html">sung.tools</a></li>
@@ -315,16 +316,6 @@ claims to demonstrate.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">optimized</span> <span class="o">=</span> <span class="n">render_chords_and_lyrics</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">'text'</span><span class="p">,</span> <span class="n">apply_filter_non_lyrics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pack_lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="rubric">Module Attributes</p>
-<div class="table-wrapper autosummary longtable docutils container">
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.CHORDS_AND_LYRICS_ZIP_ENVVAR" title="sung.chords_and_lyrics.CHORDS_AND_LYRICS_ZIP_ENVVAR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CHORDS_AND_LYRICS_ZIP_ENVVAR</span></code></a></p></td>
-<td><p>Environment variable naming a local copy of the corpus zip.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
 <p class="rubric">Functions</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
@@ -353,34 +344,31 @@ claims to demonstrate.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.is_likely_lyrics" title="sung.chords_and_lyrics.is_likely_lyrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_likely_lyrics</span></code></a>(line[, has_chords_before])</p></td>
 <td><p>Determine if a line is likely to contain lyrics.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.local_chords_and_lyrics_zip" title="sung.chords_and_lyrics.local_chords_and_lyrics_zip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_chords_and_lyrics_zip</span></code></a>()</p></td>
-<td><p>Return the path of a local copy of the chords-and-lyrics zip, or <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.pack_song_lines" title="sung.chords_and_lyrics.pack_song_lines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pack_song_lines</span></code></a>(song[, max_line_length, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.pack_song_lines" title="sung.chords_and_lyrics.pack_song_lines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pack_song_lines</span></code></a>(song[, max_line_length, ...])</p></td>
 <td><p>Pack multiple short lines together to make better use of horizontal space.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.pack_song_text" title="sung.chords_and_lyrics.pack_song_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pack_song_text</span></code></a>(song[, max_length])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.pack_song_text" title="sung.chords_and_lyrics.pack_song_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pack_song_text</span></code></a>(song[, max_length])</p></td>
 <td><p>Convenience function to pack lines and return as text.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.parse_chord_lyrics" title="sung.chords_and_lyrics.parse_chord_lyrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_chord_lyrics</span></code></a>(raw_text)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.parse_chord_lyrics" title="sung.chords_and_lyrics.parse_chord_lyrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_chord_lyrics</span></code></a>(raw_text)</p></td>
 <td><p>Generator: parse fixed-width chords/lyrics and yield dicts with 'chords' and 'lyrics'.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.remove_non_lyrics" title="sung.chords_and_lyrics.remove_non_lyrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_non_lyrics</span></code></a>(song[, keep_metadata])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.remove_non_lyrics" title="sung.chords_and_lyrics.remove_non_lyrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_non_lyrics</span></code></a>(song[, keep_metadata])</p></td>
 <td><p>Convenience function to filter non-lyrics and return as text.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.render_chords_and_lyrics" title="sung.chords_and_lyrics.render_chords_and_lyrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_chords_and_lyrics</span></code></a>(song[, to, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.render_chords_and_lyrics" title="sung.chords_and_lyrics.render_chords_and_lyrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_chords_and_lyrics</span></code></a>(song[, to, ...])</p></td>
 <td><p>Aggregator: render to 'pdf' or 'text'.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.render_chords_and_lyrics_to_pdf" title="sung.chords_and_lyrics.render_chords_and_lyrics_to_pdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_chords_and_lyrics_to_pdf</span></code></a>(song, *, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.render_chords_and_lyrics_to_pdf" title="sung.chords_and_lyrics.render_chords_and_lyrics_to_pdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_chords_and_lyrics_to_pdf</span></code></a>(song, *, ...)</p></td>
 <td><p>Render song to PDF with styling parameters.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.render_chords_and_lyrics_to_text" title="sung.chords_and_lyrics.render_chords_and_lyrics_to_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_chords_and_lyrics_to_text</span></code></a>(song)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.render_chords_and_lyrics_to_text" title="sung.chords_and_lyrics.render_chords_and_lyrics_to_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_chords_and_lyrics_to_text</span></code></a>(song)</p></td>
 <td><p>Reconstruct fixed-width text from parsed song data.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.resolve_page_size" title="sung.chords_and_lyrics.resolve_page_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_page_size</span></code></a>(page_size)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.resolve_page_size" title="sung.chords_and_lyrics.resolve_page_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_page_size</span></code></a>(page_size)</p></td>
 <td><p>Resolve page size from string or return the object as-is.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.search_songs" title="sung.chords_and_lyrics.search_songs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_songs</span></code></a>([title, lyrics, artist, data])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.chords_and_lyrics.search_songs" title="sung.chords_and_lyrics.search_songs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_songs</span></code></a>([title, lyrics, artist, data])</p></td>
 <td><p>Search for a song by title, lyrics, or artist.</p></td>
 </tr>
 </tbody>
@@ -396,12 +384,6 @@ claims to demonstrate.</p>
 </tbody>
 </table>
 </div>
-<dl class="py data">
-<dt class="sig sig-object py" id="sung.chords_and_lyrics.CHORDS_AND_LYRICS_ZIP_ENVVAR">
-<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">CHORDS_AND_LYRICS_ZIP_ENVVAR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SUNG_CHORDS_AND_LYRICS_ZIP'</span></span><a class="headerlink" href="#sung.chords_and_lyrics.CHORDS_AND_LYRICS_ZIP_ENVVAR" title="Link to this definition">¶</a></dt>
-<dd><p>Environment variable naming a local copy of the corpus zip.</p>
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="sung.chords_and_lyrics.FontSpec">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">FontSpec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/chords_and_lyrics.html#FontSpec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.FontSpec" title="Link to this definition">¶</a></dt>
@@ -453,7 +435,7 @@ If song is already iterable of dicts, return (list(song), None).</p>
 <span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">get_lyrics_and_chords_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">zip_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usecols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/chords_and_lyrics.html#get_lyrics_and_chords_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.get_lyrics_and_chords_dataset" title="Link to this definition">¶</a></dt>
 <dd><p>Load the Kaggle chords-and-lyrics corpus (~135K songs) as a DataFrame.</p>
 <p>A local zip is read directly, with no Kaggle credentials: <code class="docutils literal notranslate"><span class="pre">zip_path</span></code> if
-given, else <a class="reference internal" href="#sung.chords_and_lyrics.local_chords_and_lyrics_zip" title="sung.chords_and_lyrics.local_chords_and_lyrics_zip"><code class="xref py py-func docutils literal notranslate"><span class="pre">local_chords_and_lyrics_zip()</span></code></a>. Only when there is no local
+given, else <code class="xref py py-func docutils literal notranslate"><span class="pre">local_chords_and_lyrics_zip()</span></code>. Only when there is no local
 copy is the dataset downloaded through <code class="docutils literal notranslate"><span class="pre">haggle</span></code> (which needs credentials).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -484,17 +466,6 @@ you need roughly halves the time and memory.</p></li>
 <dd class="field-odd"><p>True if the line is likely lyrics, False otherwise</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="sung.chords_and_lyrics.local_chords_and_lyrics_zip">
-<span class="sig-prename descclassname"><span class="pre">sung.chords_and_lyrics.</span></span><span class="sig-name descname"><span class="pre">local_chords_and_lyrics_zip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/chords_and_lyrics.html#local_chords_and_lyrics_zip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.chords_and_lyrics.local_chords_and_lyrics_zip" title="Link to this definition">¶</a></dt>
-<dd><p>Return the path of a local copy of the chords-and-lyrics zip, or <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
-<p>Looks at <code class="docutils literal notranslate"><span class="pre">$SUNG_CHORDS_AND_LYRICS_ZIP</span></code> first, then at where <code class="docutils literal notranslate"><span class="pre">haggle</span></code>
-keeps its downloads (<code class="docutils literal notranslate"><span class="pre">$HAGGLE_ROOTDIR/zips/&lt;owner&gt;/&lt;dataset&gt;.zip</span></code>, root
-defaulting to <code class="docutils literal notranslate"><span class="pre">~/haggle</span></code>). The haggle layout is replicated rather than
-asked of haggle, because importing haggle imports <code class="docutils literal notranslate"><span class="pre">kaggle</span></code>, which
-authenticates against Kaggle at import time, even for a cached file.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -647,12 +618,12 @@ Each ‘chords’ is List of (chord_name, start_index).</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="sung.playlists.html">
+          <a class="next-page" href="sung.chords_index.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">sung.playlists</div>
+                <div class="title">sung.chords_index</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -694,7 +665,6 @@ Each ‘chords’ is List of (chord_name, start_index).</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">sung.chords_and_lyrics</a><ul>
-<li><a class="reference internal" href="#sung.chords_and_lyrics.CHORDS_AND_LYRICS_ZIP_ENVVAR"><code class="docutils literal notranslate"><span class="pre">CHORDS_AND_LYRICS_ZIP_ENVVAR</span></code></a></li>
 <li><a class="reference internal" href="#sung.chords_and_lyrics.FontSpec"><code class="docutils literal notranslate"><span class="pre">FontSpec</span></code></a><ul>
 <li><a class="reference internal" href="#sung.chords_and_lyrics.FontSpec.model_config"><code class="docutils literal notranslate"><span class="pre">FontSpec.model_config</span></code></a></li>
 </ul>
@@ -703,7 +673,6 @@ Each ‘chords’ is List of (chord_name, start_index).</p>
 <li><a class="reference internal" href="#sung.chords_and_lyrics.filter_non_lyrics"><code class="docutils literal notranslate"><span class="pre">filter_non_lyrics()</span></code></a></li>
 <li><a class="reference internal" href="#sung.chords_and_lyrics.get_lyrics_and_chords_dataset"><code class="docutils literal notranslate"><span class="pre">get_lyrics_and_chords_dataset()</span></code></a></li>
 <li><a class="reference internal" href="#sung.chords_and_lyrics.is_likely_lyrics"><code class="docutils literal notranslate"><span class="pre">is_likely_lyrics()</span></code></a></li>
-<li><a class="reference internal" href="#sung.chords_and_lyrics.local_chords_and_lyrics_zip"><code class="docutils literal notranslate"><span class="pre">local_chords_and_lyrics_zip()</span></code></a></li>
 <li><a class="reference internal" href="#sung.chords_and_lyrics.pack_song_lines"><code class="docutils literal notranslate"><span class="pre">pack_song_lines()</span></code></a></li>
 <li><a class="reference internal" href="#sung.chords_and_lyrics.pack_song_text"><code class="docutils literal notranslate"><span class="pre">pack_song_text()</span></code></a></li>
 <li><a class="reference internal" href="#sung.chords_and_lyrics.parse_chord_lyrics"><code class="docutils literal notranslate"><span class="pre">parse_chord_lyrics()</span></code></a></li>
@@ -724,7 +693,7 @@ Each ‘chords’ is List of (chord_name, start_index).</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=51c9d36a"></script>
+</div><script src="../_static/documentation_options.js?v=f889a70c"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

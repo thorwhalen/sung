@@ -121,3 +121,33 @@ def test_playlist_skill_ships_inside_the_package():
     link = Path(__file__).parents[1] / ".claude" / "skills" / "sung-playlist"
     if link.parent.exists():  # absent in an installed-sdist test run
         assert link.is_symlink() and (link / "SKILL.md").samefile(skill)
+
+
+def test_import_is_light():
+    """``import sung`` (and the chords and lyrics module) stays off pandas and spotipy.
+
+    thorwhalen/sung#17: a light ``sung`` is what lets a web worker read the chords
+    and lyrics index without paying ~1 s and ~100 MB for the Spotify stack. The
+    re-exports in ``sung/__init__.py`` are lazy; a module-level import there would
+    break this. Subprocess, so that other tests' imports don't count.
+    """
+    import subprocess
+    import sys
+
+    script = (
+        "import sys, sung, sung.chords_and_lyrics\n"
+        "print(sorted({'pandas', 'spotipy'} & set(sys.modules)))\n"
+    )
+    result = subprocess.run(
+        [sys.executable, "-c", script], capture_output=True, text=True, check=True
+    )
+    assert result.stdout.strip() == "[]"
+
+
+def test_lazy_exports_resolve_to_their_defining_module():
+    import sung
+
+    assert sung.Tracks.__module__ == "sung.base"
+    assert "Tracks" in dir(sung)
+    with pytest.raises(AttributeError):
+        sung.no_such_name

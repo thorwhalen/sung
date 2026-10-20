@@ -480,7 +480,6 @@ def filter_non_lyrics(
     return filtered
 
 
-# TODO: Make this work
 def pack_song_lines(
     song: str | Iterable[dict],
     max_line_length: int = 80,
@@ -492,10 +491,16 @@ def pack_song_lines(
     Args:
         song: Raw text or parsed song data
         max_line_length: Maximum length of packed lines
-        preserve_chord_alignment: If True, keep chord alignment intact
+        preserve_chord_alignment: Reserved. Chord alignment is column-based, so
+            sections that carry chords are always kept as they are and never
+            merged with their neighbours; only chordless lyric lines are packed.
 
     Returns:
-        List of song sections with packed lines
+        List of song sections with packed lines. Blank lines and ``[Section]``
+        headers always start a new packed line.
+
+    >>> [s["lyrics"] for s in pack_song_lines("aa bb\\n\\ncc", max_line_length=80)]
+    ['aa bb', '', 'cc']
     """
     song_data, _ = ensure_parsed_song(song)
 

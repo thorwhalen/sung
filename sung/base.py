@@ -408,7 +408,6 @@ def search_tracks(
 # Playlist Classes
 
 
-# TODO: Make it a subclass of TracksBase, or Tracks
 class PlaylistReader(Tracks, Mapping[TrackId, TrackMetadata]):
     """Read-only access to a Spotify playlist."""
 

@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 10.505396842956543,
-  "commit_message": "Merge 8f298148befb7c61f78daa4e4a93c6f1a6a4b672 into 3ebce9e5f19538fbae424b9e911e2f2cb35bf73d",
-  "commit_sha": "6a5d577b5676750ca881b2d5000b7dcaebc21862",
+  "collection_duration_seconds": 8.91403579711914,
+  "commit_message": "Resolve stale TODOs: PlaylistReader is a TracksBase; document and test pack_song_lines (#10) (#14)\n\nCo-authored-by: Claude Sonnet 5.5 <noreply@anthropic.com>",
+  "commit_sha": "9d8e0bc67b33ddcff5a5a07c2ba1b84c91c67b8b",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -22,26 +22,26 @@
       "mean_lines_per_function": 19.05609881626351,
       "num_classes": 5139,
       "num_functions": 33031,
-      "pypi_version": "0.0.28",
+      "pypi_version": "0.0.29",
       "total_lines": 990672
     },
     "wily": {
       "cyclomatic_avg": 0.0,
-      "error": "wily build failed: \u001b[31mFailed to setup archiver: 'Dirty repository, make sure you commit/stash files first'\u001b[0m\n",
+      "error": "wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...\nTry 'wily report --help' for help.\n\nError: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.\n",
       "files_analyzed": 0,
       "maintainability_index": 0.0,
       "total_loc": 0
     },
     "workflow_status": {
       "last_run_status": "success",
-      "last_success_timestamp": "2026-10-20T12:12:24Z",
+      "last_success_timestamp": "2026-10-20T12:16:54Z",
       "recent_failure_count": 0,
-      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39420340784",
+      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39420877616",
       "total_runs_analyzed": 10
     }
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-20T12:15:21.847433Z",
+  "timestamp": "2026-10-20T12:17:57.965887Z",
   "workflow_status": {}
 }

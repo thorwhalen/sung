@@ -369,13 +369,18 @@
 <dd><p>Ensure that a playlist ID is in the correct format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>check</strong> (<em>- playlist_id - the playlist ID to</em>)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>- playlist_spec - a playlist</em>)</p></li>
+<li><p><strong>uri</strong></p></li>
+<li><p><strong>href</strong> (<em>url or</em>)</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The playlist ID in the correct format.</p>
+<dd class="field-odd"><p>The playlist ID. Query strings (e.g. <code class="docutils literal notranslate"><span class="pre">?si=...</span></code>) are dropped; a string
+matching no known format is returned as is (assumed to be an id).</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -386,6 +391,8 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_playlist_id</span><span class="p">(</span><span class="s2">"https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M"</span><span class="p">)</span>
 <span class="go">'37i9dQZF1DXcBWIGoYBM5M'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_playlist_id</span><span class="p">(</span><span class="s2">"https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M"</span><span class="p">)</span>
+<span class="go">'37i9dQZF1DXcBWIGoYBM5M'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_playlist_id</span><span class="p">(</span><span class="s2">"https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M?si=abc"</span><span class="p">)</span>
 <span class="go">'37i9dQZF1DXcBWIGoYBM5M'</span>
 </pre></div>
 </div>
@@ -582,7 +589,7 @@ scope desires.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=36140909"></script>
+</div><script src="../_static/documentation_options.js?v=9f547d6f"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

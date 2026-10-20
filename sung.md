@@ -1,4 +1,4 @@
-> built 2026-10-20 11:38 UTC from 1c9ed4f (main) · sung 0.0.28. Details: build_info.json
+> built 2026-10-20 12:15 UTC from d6a5e8e (main) · sung 0.0.29. Details: build_info.json
 
 # index.html.md
 
@@ -4739,11 +4739,14 @@ Convert a date string to a standard format (YYYY-MM-DD).
 Ensure that a playlist ID is in the correct format.
 
 * **Parameters:**
-  **check** ( *- playlist_id - the playlist ID to*)
+  * **id** ( *- playlist_spec - a playlist*)
+  * **uri**
+  * **href** (*url or*)
 * **Return type:**
   [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 * **Returns:**
-  The playlist ID in the correct format.
+  The playlist ID. Query strings (e.g. `?si=...`) are dropped; a string
+  matching no known format is returned as is (assumed to be an id).
 
 ### Examples
 
@@ -4755,6 +4758,8 @@ Ensure that a playlist ID is in the correct format.
 >>> ensure_playlist_id("https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M")
 '37i9dQZF1DXcBWIGoYBM5M'
 >>> ensure_playlist_id("https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M")
+'37i9dQZF1DXcBWIGoYBM5M'
+>>> ensure_playlist_id("https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M?si=abc")
 '37i9dQZF1DXcBWIGoYBM5M'
 ```
 
@@ -4847,7 +4852,7 @@ Return a new dictionary with all string values stripped.
 
 # About this build
 
-This documentation was built on **2026-10-20 11:38 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/1c9ed4f56a8d922dc076aacc6e3168583497c08d"><code>1c9ed4f</code></a> on branch <code>main</code>, for **sung 0.0.28** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 12:15 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/d6a5e8e9e1927cd3783a92c20f7a7966a0cfe00b"><code>d6a5e8e</code></a> on branch <code>main</code>, for **sung 0.0.29** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -4856,9 +4861,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/sung/commit/1c9ed4f56a8d922dc076aacc6e3168583497c08d"><code>1c9ed4f56a8d922dc076aacc6e3168583497c08d</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/sung/commit/d6a5e8e9e1927cd3783a92c20f7a7966a0cfe00b"><code>d6a5e8e9e1927cd3783a92c20f7a7966a0cfe00b</code></a> |
 | Branch              | <code>main</code>                                                                                                                                      |
-| Tags at this commit | <code>0.0.28</code>                                                                                                                                    |
+| Tags at this commit | <code>0.0.29</code>                                                                                                                                    |
 | Working tree        | clean                                                                                                                                                  |
 | Remote              | <code>https://github.com/thorwhalen/sung</code>                                                                                                        |
 
@@ -4867,15 +4872,15 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/sung</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39416153655">39416153655</a>      |
+| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39420571767">39420571767</a>      |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>8b3d77168aa29508c49232c691ea4ed992c9ec22</code> (in the history of the built commit) |
+| Event commit | <code>3ebce9e5f19538fbae424b9e911e2f2cb35bf73d</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.19  |
+| epythet  | 0.2.20  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
 | Python   | 3.12.15 |
@@ -4894,14 +4899,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/sung/0.0.28/">0.0.28</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/sung/0.0.29/">0.0.29</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/sung && cd sung
-git checkout 1c9ed4f56a8d922dc076aacc6e3168583497c08d
-pip install "epythet==0.2.19"
+git checkout d6a5e8e9e1927cd3783a92c20f7a7966a0cfe00b
+pip install "epythet==0.2.20"
 epythet quickstart . --ignore tests/ scrap/ examples/ misc/
 ```
 

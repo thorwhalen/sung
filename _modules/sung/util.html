@@ -760,17 +760,49 @@
 <span class="n">TrackMetadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 
 
-<span class="c1"># TODO: Maybe use dol.KeyTemplate to implement casting (and other parsing and generation)?</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">dol</span>
 
 <span class="n">TrackKeyKinds</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"uri"</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">,</span> <span class="s2">"url"</span><span class="p">,</span> <span class="s2">"href"</span><span class="p">]</span>
 
+<span class="n">_SPOTIFY_ID_PATTERN</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"\w</span><span class="si">{22}</span><span class="s2">"</span>
 
+<span class="c1"># One dol.KeyTemplate per reference kind: the single source of truth for both</span>
+<span class="c1"># parsing (str -&gt; {"id": ...}) and generation ({"id": ...} -&gt; str).</span>
+<span class="n">track_ref_templates</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"uri"</span><span class="p">:</span> <span class="s2">"spotify:track:</span><span class="si">{id}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"</span><span class="si">{id}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"https://open.spotify.com/track/</span><span class="si">{id}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"href"</span><span class="p">:</span> <span class="s2">"https://api.spotify.com/v1/tracks/</span><span class="si">{id}</span><span class="s2">"</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_mk_ref_key_templates</span><span class="p">(</span>
+    <span class="n">templates</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">id_pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_SPOTIFY_ID_PATTERN</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">"dol.KeyTemplate"</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="n">kind</span><span class="p">:</span> <span class="n">dol</span><span class="o">.</span><span class="n">KeyTemplate</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">dflt_pattern</span><span class="o">=</span><span class="n">id_pattern</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">kind</span><span class="p">,</span> <span class="n">template</span> <span class="ow">in</span> <span class="n">templates</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_ref_id</span><span class="p">(</span><span class="n">key_template</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The id in ``ref`` if it matches ``key_template`` entirely, else None."""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ref_id</span> <span class="o">=</span> <span class="n">key_template</span><span class="o">.</span><span class="n">str_to_dict</span><span class="p">(</span><span class="n">ref</span><span class="p">)[</span><span class="s2">"id"</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="c1"># KeyTemplate matching is not anchored: insist on an exact round trip.</span>
+    <span class="k">return</span> <span class="n">ref_id</span> <span class="k">if</span> <span class="n">key_template</span><span class="o">.</span><span class="n">dict_to_str</span><span class="p">({</span><span class="s2">"id"</span><span class="p">:</span> <span class="n">ref_id</span><span class="p">})</span> <span class="o">==</span> <span class="n">ref</span> <span class="k">else</span> <span class="kc">None</span>
+
+
+<span class="n">_track_key_templates</span> <span class="o">=</span> <span class="n">_mk_ref_key_templates</span><span class="p">(</span><span class="n">track_ref_templates</span><span class="p">)</span>
+
+<span class="c1"># Anchored regexes derived from the templates (kept for backward compatibility).</span>
 <span class="n">track_ref_patterns</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"uri"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"^spotify:track:[\w]</span><span class="si">{22}</span><span class="s2">$"</span><span class="p">,</span>
-    <span class="s2">"id"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"^[\w]</span><span class="si">{22}</span><span class="s2">$"</span><span class="p">,</span>
-    <span class="s2">"url"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"^https://open.spotify.com/track/[\w]</span><span class="si">{22}</span><span class="s2">$"</span><span class="p">,</span>
-    <span class="s2">"href"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"^https://api.spotify.com/v1/tracks/[\w]</span><span class="si">{22}</span><span class="s2">$"</span><span class="p">,</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="s2">"^"</span>
+    <span class="o">+</span> <span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">template</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="s2">"</span><span class="si">{id}</span><span class="s2">"</span><span class="p">),</span> <span class="n">_SPOTIFY_ID_PATTERN</span><span class="p">)</span>
+    <span class="o">+</span> <span class="s2">"$"</span>
+    <span class="k">for</span> <span class="n">kind</span><span class="p">,</span> <span class="n">template</span> <span class="ow">in</span> <span class="n">track_ref_templates</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
 <span class="p">}</span>
 
 
@@ -808,49 +840,38 @@
 <span class="sd">    'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'</span>
 
 <span class="sd">    """</span>
-    <span class="c1"># Define possible patterns to detect the kind</span>
+    <span class="k">if</span> <span class="n">target_kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_track_key_templates</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported target kind: </span><span class="si">{</span><span class="n">target_kind</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">src_kind</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">src_kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_track_key_templates</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported source kind: </span><span class="si">{</span><span class="n">src_kind</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="c1"># Detect src_kind if not provided</span>
     <span class="k">if</span> <span class="n">src_kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">kind</span><span class="p">,</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">track_ref_patterns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">track_key</span><span class="p">):</span>
-                <span class="n">src_kind</span> <span class="o">=</span> <span class="n">kind</span>
+        <span class="k">for</span> <span class="n">kind</span><span class="p">,</span> <span class="n">key_template</span> <span class="ow">in</span> <span class="n">_track_key_templates</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">track_id</span> <span class="o">:=</span> <span class="n">_parse_ref_id</span><span class="p">(</span><span class="n">key_template</span><span class="p">,</span> <span class="n">track_key</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">break</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Could not detect source kind for: </span><span class="si">{</span><span class="n">track_key</span><span class="si">=}</span><span class="s2">"</span>
                 <span class="s2">"Please specify a valid `src_kind`."</span>
             <span class="p">)</span>
-
-    <span class="c1"># Extract ID from the source format</span>
-    <span class="k">if</span> <span class="n">src_kind</span> <span class="o">==</span> <span class="s2">"uri"</span><span class="p">:</span>
-        <span class="n">track_id</span> <span class="o">=</span> <span class="n">track_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="n">src_kind</span> <span class="o">==</span> <span class="s2">"url"</span> <span class="ow">or</span> <span class="n">src_kind</span> <span class="o">==</span> <span class="s2">"href"</span><span class="p">:</span>
-        <span class="n">track_id</span> <span class="o">=</span> <span class="n">track_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="n">src_kind</span> <span class="o">==</span> <span class="s2">"id"</span><span class="p">:</span>
-        <span class="n">track_id</span> <span class="o">=</span> <span class="n">track_key</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported source kind: </span><span class="si">{</span><span class="n">src_kind</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">track_id</span> <span class="o">=</span> <span class="n">_track_key_templates</span><span class="p">[</span><span class="n">src_kind</span><span class="p">]</span><span class="o">.</span><span class="n">str_to_dict</span><span class="p">(</span><span class="n">track_key</span><span class="p">)[</span><span class="s2">"id"</span><span class="p">]</span>
 
-    <span class="c1"># Convert to the target format</span>
-    <span class="k">if</span> <span class="n">target_kind</span> <span class="o">==</span> <span class="s2">"uri"</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"spotify:track:</span><span class="si">{</span><span class="n">track_id</span><span class="si">}</span><span class="s2">"</span>
-    <span class="k">elif</span> <span class="n">target_kind</span> <span class="o">==</span> <span class="s2">"id"</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">track_id</span>
-    <span class="k">elif</span> <span class="n">target_kind</span> <span class="o">==</span> <span class="s2">"url"</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"https://open.spotify.com/track/</span><span class="si">{</span><span class="n">track_id</span><span class="si">}</span><span class="s2">"</span>
-    <span class="k">elif</span> <span class="n">target_kind</span> <span class="o">==</span> <span class="s2">"href"</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"https://api.spotify.com/v1/tracks/</span><span class="si">{</span><span class="n">track_id</span><span class="si">}</span><span class="s2">"</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported target kind: </span><span class="si">{</span><span class="n">target_kind</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_track_key_templates</span><span class="p">[</span><span class="n">target_kind</span><span class="p">]</span><span class="o">.</span><span class="n">dict_to_str</span><span class="p">({</span><span class="s2">"id"</span><span class="p">:</span> <span class="n">track_id</span><span class="p">})</span></div>
 
 
 
 <span class="n">ensure_track_id</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">cast_track_key</span><span class="p">,</span> <span class="n">target_kind</span><span class="o">=</span><span class="s2">"id"</span><span class="p">)</span>
 
 
-<span class="c1"># TODO: Make this complete</span>
-<span class="c1"># TODO: Use dol.KeyTemplate to redo cast_track_key and the general playlist cast function</span>
+<span class="n">playlist_ref_templates</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"uri"</span><span class="p">:</span> <span class="s2">"spotify:playlist:</span><span class="si">{id}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"https://open.spotify.com/playlist/</span><span class="si">{id}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"href"</span><span class="p">:</span> <span class="s2">"https://api.spotify.com/v1/playlists/</span><span class="si">{id}</span><span class="s2">"</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">_playlist_key_templates</span> <span class="o">=</span> <span class="n">_mk_ref_key_templates</span><span class="p">(</span><span class="n">playlist_ref_templates</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="ensure_playlist_id">
 <a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.util.ensure_playlist_id">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ensure_playlist_id</span><span class="p">(</span><span class="n">playlist_spec</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -858,10 +879,11 @@
 <span class="sd">    Ensure that a playlist ID is in the correct format.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">        - playlist_id - the playlist ID to check</span>
+<span class="sd">        - playlist_spec - a playlist id, uri, url or href</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        The playlist ID in the correct format.</span>
+<span class="sd">        The playlist ID. Query strings (e.g. ``?si=...``) are dropped; a string</span>
+<span class="sd">        matching no known format is returned as is (assumed to be an id).</span>
 
 <span class="sd">    Examples:</span>
 
@@ -873,15 +895,14 @@
 <span class="sd">    '37i9dQZF1DXcBWIGoYBM5M'</span>
 <span class="sd">    &gt;&gt;&gt; ensure_playlist_id("https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M")</span>
 <span class="sd">    '37i9dQZF1DXcBWIGoYBM5M'</span>
+<span class="sd">    &gt;&gt;&gt; ensure_playlist_id("https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M?si=abc")</span>
+<span class="sd">    '37i9dQZF1DXcBWIGoYBM5M'</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">playlist_spec</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"spotify:playlist:"</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">playlist_spec</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="n">playlist_spec</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"https://"</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">playlist_spec</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"?"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="n">playlist_spec</span>  <span class="c1"># just cross your fingers and hope it's a valid playlist ID</span>
-        <span class="p">)</span></div>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">playlist_spec</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"?"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">key_template</span> <span class="ow">in</span> <span class="n">_playlist_key_templates</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">playlist_id</span> <span class="o">:=</span> <span class="n">_parse_ref_id</span><span class="p">(</span><span class="n">key_template</span><span class="p">,</span> <span class="n">spec</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">playlist_id</span>
+    <span class="k">return</span> <span class="n">playlist_spec</span>  <span class="c1"># assume it is already an id</span></div>
 
 
 
@@ -994,7 +1015,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=36140909"></script>
+</div><script src="../../_static/documentation_options.js?v=9f547d6f"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

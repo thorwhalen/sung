@@ -62,11 +62,14 @@ Convert a date string to a standard format (YYYY-MM-DD).
 Ensure that a playlist ID is in the correct format.
 
 * **Parameters:**
-  **check** ( *- playlist_id - the playlist ID to*)
+  * **id** ( *- playlist_spec - a playlist*)
+  * **uri**
+  * **href** (*url or*)
 * **Return type:**
   [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 * **Returns:**
-  The playlist ID in the correct format.
+  The playlist ID. Query strings (e.g. `?si=...`) are dropped; a string
+  matching no known format is returned as is (assumed to be an id).
 
 ### Examples
 
@@ -78,6 +81,8 @@ Ensure that a playlist ID is in the correct format.
 >>> ensure_playlist_id("https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M")
 '37i9dQZF1DXcBWIGoYBM5M'
 >>> ensure_playlist_id("https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M")
+'37i9dQZF1DXcBWIGoYBM5M'
+>>> ensure_playlist_id("https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M?si=abc")
 '37i9dQZF1DXcBWIGoYBM5M'
 ```
 

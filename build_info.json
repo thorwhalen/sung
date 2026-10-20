@@ -1,38 +1,38 @@
 {
   "schema_version": 1,
-  "built_at": "2026-10-20T12:29:34Z",
+  "built_at": "2026-10-20T18:36:11Z",
   "package": {
     "name": "sung",
-    "version": "0.0.31",
+    "version": "0.0.32",
     "display_name": "sung",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "af9a42b13659b4430444ac8ffb10fe47000f02a0",
-    "short_commit": "af9a42b",
+    "commit": "15a6ad290bd0f702942021a1c4c0e71ba8379cbb",
+    "short_commit": "15a6ad2",
     "branch": "main",
     "tags": [
-      "0.0.31"
+      "0.0.32"
     ],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/sung",
-    "commit_url": "https://github.com/thorwhalen/sung/commit/af9a42b13659b4430444ac8ffb10fe47000f02a0",
+    "commit_url": "https://github.com/thorwhalen/sung/commit/15a6ad290bd0f702942021a1c4c0e71ba8379cbb",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/sung",
-    "sha": "205be04415816b747d11eaa72340e6a7e7f8e236",
+    "sha": "ffdb7bc57b9397aa514abf0cfd2e66c92110ffc8",
     "sha_in_history": true,
     "ref": "refs/heads/main",
     "ref_name": "main",
-    "run_id": "39422342339",
-    "run_url": "https://github.com/thorwhalen/sung/actions/runs/39422342339",
+    "run_id": "39475819007",
+    "run_url": "https://github.com/thorwhalen/sung/actions/runs/39475819007",
     "server_url": "https://github.com"
   },
   "tools": {
-    "epythet": "0.2.20",
+    "epythet": "0.2.22",
     "sphinx": "9.1.1",
     "docutils": "0.22.4",
     "python": "3.12.15"
@@ -59,15 +59,15 @@
   },
   "site": {
     "modules_documented": 7,
-    "objects_documented": 246
+    "objects_documented": 265
   },
   "pypi": {
     "checked": true,
-    "latest": "0.0.31",
+    "latest": "0.0.32",
     "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/sung && cd sung\ngit checkout af9a42b13659b4430444ac8ffb10fe47000f02a0\npip install \"epythet==0.2.20\"\nepythet quickstart . --ignore tests/ scrap/ examples/ misc/",
+  "reproduce": "git clone https://github.com/thorwhalen/sung && cd sung\ngit checkout 15a6ad290bd0f702942021a1c4c0e71ba8379cbb\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/ misc/",
   "warnings": [],
   "alignment": {
     "aligned": true,

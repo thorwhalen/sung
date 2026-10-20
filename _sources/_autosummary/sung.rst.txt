@@ -4,6 +4,39 @@
 .. automodule:: sung
 
    
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      search_tracks
+      extract_extra_metadata
+      df_extract_extra_metadata
+      delete_playlist
+      extractor
+      cast_track_key
+      ensure_track_id
+      get_spotify_client
+      ensure_playlist_id
+      render_chords_and_lyrics
+      search_songs
+      remove_non_lyrics
+      pack_song_text
+      parse_song_descriptor
+      resolve_song
+      resolve_songs
+      playlist_from_songs
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Tracks
+      PlaylistReader
+      Playlist
+      SpotifyDacc
+      TracksAnalysis
+      SongMatch
+   
 .. rubric:: Modules
 
 .. autosummary::

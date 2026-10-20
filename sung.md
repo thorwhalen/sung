@@ -1,4 +1,4 @@
-> built 2026-10-20 12:29 UTC from af9a42b (main) · sung 0.0.31. Details: build_info.json
+> built 2026-10-20 18:36 UTC from 15a6ad2 (main) · sung 0.0.32. Details: build_info.json
 
 # index.html.md
 
@@ -3584,6 +3584,369 @@ id
 Name: name_and_first_artist, dtype: object
 ```
 
+### Functions
+
+| [`search_tracks`](_autosummary/sung.html.md#sung.search_tracks)(query[, egress, search_type, ...])   | Search for tracks on Spotify.                                                                    |
+|-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| [`extract_extra_metadata`](_autosummary/sung.html.md#sung.extract_extra_metadata)(target, \*[, spec])         | Access or construct a value from a given *target* based on the specification declared by *spec*. |
+| `df_extract_extra_metadata`(df)                                                                     |                                                                                                  |
+| `delete_playlist`(playlist_id[, verbose, ...])                                                      |                                                                                                  |
+| `extractor`(spec)                                                                                   |                                                                                                  |
+| [`cast_track_key`](_autosummary/sung.html.md#sung.cast_track_key)(track_key[, target_kind, ...])      | Convert a Spotify track key between different formats.                                           |
+| [`ensure_track_id`](_autosummary/sung.html.md#sung.ensure_track_id)(track_key, \*[, target_kind, ...]) | Convert a Spotify track key between different formats.                                           |
+| [`get_spotify_client`](_autosummary/sung.html.md#sung.get_spotify_client)([client, ensure_scope, ...])    | Get a Spotify client.                                                                            |
+| [`ensure_playlist_id`](_autosummary/sung.html.md#sung.ensure_playlist_id)(playlist_spec)                  | Ensure that a playlist ID is in the correct format.                                              |
+| [`render_chords_and_lyrics`](_autosummary/sung.html.md#sung.render_chords_and_lyrics)(song[, to, ...])          | Aggregator: render to 'pdf' or 'text'.                                                           |
+| [`search_songs`](_autosummary/sung.html.md#sung.search_songs)([title, lyrics, artist, data])        | Search for a song by title, lyrics, or artist.                                                   |
+| [`remove_non_lyrics`](_autosummary/sung.html.md#sung.remove_non_lyrics)(song[, keep_metadata])           | Convenience function to filter non-lyrics and return as text.                                    |
+| [`pack_song_text`](_autosummary/sung.html.md#sung.pack_song_text)(song[, max_length])                 | Convenience function to pack lines and return as text.                                           |
+| [`parse_song_descriptor`](_autosummary/sung.html.md#sung.parse_song_descriptor)(descriptor)                  | Parse a song descriptor into `(name, artist_or_None)`.                                           |
+| [`resolve_song`](_autosummary/sung.html.md#sung.resolve_song)(descriptor, \*[, market, ...])        | Resolve one song descriptor to a Spotify track via search + ranking.                             |
+| [`resolve_songs`](_autosummary/sung.html.md#sung.resolve_songs)(descriptors, \*[, market, ...])      | Resolve a list of descriptors.                                                                   |
+| [`playlist_from_songs`](_autosummary/sung.html.md#sung.playlist_from_songs)(descriptors[, ...])            | Search for each song, then create a playlist with the resolved tracks.                           |
+
+### Classes
+
+| [`Tracks`](_autosummary/sung.html.md#sung.Tracks)(tracks, \*[, client])                  | A collection of Spotify tracks represented by track IDs or track metadata.   |
+|------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| [`PlaylistReader`](_autosummary/sung.html.md#sung.PlaylistReader)(playlist_id, \*[, client])     | Read-only access to a Spotify playlist.                                      |
+| [`Playlist`](_autosummary/sung.html.md#sung.Playlist)(playlist_id, \*[, client])           | A Spotify playlist with mutable mapping interface.                           |
+| `SpotifyDacc`([client])                                                                        |                                                                              |
+| `TracksAnalysis`(playlist)                                                                     |                                                                              |
+| [`SongMatch`](_autosummary/sung.html.md#sung.SongMatch)(descriptor, query_name, ...[, ...]) | Result of resolving a single song descriptor.                                |
+
+### *class* sung.Playlist(playlist_id, , client=None)
+
+Bases: [`PlaylistReader`](_autosummary/sung.base.html.md#sung.base.PlaylistReader), [`MutableMapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]]
+
+A Spotify playlist with mutable mapping interface.
+
+#### *classmethod* create_from_track_list(track_list=(), playlist_name='New Playlist', public=True, , client=None, user_id=None)
+
+Create a new playlist from a list of track IDs.
+
+* **Parameters:**
+  * **track_list** ([`Sequence`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]) – A list of track IDs to add to the playlist.
+  * **playlist_name** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – The name of the new playlist.
+  * **public** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – Whether the playlist should be public.
+  * **client** ([`Any`](https://docs.python.org/3/library/typing.html#typing.Any) | [`None`](https://docs.python.org/3/builtins/constants.html#None)) – The Spotify client to use for creating the playlist.
+  * **user_id** – The user ID of the playlist owner.
+* **Return type:**
+  [`Playlist`](_autosummary/sung.base.html.md#sung.base.Playlist)
+
+### *class* sung.PlaylistReader(playlist_id, , client=None)
+
+Bases: [`Tracks`](_autosummary/sung.base.html.md#sung.base.Tracks), [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]]
+
+Read-only access to a Spotify playlist.
+
+### *class* sung.SongMatch(descriptor, query_name, query_artist, track_id, track_name, artist_names=list(), album_name=None, popularity=None, score=0.0, candidates=list(), ambiguous=False, not_found=False)
+
+Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
+
+Result of resolving a single song descriptor.
+
+### *class* sung.Tracks(tracks, , client=None)
+
+Bases: [`TracksBase`](_autosummary/sung.base.html.md#sung.base.TracksBase)
+
+A collection of Spotify tracks represented by track IDs or track metadata.
+
+### sung.cast_track_key(track_key, target_kind='uri', , src_kind=None)
+
+Convert a Spotify track key between different formats.
+
+* **Parameters:**
+  * **convert** ( *- track_key - the track key to*)
+  * **to** ( *- target_kind - the format to convert*)
+  * **key** ( *- src_kind - the format* *of* *the input track*)
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+* **Returns:**
+  The track key in the target format.
+
+### Examples
+
+```pycon
+>>> cast_track_key("4iV5W9uYEdYUVa79Axb7Rh")
+'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'
+>>> cast_track_key("spotify:track:4iV5W9uYEdYUVa79Axb7Rh", target_kind="id")
+'4iV5W9uYEdYUVa79Axb7Rh'
+>>> cast_track_key("4iV5W9uYEdYUVa79Axb7Rh", "url")
+'https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh'
+>>> cast_track_key('https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh', "href")
+'https://api.spotify.com/v1/tracks/4iV5W9uYEdYUVa79Axb7Rh'
+>>> cast_track_key("4iV5W9uYEdYUVa79Axb7Rh", "uri")
+'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'
+```
+
+### sung.ensure_playlist_id(playlist_spec)
+
+Ensure that a playlist ID is in the correct format.
+
+* **Parameters:**
+  * **id** ( *- playlist_spec - a playlist*)
+  * **uri**
+  * **href** (*url or*)
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+* **Returns:**
+  The playlist ID. Query strings (e.g. `?si=...`) are dropped; a string
+  matching no known format is returned as is (assumed to be an id).
+
+### Examples
+
+```pycon
+>>> ensure_playlist_id("37i9dQZF1DXcBWIGoYBM5M")
+'37i9dQZF1DXcBWIGoYBM5M'
+>>> ensure_playlist_id("spotify:playlist:37i9dQZF1DXcBWIGoYBM5M")
+'37i9dQZF1DXcBWIGoYBM5M'
+>>> ensure_playlist_id("https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M")
+'37i9dQZF1DXcBWIGoYBM5M'
+>>> ensure_playlist_id("https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M")
+'37i9dQZF1DXcBWIGoYBM5M'
+>>> ensure_playlist_id("https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M?si=abc")
+'37i9dQZF1DXcBWIGoYBM5M'
+```
+
+### sung.ensure_track_id(track_key, , target_kind='id', src_kind=None)
+
+Convert a Spotify track key between different formats.
+
+* **Parameters:**
+  * **convert** ( *- track_key - the track key to*)
+  * **to** ( *- target_kind - the format to convert*)
+  * **key** ( *- src_kind - the format* *of* *the input track*)
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+* **Returns:**
+  The track key in the target format.
+
+### Examples
+
+```pycon
+>>> cast_track_key("4iV5W9uYEdYUVa79Axb7Rh")
+'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'
+>>> cast_track_key("spotify:track:4iV5W9uYEdYUVa79Axb7Rh", target_kind="id")
+'4iV5W9uYEdYUVa79Axb7Rh'
+>>> cast_track_key("4iV5W9uYEdYUVa79Axb7Rh", "url")
+'https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh'
+>>> cast_track_key('https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh', "href")
+'https://api.spotify.com/v1/tracks/4iV5W9uYEdYUVa79Axb7Rh'
+>>> cast_track_key("4iV5W9uYEdYUVa79Axb7Rh", "uri")
+'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'
+```
+
+### sung.extract_extra_metadata(target, , spec={'album_images': Coalesce('album.images', default=None), 'album_name': Coalesce('album.name', default=None), 'album_release_date': Coalesce('album.release_date', default=None), 'album_total_tracks': Coalesce('album.total_tracks', default=None), 'artist_list': Coalesce('artists.\*.name', default=None), 'first_artist': Coalesce('artists.0.name', default=None), 'url': Coalesce('external_urls.spotify', default=None)}, \*\*kwargs)
+
+Access or construct a value from a given *target* based on the
+specification declared by *spec*.
+
+Accessing nested data, aka deep-get:
+
+```pycon
+>>> target = {'a': {'b': 'c'}}
+>>> glom(target, 'a.b')
+'c'
+```
+
+Here the *spec* was just a string denoting a path,
+`'a.b'`. As simple as it should be. You can also use
+[`glob`](https://docs.python.org/3/library/glob.html#module-glob)-like wildcard selectors:
+
+```pycon
+>>> target = {'a': [{'k': 'v1'}, {'k': 'v2'}]}
+>>> glom(target, 'a.*.k')
+['v1', 'v2']
+```
+
+In addition to `*`, you can also use `**` for recursive access:
+
+```pycon
+>>> target = {'a': [{'k': 'v3'}, {'k': 'v4'}], 'k': 'v0'}
+>>> glom(target, '**.k')
+['v0', 'v3', 'v4']
+```
+
+The next example shows how to use nested data to
+access many fields at once, and make a new nested structure.
+
+Constructing, or restructuring more-complicated nested data:
+
+```pycon
+>>> target = {'a': {'b': 'c', 'd': 'e'}, 'f': 'g', 'h': [0, 1, 2]}
+>>> spec = {'a': 'a.b', 'd': 'a.d', 'h': ('h', [lambda x: x * 2])}
+>>> output = glom(target, spec)
+>>> pprint(output)
+{'a': 'c', 'd': 'e', 'h': [0, 2, 4]}
+```
+
+`glom` also takes a keyword-argument, *default*. When set,
+if a `glom` operation fails with a `GlomError`, the
+*default* will be returned, very much like
+[`dict.get()`](https://docs.python.org/3/builtins/stdtypes.html#dict.get):
+
+```pycon
+>>> glom(target, 'a.xx', default='nada')
+'nada'
+```
+
+The *skip_exc* keyword argument controls which errors should
+be ignored.
+
+```pycon
+>>> glom({}, lambda x: 100.0 / len(x), default=0.0, skip_exc=ZeroDivisionError)
+0.0
+```
+
+* **Parameters:**
+  * **target** ([*object*](https://docs.python.org/3/builtins/functions.html#object)) – the object on which the glom will operate.
+  * **spec** ([*object*](https://docs.python.org/3/builtins/functions.html#object)) – Specification of the output object in the form
+    of a dict, list, tuple, string, other glom construct, or
+    any composition of these.
+  * **default** ([*object*](https://docs.python.org/3/builtins/functions.html#object)) – An optional default to return in the case
+    an exception, specified by *skip_exc*, is raised.
+  * **skip_exc** ([*Exception*](https://docs.python.org/3/builtins/exceptions.html#Exception)) – An optional exception or tuple of
+    exceptions to ignore and return *default* (None if
+    omitted). If *skip_exc* and *default* are both not set,
+    glom raises errors through.
+  * **scope** ([*dict*](https://docs.python.org/3/builtins/stdtypes.html#dict)) – Additional data that can be accessed
+    via S inside the glom-spec. Read more: scope.
+
+It’s a small API with big functionality, and glom’s power is
+only surpassed by its intuitiveness. Give it a whirl!
+
+### sung.get_spotify_client(client=None, , ensure_scope='', scope='', auth=None, requests_session=True, client_credentials_manager=None, oauth_manager=None, auth_manager=None, proxies=None, requests_timeout=5, status_forcelist=None, retries=3, status_retries=3, backoff_factor=0.3, language=None, client_id=None, client_secret=None, redirect_uri=None, state=None, cache_path=None, username=None, show_dialog=False, open_browser=True, cache_handler=None)
+
+Get a Spotify client.
+
+* **Parameters:**
+  * **client** ( *- \*\*kwargs - additional arguments to pass to the Spotify*)
+  * **auth_manager**
+  * **client**
+  * **client**
+
+The purpose of having scope and ensure_scope is to allow you to ensure some needed
+scopes exist when a code block is asking for a Spotify client with it’s own
+scope desires.
+
+### sung.pack_song_text(song, max_length=80)
+
+Convenience function to pack lines and return as text.
+
+* **Parameters:**
+  * **song** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str) | [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)]) – Raw text or parsed song data
+  * **max_length** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Maximum length for packed lines
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+* **Returns:**
+  Packed song as text
+
+### sung.parse_song_descriptor(descriptor)
+
+Parse a song descriptor into `(name, artist_or_None)`.
+
+Accepts:
+
+- a plain string: `"Clocks"`
+- `"Title - Artist"` or `"Title — Artist"` or `"Title by Artist"`
+- a 2-tuple/list `(name, artist)`
+- a dict with `name`/`title` and optional `artist`/`artists`
+
+```pycon
+>>> parse_song_descriptor("Clocks")
+('Clocks', None)
+>>> parse_song_descriptor("Clocks - Coldplay")
+('Clocks', 'Coldplay')
+>>> parse_song_descriptor("Clocks by Coldplay")
+('Clocks', 'Coldplay')
+>>> parse_song_descriptor(("Believer", "Imagine Dragons"))
+('Believer', 'Imagine Dragons')
+>>> parse_song_descriptor({"name": "Fix You", "artist": "Coldplay"})
+('Fix You', 'Coldplay')
+```
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]]
+
+### sung.playlist_from_songs(descriptors, playlist_name='New Playlist', , public=True, market=None, search_limit=10, skip_missing=True, client=None)
+
+Search for each song, then create a playlist with the resolved tracks.
+
+Returns `(playlist, matches)`. `playlist` is `None` if no songs
+resolved. `matches` is the list of [`SongMatch`](_autosummary/sung.html.md#sung.SongMatch) results — one
+per descriptor — including any that were `not_found` or `ambiguous`.
+
+Use `skip_missing=False` to raise instead of silently dropping
+descriptors that could not be resolved.
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`Playlist`](_autosummary/sung.base.html.md#sung.base.Playlist)], [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`SongMatch`](_autosummary/sung.playlists.html.md#sung.playlists.SongMatch)]]
+
+### sung.remove_non_lyrics(song, keep_metadata=False)
+
+Convenience function to filter non-lyrics and return as text.
+
+* **Parameters:**
+  * **song** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str) | [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)]) – Raw text or parsed song data
+  * **keep_metadata** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – If True, keep metadata lines (like [Verse])
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+* **Returns:**
+  Filtered song as text
+
+### sung.render_chords_and_lyrics(song, to='pdf', output_path=None, apply_filter_non_lyrics=False, keep_metadata_lines=False, pack_lines=False, max_line_length=80, \*\*kwargs)
+
+Aggregator: render to ‘pdf’ or ‘text’.
+
+- to=’pdf’: writes file to output_path (required).
+- to=’text’: returns reconstructed text.
+
+* **Parameters:**
+  * **song** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str) | [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)]) – Raw text or parsed song data
+  * **to** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – Output format (‘pdf’ or ‘text’)
+  * **output_path** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – Path for PDF output (required for PDF)
+  * **apply_filter_non_lyrics** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – If True, filter out non-lyrics content
+  * **keep_metadata_lines** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – If True, keep metadata lines (like [Verse]) when filtering
+  * **pack_lines** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – If True, pack short lines together for better space usage
+  * **max_line_length** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Maximum length for packed lines
+  * **\*\*kwargs** – Additional arguments passed to rendering functions
+* **Return type:**
+  [`None`](https://docs.python.org/3/builtins/constants.html#None) | [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
+### sung.resolve_song(descriptor, , market=None, search_limit=10, ambiguous_score_gap=10.0, client=None)
+
+Resolve one song descriptor to a Spotify track via search + ranking.
+
+Returns a [`SongMatch`](_autosummary/sung.html.md#sung.SongMatch) with the best candidate selected. The match
+is flagged `ambiguous` when the top two candidates score within
+`ambiguous_score_gap` of each other (callers may want to confirm).
+
+* **Return type:**
+  [`SongMatch`](_autosummary/sung.playlists.html.md#sung.playlists.SongMatch)
+
+### sung.resolve_songs(descriptors, , market=None, search_limit=10, client=None)
+
+Resolve a list of descriptors. See [`resolve_song()`](_autosummary/sung.html.md#sung.resolve_song).
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`SongMatch`](_autosummary/sung.playlists.html.md#sung.playlists.SongMatch)]
+
+### sung.search_songs(title='', , lyrics='', artist='', data=None)
+
+Search for a song by title, lyrics, or artist.
+
+### sung.search_tracks(query, egress=functools.partial(<function glom>, spec='tracks.items', default=None), \*, search_type='track', market=None, year=None, genre=None, limit=20, offset=0, client=<function get_spotify_client>)
+
+Search for tracks on Spotify.
+
+* **Parameters:**
+  * **the** ( *- query - the search query* *(**see how to write a query in*) – official documentation)
+  * **return.** ( *- offset - the index* *of* *the first item to*)
+  * **'from_token'.** ( *- market - An ISO 3166-1 alpha-2 country code* *or* *the string*)
+  * **return.**
+  * **return.**
+
 ### Modules
 
 | [`base`](_autosummary/sung.base.html.md#module-sung.base)                           | Base functionalities for the sung package.                                         |
@@ -4881,7 +5244,7 @@ Return a new dictionary with all string values stripped.
 
 # About this build
 
-This documentation was built on **2026-10-20 12:29 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/af9a42b13659b4430444ac8ffb10fe47000f02a0"><code>af9a42b</code></a> on branch <code>main</code>, for **sung 0.0.31** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 18:36 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/15a6ad290bd0f702942021a1c4c0e71ba8379cbb"><code>15a6ad2</code></a> on branch <code>main</code>, for **sung 0.0.32** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -4890,9 +5253,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/sung/commit/af9a42b13659b4430444ac8ffb10fe47000f02a0"><code>af9a42b13659b4430444ac8ffb10fe47000f02a0</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/sung/commit/15a6ad290bd0f702942021a1c4c0e71ba8379cbb"><code>15a6ad290bd0f702942021a1c4c0e71ba8379cbb</code></a> |
 | Branch              | <code>main</code>                                                                                                                                      |
-| Tags at this commit | <code>0.0.31</code>                                                                                                                                    |
+| Tags at this commit | <code>0.0.32</code>                                                                                                                                    |
 | Working tree        | clean                                                                                                                                                  |
 | Remote              | <code>https://github.com/thorwhalen/sung</code>                                                                                                        |
 
@@ -4901,15 +5264,15 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/sung</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39422342339">39422342339</a>      |
+| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39475819007">39475819007</a>      |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>205be04415816b747d11eaa72340e6a7e7f8e236</code> (in the history of the built commit) |
+| Event commit | <code>ffdb7bc57b9397aa514abf0cfd2e66c92110ffc8</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.20  |
+| epythet  | 0.2.22  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
 | Python   | 3.12.15 |
@@ -4928,14 +5291,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/sung/0.0.31/">0.0.31</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/sung/0.0.32/">0.0.32</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/sung && cd sung
-git checkout af9a42b13659b4430444ac8ffb10fe47000f02a0
-pip install "epythet==0.2.20"
+git checkout 15a6ad290bd0f702942021a1c4c0e71ba8379cbb
+pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/ misc/
 ```
 

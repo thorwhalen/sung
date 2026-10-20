@@ -184,7 +184,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
@@ -249,7 +249,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
@@ -362,6 +362,499 @@ make your own cowboy (not speaking and not asking for permission) version).</p>
 <span class="go">Name: name_and_first_artist, dtype: object</span>
 </pre></div>
 </div>
+<p class="rubric">Functions</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.search_tracks" title="sung.search_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_tracks</span></code></a>(query[, egress, search_type, ...])</p></td>
+<td><p>Search for tracks on Spotify.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.extract_extra_metadata" title="sung.extract_extra_metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_extra_metadata</span></code></a>(target, *[, spec])</p></td>
+<td><p>Access or construct a value from a given <em>target</em> based on the specification declared by <em>spec</em>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">df_extract_extra_metadata</span></code>(df)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_playlist</span></code>(playlist_id[, verbose, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">extractor</span></code>(spec)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.cast_track_key" title="sung.cast_track_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cast_track_key</span></code></a>(track_key[, target_kind, ...])</p></td>
+<td><p>Convert a Spotify track key between different formats.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.ensure_track_id" title="sung.ensure_track_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ensure_track_id</span></code></a>(track_key, *[, target_kind, ...])</p></td>
+<td><p>Convert a Spotify track key between different formats.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.get_spotify_client" title="sung.get_spotify_client"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spotify_client</span></code></a>([client, ensure_scope, ...])</p></td>
+<td><p>Get a Spotify client.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.ensure_playlist_id" title="sung.ensure_playlist_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ensure_playlist_id</span></code></a>(playlist_spec)</p></td>
+<td><p>Ensure that a playlist ID is in the correct format.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.render_chords_and_lyrics" title="sung.render_chords_and_lyrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_chords_and_lyrics</span></code></a>(song[, to, ...])</p></td>
+<td><p>Aggregator: render to 'pdf' or 'text'.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.search_songs" title="sung.search_songs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_songs</span></code></a>([title, lyrics, artist, data])</p></td>
+<td><p>Search for a song by title, lyrics, or artist.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.remove_non_lyrics" title="sung.remove_non_lyrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_non_lyrics</span></code></a>(song[, keep_metadata])</p></td>
+<td><p>Convenience function to filter non-lyrics and return as text.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.pack_song_text" title="sung.pack_song_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pack_song_text</span></code></a>(song[, max_length])</p></td>
+<td><p>Convenience function to pack lines and return as text.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.parse_song_descriptor" title="sung.parse_song_descriptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_song_descriptor</span></code></a>(descriptor)</p></td>
+<td><p>Parse a song descriptor into <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">artist_or_None)</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.resolve_song" title="sung.resolve_song"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_song</span></code></a>(descriptor, *[, market, ...])</p></td>
+<td><p>Resolve one song descriptor to a Spotify track via search + ranking.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.resolve_songs" title="sung.resolve_songs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_songs</span></code></a>(descriptors, *[, market, ...])</p></td>
+<td><p>Resolve a list of descriptors.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.playlist_from_songs" title="sung.playlist_from_songs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">playlist_from_songs</span></code></a>(descriptors[, ...])</p></td>
+<td><p>Search for each song, then create a playlist with the resolved tracks.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Classes</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.Tracks" title="sung.Tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracks</span></code></a>(tracks, *[, client])</p></td>
+<td><p>A collection of Spotify tracks represented by track IDs or track metadata.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.PlaylistReader" title="sung.PlaylistReader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PlaylistReader</span></code></a>(playlist_id, *[, client])</p></td>
+<td><p>Read-only access to a Spotify playlist.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.Playlist" title="sung.Playlist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Playlist</span></code></a>(playlist_id, *[, client])</p></td>
+<td><p>A Spotify playlist with mutable mapping interface.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpotifyDacc</span></code>([client])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TracksAnalysis</span></code>(playlist)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.SongMatch" title="sung.SongMatch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SongMatch</span></code></a>(descriptor, query_name, ...[, ...])</p></td>
+<td><p>Result of resolving a single song descriptor.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="sung.Playlist">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">Playlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playlist_id</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/base.html#Playlist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.Playlist" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sung.base.html#sung.base.PlaylistReader" title="sung.base.PlaylistReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlaylistReader</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableMapping</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.15)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</p>
+<p>A Spotify playlist with mutable mapping interface.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sung.Playlist.create_from_track_list">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">create_from_track_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playlist_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'New</span> <span class="pre">Playlist'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/base.html#Playlist.create_from_track_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.Playlist.create_from_track_list" title="Link to this definition">¶</a></dt>
+<dd><p>Create a new playlist from a list of track IDs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>track_list</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – A list of track IDs to add to the playlist.</p></li>
+<li><p><strong>playlist_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The name of the new playlist.</p></li>
+<li><p><strong>public</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether the playlist should be public.</p></li>
+<li><p><strong>client</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.15)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a> | <span class="highlight sphinx_autodoc_typehints-value"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="kc"><span class="pre">None</span></span></code></a></span></span>) – The Spotify client to use for creating the playlist.</p></li>
+<li><p><strong>user_id</strong> – The user ID of the playlist owner.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="sung.base.html#sung.base.Playlist" title="sung.base.Playlist"><code class="xref py py-class docutils literal notranslate"><span class="pre">Playlist</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sung.PlaylistReader">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">PlaylistReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playlist_id</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/base.html#PlaylistReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.PlaylistReader" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sung.base.html#sung.base.Tracks" title="sung.base.Tracks"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tracks</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.15)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</p>
+<p>Read-only access to a Spotify playlist.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sung.SongMatch">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">SongMatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_artist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">track_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">track_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artist_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">list()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">album_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">popularity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">list()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ambiguous</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">not_found</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/playlists.html#SongMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.SongMatch" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Result of resolving a single song descriptor.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sung.Tracks">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">Tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracks</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/base.html#Tracks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.Tracks" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sung.base.html#sung.base.TracksBase" title="sung.base.TracksBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TracksBase</span></code></a></p>
+<p>A collection of Spotify tracks represented by track IDs or track metadata.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.cast_track_key">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">cast_track_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'uri'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/util.html#cast_track_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.cast_track_key" title="Link to this definition">¶</a></dt>
+<dd><p>Convert a Spotify track key between different formats.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>convert</strong> (<em>- track_key - the track key to</em>)</p></li>
+<li><p><strong>to</strong> (<em>- target_kind - the format to convert</em>)</p></li>
+<li><p><strong>key</strong> (<em>- src_kind - the format</em><em> of </em><em>the input track</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The track key in the target format.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cast_track_key</span><span class="p">(</span><span class="s2">"4iV5W9uYEdYUVa79Axb7Rh"</span><span class="p">)</span>
+<span class="go">'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cast_track_key</span><span class="p">(</span><span class="s2">"spotify:track:4iV5W9uYEdYUVa79Axb7Rh"</span><span class="p">,</span> <span class="n">target_kind</span><span class="o">=</span><span class="s2">"id"</span><span class="p">)</span>
+<span class="go">'4iV5W9uYEdYUVa79Axb7Rh'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cast_track_key</span><span class="p">(</span><span class="s2">"4iV5W9uYEdYUVa79Axb7Rh"</span><span class="p">,</span> <span class="s2">"url"</span><span class="p">)</span>
+<span class="go">'https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cast_track_key</span><span class="p">(</span><span class="s1">'https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh'</span><span class="p">,</span> <span class="s2">"href"</span><span class="p">)</span>
+<span class="go">'https://api.spotify.com/v1/tracks/4iV5W9uYEdYUVa79Axb7Rh'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cast_track_key</span><span class="p">(</span><span class="s2">"4iV5W9uYEdYUVa79Axb7Rh"</span><span class="p">,</span> <span class="s2">"uri"</span><span class="p">)</span>
+<span class="go">'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.ensure_playlist_id">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">ensure_playlist_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playlist_spec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/util.html#ensure_playlist_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.ensure_playlist_id" title="Link to this definition">¶</a></dt>
+<dd><p>Ensure that a playlist ID is in the correct format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>- playlist_spec - a playlist</em>)</p></li>
+<li><p><strong>uri</strong></p></li>
+<li><p><strong>href</strong> (<em>url or</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The playlist ID. Query strings (e.g. <code class="docutils literal notranslate"><span class="pre">?si=...</span></code>) are dropped; a string
+matching no known format is returned as is (assumed to be an id).</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_playlist_id</span><span class="p">(</span><span class="s2">"37i9dQZF1DXcBWIGoYBM5M"</span><span class="p">)</span>
+<span class="go">'37i9dQZF1DXcBWIGoYBM5M'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_playlist_id</span><span class="p">(</span><span class="s2">"spotify:playlist:37i9dQZF1DXcBWIGoYBM5M"</span><span class="p">)</span>
+<span class="go">'37i9dQZF1DXcBWIGoYBM5M'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_playlist_id</span><span class="p">(</span><span class="s2">"https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M"</span><span class="p">)</span>
+<span class="go">'37i9dQZF1DXcBWIGoYBM5M'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_playlist_id</span><span class="p">(</span><span class="s2">"https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M"</span><span class="p">)</span>
+<span class="go">'37i9dQZF1DXcBWIGoYBM5M'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_playlist_id</span><span class="p">(</span><span class="s2">"https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M?si=abc"</span><span class="p">)</span>
+<span class="go">'37i9dQZF1DXcBWIGoYBM5M'</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.ensure_track_id">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">ensure_track_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track_key</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sung.ensure_track_id" title="Link to this definition">¶</a></dt>
+<dd><p>Convert a Spotify track key between different formats.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>convert</strong> (<em>- track_key - the track key to</em>)</p></li>
+<li><p><strong>to</strong> (<em>- target_kind - the format to convert</em>)</p></li>
+<li><p><strong>key</strong> (<em>- src_kind - the format</em><em> of </em><em>the input track</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The track key in the target format.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cast_track_key</span><span class="p">(</span><span class="s2">"4iV5W9uYEdYUVa79Axb7Rh"</span><span class="p">)</span>
+<span class="go">'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cast_track_key</span><span class="p">(</span><span class="s2">"spotify:track:4iV5W9uYEdYUVa79Axb7Rh"</span><span class="p">,</span> <span class="n">target_kind</span><span class="o">=</span><span class="s2">"id"</span><span class="p">)</span>
+<span class="go">'4iV5W9uYEdYUVa79Axb7Rh'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cast_track_key</span><span class="p">(</span><span class="s2">"4iV5W9uYEdYUVa79Axb7Rh"</span><span class="p">,</span> <span class="s2">"url"</span><span class="p">)</span>
+<span class="go">'https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cast_track_key</span><span class="p">(</span><span class="s1">'https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh'</span><span class="p">,</span> <span class="s2">"href"</span><span class="p">)</span>
+<span class="go">'https://api.spotify.com/v1/tracks/4iV5W9uYEdYUVa79Axb7Rh'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cast_track_key</span><span class="p">(</span><span class="s2">"4iV5W9uYEdYUVa79Axb7Rh"</span><span class="p">,</span> <span class="s2">"uri"</span><span class="p">)</span>
+<span class="go">'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.extract_extra_metadata">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">extract_extra_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'album_images':</span> <span class="pre">Coalesce('album.images',</span> <span class="pre">default=None),</span> <span class="pre">'album_name':</span> <span class="pre">Coalesce('album.name',</span> <span class="pre">default=None),</span> <span class="pre">'album_release_date':</span> <span class="pre">Coalesce('album.release_date',</span> <span class="pre">default=None),</span> <span class="pre">'album_total_tracks':</span> <span class="pre">Coalesce('album.total_tracks',</span> <span class="pre">default=None),</span> <span class="pre">'artist_list':</span> <span class="pre">Coalesce('artists.*.name',</span> <span class="pre">default=None),</span> <span class="pre">'first_artist':</span> <span class="pre">Coalesce('artists.0.name',</span> <span class="pre">default=None),</span> <span class="pre">'url':</span> <span class="pre">Coalesce('external_urls.spotify',</span> <span class="pre">default=None)}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sung.extract_extra_metadata" title="Link to this definition">¶</a></dt>
+<dd><p>Access or construct a value from a given <em>target</em> based on the
+specification declared by <em>spec</em>.</p>
+<p>Accessing nested data, aka deep-get:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">target</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'a'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'b'</span><span class="p">:</span> <span class="s1">'c'</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glom</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s1">'a.b'</span><span class="p">)</span>
+<span class="go">'c'</span>
+</pre></div>
+</div>
+<p>Here the <em>spec</em> was just a string denoting a path,
+<code class="docutils literal notranslate"><span class="pre">'a.b'</span></code>. As simple as it should be. You can also use
+<a class="reference external" href="https://docs.python.org/3/library/glob.html#module-glob" title="(in Python v3.15)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">glob</span></code></a>-like wildcard selectors:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">target</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'a'</span><span class="p">:</span> <span class="p">[{</span><span class="s1">'k'</span><span class="p">:</span> <span class="s1">'v1'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'k'</span><span class="p">:</span> <span class="s1">'v2'</span><span class="p">}]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glom</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s1">'a.*.k'</span><span class="p">)</span>
+<span class="go">['v1', 'v2']</span>
+</pre></div>
+</div>
+<p>In addition to <code class="docutils literal notranslate"><span class="pre">*</span></code>, you can also use <code class="docutils literal notranslate"><span class="pre">**</span></code> for recursive access:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">target</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'a'</span><span class="p">:</span> <span class="p">[{</span><span class="s1">'k'</span><span class="p">:</span> <span class="s1">'v3'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'k'</span><span class="p">:</span> <span class="s1">'v4'</span><span class="p">}],</span> <span class="s1">'k'</span><span class="p">:</span> <span class="s1">'v0'</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glom</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s1">'**.k'</span><span class="p">)</span>
+<span class="go">['v0', 'v3', 'v4']</span>
+</pre></div>
+</div>
+<p>The next example shows how to use nested data to
+access many fields at once, and make a new nested structure.</p>
+<p>Constructing, or restructuring more-complicated nested data:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">target</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'a'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'b'</span><span class="p">:</span> <span class="s1">'c'</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">:</span> <span class="s1">'e'</span><span class="p">},</span> <span class="s1">'f'</span><span class="p">:</span> <span class="s1">'g'</span><span class="p">,</span> <span class="s1">'h'</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'a'</span><span class="p">:</span> <span class="s1">'a.b'</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">:</span> <span class="s1">'a.d'</span><span class="p">,</span> <span class="s1">'h'</span><span class="p">:</span> <span class="p">(</span><span class="s1">'h'</span><span class="p">,</span> <span class="p">[</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">])}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">glom</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="go">{'a': 'c', 'd': 'e', 'h': [0, 2, 4]}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">glom</span></code> also takes a keyword-argument, <em>default</em>. When set,
+if a <code class="docutils literal notranslate"><span class="pre">glom</span></code> operation fails with a <code class="xref py py-exc docutils literal notranslate"><span class="pre">GlomError</span></code>, the
+<em>default</em> will be returned, very much like
+<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict.get" title="(in Python v3.15)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.get()</span></code></a>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">glom</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s1">'a.xx'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">'nada'</span><span class="p">)</span>
+<span class="go">'nada'</span>
+</pre></div>
+</div>
+<p>The <em>skip_exc</em> keyword argument controls which errors should
+be ignored.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">glom</span><span class="p">({},</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mf">100.0</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">skip_exc</span><span class="o">=</span><span class="ne">ZeroDivisionError</span><span class="p">)</span>
+<span class="go">0.0</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><em>object</em></a>) – the object on which the glom will operate.</p></li>
+<li><p><strong>spec</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><em>object</em></a>) – Specification of the output object in the form
+of a dict, list, tuple, string, other glom construct, or
+any composition of these.</p></li>
+<li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><em>object</em></a>) – An optional default to return in the case
+an exception, specified by <em>skip_exc</em>, is raised.</p></li>
+<li><p><strong>skip_exc</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#Exception" title="(in Python v3.15)"><em>Exception</em></a>) – An optional exception or tuple of
+exceptions to ignore and return <em>default</em> (None if
+omitted). If <em>skip_exc</em> and <em>default</em> are both not set,
+glom raises errors through.</p></li>
+<li><p><strong>scope</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a>) – Additional data that can be accessed
+via S inside the glom-spec. Read more: <span class="xref std std-ref">scope</span>.</p></li>
+</ul>
+</dd>
+</dl>
+<p>It’s a small API with big functionality, and glom’s power is
+only surpassed by its intuitiveness. Give it a whirl!</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.get_spotify_client">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">get_spotify_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensure_scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requests_session</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_credentials_manager</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth_manager</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_manager</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requests_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_forcelist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backoff_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redirect_uri</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_dialog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_browser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/util.html#get_spotify_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.get_spotify_client" title="Link to this definition">¶</a></dt>
+<dd><p>Get a Spotify client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<em>- **kwargs - additional arguments to pass to the Spotify</em>)</p></li>
+<li><p><strong>auth_manager</strong></p></li>
+<li><p><strong>client</strong></p></li>
+<li><p><strong>client</strong></p></li>
+</ul>
+</dd>
+</dl>
+<p>The purpose of having scope and ensure_scope is to allow you to ensure some needed
+scopes exist when a code block is asking for a Spotify client with it’s own
+scope desires.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.pack_song_text">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">pack_song_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">song</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/chords_and_lyrics.html#pack_song_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.pack_song_text" title="Link to this definition">¶</a></dt>
+<dd><p>Convenience function to pack lines and return as text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>song</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>]</span>) – Raw text or parsed song data</p></li>
+<li><p><strong>max_length</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum length for packed lines</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Packed song as text</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.parse_song_descriptor">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">parse_song_descriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/playlists.html#parse_song_descriptor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.parse_song_descriptor" title="Link to this definition">¶</a></dt>
+<dd><p>Parse a song descriptor into <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">artist_or_None)</span></code>.</p>
+<p>Accepts:</p>
+<ul class="simple">
+<li><p>a plain string: <code class="docutils literal notranslate"><span class="pre">&quot;Clocks&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Title</span> <span class="pre">-</span> <span class="pre">Artist&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;Title</span> <span class="pre">—</span> <span class="pre">Artist&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;Title</span> <span class="pre">by</span> <span class="pre">Artist&quot;</span></code></p></li>
+<li><p>a 2-tuple/list <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">artist)</span></code></p></li>
+<li><p>a dict with <code class="docutils literal notranslate"><span class="pre">name</span></code>/<code class="docutils literal notranslate"><span class="pre">title</span></code> and optional <code class="docutils literal notranslate"><span class="pre">artist</span></code>/<code class="docutils literal notranslate"><span class="pre">artists</span></code></p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_song_descriptor</span><span class="p">(</span><span class="s2">"Clocks"</span><span class="p">)</span>
+<span class="go">('Clocks', None)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_song_descriptor</span><span class="p">(</span><span class="s2">"Clocks - Coldplay"</span><span class="p">)</span>
+<span class="go">('Clocks', 'Coldplay')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_song_descriptor</span><span class="p">(</span><span class="s2">"Clocks by Coldplay"</span><span class="p">)</span>
+<span class="go">('Clocks', 'Coldplay')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_song_descriptor</span><span class="p">((</span><span class="s2">"Believer"</span><span class="p">,</span> <span class="s2">"Imagine Dragons"</span><span class="p">))</span>
+<span class="go">('Believer', 'Imagine Dragons')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_song_descriptor</span><span class="p">({</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Fix You"</span><span class="p">,</span> <span class="s2">"artist"</span><span class="p">:</span> <span class="s2">"Coldplay"</span><span class="p">})</span>
+<span class="go">('Fix You', 'Coldplay')</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.15)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.playlist_from_songs">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">playlist_from_songs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playlist_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'New</span> <span class="pre">Playlist'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">public</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">market</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_missing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/playlists.html#playlist_from_songs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.playlist_from_songs" title="Link to this definition">¶</a></dt>
+<dd><p>Search for each song, then create a playlist with the resolved tracks.</p>
+<p>Returns <code class="docutils literal notranslate"><span class="pre">(playlist,</span> <span class="pre">matches)</span></code>. <code class="docutils literal notranslate"><span class="pre">playlist</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code> if no songs
+resolved. <code class="docutils literal notranslate"><span class="pre">matches</span></code> is the list of <a class="reference internal" href="#sung.SongMatch" title="sung.SongMatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">SongMatch</span></code></a> results — one
+per descriptor — including any that were <code class="docutils literal notranslate"><span class="pre">not_found</span></code> or <code class="docutils literal notranslate"><span class="pre">ambiguous</span></code>.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">skip_missing=False</span></code> to raise instead of silently dropping
+descriptors that could not be resolved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.15)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="sung.base.html#sung.base.Playlist" title="sung.base.Playlist"><code class="xref py py-class docutils literal notranslate"><span class="pre">Playlist</span></code></a>], <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="sung.playlists.html#sung.playlists.SongMatch" title="sung.playlists.SongMatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">SongMatch</span></code></a>]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.remove_non_lyrics">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">remove_non_lyrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">song</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/chords_and_lyrics.html#remove_non_lyrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.remove_non_lyrics" title="Link to this definition">¶</a></dt>
+<dd><p>Convenience function to filter non-lyrics and return as text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>song</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>]</span>) – Raw text or parsed song data</p></li>
+<li><p><strong>keep_metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, keep metadata lines (like [Verse])</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Filtered song as text</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.render_chords_and_lyrics">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">render_chords_and_lyrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">song</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apply_filter_non_lyrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_metadata_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pack_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_line_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/chords_and_lyrics.html#render_chords_and_lyrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.render_chords_and_lyrics" title="Link to this definition">¶</a></dt>
+<dd><p>Aggregator: render to ‘pdf’ or ‘text’.</p>
+<ul class="simple">
+<li><p>to=’pdf’: writes file to output_path (required).</p></li>
+<li><p>to=’text’: returns reconstructed text.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>song</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>]</span>) – Raw text or parsed song data</p></li>
+<li><p><strong>to</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Output format (‘pdf’ or ‘text’)</p></li>
+<li><p><strong>output_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Path for PDF output (required for PDF)</p></li>
+<li><p><strong>apply_filter_non_lyrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, filter out non-lyrics content</p></li>
+<li><p><strong>keep_metadata_lines</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, keep metadata lines (like [Verse]) when filtering</p></li>
+<li><p><strong>pack_lines</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, pack short lines together for better space usage</p></li>
+<li><p><strong>max_line_length</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum length for packed lines</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments passed to rendering functions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><span class="highlight sphinx_autodoc_typehints-value"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="kc"><span class="pre">None</span></span></code></a></span> | <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.resolve_song">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">resolve_song</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">market</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ambiguous_score_gap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/playlists.html#resolve_song"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.resolve_song" title="Link to this definition">¶</a></dt>
+<dd><p>Resolve one song descriptor to a Spotify track via search + ranking.</p>
+<p>Returns a <a class="reference internal" href="#sung.SongMatch" title="sung.SongMatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">SongMatch</span></code></a> with the best candidate selected. The match
+is flagged <code class="docutils literal notranslate"><span class="pre">ambiguous</span></code> when the top two candidates score within
+<code class="docutils literal notranslate"><span class="pre">ambiguous_score_gap</span></code> of each other (callers may want to confirm).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="sung.playlists.html#sung.playlists.SongMatch" title="sung.playlists.SongMatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">SongMatch</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.resolve_songs">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">resolve_songs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptors</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">market</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/playlists.html#resolve_songs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.resolve_songs" title="Link to this definition">¶</a></dt>
+<dd><p>Resolve a list of descriptors. See <a class="reference internal" href="#sung.resolve_song" title="sung.resolve_song"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_song()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="sung.playlists.html#sung.playlists.SongMatch" title="sung.playlists.SongMatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">SongMatch</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.search_songs">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">search_songs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">lyrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/chords_and_lyrics.html#search_songs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.search_songs" title="Link to this definition">¶</a></dt>
+<dd><p>Search for a song by title, lyrics, or artist.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.search_tracks">
+<span class="sig-prename descclassname"><span class="pre">sung.</span></span><span class="sig-name descname"><span class="pre">search_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">egress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">functools.partial(&lt;function</span> <span class="pre">glom&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tracks.items'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'track'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">market</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genre</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">get_spotify_client&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/base.html#search_tracks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.search_tracks" title="Link to this definition">¶</a></dt>
+<dd><p>Search for tracks on Spotify.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>the</strong> (<em>- query - the search query</em><em> (</em><em>see how to write a query in</em>) – official documentation)</p></li>
+<li><p><strong>return.</strong> (<em>- offset - the index</em><em> of </em><em>the first item to</em>)</p></li>
+<li><p><strong>'from_token'.</strong> (<em>- market - An ISO 3166-1 alpha-2 country code</em><em> or </em><em>the string</em>)</p></li>
+<li><p><strong>return.</strong></p></li>
+<li><p><strong>return.</strong></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <p class="rubric">Modules</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
@@ -428,13 +921,52 @@ make your own cowboy (not speaking and not asking for permission) version).</p>
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">sung</a><ul>
+<li><a class="reference internal" href="#sung.Playlist"><code class="docutils literal notranslate"><span class="pre">Playlist</span></code></a><ul>
+<li><a class="reference internal" href="#sung.Playlist.create_from_track_list"><code class="docutils literal notranslate"><span class="pre">Playlist.create_from_track_list()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sung.PlaylistReader"><code class="docutils literal notranslate"><span class="pre">PlaylistReader</span></code></a></li>
+<li><a class="reference internal" href="#sung.SongMatch"><code class="docutils literal notranslate"><span class="pre">SongMatch</span></code></a></li>
+<li><a class="reference internal" href="#sung.Tracks"><code class="docutils literal notranslate"><span class="pre">Tracks</span></code></a></li>
+<li><a class="reference internal" href="#sung.cast_track_key"><code class="docutils literal notranslate"><span class="pre">cast_track_key()</span></code></a></li>
+<li><a class="reference internal" href="#sung.ensure_playlist_id"><code class="docutils literal notranslate"><span class="pre">ensure_playlist_id()</span></code></a></li>
+<li><a class="reference internal" href="#sung.ensure_track_id"><code class="docutils literal notranslate"><span class="pre">ensure_track_id()</span></code></a></li>
+<li><a class="reference internal" href="#sung.extract_extra_metadata"><code class="docutils literal notranslate"><span class="pre">extract_extra_metadata()</span></code></a></li>
+<li><a class="reference internal" href="#sung.get_spotify_client"><code class="docutils literal notranslate"><span class="pre">get_spotify_client()</span></code></a></li>
+<li><a class="reference internal" href="#sung.pack_song_text"><code class="docutils literal notranslate"><span class="pre">pack_song_text()</span></code></a></li>
+<li><a class="reference internal" href="#sung.parse_song_descriptor"><code class="docutils literal notranslate"><span class="pre">parse_song_descriptor()</span></code></a></li>
+<li><a class="reference internal" href="#sung.playlist_from_songs"><code class="docutils literal notranslate"><span class="pre">playlist_from_songs()</span></code></a></li>
+<li><a class="reference internal" href="#sung.remove_non_lyrics"><code class="docutils literal notranslate"><span class="pre">remove_non_lyrics()</span></code></a></li>
+<li><a class="reference internal" href="#sung.render_chords_and_lyrics"><code class="docutils literal notranslate"><span class="pre">render_chords_and_lyrics()</span></code></a></li>
+<li><a class="reference internal" href="#sung.resolve_song"><code class="docutils literal notranslate"><span class="pre">resolve_song()</span></code></a></li>
+<li><a class="reference internal" href="#sung.resolve_songs"><code class="docutils literal notranslate"><span class="pre">resolve_songs()</span></code></a></li>
+<li><a class="reference internal" href="#sung.search_songs"><code class="docutils literal notranslate"><span class="pre">search_songs()</span></code></a></li>
+<li><a class="reference internal" href="#sung.search_tracks"><code class="docutils literal notranslate"><span class="pre">search_tracks()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=71784981"></script>
+</div><script src="../_static/documentation_options.js?v=51c9d36a"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

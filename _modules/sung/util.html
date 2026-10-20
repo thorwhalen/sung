@@ -285,7 +285,7 @@
 
 
 <div class="viewcode-block" id="strip_values">
-<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.util.strip_values">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.strip_values">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">strip_values</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return a new dictionary with all string values stripped."""</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
@@ -352,7 +352,7 @@
 
 
 <div class="viewcode-block" id="convert_date">
-<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.util.convert_date">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.convert_date">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">convert_date</span><span class="p">(</span><span class="n">date_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">read_formats</span><span class="o">=</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"%Y"</span><span class="p">,</span> <span class="s2">"%Y-%m"</span><span class="p">)):</span>
 <span class="w">    </span><span class="sd">"""Convert a date string to a standard format (YYYY-MM-DD)."""</span>
     <span class="k">if</span> <span class="n">date_str</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -367,7 +367,7 @@
 
 
 <div class="viewcode-block" id="get_config">
-<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.util.get_config">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.get_config">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_config</span><span class="p">(</span><span class="n">config_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Get the value of a configuration variable."""</span>
     <span class="k">if</span> <span class="n">config_name</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
@@ -462,7 +462,7 @@
 
 
 <div class="viewcode-block" id="get_spotify_client">
-<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.util.get_spotify_client">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.get_spotify_client">[docs]</a>
 <span class="nd">@spotify_client_sig</span><span class="o">.</span><span class="n">inject_into_keyword_variadic</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_spotify_client</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">ensure_scope</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Spotify</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
@@ -602,7 +602,7 @@
 
 
 <div class="viewcode-block" id="model_field_descriptions">
-<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.util.model_field_descriptions">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.model_field_descriptions">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">model_field_descriptions</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""The ``{field_name: description}`` of a pydantic model (blank ones skipped).</span>
 
@@ -805,7 +805,7 @@
 
 
 <div class="viewcode-block" id="cast_track_key">
-<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.util.cast_track_key">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.cast_track_key">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cast_track_key</span><span class="p">(</span>
     <span class="n">track_key</span><span class="p">:</span> <span class="n">TrackRef</span><span class="p">,</span>
     <span class="n">target_kind</span><span class="p">:</span> <span class="n">TrackKeyKinds</span> <span class="o">=</span> <span class="s2">"uri"</span><span class="p">,</span>
@@ -871,7 +871,7 @@
 
 
 <div class="viewcode-block" id="ensure_playlist_id">
-<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.util.ensure_playlist_id">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.ensure_playlist_id">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ensure_playlist_id</span><span class="p">(</span><span class="n">playlist_spec</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Ensure that a playlist ID is in the correct format.</span>
@@ -942,7 +942,7 @@
 
 
 <div class="viewcode-block" id="move_columns_to_front">
-<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.util.move_columns_to_front">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.move_columns_to_front">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">move_columns_to_front</span><span class="p">(</span>
     <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">allow_excess</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -965,7 +965,7 @@
 
 
 <div class="viewcode-block" id="move_columns_to_back">
-<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.util.move_columns_to_back">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.move_columns_to_back">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">move_columns_to_back</span><span class="p">(</span>
     <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">allow_excess</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -1013,7 +1013,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=71784981"></script>
+</div><script src="../../_static/documentation_options.js?v=51c9d36a"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

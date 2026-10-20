@@ -320,7 +320,7 @@
 
 
 <div class="viewcode-block" id="local_chords_and_lyrics_zip">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.local_chords_and_lyrics_zip">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.local_chords_and_lyrics_zip">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">local_chords_and_lyrics_zip</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Return the path of a local copy of the chords-and-lyrics zip, or ``None``.</span>
 
@@ -346,7 +346,7 @@
 
 
 <div class="viewcode-block" id="get_lyrics_and_chords_dataset">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.get_lyrics_and_chords_dataset">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.get_lyrics_and_chords_dataset">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_lyrics_and_chords_dataset</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">zip_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Load the Kaggle chords-and-lyrics corpus (~135K songs) as a DataFrame.</span>
 
@@ -387,7 +387,7 @@
 
 
 <div class="viewcode-block" id="search_songs">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.search_songs">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.search_songs">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">search_songs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lyrics</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">artist</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Search for a song by title, lyrics, or artist."""</span>
     <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -431,7 +431,7 @@
 
 
 <div class="viewcode-block" id="FontSpec">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.FontSpec">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.FontSpec">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FontSpec</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">float</span>
@@ -456,7 +456,7 @@
 
 
 <div class="viewcode-block" id="parse_chord_lyrics">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.parse_chord_lyrics">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.parse_chord_lyrics">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_chord_lyrics</span><span class="p">(</span><span class="n">raw_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Generator: parse fixed-width chords/lyrics and yield dicts with 'chords' and 'lyrics'.</span>
@@ -492,7 +492,7 @@
 
 
 <div class="viewcode-block" id="ensure_parsed_song">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.ensure_parsed_song">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.ensure_parsed_song">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ensure_parsed_song</span><span class="p">(</span>
     <span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
@@ -512,7 +512,7 @@
 
 
 <div class="viewcode-block" id="render_chords_and_lyrics_to_pdf">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics_to_pdf">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.render_chords_and_lyrics_to_pdf">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">render_chords_and_lyrics_to_pdf</span><span class="p">(</span>
     <span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
@@ -590,7 +590,7 @@
 
 
 <div class="viewcode-block" id="render_chords_and_lyrics_to_text">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics_to_text">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.render_chords_and_lyrics_to_text">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">render_chords_and_lyrics_to_text</span><span class="p">(</span>
     <span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -616,7 +616,7 @@
 
 
 <div class="viewcode-block" id="render_chords_and_lyrics">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.render_chords_and_lyrics">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.render_chords_and_lyrics">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">render_chords_and_lyrics</span><span class="p">(</span>
     <span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
     <span class="n">to</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"pdf"</span><span class="p">,</span>
@@ -670,7 +670,7 @@
 
 
 <div class="viewcode-block" id="is_likely_lyrics">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.is_likely_lyrics">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.is_likely_lyrics">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_likely_lyrics</span><span class="p">(</span><span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">has_chords_before</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Determine if a line is likely to contain lyrics.</span>
@@ -715,7 +715,7 @@
 
 
 <div class="viewcode-block" id="filter_non_lyrics">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.filter_non_lyrics">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.filter_non_lyrics">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">filter_non_lyrics</span><span class="p">(</span>
     <span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">keep_metadata_lines</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
@@ -762,7 +762,7 @@
 
 
 <div class="viewcode-block" id="pack_song_lines">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.pack_song_lines">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.pack_song_lines">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pack_song_lines</span><span class="p">(</span>
     <span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
     <span class="n">max_line_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span>
@@ -855,7 +855,7 @@
 
 <span class="c1"># Convenience functions for standalone use</span>
 <div class="viewcode-block" id="remove_non_lyrics">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.remove_non_lyrics">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.remove_non_lyrics">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">remove_non_lyrics</span><span class="p">(</span><span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">keep_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Convenience function to filter non-lyrics and return as text.</span>
@@ -873,7 +873,7 @@
 
 
 <div class="viewcode-block" id="pack_song_text">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.pack_song_text">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.pack_song_text">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pack_song_text</span><span class="p">(</span><span class="n">song</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Convenience function to pack lines and return as text.</span>
@@ -891,7 +891,7 @@
 
 
 <div class="viewcode-block" id="resolve_page_size">
-<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.chords_and_lyrics.resolve_page_size">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/sung.chords_and_lyrics.html#sung.resolve_page_size">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">resolve_page_size</span><span class="p">(</span><span class="n">page_size</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Resolve page size from string or return the object as-is.</span>
@@ -955,7 +955,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=71784981"></script>
+</div><script src="../../_static/documentation_options.js?v=51c9d36a"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

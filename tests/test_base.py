@@ -198,3 +198,9 @@ def test_front_columns_are_actual_column_names(tracks):
 
 def test_dataframe_alias_is_meta_dataframe():
     assert Tracks.dataframe is Tracks.meta_dataframe
+
+
+def test_playlist_reader_is_a_tracks_base():
+    from sung.base import PlaylistReader, TracksBase
+
+    assert issubclass(PlaylistReader, TracksBase)

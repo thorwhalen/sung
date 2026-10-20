@@ -355,3 +355,8 @@ def test_without_a_local_copy_the_dataset_comes_from_haggle(corpus_env, monkeypa
     df = cl.get_lyrics_and_chords_dataset(usecols=["song_name"])
     assert requested == [cl.CHORDS_AND_LYRICS_DATASET]
     assert list(df.columns) == ["song_name"] and len(df) == 2
+
+
+def test_pack_song_lines_section_header_starts_new_line():
+    packed = pack_song_lines("aa\nbb\n[Chorus]\ncc", max_line_length=80)
+    assert [s["lyrics"] for s in packed] == ["aa bb", "[Chorus] cc"]

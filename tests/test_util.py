@@ -250,3 +250,21 @@ def test_move_columns_does_not_lose_columns():
     ):
         assert set(moved.columns) == set(df.columns)
         assert len(moved) == len(df)
+
+
+def test_cast_track_key_rejects_unanchored_and_unknown_kinds():
+    import pytest
+    from sung.util import cast_track_key
+
+    with pytest.raises(ValueError):
+        cast_track_key("4iV5W9uYEdYUVa79Axb7RhXX")
+    with pytest.raises(ValueError):
+        cast_track_key("4iV5W9uYEdYUVa79Axb7Rh", "nope")
+
+
+def test_ensure_playlist_id_drops_query_and_passes_unknown_through():
+    from sung.util import ensure_playlist_id
+
+    pid = "37i9dQZF1DXcBWIGoYBM5M"
+    assert ensure_playlist_id(f"https://open.spotify.com/playlist/{pid}?si=x") == pid
+    assert ensure_playlist_id("not-a-known-format") == "not-a-known-format"

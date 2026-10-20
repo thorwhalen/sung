@@ -14,7 +14,13 @@ Skills are folders holding a `SKILL.md` (the [Agent Skills](https://agentskills.
 
 Create a Spotify playlist from a list of song names using the sung package. Use when the user asks to make/build/create a Spotify playlist from a list of songs (with or without artist names), wants to bulk-import songs into Spotify, or pastes a song list and asks for a playlist. Triggers on “make a playlist”, “create a Spotify playlist with these songs”, “turn this list into a playlist”.
 
-Source: [`.claude/skills/sung-playlist`](https://github.com/thorwhalen/sung/tree/HEAD/.claude/skills/sung-playlist).
+```bash
+gh skill install thorwhalen/sung sung-playlist --agent claude-code
+```
+
+Source: [`sung/data/skills/sung-playlist`](https://github.com/thorwhalen/sung/tree/HEAD/sung/data/skills/sung-playlist) (bundled with the pip package).
+
+The bundled skills are also on disk after `pip install sung`, under the package’s `data/skills/` directory; link them into an agent without network access with `skill link-skills <that directory>`.
 
 ## Machine-readable documentation
 

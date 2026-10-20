@@ -248,9 +248,6 @@
           <h1>Source code for sung.util</h1><div class="highlight"><pre>
 <span></span><span class="sd">"""Utility functions for the sung package."""</span>
 
-<span class="c1"># TODO: use openAPI definition to create pydantic models for data</span>
-<span class="c1">#  see https://github.com/thorwhalen/sung/discussions/1#discussioncomment-10990012</span>
-
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
@@ -270,13 +267,16 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sig</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">sung.pydantic_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrackObject</span>
+
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">spotipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Spotify</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">spotipy.oauth2</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpotifyClientCredentials</span><span class="p">,</span> <span class="n">SpotifyOAuth</span>
 
 <span class="n">DFLT_LIMIT</span> <span class="o">=</span> <span class="mi">20</span>
 
-<span class="c1"># TODO: Get automatically from pydantic model when available</span>
+<span class="c1"># The spec's search ``type`` enum is inline (not a model), and it has no</span>
+<span class="c1"># playlist model, so this stays explicit; tests check it against the models.</span>
 <span class="n">SearchTypeT</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"artist"</span><span class="p">,</span> <span class="s2">"album"</span><span class="p">,</span> <span class="s2">"track"</span><span class="p">,</span> <span class="s2">"playlist"</span><span class="p">,</span> <span class="s2">"show"</span><span class="p">,</span> <span class="s2">"episode"</span><span class="p">]</span>
 
 
@@ -601,44 +601,42 @@
 <span class="p">}</span>
 
 
-<span class="c1"># TODO: Verify: Doesn't seem all correct. Perhaps get from pydantic model?</span>
-<span class="n">spotify_track_metadata_fields</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"The name of the track."</span><span class="p">,</span>
-    <span class="s2">"artists"</span><span class="p">:</span> <span class="s2">"Artists associated with the track."</span><span class="p">,</span>
-    <span class="s2">"album"</span><span class="p">:</span> <span class="s2">"Information about the album in which the track appears."</span><span class="p">,</span>
+<div class="viewcode-block" id="model_field_descriptions">
+<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.util.model_field_descriptions">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">model_field_descriptions</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""The ``{field_name: description}`` of a pydantic model (blank ones skipped).</span>
+
+<span class="sd">    &gt;&gt;&gt; from pydantic import BaseModel, Field</span>
+<span class="sd">    &gt;&gt;&gt; class M(BaseModel):</span>
+<span class="sd">    ...     a: int = Field(0, description=" the a ")</span>
+<span class="sd">    ...     b: int = 0</span>
+<span class="sd">    &gt;&gt;&gt; model_field_descriptions(M)</span>
+<span class="sd">    {'a': 'the a'}</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">field</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">model_fields</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">description</span> <span class="ow">and</span> <span class="n">field</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="p">}</span></div>
+
+
+
+<span class="c1"># Columns that ``process_track_columns`` derives by flattening the raw track</span>
+<span class="c1"># object; they are not fields of the spec's TrackObject.</span>
+<span class="n">derived_track_metadata_fields</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"release_date"</span><span class="p">:</span> <span class="s2">"The release date of the album or single. Format can vary (e.g., YYYY-MM-DD)."</span><span class="p">,</span>
-    <span class="s2">"duration_ms"</span><span class="p">:</span> <span class="s2">"The track's duration in milliseconds."</span><span class="p">,</span>
-    <span class="s2">"popularity"</span><span class="p">:</span> <span class="s2">"The popularity of the track, with values ranging from 0 to 100. Higher values indicate greater popularity."</span><span class="p">,</span>
-    <span class="s2">"explicit"</span><span class="p">:</span> <span class="s2">"A boolean indicating whether the track contains explicit content."</span><span class="p">,</span>
     <span class="s2">"external_url"</span><span class="p">:</span> <span class="s2">"A dictionary of external URLs, including a link to the track on Spotify."</span><span class="p">,</span>
-    <span class="s2">"preview_url"</span><span class="p">:</span> <span class="s2">"A URL to a 30-second preview of the track, if available."</span><span class="p">,</span>
-    <span class="s2">"track_number"</span><span class="p">:</span> <span class="s2">"The track's position within its album or single. The first track is 1."</span><span class="p">,</span>
     <span class="s2">"album_total_tracks"</span><span class="p">:</span> <span class="s2">"The total number of tracks in the album that contains this track."</span><span class="p">,</span>
-    <span class="s2">"available_markets"</span><span class="p">:</span> <span class="s2">"A list of country codes where the track is available."</span><span class="p">,</span>
     <span class="s2">"album_images"</span><span class="p">:</span> <span class="s2">"A list of album cover art images in various sizes, with URLs to access them."</span><span class="p">,</span>
     <span class="s2">"album_release_year"</span><span class="p">:</span> <span class="s2">"The year in which the album was released."</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="c1"># TODO: Replace spotify_track_metadata_fields with one generated by ju.model_field_descriptions, and add</span>
-<span class="c1">#   standard_track_metadata to make an extended version, or extend spotify_track_metadata_fields itself</span>
-<span class="c1"># # spotify_track_metadata_fields = strip_values(__import__('ju').model_field_descriptions(TrackObject))</span>
-<span class="c1"># spotify_track_metadata_fields = {'artists': 'The artists who performed the track. Each artist object includes a link in `href` to more detailed information about the artist.',</span>
-<span class="c1">#  'available_markets': 'A list of the countries in which the track can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.',</span>
-<span class="c1">#  'disc_number': 'The disc number (usually `1` unless the album consists of more than one disc).',</span>
-<span class="c1">#  'duration_ms': 'The track length in milliseconds.',</span>
-<span class="c1">#  'explicit': 'Whether or not the track has explicit lyrics ( `true` = yes it does; `false` = no it does not OR unknown).',</span>
-<span class="c1">#  'external_urls': 'External URLs for this track.',</span>
-<span class="c1">#  'href': 'A link to the Web API endpoint providing full details of the track.',</span>
-<span class="c1">#  'id': 'The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the track.',</span>
-<span class="c1">#  'is_playable': 'Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking/) is applied. If `true`, the track is playable in the given market. Otherwise `false`.',</span>
-<span class="c1">#  'linked_from': 'Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking/) is applied and is only part of the response if the track linking, in fact, exists. The requested track has been replaced with a different track. The track in the `linked_from` object contains information about the originally requested track.',</span>
-<span class="c1">#  'restrictions': 'Included in the response when a content restriction is applied.',</span>
-<span class="c1">#  'name': 'The name of the track.',</span>
-<span class="c1">#  'preview_url': 'A URL to a 30 second preview (MP3 format) of the track.',</span>
-<span class="c1">#  'track_number': 'The number of the track. If an album has several discs, the track number is the number on the specified disc.',</span>
-<span class="c1">#  'type': 'The object type: "track".',</span>
-<span class="c1">#  'uri': 'The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the track.',</span>
-<span class="c1">#  'is_local': 'Whether or not the track is from a local file.'}</span>
+<span class="c1"># Source of truth: the OpenAPI-derived pydantic model (sung.pydantic_models),</span>
+<span class="c1"># extended with the derived columns above. Spec descriptions win on overlap.</span>
+<span class="n">spotify_track_metadata_fields</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">**</span><span class="n">derived_track_metadata_fields</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">model_field_descriptions</span><span class="p">(</span><span class="n">TrackObject</span><span class="p">),</span>
+<span class="p">}</span>
 
 <span class="n">spotify_track_metadata_description</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">spotify_track_metadata_fields</span>  <span class="c1"># backcompatibility alias</span>
@@ -1015,7 +1013,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=d8383de7"></script>
+</div><script src="../../_static/documentation_options.js?v=71784981"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

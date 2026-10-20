@@ -23,6 +23,7 @@ sung.util
       get_spotify_oauth_creds
       identity
       is_extractor
+      model_field_descriptions
       move_columns_to_back
       move_columns_to_front
       pop_client_id_and_secret

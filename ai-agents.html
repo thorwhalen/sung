@@ -266,7 +266,11 @@ machine-readable copies of this documentation.</p>
 <section id="sung-playlist">
 <h3><code class="docutils literal notranslate"><span class="pre">sung-playlist</span></code><a class="headerlink" href="#sung-playlist" title="Link to this heading">¶</a></h3>
 <p>Create a Spotify playlist from a list of song names using the sung package. Use when the user asks to make/build/create a Spotify playlist from a list of songs (with or without artist names), wants to bulk-import songs into Spotify, or pastes a song list and asks for a playlist. Triggers on “make a playlist”, “create a Spotify playlist with these songs”, “turn this list into a playlist”.</p>
-<p>Source: <a class="reference external" href="https://github.com/thorwhalen/sung/tree/HEAD/.claude/skills/sung-playlist"><code class="docutils literal notranslate"><span class="pre">.claude/skills/sung-playlist</span></code></a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gh<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>thorwhalen/sung<span class="w"> </span>sung-playlist<span class="w"> </span>--agent<span class="w"> </span>claude-code
+</pre></div>
+</div>
+<p>Source: <a class="reference external" href="https://github.com/thorwhalen/sung/tree/HEAD/sung/data/skills/sung-playlist"><code class="docutils literal notranslate"><span class="pre">sung/data/skills/sung-playlist</span></code></a> (bundled with the pip package).</p>
+<p>The bundled skills are also on disk after <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sung</span></code>, under the package’s <code class="docutils literal notranslate"><span class="pre">data/skills/</span></code> directory; link them into an agent without network access with <code class="docutils literal notranslate"><span class="pre">skill</span> <span class="pre">link-skills</span> <span class="pre">&lt;that</span> <span class="pre">directory&gt;</span></code>.</p>
 </section>
 </section>
 <section id="machine-readable-documentation">
@@ -341,7 +345,7 @@ machine-readable copies of this documentation.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=d8383de7"></script>
+</div><script src="_static/documentation_options.js?v=71784981"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

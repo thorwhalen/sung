@@ -20,6 +20,7 @@ Utility functions for the sung package.
 | `get_spotify_oauth_creds`(\*\*oauth_kwargs)                                                      |                                                                           |
 | `identity`(x)                                                                                    |                                                                           |
 | `is_extractor`(x)                                                                                |                                                                           |
+| [`model_field_descriptions`](#sung.util.model_field_descriptions)(model)                 | The `{field_name: description}` of a pydantic model (blank ones skipped). |
 | [`move_columns_to_back`](#sung.util.move_columns_to_back)(df, columns, \*[, ...])    | Returns a copy of df with given columns in the back, in the order given.  |
 | [`move_columns_to_front`](#sung.util.move_columns_to_front)(df, columns, \*[, ...])   | Returns a copy of df with given columns in the front, in the order given. |
 | `pop_client_id_and_secret`(kwargs)                                                               |                                                                           |
@@ -134,6 +135,22 @@ Get a Spotify client.
 The purpose of having scope and ensure_scope is to allow you to ensure some needed
 scopes exist when a code block is asking for a Spotify client with it’s own
 scope desires.
+
+### sung.util.model_field_descriptions(model)
+
+The `{field_name: description}` of a pydantic model (blank ones skipped).
+
+```pycon
+>>> from pydantic import BaseModel, Field
+>>> class M(BaseModel):
+...     a: int = Field(0, description=" the a ")
+...     b: int = 0
+>>> model_field_descriptions(M)
+{'a': 'the a'}
+```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
 
 ### sung.util.move_columns_to_back(df, columns, , allow_excess=True)
 

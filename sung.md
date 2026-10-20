@@ -1,4 +1,4 @@
-> built 2026-10-20 12:19 UTC from 94ff9f4 (main) · sung 0.0.30. Details: build_info.json
+> built 2026-10-20 12:29 UTC from af9a42b (main) · sung 0.0.31. Details: build_info.json
 
 # index.html.md
 
@@ -13,6 +13,10 @@ Music data access. Sources from chords&lyrics dataset, spotify and wikipedia.
 # Install
 
 To install:	`pip install sung`
+
+# Agent skill
+
+`sung` ships a `sung-playlist` agent skill (build a Spotify playlist from a list of songs) inside the package, in `sung/data/skills/`. Install it with `gh skill install thorwhalen/sung sung-playlist`, or link it from your `pip install`ed copy: `ln -s "$(python -c 'import sung, pathlib; print(pathlib.Path(sung.__file__).parent / "data/skills/sung-playlist")')" .claude/skills/sung-playlist`.
 
 # Chords and Lyrics Processing
 
@@ -4705,6 +4709,7 @@ Utility functions for the sung package.
 | `get_spotify_oauth_creds`(\*\*oauth_kwargs)                                                      |                                                                           |
 | `identity`(x)                                                                                    |                                                                           |
 | `is_extractor`(x)                                                                                |                                                                           |
+| [`model_field_descriptions`](_autosummary/sung.util.html.md#sung.util.model_field_descriptions)(model)                 | The `{field_name: description}` of a pydantic model (blank ones skipped). |
 | [`move_columns_to_back`](_autosummary/sung.util.html.md#sung.util.move_columns_to_back)(df, columns, \*[, ...])    | Returns a copy of df with given columns in the back, in the order given.  |
 | [`move_columns_to_front`](_autosummary/sung.util.html.md#sung.util.move_columns_to_front)(df, columns, \*[, ...])   | Returns a copy of df with given columns in the front, in the order given. |
 | `pop_client_id_and_secret`(kwargs)                                                               |                                                                           |
@@ -4820,6 +4825,22 @@ The purpose of having scope and ensure_scope is to allow you to ensure some need
 scopes exist when a code block is asking for a Spotify client with it’s own
 scope desires.
 
+### sung.util.model_field_descriptions(model)
+
+The `{field_name: description}` of a pydantic model (blank ones skipped).
+
+```pycon
+>>> from pydantic import BaseModel, Field
+>>> class M(BaseModel):
+...     a: int = Field(0, description=" the a ")
+...     b: int = 0
+>>> model_field_descriptions(M)
+{'a': 'the a'}
+```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
+
 ### sung.util.move_columns_to_back(df, columns, , allow_excess=True)
 
 Returns a copy of df with given columns in the back, in the order given.
@@ -4860,7 +4881,7 @@ Return a new dictionary with all string values stripped.
 
 # About this build
 
-This documentation was built on **2026-10-20 12:19 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/94ff9f40aa901eb23c0353b87c5e3cf81a50ca56"><code>94ff9f4</code></a> on branch <code>main</code>, for **sung 0.0.30** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 12:29 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/af9a42b13659b4430444ac8ffb10fe47000f02a0"><code>af9a42b</code></a> on branch <code>main</code>, for **sung 0.0.31** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -4869,9 +4890,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/sung/commit/94ff9f40aa901eb23c0353b87c5e3cf81a50ca56"><code>94ff9f40aa901eb23c0353b87c5e3cf81a50ca56</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/sung/commit/af9a42b13659b4430444ac8ffb10fe47000f02a0"><code>af9a42b13659b4430444ac8ffb10fe47000f02a0</code></a> |
 | Branch              | <code>main</code>                                                                                                                                      |
-| Tags at this commit | <code>0.0.30</code>                                                                                                                                    |
+| Tags at this commit | <code>0.0.31</code>                                                                                                                                    |
 | Working tree        | clean                                                                                                                                                  |
 | Remote              | <code>https://github.com/thorwhalen/sung</code>                                                                                                        |
 
@@ -4880,9 +4901,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/sung</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39421061944">39421061944</a>      |
+| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39422342339">39422342339</a>      |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>9d8e0bc67b33ddcff5a5a07c2ba1b84c91c67b8b</code> (in the history of the built commit) |
+| Event commit | <code>205be04415816b747d11eaa72340e6a7e7f8e236</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -4907,13 +4928,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/sung/0.0.30/">0.0.30</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/sung/0.0.31/">0.0.31</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/sung && cd sung
-git checkout 94ff9f40aa901eb23c0353b87c5e3cf81a50ca56
+git checkout af9a42b13659b4430444ac8ffb10fe47000f02a0
 pip install "epythet==0.2.20"
 epythet quickstart . --ignore tests/ scrap/ examples/ misc/
 ```
@@ -4939,7 +4960,13 @@ Skills are folders holding a `SKILL.md` (the [Agent Skills](https://agentskills.
 
 Create a Spotify playlist from a list of song names using the sung package. Use when the user asks to make/build/create a Spotify playlist from a list of songs (with or without artist names), wants to bulk-import songs into Spotify, or pastes a song list and asks for a playlist. Triggers on “make a playlist”, “create a Spotify playlist with these songs”, “turn this list into a playlist”.
 
-Source: [`.claude/skills/sung-playlist`](https://github.com/thorwhalen/sung/tree/HEAD/.claude/skills/sung-playlist).
+```bash
+gh skill install thorwhalen/sung sung-playlist --agent claude-code
+```
+
+Source: [`sung/data/skills/sung-playlist`](https://github.com/thorwhalen/sung/tree/HEAD/sung/data/skills/sung-playlist) (bundled with the pip package).
+
+The bundled skills are also on disk after `pip install sung`, under the package’s `data/skills/` directory; link them into an agent without network access with `skill link-skills <that directory>`.
 
 ## Machine-readable documentation
 

@@ -265,6 +265,10 @@
 <h1>Install<a class="headerlink" href="#install" title="Link to this heading">¶</a></h1>
 <p>To install:	<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sung</span></code></p>
 </section>
+<section id="agent-skill">
+<h1>Agent skill<a class="headerlink" href="#agent-skill" title="Link to this heading">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">sung</span></code> ships a <code class="docutils literal notranslate"><span class="pre">sung-playlist</span></code> agent skill (build a Spotify playlist from a list of songs) inside the package, in <code class="docutils literal notranslate"><span class="pre">sung/data/skills/</span></code>. Install it with <code class="docutils literal notranslate"><span class="pre">gh</span> <span class="pre">skill</span> <span class="pre">install</span> <span class="pre">thorwhalen/sung</span> <span class="pre">sung-playlist</span></code>, or link it from your <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code>ed copy: <code class="docutils literal notranslate"><span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">&quot;$(python</span> <span class="pre">-c</span> <span class="pre">'import</span> <span class="pre">sung,</span> <span class="pre">pathlib;</span> <span class="pre">print(pathlib.Path(sung.__file__).parent</span> <span class="pre">/</span> <span class="pre">&quot;data/skills/sung-playlist&quot;)')&quot;</span> <span class="pre">.claude/skills/sung-playlist</span></code>.</p>
+</section>
 <section id="chords-and-lyrics-processing">
 <h1>Chords and Lyrics Processing<a class="headerlink" href="#chords-and-lyrics-processing" title="Link to this heading">¶</a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">sung</span></code> package provides powerful tools for processing chord sheets and lyrics, including parsing, filtering, formatting, and rendering to various formats.</p>
@@ -3132,7 +3136,7 @@ J (3 tracks):
 </div>
 </section>
 
-<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-10-20 12:19 UTC from <a href="https://github.com/thorwhalen/sung/commit/94ff9f40aa901eb23c0353b87c5e3cf81a50ca56">94ff9f4</a> (main) · sung 0.0.30 · <a href="about-this-build.html">about this build</a></p>
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-10-20 12:29 UTC from <a href="https://github.com/thorwhalen/sung/commit/af9a42b13659b4430444ac8ffb10fe47000f02a0">af9a42b</a> (main) · sung 0.0.31 · <a href="about-this-build.html">about this build</a></p>
         </article>
       </div>
       <footer>
@@ -3168,7 +3172,7 @@ J (3 tracks):
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=d8383de7"></script>
+</div><script src="_static/documentation_options.js?v=71784981"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

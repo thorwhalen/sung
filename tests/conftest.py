@@ -21,6 +21,8 @@ deterministic, network-free local run even when credentials are present).
 """
 
 import os
+
+import pytest
 from functools import lru_cache
 
 SPOTIFY_MARKER = "spotify"
@@ -108,4 +110,30 @@ def pytest_collection_modifyitems(config, items):
     if reporter is not None:
         reporter.write_line(
             f"sung: deselected {len(deselected)} Spotify-dependent test(s) -- {reason}"
+        )
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """Turn Spotify rate limits / outages into skips for ``spotify``-marked tests.
+
+    The credential gate above only proves the token endpoint answers. The shared
+    CI credential can still be rate limited (429) or hit a 5xx on the API
+    itself, which says nothing about this code, so it must not fail the build.
+    """
+    outcome = yield
+    report = outcome.get_result()
+    if call.excinfo is None or "spotify" not in item.keywords or report.skipped:
+        return
+    exc = call.excinfo.value
+    status = getattr(exc, "http_status", None)
+    transient = (status in (429, 500, 502, 503, 504)) or (
+        type(exc).__name__ in {"RetryError", "MaxRetryError"}
+    )
+    if transient:
+        report.outcome = "skipped"
+        report.longrepr = (
+            str(item.path),
+            item.location[1] or 0,
+            f"Spotify API unavailable or rate limited: {type(exc).__name__}",
         )

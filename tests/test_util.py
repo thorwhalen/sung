@@ -268,3 +268,29 @@ def test_ensure_playlist_id_drops_query_and_passes_unknown_through():
     pid = "37i9dQZF1DXcBWIGoYBM5M"
     assert ensure_playlist_id(f"https://open.spotify.com/playlist/{pid}?si=x") == pid
     assert ensure_playlist_id("not-a-known-format") == "not-a-known-format"
+
+
+def test_track_metadata_fields_come_from_the_openapi_models():
+    from sung.pydantic_models import TrackObject
+    from sung.util import model_field_descriptions, spotify_track_metadata_fields
+
+    generated = model_field_descriptions(TrackObject)
+    assert generated and generated.items() <= spotify_track_metadata_fields.items()
+    # columns produced by process_track_columns remain documented
+    assert "album_release_year" in spotify_track_metadata_fields
+
+
+def test_search_types_agree_with_the_openapi_models():
+    import enum
+    from typing import get_args
+
+    import sung.pydantic_models as models
+    from sung.util import SearchTypeT
+
+    spec_kinds = {
+        next(iter(c)).value
+        for c in vars(models).values()
+        if isinstance(c, type) and issubclass(c, enum.Enum) and len(c) == 1
+    }
+    # the spec has no playlist model; every other search type must be in it
+    assert set(get_args(SearchTypeT)) - {"playlist"} <= spec_kinds

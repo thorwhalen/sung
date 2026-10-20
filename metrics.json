@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 9.316025972366333,
-  "commit_message": "Fix demo notebook keyword: apply_filter_non_lyrics (#5) (#12)\n\nCo-authored-by: Claude Sonnet 5.5 <noreply@anthropic.com>",
-  "commit_sha": "8b3d77168aa29508c49232c691ea4ed992c9ec22",
+  "collection_duration_seconds": 6.761853218078613,
+  "commit_message": "Redo cast_track_key and ensure_playlist_id on dol.KeyTemplate (#9)\n\nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>",
+  "commit_sha": "c9323de321c909f8934aaac9556c117638a110a4",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -11,47 +11,37 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 50733,
-      "comment_lines_ratio": 0.05160292206008898,
-      "docs_lines": 221089,
-      "empty_lines": 142974,
-      "empty_lines_ratio": 0.14542558450356102,
-      "errors": [
-        "_dtype_like.py: invalid syntax (_dtype_like.py, line 21)",
-        "_char_codes.py: invalid syntax (_char_codes.py, line 3)",
-        "_shape.py: invalid syntax (_shape.py, line 4)",
-        "_array_like.py: invalid syntax (_array_like.py, line 15)",
-        "_scalars.py: invalid syntax (_scalars.py, line 7)",
-        "_nbit.py: invalid syntax (_nbit.py, line 6)",
-        "mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)"
-      ],
-      "files_analyzed": 1795,
-      "function_lines": 634279,
-      "function_lines_ratio": 0.645155023384211,
-      "mean_lines_per_function": 19.944626124143134,
-      "num_classes": 4896,
-      "num_functions": 31802,
+      "comment_lines": 52681,
+      "comment_lines_ratio": 0.05317725009791373,
+      "docs_lines": 198249,
+      "empty_lines": 143788,
+      "empty_lines_ratio": 0.14514246952561302,
+      "files_analyzed": 1909,
+      "function_lines": 629436,
+      "function_lines_ratio": 0.6353652283105945,
+      "mean_lines_per_function": 19.055917168720292,
+      "num_classes": 5139,
+      "num_functions": 33031,
       "pypi_version": "0.0.27",
-      "total_errors": 7,
-      "total_lines": 983142
+      "total_lines": 990668
     },
     "wily": {
       "cyclomatic_avg": 0.0,
-      "error": "wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...\nTry 'wily report --help' for help.\n\nError: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.\n",
+      "error": "wily build failed: \u001b[31mFailed to setup archiver: 'Dirty repository, make sure you commit/stash files first'\u001b[0m\n",
       "files_analyzed": 0,
       "maintainability_index": 0.0,
       "total_loc": 0
     },
     "workflow_status": {
       "last_run_status": "success",
-      "last_success_timestamp": "2026-10-20T11:36:00Z",
+      "last_success_timestamp": "2026-10-20T11:39:27Z",
       "recent_failure_count": 0,
-      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39415939758",
+      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39416462843",
       "total_runs_analyzed": 10
     }
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-20T11:37:36.028346Z",
+  "timestamp": "2026-10-20T12:12:06.341346Z",
   "workflow_status": {}
 }

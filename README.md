@@ -10,6 +10,10 @@ Music data access. Sources from chords&lyrics dataset, spotify and wikipedia.
 To install:	```pip install sung```
 
 
+# Agent skill
+
+`sung` ships a `sung-playlist` agent skill (build a Spotify playlist from a list of songs) inside the package, in `sung/data/skills/`. Install it with `gh skill install thorwhalen/sung sung-playlist`, or link it from your `pip install`ed copy: `ln -s "$(python -c 'import sung, pathlib; print(pathlib.Path(sung.__file__).parent / "data/skills/sung-playlist")')" .claude/skills/sung-playlist`.
+
 # Chords and Lyrics Processing
 
 The `sung` package provides powerful tools for processing chord sheets and lyrics, including parsing, filtering, formatting, and rendering to various formats.

@@ -67,8 +67,10 @@ kaggle = [
     "haggle",
 ]
 
-# The wheel ships the importable package only. The sdist keeps the repo layout
-# (tests/, .claude/skills/) so the agent skill and the test suite travel with
+# The wheel ships the importable package, which includes the agent skill under
+# sung/data/skills/ (the canonical location; .claude/skills/ holds a relative
+# symlink to it). The sdist keeps the repo layout (tests/, .claude/skills/) so
+# the agent skill and the test suite travel with
 # the source distribution -- hatchling's sdist default already includes them;
 # this is stated explicitly so a future include/exclude rule cannot drop them
 # silently.

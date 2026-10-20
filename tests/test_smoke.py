@@ -109,3 +109,15 @@ def test_get_config_reads_environment(monkeypatch):
     monkeypatch.setenv("SUNG_TEST_CONFIG_VALUE", "hello")
     assert get_config("SUNG_TEST_CONFIG_VALUE") == "hello"
     assert os.environ["SUNG_TEST_CONFIG_VALUE"] == "hello"
+
+
+def test_playlist_skill_ships_inside_the_package():
+    from pathlib import Path
+
+    import sung
+
+    skill = Path(sung.__file__).parent / "data" / "skills" / "sung-playlist" / "SKILL.md"
+    assert skill.read_text().startswith("---\nname: sung-playlist\n")
+    link = Path(__file__).parents[1] / ".claude" / "skills" / "sung-playlist"
+    if link.parent.exists():  # absent in an installed-sdist test run
+        assert link.is_symlink() and (link / "SKILL.md").samefile(skill)

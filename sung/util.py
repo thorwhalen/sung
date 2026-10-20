@@ -500,17 +500,47 @@ TrackKey = Union[TrackRef, int, slice, Iterable[TrackRef]]
 TrackMetadata = dict[str, Any]
 
 
-# TODO: Maybe use dol.KeyTemplate to implement casting (and other parsing and generation)?
 import dol
 
 TrackKeyKinds = Literal["uri", "id", "url", "href"]
 
+_SPOTIFY_ID_PATTERN = r"\w{22}"
 
+# One dol.KeyTemplate per reference kind: the single source of truth for both
+# parsing (str -> {"id": ...}) and generation ({"id": ...} -> str).
+track_ref_templates = {
+    "uri": "spotify:track:{id}",
+    "id": "{id}",
+    "url": "https://open.spotify.com/track/{id}",
+    "href": "https://api.spotify.com/v1/tracks/{id}",
+}
+
+
+def _mk_ref_key_templates(
+    templates: Mapping[str, str], *, id_pattern: str = _SPOTIFY_ID_PATTERN
+) -> dict[str, "dol.KeyTemplate"]:
+    return {
+        kind: dol.KeyTemplate(template, dflt_pattern=id_pattern)
+        for kind, template in templates.items()
+    }
+
+
+def _parse_ref_id(key_template, ref: str) -> str | None:
+    """The id in ``ref`` if it matches ``key_template`` entirely, else None."""
+    try:
+        ref_id = key_template.str_to_dict(ref)["id"]
+    except ValueError:
+        return None
+    # KeyTemplate matching is not anchored: insist on an exact round trip.
+    return ref_id if key_template.dict_to_str({"id": ref_id}) == ref else None
+
+
+_track_key_templates = _mk_ref_key_templates(track_ref_templates)
+
+# Anchored regexes derived from the templates (kept for backward compatibility).
 track_ref_patterns = {
-    "uri": r"^spotify:track:[\w]{22}$",
-    "id": r"^[\w]{22}$",
-    "url": r"^https://open.spotify.com/track/[\w]{22}$",
-    "href": r"^https://api.spotify.com/v1/tracks/[\w]{22}$",
+    kind: "^" + re.escape(template).replace(re.escape("{id}"), _SPOTIFY_ID_PATTERN) + "$"
+    for kind, template in track_ref_templates.items()
 }
 
 
@@ -546,57 +576,47 @@ def cast_track_key(
     'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'
 
     """
-    # Define possible patterns to detect the kind
+    if target_kind not in _track_key_templates:
+        raise ValueError(f"Unsupported target kind: {target_kind}")
+    if src_kind is not None and src_kind not in _track_key_templates:
+        raise ValueError(f"Unsupported source kind: {src_kind}")
 
-    # Detect src_kind if not provided
     if src_kind is None:
-        for kind, pattern in track_ref_patterns.items():
-            if re.match(pattern, track_key):
-                src_kind = kind
+        for kind, key_template in _track_key_templates.items():
+            if (track_id := _parse_ref_id(key_template, track_key)) is not None:
                 break
         else:
             raise ValueError(
                 f"Could not detect source kind for: {track_key=}"
                 "Please specify a valid `src_kind`."
             )
-
-    # Extract ID from the source format
-    if src_kind == "uri":
-        track_id = track_key.split(":")[-1]
-    elif src_kind == "url" or src_kind == "href":
-        track_id = track_key.split("/")[-1]
-    elif src_kind == "id":
-        track_id = track_key
     else:
-        raise ValueError(f"Unsupported source kind: {src_kind}")
+        track_id = _track_key_templates[src_kind].str_to_dict(track_key)["id"]
 
-    # Convert to the target format
-    if target_kind == "uri":
-        return f"spotify:track:{track_id}"
-    elif target_kind == "id":
-        return track_id
-    elif target_kind == "url":
-        return f"https://open.spotify.com/track/{track_id}"
-    elif target_kind == "href":
-        return f"https://api.spotify.com/v1/tracks/{track_id}"
-    else:
-        raise ValueError(f"Unsupported target kind: {target_kind}")
+    return _track_key_templates[target_kind].dict_to_str({"id": track_id})
 
 
 ensure_track_id = partial(cast_track_key, target_kind="id")
 
 
-# TODO: Make this complete
-# TODO: Use dol.KeyTemplate to redo cast_track_key and the general playlist cast function
+playlist_ref_templates = {
+    "uri": "spotify:playlist:{id}",
+    "url": "https://open.spotify.com/playlist/{id}",
+    "href": "https://api.spotify.com/v1/playlists/{id}",
+}
+_playlist_key_templates = _mk_ref_key_templates(playlist_ref_templates)
+
+
 def ensure_playlist_id(playlist_spec: str) -> str:
     """
     Ensure that a playlist ID is in the correct format.
 
     Parameters:
-        - playlist_id - the playlist ID to check
+        - playlist_spec - a playlist id, uri, url or href
 
     Returns:
-        The playlist ID in the correct format.
+        The playlist ID. Query strings (e.g. ``?si=...``) are dropped; a string
+        matching no known format is returned as is (assumed to be an id).
 
     Examples:
 
@@ -608,15 +628,14 @@ def ensure_playlist_id(playlist_spec: str) -> str:
     '37i9dQZF1DXcBWIGoYBM5M'
     >>> ensure_playlist_id("https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M")
     '37i9dQZF1DXcBWIGoYBM5M'
+    >>> ensure_playlist_id("https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M?si=abc")
+    '37i9dQZF1DXcBWIGoYBM5M'
     """
-    if playlist_spec.startswith("spotify:playlist:"):
-        return playlist_spec.split(":")[-1]
-    elif playlist_spec.startswith("https://"):
-        return playlist_spec.split("/")[-1].split("?")[0]
-    else:
-        return (
-            playlist_spec  # just cross your fingers and hope it's a valid playlist ID
-        )
+    spec = playlist_spec.split("?")[0]
+    for key_template in _playlist_key_templates.values():
+        if (playlist_id := _parse_ref_id(key_template, spec)) is not None:
+            return playlist_id
+    return playlist_spec  # assume it is already an id
 
 
 front_columns_for_track_metas = (

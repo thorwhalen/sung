@@ -1,28 +1,30 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-20T19:29:09.367310Z
-commit_sha,3d4d4a5fe464755a05077cd85afefa74a1a7ff66
-commit_message,Merge ea34a62403d0f3a8e56a8e3a30815ca6db65b500 into 15a6ad290bd0f702942021a1c4c0e71ba8379cbb
+timestamp,2026-10-20T19:30:55.783663Z
+commit_sha,c5d5f3764a020cfdcf6d8b7d9a0cbd75d9431165
+commit_message,"Review fixes: zip lookup moves into chords_index (no pydantic to find the index), loud bad args
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 python_version,3.10
 metrics.umpyre_stats.num_functions,31902
 metrics.umpyre_stats.num_classes,4909
-metrics.umpyre_stats.total_lines,985269
-metrics.umpyre_stats.empty_lines,143333
-metrics.umpyre_stats.comment_lines,50712
-metrics.umpyre_stats.docs_lines,221603
-metrics.umpyre_stats.function_lines,635496
-metrics.umpyre_stats.empty_lines_ratio,0.14547600706000088
-metrics.umpyre_stats.comment_lines_ratio,0.05147020762857656
-metrics.umpyre_stats.function_lines_ratio,0.6449974575471267
-metrics.umpyre_stats.mean_lines_per_function,19.92025578333647
+metrics.umpyre_stats.total_lines,985289
+metrics.umpyre_stats.empty_lines,143335
+metrics.umpyre_stats.comment_lines,50714
+metrics.umpyre_stats.docs_lines,221610
+metrics.umpyre_stats.function_lines,635506
+metrics.umpyre_stats.empty_lines_ratio,0.14547508396013759
+metrics.umpyre_stats.comment_lines_ratio,0.05147119271604575
+metrics.umpyre_stats.function_lines_ratio,0.6449945142998653
+metrics.umpyre_stats.mean_lines_per_function,19.92056924330763
 metrics.umpyre_stats.files_analyzed,1804
 metrics.umpyre_stats.pypi_version,0.0.32
-metrics.umpyre_stats.errors,"['mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)', '_scalars.py: invalid syntax (_scalars.py, line 7)', '_char_codes.py: invalid syntax (_char_codes.py, line 3)', '_dtype_like.py: invalid syntax (_dtype_like.py, line 21)', '_nbit.py: invalid syntax (_nbit.py, line 6)', '_shape.py: invalid syntax (_shape.py, line 4)', '_array_like.py: invalid syntax (_array_like.py, line 15)']"
+metrics.umpyre_stats.errors,"['_dtype_like.py: invalid syntax (_dtype_like.py, line 21)', '_char_codes.py: invalid syntax (_char_codes.py, line 3)', '_shape.py: invalid syntax (_shape.py, line 4)', '_array_like.py: invalid syntax (_array_like.py, line 15)', '_scalars.py: invalid syntax (_scalars.py, line 7)', '_nbit.py: invalid syntax (_nbit.py, line 6)', 'mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)']"
 metrics.umpyre_stats.total_errors,7
 metrics.workflow_status.last_run_status,success
-metrics.workflow_status.last_success_timestamp,2026-10-20T18:36:50Z
+metrics.workflow_status.last_success_timestamp,2026-10-20T19:29:17Z
 metrics.workflow_status.recent_failure_count,0
-metrics.workflow_status.run_url,https://github.com/thorwhalen/sung/actions/runs/39476221164
+metrics.workflow_status.run_url,https://github.com/thorwhalen/sung/actions/runs/39483665734
 metrics.workflow_status.total_runs_analyzed,10
 metrics.wily.cyclomatic_avg,0.0
 metrics.wily.maintainability_index,0.0
@@ -38,4 +40,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,10.152153491973877
+collection_duration_seconds,10.971796989440918

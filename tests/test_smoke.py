@@ -69,6 +69,7 @@ def test_submodules_import_without_credentials():
         "sung.tools",
         "sung.playlists",
         "sung.chords_and_lyrics",
+        "sung.chords_index",
     )
     script = (
         "import importlib\n"
@@ -135,7 +136,7 @@ def test_import_is_light():
     import sys
 
     script = (
-        "import sys, sung, sung.chords_and_lyrics\n"
+        "import sys, sung, sung.chords_and_lyrics, sung.chords_index\n"
         "print(sorted({'pandas', 'spotipy'} & set(sys.modules)))\n"
     )
     result = subprocess.run(

@@ -1,0 +1,47 @@
+{
+  "collection_duration_seconds": 8.064297437667847,
+  "commit_message": "Lazy re-exports in sung/__init__.py: import sung skips pandas/spotipy (#18)\n\nimport sung, sung.chords_and_lyrics: 1.2 s / 140 MB max RSS -> 0.2 s / 31 MB.\nfrom sung import X still works (module __getattr__). First slice of #17.\n\nCo-authored-by: Claude Opus 5.5 <noreply@anthropic.com>",
+  "commit_sha": "ffdb7bc57b9397aa514abf0cfd2e66c92110ffc8",
+  "metrics": {
+    "coverage": {
+      "branch_coverage": 0.0,
+      "error": "No coverage file found",
+      "line_coverage": 0.0,
+      "statements_covered": 0,
+      "statements_total": 0
+    },
+    "umpyre_stats": {
+      "comment_lines": 52646,
+      "comment_lines_ratio": 0.05305751407919826,
+      "docs_lines": 198734,
+      "empty_lines": 144057,
+      "empty_lines_ratio": 0.14518303965556859,
+      "files_analyzed": 1912,
+      "function_lines": 630504,
+      "function_lines_ratio": 0.635432413801444,
+      "mean_lines_per_function": 19.04040587062874,
+      "num_classes": 5152,
+      "num_functions": 33114,
+      "pypi_version": "0.0.31",
+      "total_lines": 992244
+    },
+    "wily": {
+      "cyclomatic_avg": 0.0,
+      "error": "wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...\nTry 'wily report --help' for help.\n\nError: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.\n",
+      "files_analyzed": 0,
+      "maintainability_index": 0.0,
+      "total_loc": 0
+    },
+    "workflow_status": {
+      "last_run_status": "success",
+      "last_success_timestamp": "2026-10-20T18:33:13Z",
+      "recent_failure_count": 2,
+      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39475547877",
+      "total_runs_analyzed": 10
+    }
+  },
+  "python_version": "3.10",
+  "schema_version": "1.0",
+  "timestamp": "2026-10-20T18:34:56.528742Z",
+  "workflow_status": {}
+}

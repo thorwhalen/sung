@@ -1,0 +1,57 @@
+{
+  "collection_duration_seconds": 10.152153491973877,
+  "commit_message": "Merge ea34a62403d0f3a8e56a8e3a30815ca6db65b500 into 15a6ad290bd0f702942021a1c4c0e71ba8379cbb",
+  "commit_sha": "3d4d4a5fe464755a05077cd85afefa74a1a7ff66",
+  "metrics": {
+    "coverage": {
+      "branch_coverage": 0.0,
+      "error": "No coverage file found",
+      "line_coverage": 0.0,
+      "statements_covered": 0,
+      "statements_total": 0
+    },
+    "umpyre_stats": {
+      "comment_lines": 50712,
+      "comment_lines_ratio": 0.05147020762857656,
+      "docs_lines": 221603,
+      "empty_lines": 143333,
+      "empty_lines_ratio": 0.14547600706000088,
+      "errors": [
+        "mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)",
+        "_scalars.py: invalid syntax (_scalars.py, line 7)",
+        "_char_codes.py: invalid syntax (_char_codes.py, line 3)",
+        "_dtype_like.py: invalid syntax (_dtype_like.py, line 21)",
+        "_nbit.py: invalid syntax (_nbit.py, line 6)",
+        "_shape.py: invalid syntax (_shape.py, line 4)",
+        "_array_like.py: invalid syntax (_array_like.py, line 15)"
+      ],
+      "files_analyzed": 1804,
+      "function_lines": 635496,
+      "function_lines_ratio": 0.6449974575471267,
+      "mean_lines_per_function": 19.92025578333647,
+      "num_classes": 4909,
+      "num_functions": 31902,
+      "pypi_version": "0.0.32",
+      "total_errors": 7,
+      "total_lines": 985269
+    },
+    "wily": {
+      "cyclomatic_avg": 0.0,
+      "error": "wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...\nTry 'wily report --help' for help.\n\nError: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.\n",
+      "files_analyzed": 0,
+      "maintainability_index": 0.0,
+      "total_loc": 0
+    },
+    "workflow_status": {
+      "last_run_status": "success",
+      "last_success_timestamp": "2026-10-20T18:36:50Z",
+      "recent_failure_count": 0,
+      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39476221164",
+      "total_runs_analyzed": 10
+    }
+  },
+  "python_version": "3.10",
+  "schema_version": "1.0",
+  "timestamp": "2026-10-20T19:29:09.367310Z",
+  "workflow_status": {}
+}

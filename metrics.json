@@ -1,5 +1,5 @@
 {
-  "collection_duration_seconds": 8.765684604644775,
+  "collection_duration_seconds": 10.152153491973877,
   "commit_message": "Merge ea34a62403d0f3a8e56a8e3a30815ca6db65b500 into 15a6ad290bd0f702942021a1c4c0e71ba8379cbb",
   "commit_sha": "3d4d4a5fe464755a05077cd85afefa74a1a7ff66",
   "metrics": {
@@ -11,19 +11,29 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 52663,
-      "comment_lines_ratio": 0.05304631265524681,
-      "docs_lines": 198759,
-      "empty_lines": 144139,
-      "empty_lines_ratio": 0.14518812942321213,
-      "files_analyzed": 1918,
-      "function_lines": 630655,
-      "function_lines_ratio": 0.6352452824106997,
-      "mean_lines_per_function": 19.036342781249058,
-      "num_classes": 5152,
-      "num_functions": 33129,
+      "comment_lines": 50712,
+      "comment_lines_ratio": 0.05147020762857656,
+      "docs_lines": 221603,
+      "empty_lines": 143333,
+      "empty_lines_ratio": 0.14547600706000088,
+      "errors": [
+        "mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)",
+        "_scalars.py: invalid syntax (_scalars.py, line 7)",
+        "_char_codes.py: invalid syntax (_char_codes.py, line 3)",
+        "_dtype_like.py: invalid syntax (_dtype_like.py, line 21)",
+        "_nbit.py: invalid syntax (_nbit.py, line 6)",
+        "_shape.py: invalid syntax (_shape.py, line 4)",
+        "_array_like.py: invalid syntax (_array_like.py, line 15)"
+      ],
+      "files_analyzed": 1804,
+      "function_lines": 635496,
+      "function_lines_ratio": 0.6449974575471267,
+      "mean_lines_per_function": 19.92025578333647,
+      "num_classes": 4909,
+      "num_functions": 31902,
       "pypi_version": "0.0.32",
-      "total_lines": 992774
+      "total_errors": 7,
+      "total_lines": 985269
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -42,6 +52,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-20T19:29:01.540548Z",
+  "timestamp": "2026-10-20T19:29:09.367310Z",
   "workflow_status": {}
 }

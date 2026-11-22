@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 7.774088144302368,
-  "commit_message": "sung.chords_index: stdlib-only index of the chords corpus (#17 step 2) (#19)\n\n* Add sung.chords_index: the stdlib-only SQLite+FTS5 index of the chords corpus (#17 step 2)\n\nMoves the index build and raw reads from songleaf.kaggle_index into sung,\nschema unchanged so files songleaf built stay valid. Importing it loads\nonly the standard library; ranking stays with the consumers.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n\n* Review fixes: zip lookup moves into chords_index (no pydantic to find the index), loud bad args\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 5.5 <noreply@anthropic.com>",
-  "commit_sha": "d14e0165e9abf8eb6fc2d7bfe163f8936feeb03a",
+  "collection_duration_seconds": 5.997697114944458,
+  "commit_message": "chords_index: document that popularity is Spotify artist popularity (#20)\n\nCloses #20",
+  "commit_sha": "254a95a8dca60fde515932a83154ff92d9f2cfc2",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -11,19 +11,29 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 52665,
-      "comment_lines_ratio": 0.05304725854507582,
-      "docs_lines": 198766,
-      "empty_lines": 144141,
-      "empty_lines_ratio": 0.14518721910084065,
-      "files_analyzed": 1918,
-      "function_lines": 630665,
-      "function_lines_ratio": 0.6352425578720258,
-      "mean_lines_per_function": 19.036644631591656,
-      "num_classes": 5152,
-      "num_functions": 33129,
-      "pypi_version": "0.0.32",
-      "total_lines": 992794
+      "comment_lines": 53954,
+      "comment_lines_ratio": 0.05322471495567731,
+      "docs_lines": 236098,
+      "empty_lines": 146669,
+      "empty_lines_ratio": 0.14468650550161685,
+      "errors": [
+        "_shape.py: invalid syntax (_shape.py, line 4)",
+        "_array_like.py: invalid syntax (_array_like.py, line 15)",
+        "_nbit.py: invalid syntax (_nbit.py, line 6)",
+        "_scalars.py: invalid syntax (_scalars.py, line 7)",
+        "_char_codes.py: invalid syntax (_char_codes.py, line 3)",
+        "_dtype_like.py: invalid syntax (_dtype_like.py, line 21)",
+        "mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)"
+      ],
+      "files_analyzed": 1831,
+      "function_lines": 665300,
+      "function_lines_ratio": 0.656307277681212,
+      "mean_lines_per_function": 20.47202904794141,
+      "num_classes": 4911,
+      "num_functions": 32498,
+      "pypi_version": "0.0.33",
+      "total_errors": 7,
+      "total_lines": 1013702
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -34,14 +44,14 @@
     },
     "workflow_status": {
       "last_run_status": "success",
-      "last_success_timestamp": "2026-10-20T19:31:14Z",
+      "last_success_timestamp": "2026-10-20T19:36:55Z",
       "recent_failure_count": 0,
-      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39483940776",
+      "run_url": "https://github.com/thorwhalen/sung/actions/runs/39484913778",
       "total_runs_analyzed": 10
     }
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-20T19:35:05.037354Z",
+  "timestamp": "2026-11-22T11:35:26.410483Z",
   "workflow_status": {}
 }

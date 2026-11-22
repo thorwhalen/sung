@@ -256,6 +256,13 @@
 <span class="sd">file back piecemeal: the short columns for matching, the words for lyrics</span>
 <span class="sd">search, one chart at a time.</span>
 
+<span class="sd">.. note::</span>
+
+<span class="sd">   The corpus's ``popularity`` column is the Spotify *artist* popularity (0-100), copied</span>
+<span class="sd">   onto every song row by the dataset's scraper: constant per artist, integer-valued,</span>
+<span class="sd">   a snapshot no later than March 2022. Sorting by it sorts by artist, with arbitrary</span>
+<span class="sd">   order inside an artist. Treat it as an artist-level prior, not a song signal.</span>
+
 <span class="sd">It imports only the standard library, so a web worker that serves from the</span>
 <span class="sd">index never loads pandas (thorwhalen/sung#17). Building it does load the corpus</span>
 <span class="sd">(through pandas), so run :func:`build_chords_index` once, apart from any server.</span>
@@ -336,7 +343,8 @@
     <span class="s2">"lang"</span><span class="p">,</span>
     <span class="s2">"popularity"</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="c1">#: What :func:`read_columns` returns, in row order.</span>
+<span class="c1">#: What :func:`read_columns` returns, in row order. ``popularity`` is Spotify *artist*</span>
+<span class="c1">#: popularity (constant per artist, a 2022 snapshot), not a song signal.</span>
 <span class="n">COLUMN_NAMES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"ids"</span><span class="p">,</span> <span class="s2">"titles"</span><span class="p">,</span> <span class="s2">"artists"</span><span class="p">,</span> <span class="s2">"langs"</span><span class="p">,</span> <span class="s2">"popularity"</span><span class="p">)</span>
 
 <span class="c1"># Unchanged from songleaf's ``kaggle_index``, so the index files it built stay valid.</span>
@@ -417,7 +425,8 @@
 
 <span class="sd">    ``rows`` are tuples in :data:`CORPUS_COLUMNS` order (default:</span>
 <span class="sd">    :func:`corpus_rows`, which loads the corpus). Row ``n`` of ``rows`` is row</span>
-<span class="sd">    ``n`` of the index. The file is written beside ``path`` and moved into place</span>
+<span class="sd">    ``n`` of the index. The ``popularity`` stored is the corpus's, which is Spotify</span>
+<span class="sd">    *artist* popularity (see the module docstring), not song popularity. The file is written beside ``path`` and moved into place</span>
 <span class="sd">    when complete, so a reader never sees half an index.</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">batch_size</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -604,7 +613,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=f889a70c"></script>
+</div><script src="../../_static/documentation_options.js?v=10aae6bc"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

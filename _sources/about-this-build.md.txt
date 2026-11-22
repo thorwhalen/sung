@@ -5,21 +5,19 @@ orphan: true
 
 # About this build
 
-This documentation was built on **2026-10-20 19:36 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/4699f9ba4f97a0b88ce92e6f634d35359f641099"><code>4699f9b</code></a> on branch <code>main</code>, for **sung 0.0.33** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 11:38 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/edc3e4370df87e80a376425946d86b822f94670c"><code>edc3e43</code></a> on branch <code>main</code>, for **sung 0.0.34** (from <code>pyproject.toml</code>).
 
-:::{warning}
-The documentation and the package may be misaligned:
-
-- The documented version (0.0.33) is ahead of the latest release on PyPI (0.0.32): these docs describe unreleased code.
+:::{note}
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 :::
 
 ## Source
 
 | | |
 |---|---|
-| Commit | <a href="https://github.com/thorwhalen/sung/commit/4699f9ba4f97a0b88ce92e6f634d35359f641099"><code>4699f9ba4f97a0b88ce92e6f634d35359f641099</code></a> |
+| Commit | <a href="https://github.com/thorwhalen/sung/commit/edc3e4370df87e80a376425946d86b822f94670c"><code>edc3e4370df87e80a376425946d86b822f94670c</code></a> |
 | Branch | <code>main</code> |
-| Tags at this commit | <code>0.0.33</code> |
+| Tags at this commit | <code>0.0.34</code> |
 | Working tree | clean |
 | Remote | <code>https://github.com/thorwhalen/sung</code> |
 
@@ -28,18 +26,18 @@ The documentation and the package may be misaligned:
 | | |
 |---|---|
 | Repository | <code>thorwhalen/sung</code> |
-| Run | <a href="https://github.com/thorwhalen/sung/actions/runs/39484538751">39484538751</a> |
+| Run | <a href="https://github.com/thorwhalen/sung/actions/runs/45018186102">45018186102</a> |
 | Ref | <code>refs/heads/main</code> |
-| Event commit | <code>d14e0165e9abf8eb6fc2d7bfe163f8936feeb03a</code> (in the history of the built commit) |
+| Event commit | <code>77da663be7c4e3bcd0a3a0b929b686c58f8eb1cf</code> (in the history of the built commit) |
 
 ## Tools
 
 | | |
 |---|---|
-| epythet | 0.2.22 |
+| epythet | 0.2.23 |
 | Sphinx | 9.1.1 |
 | docutils | 0.22.4 |
-| Python | 3.12.15 |
+| Python | 3.12.16 |
 
 ## Configuration as resolved
 
@@ -55,14 +53,14 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/sung/0.0.32/">0.0.32</a>, older than the documented version (0.0.33).
+Latest release: <a href="https://pypi.org/project/sung/0.0.34/">0.0.34</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/sung && cd sung
-git checkout 4699f9ba4f97a0b88ce92e6f634d35359f641099
-pip install "epythet==0.2.22"
+git checkout edc3e4370df87e80a376425946d86b822f94670c
+pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/ misc/
 ```
 

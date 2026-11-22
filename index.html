@@ -541,7 +541,7 @@ ranking), the helper is a thin layer over:</p>
 </section>
 </section>
 <section id="using-the-sung-base-module-to-search-tracks-and-create-a-playlist">
-<h1>Using the sung.base Module to Search Tracks and Create a Playlist<a class="headerlink" href="#using-the-sung-base-module-to-search-tracks-and-create-a-playlist" title="Link to this heading">¶</a></h1>
+<span id="using-the-sungbase-module-to-search-tracks-and-create-a-playlist"></span><h1>Using the sung.base Module to Search Tracks and Create a Playlist<a class="headerlink" href="#using-the-sung-base-module-to-search-tracks-and-create-a-playlist" title="Link to this heading">¶</a></h1>
 <p>In this example, we’ll:</p>
 <ul class="simple">
 <li><p>Search for tracks using <code class="docutils literal notranslate"><span class="pre">Tracks.search</span></code>.</p></li>
@@ -1234,11 +1234,11 @@ Name: 2plbrEY59IikOBgBGLjaoe, dtype: object
 </section>
 </section>
 <section id="id1">
-<h1>sung<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<span id="sung-1"></span><h1>sung<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
 <p>Music data access. Mainly sources from spotify and wikipedia.</p>
 </section>
 <section id="id2">
-<h1>Install<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h1>
+<span id="install-1"></span><h1>Install<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h1>
 <p>To install:	<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sung</span></code></p>
 <p>For most tools, you’ll also need a spotify</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">SPOTIFY_API_CLIENT_ID</span><span class="o">=</span><span class="s2">"your_api_client_id"</span>
@@ -1249,7 +1249,7 @@ Name: 2plbrEY59IikOBgBGLjaoe, dtype: object
 </pre></div>
 </div>
 <section id="id3">
-<h2>Spotify API credentials?<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<span id="spotify-api-credentials-1"></span><h2>Spotify API credentials?<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
 <p>To obtain Spotify API credentials, follow these steps:
 1.	Create a Spotify Developer Account:
 •	Visit the <a class="reference external" href="https://developer.spotify.com/dashboard/">Spotify Developer Dashboard</a>.
@@ -1274,7 +1274,7 @@ Name: 2plbrEY59IikOBgBGLjaoe, dtype: object
 </section>
 </section>
 <section id="id4">
-<h1>Using the sung.base Module to Search Tracks and Create a Playlist<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h1>
+<span id="using-the-sungbase-module-to-search-tracks-and-create-a-playlist-1"></span><h1>Using the sung.base Module to Search Tracks and Create a Playlist<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h1>
 <p>In this example, we’ll:</p>
 <ul class="simple">
 <li><p>Search for tracks using <code class="docutils literal notranslate"><span class="pre">Tracks.search</span></code>.</p></li>
@@ -1377,7 +1377,7 @@ The value is a bunch of metadata about the track.</p>
 </pre></div>
 </div>
 <section id="id5">
-<h2>Display the search results in a pandas DataFrame<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<span id="display-the-search-results-in-a-pandas-dataframe-1"></span><h2>Display the search results in a pandas DataFrame<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
 <p>The dataframe method converts the track metadata into a DataFrame for easy viewing.</p>
 <p>(Note, you can also use the tracks.dataframe(keys, front_columns=…) to retrieve a data table with more control.)</p>
 <p>If you have <code class="docutils literal notranslate"><span class="pre">pandas</span></code> installed, you can get the meta data as a table (dataframe).</p>
@@ -1574,7 +1574,7 @@ The value is a bunch of metadata about the track.</p>
 </div>
 </section>
 <section id="id6">
-<h2>Make a playlist<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
+<span id="make-a-playlist-1"></span><h2>Make a playlist<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
 <p>Create a new playlist named ‘my_test_playlist’ with the selected tracks
 The create_from_track_list class method creates a new playlist with the given tracks</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">playlist</span> <span class="o">=</span> <span class="n">Playlist</span><span class="o">.</span><span class="n">create_from_track_list</span><span class="p">(</span>
@@ -1598,7 +1598,7 @@ The create_from_track_list class method creates a new playlist with the given tr
 </div>
 </section>
 <section id="id7">
-<h2>Delete a playlist<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h2>
+<span id="delete-a-playlist-1"></span><h2>Delete a playlist<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h2>
 <p>We purposely tried to make deleting a playlist not as easy as the other actions.
 So we didn’t attach a delete method to the playlist instance, but put this in a
 separate function you have to import.
@@ -1634,7 +1634,7 @@ Name: name_and_first_artist, dtype: object
 </div>
 </section>
 <section id="id8">
-<h2>Audio features<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h2>
+<span id="audio-features-1"></span><h2>Audio features<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">top50_playlist</span><span class="o">.</span><span class="n">audio_features_df</span><span class="o">.</span><span class="n">shape</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
@@ -1711,7 +1711,7 @@ Name: 2plbrEY59IikOBgBGLjaoe, dtype: object
 <p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/sung/main/misc/sung_demo_files/sung_demo_32_1.png" /></p>
 </section>
 <section id="id9">
-<h2>Audio analysis<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h2>
+<span id="audio-analysis-1"></span><h2>Audio analysis<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">audio_analysis</span> <span class="o">=</span> <span class="n">top50_playlist</span><span class="o">.</span><span class="n">audio_analysis</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">top50_playlist</span><span class="p">)))</span>
 </pre></div>
 </div>
@@ -3137,7 +3137,7 @@ J (3 tracks):
 </div>
 </section>
 
-<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-10-20 19:36 UTC from <a href="https://github.com/thorwhalen/sung/commit/4699f9ba4f97a0b88ce92e6f634d35359f641099">4699f9b</a> (main) · sung 0.0.33 · <a href="about-this-build.html">about this build</a></p>
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-22 11:38 UTC from <a href="https://github.com/thorwhalen/sung/commit/edc3e4370df87e80a376425946d86b822f94670c">edc3e43</a> (main) · sung 0.0.34 · <a href="about-this-build.html">about this build</a></p>
         </article>
       </div>
       <footer>
@@ -3173,7 +3173,7 @@ J (3 tracks):
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=f889a70c"></script>
+</div><script src="_static/documentation_options.js?v=10aae6bc"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

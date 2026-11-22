@@ -1,41 +1,41 @@
 {
   "schema_version": 1,
-  "built_at": "2026-10-20T19:36:14Z",
+  "built_at": "2026-11-22T11:38:51Z",
   "package": {
     "name": "sung",
-    "version": "0.0.33",
+    "version": "0.0.34",
     "display_name": "sung",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "4699f9ba4f97a0b88ce92e6f634d35359f641099",
-    "short_commit": "4699f9b",
+    "commit": "edc3e4370df87e80a376425946d86b822f94670c",
+    "short_commit": "edc3e43",
     "branch": "main",
     "tags": [
-      "0.0.33"
+      "0.0.34"
     ],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/sung",
-    "commit_url": "https://github.com/thorwhalen/sung/commit/4699f9ba4f97a0b88ce92e6f634d35359f641099",
+    "commit_url": "https://github.com/thorwhalen/sung/commit/edc3e4370df87e80a376425946d86b822f94670c",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/sung",
-    "sha": "d14e0165e9abf8eb6fc2d7bfe163f8936feeb03a",
+    "sha": "77da663be7c4e3bcd0a3a0b929b686c58f8eb1cf",
     "sha_in_history": true,
     "ref": "refs/heads/main",
     "ref_name": "main",
-    "run_id": "39484538751",
-    "run_url": "https://github.com/thorwhalen/sung/actions/runs/39484538751",
+    "run_id": "45018186102",
+    "run_url": "https://github.com/thorwhalen/sung/actions/runs/45018186102",
     "server_url": "https://github.com"
   },
   "tools": {
-    "epythet": "0.2.22",
+    "epythet": "0.2.23",
     "sphinx": "9.1.1",
     "docutils": "0.22.4",
-    "python": "3.12.15"
+    "python": "3.12.16"
   },
   "config": {
     "theme": "auto",
@@ -63,16 +63,14 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.0.32",
-    "relation": "ahead",
+    "latest": "0.0.34",
+    "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/sung && cd sung\ngit checkout 4699f9ba4f97a0b88ce92e6f634d35359f641099\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/ misc/",
+  "reproduce": "git clone https://github.com/thorwhalen/sung && cd sung\ngit checkout edc3e4370df87e80a376425946d86b822f94670c\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/ misc/",
   "warnings": [],
   "alignment": {
-    "aligned": false,
-    "notes": [
-      "The documented version (0.0.33) is ahead of the latest release on PyPI (0.0.32): these docs describe unreleased code."
-    ]
+    "aligned": true,
+    "notes": []
   }
 }

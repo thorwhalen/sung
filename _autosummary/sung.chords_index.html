@@ -264,6 +264,13 @@ writes it once to one SQLite file (titles, artists, language, popularity, each
 chart zlib-compressed, and an FTS5 table of the charts’ words) and reads that
 file back piecemeal: the short columns for matching, the words for lyrics
 search, one chart at a time.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The corpus’s <code class="docutils literal notranslate"><span class="pre">popularity</span></code> column is the Spotify <em>artist</em> popularity (0-100), copied
+onto every song row by the dataset’s scraper: constant per artist, integer-valued,
+a snapshot no later than March 2022. Sorting by it sorts by artist, with arbitrary
+order inside an artist. Treat it as an artist-level prior, not a song signal.</p>
+</div>
 <p>It imports only the standard library, so a web worker that serves from the
 index never loads pandas (thorwhalen/sung#17). Building it does load the corpus
 (through pandas), so run <a class="reference internal" href="#sung.chords_index.build_chords_index" title="sung.chords_index.build_chords_index"><code class="xref py py-func docutils literal notranslate"><span class="pre">build_chords_index()</span></code></a> once, apart from any server.
@@ -363,7 +370,8 @@ Ranking and fuzzy matching are the consumer’s business (<code class="docutils 
 <dl class="py data">
 <dt class="sig sig-object py" id="sung.chords_index.COLUMN_NAMES">
 <span class="sig-prename descclassname"><span class="pre">sung.chords_index.</span></span><span class="sig-name descname"><span class="pre">COLUMN_NAMES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('ids',</span> <span class="pre">'titles',</span> <span class="pre">'artists',</span> <span class="pre">'langs',</span> <span class="pre">'popularity')</span></span><a class="headerlink" href="#sung.chords_index.COLUMN_NAMES" title="Link to this definition">¶</a></dt>
-<dd><p>What <a class="reference internal" href="#sung.chords_index.read_columns" title="sung.chords_index.read_columns"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_columns()</span></code></a> returns, in row order.</p>
+<dd><p>What <a class="reference internal" href="#sung.chords_index.read_columns" title="sung.chords_index.read_columns"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_columns()</span></code></a> returns, in row order. <code class="docutils literal notranslate"><span class="pre">popularity</span></code> is Spotify <em>artist</em>
+popularity (constant per artist, a 2022 snapshot), not a song signal.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -385,7 +393,8 @@ song id, artist, title, chart (chords over lyrics), language, popularity.</p>
 <dd><p>Write the index to <code class="docutils literal notranslate"><span class="pre">path</span></code>; return its song count, size and build time.</p>
 <p><code class="docutils literal notranslate"><span class="pre">rows</span></code> are tuples in <a class="reference internal" href="#sung.chords_index.CORPUS_COLUMNS" title="sung.chords_index.CORPUS_COLUMNS"><code class="xref py py-data docutils literal notranslate"><span class="pre">CORPUS_COLUMNS</span></code></a> order (default:
 <a class="reference internal" href="#sung.chords_index.corpus_rows" title="sung.chords_index.corpus_rows"><code class="xref py py-func docutils literal notranslate"><span class="pre">corpus_rows()</span></code></a>, which loads the corpus). Row <code class="docutils literal notranslate"><span class="pre">n</span></code> of <code class="docutils literal notranslate"><span class="pre">rows</span></code> is row
-<code class="docutils literal notranslate"><span class="pre">n</span></code> of the index. The file is written beside <code class="docutils literal notranslate"><span class="pre">path</span></code> and moved into place
+<code class="docutils literal notranslate"><span class="pre">n</span></code> of the index. The <code class="docutils literal notranslate"><span class="pre">popularity</span></code> stored is the corpus’s, which is Spotify
+<em>artist</em> popularity (see the module docstring), not song popularity. The file is written beside <code class="docutils literal notranslate"><span class="pre">path</span></code> and moved into place
 when complete, so a reader never sees half an index.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -587,7 +596,7 @@ not a sentence. No words, no rows.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=f889a70c"></script>
+</div><script src="../_static/documentation_options.js?v=10aae6bc"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

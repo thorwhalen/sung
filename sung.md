@@ -1,4 +1,4 @@
-> built 2026-10-20 19:36 UTC from 4699f9b (main) · sung 0.0.33. Details: build_info.json
+> built 2026-11-22 11:38 UTC from edc3e43 (main) · sung 0.0.34. Details: build_info.json
 
 # index.html.md
 
@@ -3446,6 +3446,12 @@ chart zlib-compressed, and an FTS5 table of the charts’ words) and reads that
 file back piecemeal: the short columns for matching, the words for lyrics
 search, one chart at a time.
 
+#### NOTE
+The corpus’s `popularity` column is the Spotify *artist* popularity (0-100), copied
+onto every song row by the dataset’s scraper: constant per artist, integer-valued,
+a snapshot no later than March 2022. Sorting by it sorts by artist, with arbitrary
+order inside an artist. Treat it as an artist-level prior, not a song signal.
+
 It imports only the standard library, so a web worker that serves from the
 index never loads pandas (thorwhalen/sung#17). Building it does load the corpus
 (through pandas), so run [`build_chords_index()`](_autosummary/sung.chords_index.html.md#sung.chords_index.build_chords_index) once, apart from any server.
@@ -3504,7 +3510,8 @@ Environment variable naming the index file.
 
 ### sung.chords_index.COLUMN_NAMES *= ('ids', 'titles', 'artists', 'langs', 'popularity')*
 
-What [`read_columns()`](_autosummary/sung.chords_index.html.md#sung.chords_index.read_columns) returns, in row order.
+What [`read_columns()`](_autosummary/sung.chords_index.html.md#sung.chords_index.read_columns) returns, in row order. `popularity` is Spotify *artist*
+popularity (constant per artist, a 2022 snapshot), not a song signal.
 
 ### sung.chords_index.CORPUS_COLUMNS *= ('Unnamed: 0', 'artist_name', 'song_name', 'chords&lyrics', 'lang', 'popularity')*
 
@@ -3521,7 +3528,8 @@ Write the index to `path`; return its song count, size and build time.
 
 `rows` are tuples in [`CORPUS_COLUMNS`](_autosummary/sung.chords_index.html.md#sung.chords_index.CORPUS_COLUMNS) order (default:
 [`corpus_rows()`](_autosummary/sung.chords_index.html.md#sung.chords_index.corpus_rows), which loads the corpus). Row `n` of `rows` is row
-`n` of the index. The file is written beside `path` and moved into place
+`n` of the index. The `popularity` stored is the corpus’s, which is Spotify
+*artist* popularity (see the module docstring), not song popularity. The file is written beside `path` and moved into place
 when complete, so a reader never sees half an index.
 
 * **Return type:**
@@ -5401,20 +5409,18 @@ Return a new dictionary with all string values stripped.
 
 # About this build
 
-This documentation was built on **2026-10-20 19:36 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/4699f9ba4f97a0b88ce92e6f634d35359f641099"><code>4699f9b</code></a> on branch <code>main</code>, for **sung 0.0.33** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 11:38 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/edc3e4370df87e80a376425946d86b822f94670c"><code>edc3e43</code></a> on branch <code>main</code>, for **sung 0.0.34** (from <code>pyproject.toml</code>).
 
-#### WARNING
-The documentation and the package may be misaligned:
-
-- The documented version (0.0.33) is ahead of the latest release on PyPI (0.0.32): these docs describe unreleased code.
+#### NOTE
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 
 ## Source
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/sung/commit/4699f9ba4f97a0b88ce92e6f634d35359f641099"><code>4699f9ba4f97a0b88ce92e6f634d35359f641099</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/sung/commit/edc3e4370df87e80a376425946d86b822f94670c"><code>edc3e4370df87e80a376425946d86b822f94670c</code></a> |
 | Branch              | <code>main</code>                                                                                                                                      |
-| Tags at this commit | <code>0.0.33</code>                                                                                                                                    |
+| Tags at this commit | <code>0.0.34</code>                                                                                                                                    |
 | Working tree        | clean                                                                                                                                                  |
 | Remote              | <code>https://github.com/thorwhalen/sung</code>                                                                                                        |
 
@@ -5423,18 +5429,18 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/sung</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/39484538751">39484538751</a>      |
+| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/45018186102">45018186102</a>      |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>d14e0165e9abf8eb6fc2d7bfe163f8936feeb03a</code> (in the history of the built commit) |
+| Event commit | <code>77da663be7c4e3bcd0a3a0b929b686c58f8eb1cf</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.22  |
+| epythet  | 0.2.23  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
-| Python   | 3.12.15 |
+| Python   | 3.12.16 |
 
 ## Configuration as resolved
 
@@ -5450,14 +5456,14 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/sung/0.0.32/">0.0.32</a>, older than the documented version (0.0.33).
+Latest release: <a href="https://pypi.org/project/sung/0.0.34/">0.0.34</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/sung && cd sung
-git checkout 4699f9ba4f97a0b88ce92e6f634d35359f641099
-pip install "epythet==0.2.22"
+git checkout edc3e4370df87e80a376425946d86b822f94670c
+pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/ misc/
 ```
 

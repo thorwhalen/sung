@@ -9,6 +9,12 @@ chart zlib-compressed, and an FTS5 table of the charts’ words) and reads that
 file back piecemeal: the short columns for matching, the words for lyrics
 search, one chart at a time.
 
+#### NOTE
+The corpus’s `popularity` column is the Spotify *artist* popularity (0-100), copied
+onto every song row by the dataset’s scraper: constant per artist, integer-valued,
+a snapshot no later than March 2022. Sorting by it sorts by artist, with arbitrary
+order inside an artist. Treat it as an artist-level prior, not a song signal.
+
 It imports only the standard library, so a web worker that serves from the
 index never loads pandas (thorwhalen/sung#17). Building it does load the corpus
 (through pandas), so run [`build_chords_index()`](#sung.chords_index.build_chords_index) once, apart from any server.
@@ -67,7 +73,8 @@ Environment variable naming the index file.
 
 ### sung.chords_index.COLUMN_NAMES *= ('ids', 'titles', 'artists', 'langs', 'popularity')*
 
-What [`read_columns()`](#sung.chords_index.read_columns) returns, in row order.
+What [`read_columns()`](#sung.chords_index.read_columns) returns, in row order. `popularity` is Spotify *artist*
+popularity (constant per artist, a 2022 snapshot), not a song signal.
 
 ### sung.chords_index.CORPUS_COLUMNS *= ('Unnamed: 0', 'artist_name', 'song_name', 'chords&lyrics', 'lang', 'popularity')*
 
@@ -84,7 +91,8 @@ Write the index to `path`; return its song count, size and build time.
 
 `rows` are tuples in [`CORPUS_COLUMNS`](#sung.chords_index.CORPUS_COLUMNS) order (default:
 [`corpus_rows()`](#sung.chords_index.corpus_rows), which loads the corpus). Row `n` of `rows` is row
-`n` of the index. The file is written beside `path` and moved into place
+`n` of the index. The `popularity` stored is the corpus’s, which is Spotify
+*artist* popularity (see the module docstring), not song popularity. The file is written beside `path` and moved into place
 when complete, so a reader never sees half an index.
 
 * **Return type:**

@@ -1,0 +1,47 @@
+{
+  "collection_duration_seconds": 8.882031679153442,
+  "commit_message": "docs(readme): split the Spotify notebook dump to misc/docs, install block, unwrapped",
+  "commit_sha": "17586ceedd160162a79494a17f84072dc9f161f2",
+  "metrics": {
+    "coverage": {
+      "branch_coverage": 0.0,
+      "error": "No coverage file found",
+      "line_coverage": 0.0,
+      "statements_covered": 0,
+      "statements_total": 0
+    },
+    "umpyre_stats": {
+      "comment_lines": 53195,
+      "comment_lines_ratio": 0.053258537435160146,
+      "docs_lines": 199849,
+      "empty_lines": 145010,
+      "empty_lines_ratio": 0.1451832035618493,
+      "files_analyzed": 1926,
+      "function_lines": 635211,
+      "function_lines_ratio": 0.6359697118662564,
+      "mean_lines_per_function": 19.02797831231465,
+      "num_classes": 5175,
+      "num_functions": 33383,
+      "pypi_version": "0.0.34",
+      "total_lines": 998807
+    },
+    "wily": {
+      "cyclomatic_avg": 0.0,
+      "error": "wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...\nTry 'wily report --help' for help.\n\nError: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.\n",
+      "files_analyzed": 0,
+      "maintainability_index": 0.0,
+      "total_loc": 0
+    },
+    "workflow_status": {
+      "last_run_status": "success",
+      "last_success_timestamp": "2026-11-22T11:39:33Z",
+      "recent_failure_count": 0,
+      "run_url": "https://github.com/thorwhalen/sung/actions/runs/45018362789",
+      "total_runs_analyzed": 10
+    }
+  },
+  "python_version": "3.10",
+  "schema_version": "1.0",
+  "timestamp": "2026-11-23T07:05:52.145930Z",
+  "workflow_status": {}
+}

@@ -1,30 +1,26 @@
 metric,value
 schema_version,1.0
-timestamp,2026-11-22T11:37:52.133521Z
-commit_sha,77da663be7c4e3bcd0a3a0b929b686c58f8eb1cf
-commit_message,"chords_index: document that popularity is Spotify artist popularity (#20) (#21)
-
-Closes #20"
+timestamp,2026-11-23T07:05:52.145930Z
+commit_sha,17586ceedd160162a79494a17f84072dc9f161f2
+commit_message,"docs(readme): split the Spotify notebook dump to misc/docs, install block, unwrapped"
 python_version,3.10
-metrics.umpyre_stats.num_functions,32498
-metrics.umpyre_stats.num_classes,4911
-metrics.umpyre_stats.total_lines,1013702
-metrics.umpyre_stats.empty_lines,146669
-metrics.umpyre_stats.comment_lines,53954
-metrics.umpyre_stats.docs_lines,236098
-metrics.umpyre_stats.function_lines,665300
-metrics.umpyre_stats.empty_lines_ratio,0.14468650550161685
-metrics.umpyre_stats.comment_lines_ratio,0.05322471495567731
-metrics.umpyre_stats.function_lines_ratio,0.656307277681212
-metrics.umpyre_stats.mean_lines_per_function,20.47202904794141
-metrics.umpyre_stats.files_analyzed,1831
-metrics.umpyre_stats.pypi_version,0.0.33
-metrics.umpyre_stats.errors,"['_shape.py: invalid syntax (_shape.py, line 4)', '_array_like.py: invalid syntax (_array_like.py, line 15)', '_nbit.py: invalid syntax (_nbit.py, line 6)', '_scalars.py: invalid syntax (_scalars.py, line 7)', '_char_codes.py: invalid syntax (_char_codes.py, line 3)', '_dtype_like.py: invalid syntax (_dtype_like.py, line 21)', 'mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)']"
-metrics.umpyre_stats.total_errors,7
+metrics.umpyre_stats.num_functions,33383
+metrics.umpyre_stats.num_classes,5175
+metrics.umpyre_stats.total_lines,998807
+metrics.umpyre_stats.empty_lines,145010
+metrics.umpyre_stats.comment_lines,53195
+metrics.umpyre_stats.docs_lines,199849
+metrics.umpyre_stats.function_lines,635211
+metrics.umpyre_stats.empty_lines_ratio,0.1451832035618493
+metrics.umpyre_stats.comment_lines_ratio,0.053258537435160146
+metrics.umpyre_stats.function_lines_ratio,0.6359697118662564
+metrics.umpyre_stats.mean_lines_per_function,19.02797831231465
+metrics.umpyre_stats.files_analyzed,1926
+metrics.umpyre_stats.pypi_version,0.0.34
 metrics.workflow_status.last_run_status,success
-metrics.workflow_status.last_success_timestamp,2026-11-22T11:35:53Z
+metrics.workflow_status.last_success_timestamp,2026-11-22T11:39:33Z
 metrics.workflow_status.recent_failure_count,0
-metrics.workflow_status.run_url,https://github.com/thorwhalen/sung/actions/runs/45018000210
+metrics.workflow_status.run_url,https://github.com/thorwhalen/sung/actions/runs/45018362789
 metrics.workflow_status.total_runs_analyzed,10
 metrics.wily.cyclomatic_avg,0.0
 metrics.wily.maintainability_index,0.0
@@ -40,4 +36,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,8.786317110061646
+collection_duration_seconds,8.882031679153442

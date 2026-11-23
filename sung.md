@@ -1,4 +1,4 @@
-> built 2026-11-23 07:08 UTC from fba71b6 (main) · sung 0.0.35. Details: build_info.json
+> built 2026-11-23 11:38 UTC from 326d958 (main) · sung 0.0.36. Details: build_info.json
 
 # index.html.md
 
@@ -2454,29 +2454,39 @@ That is, will make a “path to url” function for a given repo and branch.
 
 Utility functions for the sung package.
 
+### Module Attributes
+
+| [`TOKEN_CACHE_ENV`](_autosummary/sung.util.html.md#sung.util.TOKEN_CACHE_ENV)   | Environment variable naming the file that caches the Spotify OAuth token.   |
+|--------------------------------------------------------------------|-----------------------------------------------------------------------------|
+
 ### Functions
 
-| [`cast_track_key`](_autosummary/sung.util.html.md#sung.util.cast_track_key)(track_key[, target_kind, ...])   | Convert a Spotify track key between different formats.                    |
-|--------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| `coalesce_string_values`(d, \*\*coalece_kwargs)                                                  |                                                                           |
-| [`convert_date`](_autosummary/sung.util.html.md#sung.util.convert_date)(date_str[, read_formats])          | Convert a date string to a standard format (YYYY-MM-DD).                  |
-| `df_extraction`(extractor_func, df)                                                              |                                                                           |
-| `df_extractor`(spec)                                                                             |                                                                           |
-| `ensure_client`([client])                                                                        |                                                                           |
-| `ensure_extractor`(x)                                                                            |                                                                           |
-| [`ensure_playlist_id`](_autosummary/sung.util.html.md#sung.util.ensure_playlist_id)(playlist_spec)               | Ensure that a playlist ID is in the correct format.                       |
-| `extractor`(spec)                                                                                |                                                                           |
-| [`get_config`](_autosummary/sung.util.html.md#sung.util.get_config)(config_name)                         | Get the value of a configuration variable.                                |
-| [`get_spotify_client`](_autosummary/sung.util.html.md#sung.util.get_spotify_client)([client, ensure_scope, ...]) | Get a Spotify client.                                                     |
-| `get_spotify_creds`(\*\*client_creds_kwargs)                                                     |                                                                           |
-| `get_spotify_oauth_creds`(\*\*oauth_kwargs)                                                      |                                                                           |
-| `identity`(x)                                                                                    |                                                                           |
-| `is_extractor`(x)                                                                                |                                                                           |
-| [`model_field_descriptions`](_autosummary/sung.util.html.md#sung.util.model_field_descriptions)(model)                 | The `{field_name: description}` of a pydantic model (blank ones skipped). |
-| [`move_columns_to_back`](_autosummary/sung.util.html.md#sung.util.move_columns_to_back)(df, columns, \*[, ...])    | Returns a copy of df with given columns in the back, in the order given.  |
-| [`move_columns_to_front`](_autosummary/sung.util.html.md#sung.util.move_columns_to_front)(df, columns, \*[, ...])   | Returns a copy of df with given columns in the front, in the order given. |
-| `pop_client_id_and_secret`(kwargs)                                                               |                                                                           |
-| [`strip_values`](_autosummary/sung.util.html.md#sung.util.strip_values)(d)                                 | Return a new dictionary with all string values stripped.                  |
+| [`cast_track_key`](_autosummary/sung.util.html.md#sung.util.cast_track_key)(track_key[, target_kind, ...])   | Convert a Spotify track key between different formats.                                                                     |
+|--------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| `coalesce_string_values`(d, \*\*coalece_kwargs)                                                  |                                                                                                                            |
+| [`convert_date`](_autosummary/sung.util.html.md#sung.util.convert_date)(date_str[, read_formats])          | Convert a date string to a standard format (YYYY-MM-DD).                                                                   |
+| [`default_token_cache_path`](_autosummary/sung.util.html.md#sung.util.default_token_cache_path)()                      | Where the Spotify OAuth token is cached: `$SUNG_SPOTIFY_TOKEN_CACHE`, else `~/.local/share/sung/spotify_token.json`.       |
+| `df_extraction`(extractor_func, df)                                                              |                                                                                                                            |
+| `df_extractor`(spec)                                                                             |                                                                                                                            |
+| `ensure_client`([client])                                                                        |                                                                                                                            |
+| `ensure_extractor`(x)                                                                            |                                                                                                                            |
+| [`ensure_playlist_id`](_autosummary/sung.util.html.md#sung.util.ensure_playlist_id)(playlist_spec)               | Ensure that a playlist ID is in the correct format.                                                                        |
+| `extractor`(spec)                                                                                |                                                                                                                            |
+| [`get_config`](_autosummary/sung.util.html.md#sung.util.get_config)(config_name)                         | Get the value of a configuration variable.                                                                                 |
+| [`get_spotify_client`](_autosummary/sung.util.html.md#sung.util.get_spotify_client)([client, ensure_scope, ...]) | Get a Spotify client.                                                                                                      |
+| `get_spotify_creds`(\*\*client_creds_kwargs)                                                     |                                                                                                                            |
+| [`get_spotify_oauth_creds`](_autosummary/sung.util.html.md#sung.util.get_spotify_oauth_creds)(\*\*oauth_kwargs)       | A `SpotifyOAuth`; its token cache defaults to [`default_token_cache_path()`](_autosummary/sung.util.html.md#sung.util.default_token_cache_path). |
+| `identity`(x)                                                                                    |                                                                                                                            |
+| `is_extractor`(x)                                                                                |                                                                                                                            |
+| [`model_field_descriptions`](_autosummary/sung.util.html.md#sung.util.model_field_descriptions)(model)                 | The `{field_name: description}` of a pydantic model (blank ones skipped).                                                  |
+| [`move_columns_to_back`](_autosummary/sung.util.html.md#sung.util.move_columns_to_back)(df, columns, \*[, ...])    | Returns a copy of df with given columns in the back, in the order given.                                                   |
+| [`move_columns_to_front`](_autosummary/sung.util.html.md#sung.util.move_columns_to_front)(df, columns, \*[, ...])   | Returns a copy of df with given columns in the front, in the order given.                                                  |
+| `pop_client_id_and_secret`(kwargs)                                                               |                                                                                                                            |
+| [`strip_values`](_autosummary/sung.util.html.md#sung.util.strip_values)(d)                                 | Return a new dictionary with all string values stripped.                                                                   |
+
+### sung.util.TOKEN_CACHE_ENV *= 'SUNG_SPOTIFY_TOKEN_CACHE'*
+
+Environment variable naming the file that caches the Spotify OAuth token.
 
 ### sung.util.cast_track_key(track_key, target_kind='uri', , src_kind=None)
 
@@ -2509,6 +2519,23 @@ Convert a Spotify track key between different formats.
 ### sung.util.convert_date(date_str, read_formats=('%Y-%m-%d', '%Y', '%Y-%m'))
 
 Convert a date string to a standard format (YYYY-MM-DD).
+
+### sung.util.default_token_cache_path()
+
+Where the Spotify OAuth token is cached: `$SUNG_SPOTIFY_TOKEN_CACHE`, else
+`~/.local/share/sung/spotify_token.json`.
+
+Never the current directory: spotipy’s own default is `.cache` in the working
+directory, which leaves a refresh token in every folder sung is run from
+(including synced and shared ones).
+
+```pycon
+>>> default_token_cache_path().endswith("spotify_token.json") or bool(os.environ.get(TOKEN_CACHE_ENV))
+True
+```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### sung.util.ensure_playlist_id(playlist_spec)
 
@@ -2588,6 +2615,15 @@ The purpose of having scope and ensure_scope is to allow you to ensure some need
 scopes exist when a code block is asking for a Spotify client with it’s own
 scope desires.
 
+### sung.util.get_spotify_oauth_creds(\*\*oauth_kwargs)
+
+A `SpotifyOAuth`; its token cache defaults to [`default_token_cache_path()`](_autosummary/sung.util.html.md#sung.util.default_token_cache_path).
+
+Pass `cache_handler` or `cache_path` to choose another place.
+
+* **Return type:**
+  `SpotifyOAuth`
+
 ### sung.util.model_field_descriptions(model)
 
 The `{field_name: description}` of a pydantic model (blank ones skipped).
@@ -2644,18 +2680,20 @@ Return a new dictionary with all string values stripped.
 
 # About this build
 
-This documentation was built on **2026-11-23 07:08 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/fba71b666e8c9bbd392ee246d4359005cfe8691e"><code>fba71b6</code></a> on branch <code>main</code>, for **sung 0.0.35** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-23 11:38 UTC** from commit <a href="https://github.com/thorwhalen/sung/commit/326d958501f46dd5c022767b8647012c1280b9cc"><code>326d958</code></a> on branch <code>main</code>, for **sung 0.0.36** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.0.36) is ahead of the latest release on PyPI (0.0.35): these docs describe unreleased code.
 
 ## Source
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/sung/commit/fba71b666e8c9bbd392ee246d4359005cfe8691e"><code>fba71b666e8c9bbd392ee246d4359005cfe8691e</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/sung/commit/326d958501f46dd5c022767b8647012c1280b9cc"><code>326d958501f46dd5c022767b8647012c1280b9cc</code></a> |
 | Branch              | <code>main</code>                                                                                                                                      |
-| Tags at this commit | <code>0.0.35</code>                                                                                                                                    |
+| Tags at this commit | <code>0.0.36</code>                                                                                                                                    |
 | Working tree        | clean                                                                                                                                                  |
 | Remote              | <code>https://github.com/thorwhalen/sung</code>                                                                                                        |
 
@@ -2664,15 +2702,15 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/sung</code>                                                               |
-| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/45128724642">45128724642</a>      |
+| Run          | <a href="https://github.com/thorwhalen/sung/actions/runs/45166674526">45166674526</a>      |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>bd76b1345e57774f4f8550e9fdd5585f5f96775b</code> (in the history of the built commit) |
+| Event commit | <code>3ad35fe04dd4da11290bf70ca3a0d5e21839e9d0</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.24  |
+| epythet  | 0.2.25  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
 | Python   | 3.12.16 |
@@ -2691,14 +2729,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/sung/0.0.35/">0.0.35</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/sung/0.0.35/">0.0.35</a>, older than the documented version (0.0.36).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/sung && cd sung
-git checkout fba71b666e8c9bbd392ee246d4359005cfe8691e
-pip install "epythet==0.2.24"
+git checkout 326d958501f46dd5c022767b8647012c1280b9cc
+pip install "epythet==0.2.25"
 epythet quickstart . --ignore tests/ scrap/ examples/ misc/
 ```
 

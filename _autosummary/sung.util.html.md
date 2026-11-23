@@ -2,29 +2,39 @@
 
 Utility functions for the sung package.
 
+### Module Attributes
+
+| [`TOKEN_CACHE_ENV`](#sung.util.TOKEN_CACHE_ENV)   | Environment variable naming the file that caches the Spotify OAuth token.   |
+|--------------------------------------------------------------------|-----------------------------------------------------------------------------|
+
 ### Functions
 
-| [`cast_track_key`](#sung.util.cast_track_key)(track_key[, target_kind, ...])   | Convert a Spotify track key between different formats.                    |
-|--------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| `coalesce_string_values`(d, \*\*coalece_kwargs)                                                  |                                                                           |
-| [`convert_date`](#sung.util.convert_date)(date_str[, read_formats])          | Convert a date string to a standard format (YYYY-MM-DD).                  |
-| `df_extraction`(extractor_func, df)                                                              |                                                                           |
-| `df_extractor`(spec)                                                                             |                                                                           |
-| `ensure_client`([client])                                                                        |                                                                           |
-| `ensure_extractor`(x)                                                                            |                                                                           |
-| [`ensure_playlist_id`](#sung.util.ensure_playlist_id)(playlist_spec)               | Ensure that a playlist ID is in the correct format.                       |
-| `extractor`(spec)                                                                                |                                                                           |
-| [`get_config`](#sung.util.get_config)(config_name)                         | Get the value of a configuration variable.                                |
-| [`get_spotify_client`](#sung.util.get_spotify_client)([client, ensure_scope, ...]) | Get a Spotify client.                                                     |
-| `get_spotify_creds`(\*\*client_creds_kwargs)                                                     |                                                                           |
-| `get_spotify_oauth_creds`(\*\*oauth_kwargs)                                                      |                                                                           |
-| `identity`(x)                                                                                    |                                                                           |
-| `is_extractor`(x)                                                                                |                                                                           |
-| [`model_field_descriptions`](#sung.util.model_field_descriptions)(model)                 | The `{field_name: description}` of a pydantic model (blank ones skipped). |
-| [`move_columns_to_back`](#sung.util.move_columns_to_back)(df, columns, \*[, ...])    | Returns a copy of df with given columns in the back, in the order given.  |
-| [`move_columns_to_front`](#sung.util.move_columns_to_front)(df, columns, \*[, ...])   | Returns a copy of df with given columns in the front, in the order given. |
-| `pop_client_id_and_secret`(kwargs)                                                               |                                                                           |
-| [`strip_values`](#sung.util.strip_values)(d)                                 | Return a new dictionary with all string values stripped.                  |
+| [`cast_track_key`](#sung.util.cast_track_key)(track_key[, target_kind, ...])   | Convert a Spotify track key between different formats.                                                                     |
+|--------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| `coalesce_string_values`(d, \*\*coalece_kwargs)                                                  |                                                                                                                            |
+| [`convert_date`](#sung.util.convert_date)(date_str[, read_formats])          | Convert a date string to a standard format (YYYY-MM-DD).                                                                   |
+| [`default_token_cache_path`](#sung.util.default_token_cache_path)()                      | Where the Spotify OAuth token is cached: `$SUNG_SPOTIFY_TOKEN_CACHE`, else `~/.local/share/sung/spotify_token.json`.       |
+| `df_extraction`(extractor_func, df)                                                              |                                                                                                                            |
+| `df_extractor`(spec)                                                                             |                                                                                                                            |
+| `ensure_client`([client])                                                                        |                                                                                                                            |
+| `ensure_extractor`(x)                                                                            |                                                                                                                            |
+| [`ensure_playlist_id`](#sung.util.ensure_playlist_id)(playlist_spec)               | Ensure that a playlist ID is in the correct format.                                                                        |
+| `extractor`(spec)                                                                                |                                                                                                                            |
+| [`get_config`](#sung.util.get_config)(config_name)                         | Get the value of a configuration variable.                                                                                 |
+| [`get_spotify_client`](#sung.util.get_spotify_client)([client, ensure_scope, ...]) | Get a Spotify client.                                                                                                      |
+| `get_spotify_creds`(\*\*client_creds_kwargs)                                                     |                                                                                                                            |
+| [`get_spotify_oauth_creds`](#sung.util.get_spotify_oauth_creds)(\*\*oauth_kwargs)       | A `SpotifyOAuth`; its token cache defaults to [`default_token_cache_path()`](#sung.util.default_token_cache_path). |
+| `identity`(x)                                                                                    |                                                                                                                            |
+| `is_extractor`(x)                                                                                |                                                                                                                            |
+| [`model_field_descriptions`](#sung.util.model_field_descriptions)(model)                 | The `{field_name: description}` of a pydantic model (blank ones skipped).                                                  |
+| [`move_columns_to_back`](#sung.util.move_columns_to_back)(df, columns, \*[, ...])    | Returns a copy of df with given columns in the back, in the order given.                                                   |
+| [`move_columns_to_front`](#sung.util.move_columns_to_front)(df, columns, \*[, ...])   | Returns a copy of df with given columns in the front, in the order given.                                                  |
+| `pop_client_id_and_secret`(kwargs)                                                               |                                                                                                                            |
+| [`strip_values`](#sung.util.strip_values)(d)                                 | Return a new dictionary with all string values stripped.                                                                   |
+
+### sung.util.TOKEN_CACHE_ENV *= 'SUNG_SPOTIFY_TOKEN_CACHE'*
+
+Environment variable naming the file that caches the Spotify OAuth token.
 
 ### sung.util.cast_track_key(track_key, target_kind='uri', , src_kind=None)
 
@@ -57,6 +67,23 @@ Convert a Spotify track key between different formats.
 ### sung.util.convert_date(date_str, read_formats=('%Y-%m-%d', '%Y', '%Y-%m'))
 
 Convert a date string to a standard format (YYYY-MM-DD).
+
+### sung.util.default_token_cache_path()
+
+Where the Spotify OAuth token is cached: `$SUNG_SPOTIFY_TOKEN_CACHE`, else
+`~/.local/share/sung/spotify_token.json`.
+
+Never the current directory: spotipy’s own default is `.cache` in the working
+directory, which leaves a refresh token in every folder sung is run from
+(including synced and shared ones).
+
+```pycon
+>>> default_token_cache_path().endswith("spotify_token.json") or bool(os.environ.get(TOKEN_CACHE_ENV))
+True
+```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### sung.util.ensure_playlist_id(playlist_spec)
 
@@ -135,6 +162,15 @@ Get a Spotify client.
 The purpose of having scope and ensure_scope is to allow you to ensure some needed
 scopes exist when a code block is asking for a Spotify client with it’s own
 scope desires.
+
+### sung.util.get_spotify_oauth_creds(\*\*oauth_kwargs)
+
+A `SpotifyOAuth`; its token cache defaults to [`default_token_cache_path()`](#sung.util.default_token_cache_path).
+
+Pass `cache_handler` or `cache_path` to choose another place.
+
+* **Return type:**
+  `SpotifyOAuth`
 
 ### sung.util.model_field_descriptions(model)
 

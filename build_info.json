@@ -1,38 +1,38 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-23T07:08:52Z",
+  "built_at": "2026-11-23T11:38:27Z",
   "package": {
     "name": "sung",
-    "version": "0.0.35",
+    "version": "0.0.36",
     "display_name": "sung",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "fba71b666e8c9bbd392ee246d4359005cfe8691e",
-    "short_commit": "fba71b6",
+    "commit": "326d958501f46dd5c022767b8647012c1280b9cc",
+    "short_commit": "326d958",
     "branch": "main",
     "tags": [
-      "0.0.35"
+      "0.0.36"
     ],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/sung",
-    "commit_url": "https://github.com/thorwhalen/sung/commit/fba71b666e8c9bbd392ee246d4359005cfe8691e",
+    "commit_url": "https://github.com/thorwhalen/sung/commit/326d958501f46dd5c022767b8647012c1280b9cc",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/sung",
-    "sha": "bd76b1345e57774f4f8550e9fdd5585f5f96775b",
+    "sha": "3ad35fe04dd4da11290bf70ca3a0d5e21839e9d0",
     "sha_in_history": true,
     "ref": "refs/heads/main",
     "ref_name": "main",
-    "run_id": "45128724642",
-    "run_url": "https://github.com/thorwhalen/sung/actions/runs/45128724642",
+    "run_id": "45166674526",
+    "run_url": "https://github.com/thorwhalen/sung/actions/runs/45166674526",
     "server_url": "https://github.com"
   },
   "tools": {
-    "epythet": "0.2.24",
+    "epythet": "0.2.25",
     "sphinx": "9.1.1",
     "docutils": "0.22.4",
     "python": "3.12.16"
@@ -59,18 +59,20 @@
   },
   "site": {
     "modules_documented": 8,
-    "objects_documented": 279
+    "objects_documented": 282
   },
   "pypi": {
     "checked": true,
     "latest": "0.0.35",
-    "relation": "same",
+    "relation": "ahead",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/sung && cd sung\ngit checkout fba71b666e8c9bbd392ee246d4359005cfe8691e\npip install \"epythet==0.2.24\"\nepythet quickstart . --ignore tests/ scrap/ examples/ misc/",
+  "reproduce": "git clone https://github.com/thorwhalen/sung && cd sung\ngit checkout 326d958501f46dd5c022767b8647012c1280b9cc\npip install \"epythet==0.2.25\"\nepythet quickstart . --ignore tests/ scrap/ examples/ misc/",
   "warnings": [],
   "alignment": {
-    "aligned": true,
-    "notes": []
+    "aligned": false,
+    "notes": [
+      "The documented version (0.0.36) is ahead of the latest release on PyPI (0.0.35): these docs describe unreleased code."
+    ]
   }
 }

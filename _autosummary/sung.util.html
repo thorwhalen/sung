@@ -258,6 +258,16 @@
           <section id="module-sung.util">
 <span id="sung-util"></span><h1>sung.util<a class="headerlink" href="#module-sung.util" title="Link to this heading">¶</a></h1>
 <p>Utility functions for the sung package.</p>
+<p class="rubric">Module Attributes</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.util.TOKEN_CACHE_ENV" title="sung.util.TOKEN_CACHE_ENV"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TOKEN_CACHE_ENV</span></code></a></p></td>
+<td><p>Environment variable naming the file that caches the Spotify OAuth token.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p class="rubric">Functions</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
@@ -271,60 +281,69 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#sung.util.convert_date" title="sung.util.convert_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_date</span></code></a>(date_str[, read_formats])</p></td>
 <td><p>Convert a date string to a standard format (YYYY-MM-DD).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">df_extraction</span></code>(extractor_func, df)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.util.default_token_cache_path" title="sung.util.default_token_cache_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_token_cache_path</span></code></a>()</p></td>
+<td><p>Where the Spotify OAuth token is cached: <code class="docutils literal notranslate"><span class="pre">$SUNG_SPOTIFY_TOKEN_CACHE</span></code>, else <code class="docutils literal notranslate"><span class="pre">~/.local/share/sung/spotify_token.json</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">df_extraction</span></code>(extractor_func, df)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">df_extractor</span></code>(spec)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">df_extractor</span></code>(spec)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ensure_client</span></code>([client])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ensure_client</span></code>([client])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ensure_extractor</span></code>(x)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ensure_extractor</span></code>(x)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sung.util.ensure_playlist_id" title="sung.util.ensure_playlist_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ensure_playlist_id</span></code></a>(playlist_spec)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.util.ensure_playlist_id" title="sung.util.ensure_playlist_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ensure_playlist_id</span></code></a>(playlist_spec)</p></td>
 <td><p>Ensure that a playlist ID is in the correct format.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">extractor</span></code>(spec)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">extractor</span></code>(spec)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sung.util.get_config" title="sung.util.get_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_config</span></code></a>(config_name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.util.get_config" title="sung.util.get_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_config</span></code></a>(config_name)</p></td>
 <td><p>Get the value of a configuration variable.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sung.util.get_spotify_client" title="sung.util.get_spotify_client"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spotify_client</span></code></a>([client, ensure_scope, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.util.get_spotify_client" title="sung.util.get_spotify_client"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spotify_client</span></code></a>([client, ensure_scope, ...])</p></td>
 <td><p>Get a Spotify client.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spotify_creds</span></code>(**client_creds_kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spotify_creds</span></code>(**client_creds_kwargs)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spotify_oauth_creds</span></code>(**oauth_kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.util.get_spotify_oauth_creds" title="sung.util.get_spotify_oauth_creds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spotify_oauth_creds</span></code></a>(**oauth_kwargs)</p></td>
+<td><p>A <code class="docutils literal notranslate"><span class="pre">SpotifyOAuth</span></code>; its token cache defaults to <a class="reference internal" href="#sung.util.default_token_cache_path" title="sung.util.default_token_cache_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_token_cache_path()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">identity</span></code>(x)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">identity</span></code>(x)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_extractor</span></code>(x)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_extractor</span></code>(x)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sung.util.model_field_descriptions" title="sung.util.model_field_descriptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_field_descriptions</span></code></a>(model)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.util.model_field_descriptions" title="sung.util.model_field_descriptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_field_descriptions</span></code></a>(model)</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">{field_name:</span> <span class="pre">description}</span></code> of a pydantic model (blank ones skipped).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sung.util.move_columns_to_back" title="sung.util.move_columns_to_back"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_columns_to_back</span></code></a>(df, columns, *[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sung.util.move_columns_to_back" title="sung.util.move_columns_to_back"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_columns_to_back</span></code></a>(df, columns, *[, ...])</p></td>
 <td><p>Returns a copy of df with given columns in the back, in the order given.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sung.util.move_columns_to_front" title="sung.util.move_columns_to_front"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_columns_to_front</span></code></a>(df, columns, *[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.util.move_columns_to_front" title="sung.util.move_columns_to_front"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_columns_to_front</span></code></a>(df, columns, *[, ...])</p></td>
 <td><p>Returns a copy of df with given columns in the front, in the order given.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pop_client_id_and_secret</span></code>(kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pop_client_id_and_secret</span></code>(kwargs)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sung.util.strip_values" title="sung.util.strip_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strip_values</span></code></a>(d)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sung.util.strip_values" title="sung.util.strip_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strip_values</span></code></a>(d)</p></td>
 <td><p>Return a new dictionary with all string values stripped.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<dl class="py data">
+<dt class="sig sig-object py" id="sung.util.TOKEN_CACHE_ENV">
+<span class="sig-prename descclassname"><span class="pre">sung.util.</span></span><span class="sig-name descname"><span class="pre">TOKEN_CACHE_ENV</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SUNG_SPOTIFY_TOKEN_CACHE'</span></span><a class="headerlink" href="#sung.util.TOKEN_CACHE_ENV" title="Link to this definition">¶</a></dt>
+<dd><p>Environment variable naming the file that caches the Spotify OAuth token.</p>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="sung.util.cast_track_key">
 <span class="sig-prename descclassname"><span class="pre">sung.util.</span></span><span class="sig-name descname"><span class="pre">cast_track_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'uri'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/util.html#cast_track_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.util.cast_track_key" title="Link to this definition">¶</a></dt>
@@ -364,6 +383,25 @@
 <span class="sig-prename descclassname"><span class="pre">sung.util.</span></span><span class="sig-name descname"><span class="pre">convert_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_formats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('%Y-%m-%d',</span> <span class="pre">'%Y',</span> <span class="pre">'%Y-%m')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/util.html#convert_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.util.convert_date" title="Link to this definition">¶</a></dt>
 <dd><p>Convert a date string to a standard format (YYYY-MM-DD).</p>
 <dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.util.default_token_cache_path">
+<span class="sig-prename descclassname"><span class="pre">sung.util.</span></span><span class="sig-name descname"><span class="pre">default_token_cache_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/util.html#default_token_cache_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.util.default_token_cache_path" title="Link to this definition">¶</a></dt>
+<dd><p>Where the Spotify OAuth token is cached: <code class="docutils literal notranslate"><span class="pre">$SUNG_SPOTIFY_TOKEN_CACHE</span></code>, else
+<code class="docutils literal notranslate"><span class="pre">~/.local/share/sung/spotify_token.json</span></code>.</p>
+<p>Never the current directory: spotipy’s own default is <code class="docutils literal notranslate"><span class="pre">.cache</span></code> in the working
+directory, which leaves a refresh token in every folder sung is run from
+(including synced and shared ones).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">default_token_cache_path</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"spotify_token.json"</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">bool</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">TOKEN_CACHE_ENV</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -464,6 +502,18 @@ matching no known format is returned as is (assumed to be an id).</p>
 <p>The purpose of having scope and ensure_scope is to allow you to ensure some needed
 scopes exist when a code block is asking for a Spotify client with it’s own
 scope desires.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sung.util.get_spotify_oauth_creds">
+<span class="sig-prename descclassname"><span class="pre">sung.util.</span></span><span class="sig-name descname"><span class="pre">get_spotify_oauth_creds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">oauth_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sung/util.html#get_spotify_oauth_creds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sung.util.get_spotify_oauth_creds" title="Link to this definition">¶</a></dt>
+<dd><p>A <code class="docutils literal notranslate"><span class="pre">SpotifyOAuth</span></code>; its token cache defaults to <a class="reference internal" href="#sung.util.default_token_cache_path" title="sung.util.default_token_cache_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_token_cache_path()</span></code></a>.</p>
+<p>Pass <code class="docutils literal notranslate"><span class="pre">cache_handler</span></code> or <code class="docutils literal notranslate"><span class="pre">cache_path</span></code> to choose another place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpotifyOAuth</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -592,12 +642,15 @@ scope desires.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">sung.util</a><ul>
+<li><a class="reference internal" href="#sung.util.TOKEN_CACHE_ENV"><code class="docutils literal notranslate"><span class="pre">TOKEN_CACHE_ENV</span></code></a></li>
 <li><a class="reference internal" href="#sung.util.cast_track_key"><code class="docutils literal notranslate"><span class="pre">cast_track_key()</span></code></a></li>
 <li><a class="reference internal" href="#sung.util.convert_date"><code class="docutils literal notranslate"><span class="pre">convert_date()</span></code></a></li>
+<li><a class="reference internal" href="#sung.util.default_token_cache_path"><code class="docutils literal notranslate"><span class="pre">default_token_cache_path()</span></code></a></li>
 <li><a class="reference internal" href="#sung.util.ensure_playlist_id"><code class="docutils literal notranslate"><span class="pre">ensure_playlist_id()</span></code></a></li>
 <li><a class="reference internal" href="#sung.util.ensure_track_id"><code class="docutils literal notranslate"><span class="pre">ensure_track_id()</span></code></a></li>
 <li><a class="reference internal" href="#sung.util.get_config"><code class="docutils literal notranslate"><span class="pre">get_config()</span></code></a></li>
 <li><a class="reference internal" href="#sung.util.get_spotify_client"><code class="docutils literal notranslate"><span class="pre">get_spotify_client()</span></code></a></li>
+<li><a class="reference internal" href="#sung.util.get_spotify_oauth_creds"><code class="docutils literal notranslate"><span class="pre">get_spotify_oauth_creds()</span></code></a></li>
 <li><a class="reference internal" href="#sung.util.model_field_descriptions"><code class="docutils literal notranslate"><span class="pre">model_field_descriptions()</span></code></a></li>
 <li><a class="reference internal" href="#sung.util.move_columns_to_back"><code class="docutils literal notranslate"><span class="pre">move_columns_to_back()</span></code></a></li>
 <li><a class="reference internal" href="#sung.util.move_columns_to_front"><code class="docutils literal notranslate"><span class="pre">move_columns_to_front()</span></code></a></li>
@@ -613,7 +666,7 @@ scope desires.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=b9ea92da"></script>
+</div><script src="../_static/documentation_options.js?v=995b0831"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

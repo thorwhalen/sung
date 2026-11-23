@@ -397,13 +397,49 @@
     <span class="p">)</span>
 
 
+<span class="c1">#: Environment variable naming the file that caches the Spotify OAuth token.</span>
+<span class="n">TOKEN_CACHE_ENV</span> <span class="o">=</span> <span class="s2">"SUNG_SPOTIFY_TOKEN_CACHE"</span>
+
+
+<div class="viewcode-block" id="default_token_cache_path">
+<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.default_token_cache_path">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">default_token_cache_path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Where the Spotify OAuth token is cached: ``$SUNG_SPOTIFY_TOKEN_CACHE``, else</span>
+<span class="sd">    ``~/.local/share/sung/spotify_token.json``.</span>
+
+<span class="sd">    Never the current directory: spotipy's own default is ``.cache`` in the working</span>
+<span class="sd">    directory, which leaves a refresh token in every folder sung is run from</span>
+<span class="sd">    (including synced and shared ones).</span>
+
+<span class="sd">    &gt;&gt;&gt; default_token_cache_path().endswith("spotify_token.json") or bool(os.environ.get(TOKEN_CACHE_ENV))</span>
+<span class="sd">    True</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">TOKEN_CACHE_ENV</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span>
+        <span class="s2">"~/.local/share/sung/spotify_token.json"</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_spotify_oauth_creds">
+<a class="viewcode-back" href="../../_autosummary/sung.util.html#sung.get_spotify_oauth_creds">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_spotify_oauth_creds</span><span class="p">(</span><span class="o">**</span><span class="n">oauth_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpotifyOAuth</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A ``SpotifyOAuth``; its token cache defaults to :func:`default_token_cache_path`.</span>
+
+<span class="sd">    Pass ``cache_handler`` or ``cache_path`` to choose another place.</span>
+<span class="sd">    """</span>
     <span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span> <span class="o">=</span> <span class="n">pop_client_id_and_secret</span><span class="p">(</span><span class="n">oauth_kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"cache_handler"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">oauth_kwargs</span> <span class="ow">and</span> <span class="s2">"cache_path"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">oauth_kwargs</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">spotipy.cache_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">CacheFileHandler</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">default_token_cache_path</span><span class="p">()</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o700</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">oauth_kwargs</span><span class="p">[</span><span class="s2">"cache_handler"</span><span class="p">]</span> <span class="o">=</span> <span class="n">CacheFileHandler</span><span class="p">(</span><span class="n">cache_path</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">SpotifyOAuth</span><span class="p">(</span>
         <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span>
         <span class="n">client_secret</span><span class="o">=</span><span class="n">client_secret</span><span class="p">,</span>
         <span class="o">**</span><span class="n">oauth_kwargs</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="p">)</span></div>
+
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_extract_scope_items</span><span class="p">(</span><span class="n">scope_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -1014,7 +1050,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=b9ea92da"></script>
+</div><script src="../../_static/documentation_options.js?v=995b0831"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

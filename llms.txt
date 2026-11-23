@@ -5,7 +5,7 @@
 
 ## Pages
 
-- [sung](index.html.md): Music data access. Sources from chords&amp;lyrics dataset, spotify and wikipedia.
+- [sung](index.html.md): Music data access: search and process chord sheets and lyrics from the chords&amp;lyrics dataset, and se...
 - [API reference](api.html.md): | &#96;sung&#96;   | Tools to get music metadata (from Spotify, Wikipedia, etc.)   |
 - [sung](_autosummary/sung.html.md): Tools to get music metadata (from Spotify, Wikipedia, etc.)
 - [sung.base](_autosummary/sung.base.html.md): Base functionalities for the sung package.
@@ -16,7 +16,7 @@
 - [sung.tools](_autosummary/sung.tools.html.md): Tools using sung
 - [sung.util](_autosummary/sung.util.html.md): Utility functions for the sung package.
 - [For AI agents](ai-agents.html.md): &#96;sung&#96; ships artifacts for coding agents alongside its code. This page lists
-- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-22 11:38 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-23 07:08 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
 
 ## Optional
 

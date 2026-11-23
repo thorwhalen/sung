@@ -1,0 +1,47 @@
+{
+  "collection_duration_seconds": 10.780566215515137,
+  "commit_message": "Cache the Spotify OAuth token outside the working directory (#23)\n\nspotipy's default cache is ./.cache, so every folder sung ran from kept a\nrefresh token. get_spotify_oauth_creds now defaults the cache to\n$SUNG_SPOTIFY_TOKEN_CACHE or ~/.local/share/sung/spotify_token.json; an\nexplicit cache_handler or cache_path is kept.",
+  "commit_sha": "3ad35fe04dd4da11290bf70ca3a0d5e21839e9d0",
+  "metrics": {
+    "coverage": {
+      "branch_coverage": 0.0,
+      "error": "No coverage file found",
+      "line_coverage": 0.0,
+      "statements_covered": 0,
+      "statements_total": 0
+    },
+    "umpyre_stats": {
+      "comment_lines": 53181,
+      "comment_lines_ratio": 0.053242441777811594,
+      "docs_lines": 199867,
+      "empty_lines": 145020,
+      "empty_lines_ratio": 0.1451875464285786,
+      "files_analyzed": 1926,
+      "function_lines": 635244,
+      "function_lines_ratio": 0.6359779185179697,
+      "mean_lines_per_function": 19.028396836808053,
+      "num_classes": 5175,
+      "num_functions": 33384,
+      "pypi_version": "0.0.35",
+      "total_lines": 998846
+    },
+    "wily": {
+      "cyclomatic_avg": 0.0,
+      "error": "wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...\nTry 'wily report --help' for help.\n\nError: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.\n",
+      "files_analyzed": 0,
+      "maintainability_index": 0.0,
+      "total_loc": 0
+    },
+    "workflow_status": {
+      "last_run_status": "success",
+      "last_success_timestamp": "2026-11-23T11:26:11Z",
+      "recent_failure_count": 0,
+      "run_url": "https://github.com/thorwhalen/sung/actions/runs/45164978823",
+      "total_runs_analyzed": 10
+    }
+  },
+  "python_version": "3.10",
+  "schema_version": "1.0",
+  "timestamp": "2026-11-23T11:37:27.291412Z",
+  "workflow_status": {}
+}

@@ -294,3 +294,33 @@ def test_search_types_agree_with_the_openapi_models():
     }
     # the spec has no playlist model; every other search type must be in it
     assert set(get_args(SearchTypeT)) - {"playlist"} <= spec_kinds
+
+
+def test_oauth_token_cache_is_never_the_working_directory(tmp_path, monkeypatch):
+    """spotipy's default writes a refresh token to ./.cache wherever sung runs."""
+    from sung.util import get_spotify_oauth_creds
+
+    target = tmp_path / "data" / "token.json"
+    monkeypatch.setenv("SUNG_SPOTIFY_TOKEN_CACHE", str(target))
+    monkeypatch.chdir(tmp_path)
+    oauth = get_spotify_oauth_creds(
+        client_id="id", client_secret="secret", redirect_uri="http://127.0.0.1:9/cb"
+    )
+    assert oauth.cache_handler.cache_path == str(target)
+    assert target.parent.is_dir()
+    assert not (tmp_path / ".cache").exists()
+
+
+def test_an_explicit_cache_handler_is_kept(monkeypatch):
+    from spotipy.cache_handler import MemoryCacheHandler
+
+    from sung.util import get_spotify_oauth_creds
+
+    handler = MemoryCacheHandler()
+    oauth = get_spotify_oauth_creds(
+        client_id="id",
+        client_secret="secret",
+        redirect_uri="http://127.0.0.1:9/cb",
+        cache_handler=handler,
+    )
+    assert oauth.cache_handler is handler

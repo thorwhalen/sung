@@ -139,8 +139,38 @@ def get_spotify_creds(**client_creds_kwargs) -> SpotifyClientCredentials:
     )
 
 
+#: Environment variable naming the file that caches the Spotify OAuth token.
+TOKEN_CACHE_ENV = "SUNG_SPOTIFY_TOKEN_CACHE"
+
+
+def default_token_cache_path() -> str:
+    """Where the Spotify OAuth token is cached: ``$SUNG_SPOTIFY_TOKEN_CACHE``, else
+    ``~/.local/share/sung/spotify_token.json``.
+
+    Never the current directory: spotipy's own default is ``.cache`` in the working
+    directory, which leaves a refresh token in every folder sung is run from
+    (including synced and shared ones).
+
+    >>> default_token_cache_path().endswith("spotify_token.json") or bool(os.environ.get(TOKEN_CACHE_ENV))
+    True
+    """
+    return os.environ.get(TOKEN_CACHE_ENV) or os.path.expanduser(
+        "~/.local/share/sung/spotify_token.json"
+    )
+
+
 def get_spotify_oauth_creds(**oauth_kwargs) -> SpotifyOAuth:
+    """A ``SpotifyOAuth``; its token cache defaults to :func:`default_token_cache_path`.
+
+    Pass ``cache_handler`` or ``cache_path`` to choose another place.
+    """
     client_id, client_secret = pop_client_id_and_secret(oauth_kwargs)
+    if "cache_handler" not in oauth_kwargs and "cache_path" not in oauth_kwargs:
+        from spotipy.cache_handler import CacheFileHandler
+
+        path = default_token_cache_path()
+        os.makedirs(os.path.dirname(path), mode=0o700, exist_ok=True)
+        oauth_kwargs["cache_handler"] = CacheFileHandler(cache_path=path)
     return SpotifyOAuth(
         client_id=client_id,
         client_secret=client_secret,

@@ -1,31 +1,33 @@
 metric,value
 schema_version,1.0
-timestamp,2026-11-23T11:26:08.706191Z
-commit_sha,590eab12a84522fe0ffdae6c10419dfb155ddd3d
-commit_message,"Cache the Spotify OAuth token outside the working directory
+timestamp,2026-11-23T11:37:16.303308Z
+commit_sha,3ad35fe04dd4da11290bf70ca3a0d5e21839e9d0
+commit_message,"Cache the Spotify OAuth token outside the working directory (#23)
 
 spotipy's default cache is ./.cache, so every folder sung ran from kept a
 refresh token. get_spotify_oauth_creds now defaults the cache to
 $SUNG_SPOTIFY_TOKEN_CACHE or ~/.local/share/sung/spotify_token.json; an
 explicit cache_handler or cache_path is kept."
 python_version,3.10
-metrics.umpyre_stats.num_functions,33384
-metrics.umpyre_stats.num_classes,5175
-metrics.umpyre_stats.total_lines,998846
-metrics.umpyre_stats.empty_lines,145020
-metrics.umpyre_stats.comment_lines,53181
-metrics.umpyre_stats.docs_lines,199867
-metrics.umpyre_stats.function_lines,635244
-metrics.umpyre_stats.empty_lines_ratio,0.1451875464285786
-metrics.umpyre_stats.comment_lines_ratio,0.053242441777811594
-metrics.umpyre_stats.function_lines_ratio,0.6359779185179697
-metrics.umpyre_stats.mean_lines_per_function,19.028396836808053
-metrics.umpyre_stats.files_analyzed,1926
+metrics.umpyre_stats.num_functions,32865
+metrics.umpyre_stats.num_classes,4936
+metrics.umpyre_stats.total_lines,1027815
+metrics.umpyre_stats.empty_lines,148031
+metrics.umpyre_stats.comment_lines,56341
+metrics.umpyre_stats.docs_lines,238747
+metrics.umpyre_stats.function_lines,673927
+metrics.umpyre_stats.empty_lines_ratio,0.14402494612357283
+metrics.umpyre_stats.comment_lines_ratio,0.054816285031839385
+metrics.umpyre_stats.function_lines_ratio,0.6556890101817934
+metrics.umpyre_stats.mean_lines_per_function,20.505918150007606
+metrics.umpyre_stats.files_analyzed,1832
 metrics.umpyre_stats.pypi_version,0.0.35
+metrics.umpyre_stats.errors,"['mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)', '_scalars.py: invalid syntax (_scalars.py, line 7)', '_shape.py: invalid syntax (_shape.py, line 4)', '_nbit.py: invalid syntax (_nbit.py, line 6)', '_array_like.py: invalid syntax (_array_like.py, line 15)', '_dtype_like.py: invalid syntax (_dtype_like.py, line 21)', '_char_codes.py: invalid syntax (_char_codes.py, line 3)']"
+metrics.umpyre_stats.total_errors,7
 metrics.workflow_status.last_run_status,success
-metrics.workflow_status.last_success_timestamp,2026-11-23T07:09:32Z
+metrics.workflow_status.last_success_timestamp,2026-11-23T11:26:11Z
 metrics.workflow_status.recent_failure_count,0
-metrics.workflow_status.run_url,https://github.com/thorwhalen/sung/actions/runs/45129018429
+metrics.workflow_status.run_url,https://github.com/thorwhalen/sung/actions/runs/45164978823
 metrics.workflow_status.total_runs_analyzed,10
 metrics.wily.cyclomatic_avg,0.0
 metrics.wily.maintainability_index,0.0
@@ -41,4 +43,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,11.313199520111084
+collection_duration_seconds,7.387123346328735

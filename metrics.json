@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 11.313199520111084,
-  "commit_message": "Cache the Spotify OAuth token outside the working directory\n\nspotipy's default cache is ./.cache, so every folder sung ran from kept a\nrefresh token. get_spotify_oauth_creds now defaults the cache to\n$SUNG_SPOTIFY_TOKEN_CACHE or ~/.local/share/sung/spotify_token.json; an\nexplicit cache_handler or cache_path is kept.",
-  "commit_sha": "590eab12a84522fe0ffdae6c10419dfb155ddd3d",
+  "collection_duration_seconds": 7.387123346328735,
+  "commit_message": "Cache the Spotify OAuth token outside the working directory (#23)\n\nspotipy's default cache is ./.cache, so every folder sung ran from kept a\nrefresh token. get_spotify_oauth_creds now defaults the cache to\n$SUNG_SPOTIFY_TOKEN_CACHE or ~/.local/share/sung/spotify_token.json; an\nexplicit cache_handler or cache_path is kept.",
+  "commit_sha": "3ad35fe04dd4da11290bf70ca3a0d5e21839e9d0",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -11,19 +11,29 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 53181,
-      "comment_lines_ratio": 0.053242441777811594,
-      "docs_lines": 199867,
-      "empty_lines": 145020,
-      "empty_lines_ratio": 0.1451875464285786,
-      "files_analyzed": 1926,
-      "function_lines": 635244,
-      "function_lines_ratio": 0.6359779185179697,
-      "mean_lines_per_function": 19.028396836808053,
-      "num_classes": 5175,
-      "num_functions": 33384,
+      "comment_lines": 56341,
+      "comment_lines_ratio": 0.054816285031839385,
+      "docs_lines": 238747,
+      "empty_lines": 148031,
+      "empty_lines_ratio": 0.14402494612357283,
+      "errors": [
+        "mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)",
+        "_scalars.py: invalid syntax (_scalars.py, line 7)",
+        "_shape.py: invalid syntax (_shape.py, line 4)",
+        "_nbit.py: invalid syntax (_nbit.py, line 6)",
+        "_array_like.py: invalid syntax (_array_like.py, line 15)",
+        "_dtype_like.py: invalid syntax (_dtype_like.py, line 21)",
+        "_char_codes.py: invalid syntax (_char_codes.py, line 3)"
+      ],
+      "files_analyzed": 1832,
+      "function_lines": 673927,
+      "function_lines_ratio": 0.6556890101817934,
+      "mean_lines_per_function": 20.505918150007606,
+      "num_classes": 4936,
+      "num_functions": 32865,
       "pypi_version": "0.0.35",
-      "total_lines": 998846
+      "total_errors": 7,
+      "total_lines": 1027815
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -34,14 +44,14 @@
     },
     "workflow_status": {
       "last_run_status": "success",
-      "last_success_timestamp": "2026-11-23T07:09:32Z",
+      "last_success_timestamp": "2026-11-23T11:26:11Z",
       "recent_failure_count": 0,
-      "run_url": "https://github.com/thorwhalen/sung/actions/runs/45129018429",
+      "run_url": "https://github.com/thorwhalen/sung/actions/runs/45164978823",
       "total_runs_analyzed": 10
     }
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-11-23T11:26:08.706191Z",
+  "timestamp": "2026-11-23T11:37:16.303308Z",
   "workflow_status": {}
 }

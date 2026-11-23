@@ -1,8 +1,13 @@
 metric,value
 schema_version,1.0
-timestamp,2026-11-23T11:26:04.057938Z
-commit_sha,2ce16b401a33624cc59591401eb1f85ca8eaf860
-commit_message,Merge 590eab12a84522fe0ffdae6c10419dfb155ddd3d into fba71b666e8c9bbd392ee246d4359005cfe8691e
+timestamp,2026-11-23T11:26:08.706191Z
+commit_sha,590eab12a84522fe0ffdae6c10419dfb155ddd3d
+commit_message,"Cache the Spotify OAuth token outside the working directory
+
+spotipy's default cache is ./.cache, so every folder sung ran from kept a
+refresh token. get_spotify_oauth_creds now defaults the cache to
+$SUNG_SPOTIFY_TOKEN_CACHE or ~/.local/share/sung/spotify_token.json; an
+explicit cache_handler or cache_path is kept."
 python_version,3.10
 metrics.umpyre_stats.num_functions,33384
 metrics.umpyre_stats.num_classes,5175
@@ -36,4 +41,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,10.636291742324829
+collection_duration_seconds,11.313199520111084

@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 10.670270204544067,
-  "commit_message": "docs(readme): split the Spotify notebook dump to misc/docs, install block, unwrapped",
-  "commit_sha": "17586ceedd160162a79494a17f84072dc9f161f2",
+  "collection_duration_seconds": 10.592005491256714,
+  "commit_message": "Merge 17586ceedd160162a79494a17f84072dc9f161f2 into edc3e4370df87e80a376425946d86b822f94670c",
+  "commit_sha": "bd78e2e5f3c100e092cb016e3354e001baaff492",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -52,6 +52,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-11-23T07:06:00.847620Z",
+  "timestamp": "2026-11-23T07:06:06.981536Z",
   "workflow_status": {}
 }
